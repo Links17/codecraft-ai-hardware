@@ -54,12 +54,12 @@ normalized labels for the imported hardware reference (Apache 2.0, Meta Platform
 | Capability | Fact | Source | Extraction status |
 |---|---|---|---|
 | SoC / memory | XIAO ESP32-S3, 8 MB flash (DIO 80 MHz), 8 MB octal PSRAM | `reference:esp32/devices/sdkconfig.seeed-respeaker-lite` | confirmed |
-| Audio in | XMOS-processed microphone over 16 kHz I2S; XMOS must run Seeed **16 kHz I2S firmware v1.0.9** (USB-audio and 48 kHz images incompatible) | `reference:esp32/devices/seeed-respeaker-lite.md` | confirmed |
-| Input | XIAO BOOT button, GPIO 0 (push-to-talk in reference profile) | sdkconfig + doc above | confirmed |
-| Status | RGB status LED | same | pending (driver extraction) |
+| Audio in | XMOS-processed microphone over 16 kHz I2S; XMOS must run Seeed **16 kHz I2S firmware v1.0.9** (USB-audio and 48 kHz images incompatible) | `reference:esp32/devices/seeed-respeaker-lite.md` + vendor example | **extracted** (`bsp_audio`) |
+| Input | XIAO BOOT button, GPIO 0, active low | sdkconfig + doc above | **extracted** (`bsp_button`) |
+| Status | single WS2812 on GPIO 1 (XIAO D0), no power switch | `reference:esp32/main/led_status.c` + vendor D-pin map | **extracted** (`bsp_led`) |
 | USB | small XIAO board USB exposes USB Serial/JTAG console (`303a:1001`) | doc above | confirmed |
 | RF | attach XIAO external antenna; 2.4 GHz Wi-Fi only | doc above | confirmed |
-| IDF version | ESP-IDF v6.0.1 | doc above | confirmed |
+| IDF version | ESP-IDF v6.0.1 per reference doc; examples build clean on v6.0.2 | doc above + local build | confirmed |
 
 ## Linux boards
 
