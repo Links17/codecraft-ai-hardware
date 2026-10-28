@@ -1,0 +1,3 @@
+# No external component dependencies; the SSD1677 panel driver is in-tree
+# (ported from the imported hardware reference, MIT — see bsp_epd.c header).
+dependencies: {}
