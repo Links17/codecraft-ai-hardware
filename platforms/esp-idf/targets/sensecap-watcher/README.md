@@ -12,4 +12,4 @@ BSP public headers live in `bsp/include/`; implementation and private headers li
 
 ## Single-file image
 
-After a successful native build, run `python3 platforms/esp-idf/targets/sensecap-watcher/tools/merge_image.py <build-directory>`. Use --check-only for layout validation. The tool reads native flasher_args.json, validates chip, offsets and source files, then uses esptool to merge the bootloader, partition table and app. Output defaults to merged-binary.bin and must not already exist. It does not flash or upload.
+After `python3 codecraft.py validate --target esp-idf/sensecap-watcher --example battery_status`, run `python3 codecraft.py firmware plan --target esp-idf/sensecap-watcher --example battery_status --output .codecraft/watcher-plan.json`, then `python3 codecraft.py firmware merge --plan .codecraft/watcher-plan.json --output .codecraft/watcher-release` and `python3 codecraft.py firmware verify .codecraft/watcher-release`. Keep the declared ESP-IDF environment activated. Outputs must be new. The factory BIN and manifest bind the successful build, native layout and input hashes. The workflow never flashes or uploads.

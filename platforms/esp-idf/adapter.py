@@ -13,6 +13,7 @@ from io_utils import ContractError, digest, object_digest, read_json, require, r
 from runtime import command, main, selected
 import composition
 import variants
+from esp_firmware import layout as firmware_layout, merge as firmware_merge, verify as firmware_verify
 
 
 def cases(root, target, example=None):
@@ -46,6 +47,7 @@ def build(root, target, example=None):
                         check['variant']=variants.verify_build(root,target,ex,variant,output,sources)
                 except (ContractError, OSError, KeyError, TypeError, ValueError) as exc:
                     check.update(status='failed',reason=f'Native composition verification failed: {exc}')
+            check['firmware_selection'] = {'example': ex, 'variant': variant}
             checks.append(check)
     return checks
 

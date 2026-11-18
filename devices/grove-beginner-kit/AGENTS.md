@@ -67,7 +67,7 @@ No verified redistributable image is registered.
 - [toolchain.md](../../devices/grove-beginner-kit/reference/toolchain.md)
 - [hardware-checklist.md](../../devices/grove-beginner-kit/tests/hardware-checklist.md)
 - [observations.md](../../devices/grove-beginner-kit/tests/observations.md)
-- [build-b18219103d4c2a73.json](../../devices/grove-beginner-kit/tests/records/build-b18219103d4c2a73.json)
+- [build-b6d185de42254228.json](../../devices/grove-beginner-kit/tests/records/build-b6d185de42254228.json)
 
 ## Vendor links
 

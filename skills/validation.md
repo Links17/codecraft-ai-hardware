@@ -15,3 +15,10 @@ Test ownership and focused commands are specified in [the host testing guide](..
 ESP-IDF composition tests validate each example's selected BSP sources, local components, managed manifests and Target/export closure. Native builds also compare actual BSP source and requirement lists with the declared composition. Settle native dependency locks before final source fingerprinting; preserve explicit system requirements and board configuration when narrowing components. See [native composition rules](../docs/development/native-compositions.md). Component counts alone are not measurements of firmware size, build time or runtime resources.
 
 Variant checks cover Device/Target identity, selected source closure, project/lock provenance, adapter case coverage and actual CMake/compile definitions. Physical support is aggregated per variant; unknown revision compatibility cannot promote support, and one assembly cannot certify another. Full Target builds include all declared variants. See [hardware variants](../docs/development/hardware-variants.md).
+
+Firmware tests cover successful-build receipts, stale/failed build rejection,
+layout bounds, chip/configuration/security checks, immutable merge inputs,
+boot-header transformations, image/padding hashes and publication failure.
+Clean ESP-IDF export checks also plan, merge and verify a factory BIN through
+the same pipeline. A completed manifest marks a release; firmware verification
+checks offline integrity and layout, not authenticity or physical operation.

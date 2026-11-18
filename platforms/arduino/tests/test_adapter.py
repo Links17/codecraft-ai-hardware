@@ -10,9 +10,9 @@ from types import SimpleNamespace
 
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'skills/_shared'))
-from io_utils import ContractError
+from io_utils import ContractError, read_json
 from runtime import load_adapter
-adapter=load_adapter(ROOT,{'id':'arduino','adapter':'platforms/arduino/adapter.py'})
+adapter=load_adapter(ROOT,read_json(ROOT/'platforms/arduino/platform.json'))
 
 
 @contextmanager

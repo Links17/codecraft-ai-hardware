@@ -18,7 +18,8 @@
     "devices/schema.py",
     "platforms/schema.py",
     "capabilities/schema.py",
-    "capabilities/catalog.py"
+    "capabilities/catalog.py",
+    "skills/_shared/firmware.py"
   ],
   "kind": "resource",
   "schema_version": 1

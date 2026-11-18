@@ -39,6 +39,13 @@
     "display_hello",
     "mic_level"
   ],
+  "firmware": {
+    "formats": [
+      "bin"
+    ],
+    "purpose": "factory",
+    "security": "unsigned-unencrypted"
+  },
   "id": "esp-idf/xiao-s3-147",
   "inputs": [
     "platforms/esp-idf/targets/xiao-s3-147/bsp/CMakeLists.txt",

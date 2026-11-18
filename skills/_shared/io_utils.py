@@ -7,12 +7,21 @@ import os
 from pathlib import Path
 
 STATUSES = frozenset({'passed', 'failed', 'skipped', 'not_run', 'not_supported'})
-OPERATIONS = ('inspect', 'configure', 'generate', 'build', 'host-test', 'simulate', 'flash', 'device-test', 'logs', 'package')
+OPERATIONS = ('inspect', 'configure', 'generate', 'build', 'host-test', 'simulate', 'flash', 'device-test', 'logs', 'package', 'firmware-plan', 'firmware-merge', 'firmware-verify')
 IGNORED = {'.git', '.codecraft', '.venv', 'secrets', '.secrets', '__pycache__', '.pytest_cache', 'node_modules', 'managed_components', 'build', 'built'}
 
 
 class ContractError(ValueError):
     """An input or operation violated a versioned contract."""
+
+
+class OperationUnavailable(ContractError):
+    """An explicitly unsupported operation or an unavailable prerequisite."""
+
+    def __init__(self, status, message):
+        require(status in ('not_run', 'not_supported'), 'Invalid unavailable status')
+        self.status = status
+        super().__init__(message)
 
 
 def require(condition, message):

@@ -46,6 +46,13 @@
     "display_color_bars",
     "touch_read"
   ],
+  "firmware": {
+    "formats": [
+      "bin"
+    ],
+    "purpose": "factory",
+    "security": "unsigned-unencrypted"
+  },
   "id": "esp-idf/sensecap-indicator",
   "inputs": [
     "platforms/esp-idf/targets/sensecap-indicator/bsp/CMakeLists.txt",

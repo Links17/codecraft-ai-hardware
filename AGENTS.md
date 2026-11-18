@@ -88,6 +88,7 @@ a failed operation must be diagnosed through `codecraft-debug` before retrying.
 | Arduino board work | `devices/<board>/AGENTS.md`, `platforms/arduino/AGENTS.md`, `platforms/arduino/targets/<board>/target.json`, matching entry in `docs/vendor-sources.md` |
 | New board | Part II, `docs/development/ai-guide.md` onboarding section, platform rules, `docs/vendor-sources.md` |
 | Build, tests, dependencies, partitions | `skills/codecraft-build/SKILL.md`, device knowledge entry, Target manifest and platform configuration (`sdkconfig.defaults`, `target.json`, as applicable) |
+| Firmware image planning, merging or verification | `docs/development/firmware-images.md`, `skills/codecraft-build/SKILL.md`, Target firmware profile and Platform implementation |
 | Flashing or on-device testing | `skills/codecraft-device-test/SKILL.md`, board deployment instructions |
 | Diagnosis | `skills/codecraft-debug/SKILL.md`, failing command/output and affected board context |
 | Documentation or Agent rules | Part II, `docs/README.md`, affected rules and their referenced files |
@@ -155,7 +156,7 @@ platform success must not change the hardware verification status.
 ### Generated discovery index
 
 <!-- CODECRAFT_INDEX_START -->
-<!-- source_sha256: 29de998adad47bf2351906e360338093d50ff053534b0a8d565f413e8212f87d -->
+<!-- source_sha256: 5df43d1a9c9c4e02a3c8d1f311adbcdcafe4205296957f45e412e758f7e0f589 -->
 
 | Device | Target | Implementations | Build + project | Device |
 | --- | --- | --- | --- | --- |

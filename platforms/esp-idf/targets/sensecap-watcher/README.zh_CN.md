@@ -12,4 +12,4 @@ BSP 公共头文件位于 `bsp/include/`，实现与私有头文件位于 `bsp/s
 
 ## 单文件镜像
 
-原生构建成功后，执行 `python3 platforms/esp-idf/targets/sensecap-watcher/tools/merge_image.py <build-directory>`；使用 --check-only 只验证布局。工具读取原生 flasher_args.json，校验芯片、偏移和输入文件，然后使用 esptool 合并引导程序、分区表和应用。默认输出 merged-binary.bin，要求该文件尚不存在。工具不会烧录或上传。
+执行 `python3 codecraft.py validate --target esp-idf/sensecap-watcher --example battery_status` 后，运行 `python3 codecraft.py firmware plan --target esp-idf/sensecap-watcher --example battery_status --output .codecraft/watcher-plan.json`，再运行 `python3 codecraft.py firmware merge --plan .codecraft/watcher-plan.json --output .codecraft/watcher-release` 和 `python3 codecraft.py firmware verify .codecraft/watcher-release`。保持声明的 ESP-IDF 环境处于激活状态，输出必须是新路径。factory BIN 与清单绑定成功构建、原生布局和输入哈希。此流程不会烧录或上传。

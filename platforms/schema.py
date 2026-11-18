@@ -35,6 +35,13 @@ def target(root, entry, devices, platforms):
         require(isinstance(entry.get(key), list), f'{tid}: {key} must be declared')
     require(isinstance(entry.get('toolchain'), dict) and {'name', 'version', 'source'} <= entry['toolchain'].keys(), f'{tid}: toolchain provenance required')
     safe_path(root, entry['toolchain']['source'])
+    firmware = entry.get('firmware')
+    if firmware is not None:
+        require(isinstance(firmware, dict) and set(firmware) == {'formats', 'purpose', 'security'}, f'{tid}: invalid firmware profile')
+        require(firmware['formats'] == ['bin'] and firmware['purpose'] == 'factory'
+                and firmware['security'] == 'unsigned-unencrypted', f'{tid}: unsupported firmware profile')
+        require(all(platforms[entry['platform']]['operations']['firmware-'+op]['supported'] for op in ('plan', 'merge', 'verify')),
+                f'{tid}: firmware profile requires supported Platform operations')
     variants = entry.get('variants', {})
     require(isinstance(variants, dict), f'{tid}: variants must be an object')
     if variants:

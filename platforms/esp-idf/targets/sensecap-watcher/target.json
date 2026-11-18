@@ -107,12 +107,18 @@
     "sdcard_test",
     "touch_read"
   ],
+  "firmware": {
+    "formats": [
+      "bin"
+    ],
+    "purpose": "factory",
+    "security": "unsigned-unencrypted"
+  },
   "id": "esp-idf/sensecap-watcher",
   "inputs": [
     "platforms/esp-idf/targets/sensecap-watcher/bsp/CMakeLists.txt",
     "platforms/esp-idf/targets/sensecap-watcher/bsp/idf_component.yml",
-    "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_pins.h",
-    "platforms/esp-idf/targets/sensecap-watcher/tools/merge_image.py"
+    "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_pins.h"
   ],
   "interfaces": [
     {

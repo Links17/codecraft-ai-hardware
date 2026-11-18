@@ -14,7 +14,7 @@ import sys
 import tempfile
 from urllib.parse import unquote
 
-from io_utils import ContractError, digest, read_json, require, source_files, object_digest, result
+from io_utils import ContractError, OperationUnavailable, digest, read_json, require, source_files, object_digest, result
 from runtime import run_target, load_adapter, check_envelope, exit_code
 from model import Catalog, load_cloud
 from project import generate_project, package_project, verify_project, lock_project, build_project
@@ -141,10 +141,32 @@ def validate_project(c, tid, example=None, variant=None):
             checks=check_envelope(payload,tid,'build',imported.graph(tid).fingerprint(),native.cases(output,imported.target(tid),example),run.returncode)
             provenance=verify_project(output)
             passed=all(item['status']=='passed' for item in checks) and provenance['status']=='passed'
+            firmware_check=None
+            if passed and imported.platforms[target['platform']]['operations']['firmware-plan']['supported']:
+                plan_path=output/'.codecraft/firmware/gate-plan.json'
+                release=output/'.codecraft/firmware/gate-release'
+                for arguments in [
+                    ['firmware','plan','--project','.', '--output',str(plan_path)],
+                    ['firmware','merge','--plan',str(plan_path),'--output',str(release)],
+                    ['firmware','verify',str(release)]]:
+                    run=subprocess.run([sys.executable,str(output/'codecraft.py'),*arguments],cwd=output,
+                                       capture_output=True,text=True,timeout=120)
+                    with log.open('a') as stream:
+                        stream.write('\nFirmware '+arguments[1]+':\n'+run.stdout+'\n'+run.stderr)
+                    response=json.loads(run.stdout)
+                    if response.get('data',{}).get('status') in ('not_run','not_supported'):
+                        raise OperationUnavailable(response['data']['status'],response['data']['reason'])
+                    require(run.returncode==0 and response.get('schema_version')==2 and response.get('ok') is True,
+                            'Exported firmware '+arguments[1]+' failed')
+                    firmware_check=response['data']
             status='passed' if passed else ('failed' if provenance['drift'] or any(item['status']=='failed' for item in checks) else 'not_run')
             return result(tid+'/generated-project',status,'Clean external import, locked environment, native build and provenance check.',example=example,
                           source_digest=generated['source_digest'],origin_source_digest=generated['origin_source_digest'],variant=generated.get('variant'),
-                          log=str(log.relative_to(c.root)),log_sha256=digest(log),build_results=checks,provenance=provenance['status'],toolchain=payload['resolved_toolchain'])
+                          log=str(log.relative_to(c.root)),log_sha256=digest(log),build_results=checks,provenance=provenance['status'],toolchain=payload['resolved_toolchain'],firmware=firmware_check)
+        except OperationUnavailable as exc:
+            with log.open('a') as output_log:
+                output_log.write(f'\n{exc.status}: {exc}\n')
+            return result(tid+'/generated-project',exc.status,str(exc),log=str(log.relative_to(c.root)),log_sha256=digest(log))
         except (ValueError,KeyError,TypeError,ContractError,OSError,subprocess.TimeoutExpired) as exc:
             with log.open('a') as output_log:
                 output_log.write(f'\n{type(exc).__name__}: {exc}\n')
@@ -189,11 +211,28 @@ def main(argv=None):
     refresh=sub.add_parser('lock-project');refresh.add_argument('path',type=Path)
     build=sub.add_parser('build-project');build.add_argument('path',type=Path)
     pack=sub.add_parser('package');pack.add_argument('path',type=Path);pack.add_argument('--output',type=Path,required=True)
+    firmware=sub.add_parser('firmware',help='Plan, merge or verify native firmware images; never flash')
+    image_commands=firmware.add_subparsers(dest='image_command',required=True)
+    image_plan=image_commands.add_parser('plan')
+    image_plan.add_argument('--project',type=Path);image_plan.add_argument('--target');image_plan.add_argument('--example')
+    image_plan.add_argument('--variant');image_plan.add_argument('--format',default='bin');image_plan.add_argument('--output',type=Path,required=True)
+    image_merge=image_commands.add_parser('merge');image_merge.add_argument('--plan',type=Path,required=True);image_merge.add_argument('--output',type=Path,required=True)
+    image_verify=image_commands.add_parser('verify');image_verify.add_argument('bundle',type=Path)
     evidence=sub.add_parser('record-evidence');evidence.add_argument('--file',type=Path,required=True)
     release=sub.add_parser('skill-release',help='Prepare, check or explicitly apply standalone Skill candidates')
     release.add_argument('release_args',nargs=argparse.REMAINDER)
     args=parser.parse_args(argv)
     try:
+        if args.command=='firmware':
+            import firmware as image_flow
+            if args.image_command=='plan':
+                data=image_flow.plan(Catalog(args.project or args.root),args.target,args.example,args.variant,args.format,args.output)
+            elif args.image_command=='merge':
+                data=image_flow.merge(args.plan,args.output)
+            else:
+                data=image_flow.verify(Catalog(args.root),args.bundle)
+            print(json.dumps({'schema_version':2,'ok':True,'data':data},ensure_ascii=False,indent=2))
+            return 0
         if args.command=='test':
             if args.list:
                 data=test_inventory(args.root,selection=args.path)
@@ -269,6 +308,9 @@ def main(argv=None):
                 args.report.write_text(json.dumps({'schema_version':2,'ok':ok,'data':data},ensure_ascii=False,indent=2)+'\n')
         print(json.dumps({'schema_version':2,'ok':ok,'data':data},ensure_ascii=False,indent=2))
         return code or (0 if ok else 1)
+    except OperationUnavailable as exc:
+        print(json.dumps({'schema_version':2,'ok':False,'data':{'status':exc.status,'reason':str(exc)}},ensure_ascii=False))
+        return 2
     except (ContractError,OSError,ValueError,KeyError,TypeError) as exc:
         print(json.dumps({'schema_version':2,'ok':False,'error':{'type':'contract','message':str(exc)}},ensure_ascii=False))
         return 1

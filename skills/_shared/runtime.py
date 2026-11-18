@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import nullcontext
 import importlib.util
 import json
 from pathlib import Path
@@ -11,7 +12,7 @@ import subprocess
 import sys
 import time
 
-from io_utils import ContractError, OPERATIONS, STATUSES, digest, read_json, require, result, safe_path
+from io_utils import ContractError, OperationUnavailable, OPERATIONS, STATUSES, digest, read_json, require, result, safe_path
 
 
 def selected(target, example=None):
@@ -41,6 +42,9 @@ def load_adapter(root, platform):
     spec.loader.exec_module(module)
     for name in ('build', 'cases', 'probe', 'validate_target'):
         require(callable(getattr(module, name, None)), f'{platform["id"]}: missing adapter function {name}')
+    for operation, name in [('plan', 'firmware_layout'), ('merge', 'firmware_merge'), ('verify', 'firmware_verify')]:
+        if platform['operations']['firmware-'+operation]['supported']:
+            require(callable(getattr(module, name, None)), f'{platform["id"]}: missing adapter function {name}')
     return module
 
 
@@ -72,6 +76,8 @@ def run_target(catalog, tid, example=None, variant=None):
     adapter = load_adapter(catalog.root, platform)
     fingerprint = catalog.graph(tid).fingerprint()
     expected = adapter.cases(catalog.root, target, example)
+    from firmware import invalidate
+    invalidate(catalog, target, example)
     argv = [sys.executable, str(catalog.root/platform['adapter']), 'build', '--root', str(catalog.root), '--target', tid]
     if example:
         argv += ['--example', example]
@@ -94,7 +100,11 @@ def main(stack):
     parser.add_argument('--variant')
     parser.add_argument('--output', type=Path)
     parser.add_argument('--project', type=Path)
+    parser.add_argument('--plan', type=Path)
+    parser.add_argument('--bundle', type=Path)
+    parser.add_argument('--format', default='bin')
     args = parser.parse_args()
+    c = t = None
     try:
         c = Catalog(args.root)
         p = c.platforms[stack]
@@ -120,16 +130,40 @@ def main(stack):
             checks = [result('package', 'passed', package=package_project(args.project, args.output))]
         elif args.operation == 'build':
             require(t, 'build needs --target')
-            checks = []
-            if (c.root/'project.yaml').exists() or (c.root/'codecraft.lock').exists():
-                from project import verify_project_build
-                _, _, checks = verify_project_build(c, t, args.example, args.variant)
-            if not checks:
-                checks = adapter.build(c.root, t, args.example)
+            from firmware import invalidate, source_identity, finish_build, operation_guard
+            guard = operation_guard(c.root, t['id']) if p['operations']['firmware-plan']['supported'] else nullcontext()
+            with guard:
+                attempt = invalidate(c, t, args.example)
+                checks = []
+                if (c.root/'project.yaml').exists() or (c.root/'codecraft.lock').exists():
+                    from project import verify_project_build
+                    _, _, checks = verify_project_build(c, t, args.example, args.variant)
+                if not checks:
+                    identity = source_identity(c, t) if attempt else None
+                    toolchain = adapter.probe(c.root, t) if attempt else None
+                    checks = adapter.build(c.root, t, args.example)
+                    checks = finish_build(c, t, checks, attempt, identity, toolchain)
+        elif args.operation.startswith('firmware-'):
+            import firmware
+            if args.operation == 'firmware-plan':
+                value = firmware.plan(c, args.target, args.example, args.variant, args.format, args.output)
+            elif args.operation == 'firmware-merge':
+                require(args.plan and args.output, 'firmware-merge needs --plan and --output')
+                require(firmware.read_plan(args.plan)['target'].split('/')[0] == stack, 'Plan/platform mismatch')
+                value = firmware.merge(args.plan, args.output)
+            else:
+                require(args.bundle, 'firmware-verify needs --bundle')
+                require(read_json(args.bundle/'manifest.json')['target'].split('/')[0] == stack, 'Bundle/platform mismatch')
+                value = firmware.verify(c, args.bundle)
+            checks = [result(args.operation, value['status'], firmware=value)]
         else:
             raise ContractError(f'No handler for declared supported operation: {args.operation}')
         payload = envelope(args.target, args.operation, c.graph(t['id']).fingerprint() if t else None, checks)
         print(json.dumps(payload, ensure_ascii=False))
+        return exit_code(checks)
+    except OperationUnavailable as exc:
+        checks = [result(args.operation, exc.status, str(exc))]
+        print(json.dumps(envelope(args.target, args.operation, c.graph(t['id']).fingerprint() if c and t else None, checks)))
         return exit_code(checks)
     except (ContractError, OSError, ValueError, KeyError, TypeError) as exc:
         print(json.dumps({'schema_version': 2, 'ok': False, 'error': {'type': 'contract', 'message': str(exc)}}))

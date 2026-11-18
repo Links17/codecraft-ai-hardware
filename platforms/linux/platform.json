@@ -17,6 +17,18 @@
       "reason": "Physical observations require an operator; record evidence with the repository evidence command.",
       "supported": false
     },
+    "firmware-merge": {
+      "reason": "No validated MCU factory image profile is registered for this platform.",
+      "supported": false
+    },
+    "firmware-plan": {
+      "reason": "No validated MCU factory image profile is registered for this platform.",
+      "supported": false
+    },
+    "firmware-verify": {
+      "reason": "No validated MCU factory image profile is registered for this platform.",
+      "supported": false
+    },
     "flash": {
       "reason": "Deployment is an explicitly authorized workflow in codecraft-device-test, not an automatic validation operation.",
       "supported": false

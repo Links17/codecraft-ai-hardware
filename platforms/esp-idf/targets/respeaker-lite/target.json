@@ -41,6 +41,13 @@
     "button_led",
     "wifi_scan"
   ],
+  "firmware": {
+    "formats": [
+      "bin"
+    ],
+    "purpose": "factory",
+    "security": "unsigned-unencrypted"
+  },
   "id": "esp-idf/respeaker-lite",
   "inputs": [
     "platforms/esp-idf/targets/respeaker-lite/bsp/CMakeLists.txt",

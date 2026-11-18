@@ -17,6 +17,18 @@
       "reason": "Physical observations require an operator; record evidence with the repository evidence command.",
       "supported": false
     },
+    "firmware-merge": {
+      "reason": "Native unsigned, unencrypted ESP-IDF factory BIN images with build provenance.",
+      "supported": true
+    },
+    "firmware-plan": {
+      "reason": "Native unsigned, unencrypted ESP-IDF factory BIN images with build provenance.",
+      "supported": true
+    },
+    "firmware-verify": {
+      "reason": "Native unsigned, unencrypted ESP-IDF factory BIN images with build provenance.",
+      "supported": true
+    },
     "flash": {
       "reason": "Deployment is an explicitly authorized workflow in codecraft-device-test, not an automatic validation operation.",
       "supported": false
@@ -50,7 +62,8 @@
     "skills/_shared/resource.json",
     "platforms/esp-idf/composition.py",
     "platforms/esp-idf/cmake/bsp.cmake",
-    "platforms/esp-idf/variants.py"
+    "platforms/esp-idf/variants.py",
+    "platforms/esp-idf/esp_firmware.py"
   ],
   "schema_version": 2
 }

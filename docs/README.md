@@ -15,6 +15,7 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 - [Host test ownership and focused execution](development/testing.md)
 - [ESP-IDF BSP composition and layout](development/native-compositions.md)
 - [Hardware variants and native build selection](development/hardware-variants.md)
+- [Firmware image delivery and TODOs](development/firmware-images.md)
 - [Generated device/capability inventory](inventory.md)
 - [Generated vendor index](vendor-sources.md)
 - [Device acceptance](on-device-validation.md)

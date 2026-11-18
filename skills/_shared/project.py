@@ -151,6 +151,8 @@ def build_project(path):
     data = profile(path)
     c = Catalog(path)
     target = c.target(data['target'])
+    from firmware import invalidate
+    invalidate(c, target, data['example'])
     outcome, actual, checks = verify_project_build(c, target, data['example'], data.get('variant'))
     if not checks:
         checks = run_target(c, target['id'], data['example'])

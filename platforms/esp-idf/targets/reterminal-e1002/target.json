@@ -72,6 +72,13 @@
     "sdcard_test",
     "sht4x_battery"
   ],
+  "firmware": {
+    "formats": [
+      "bin"
+    ],
+    "purpose": "factory",
+    "security": "unsigned-unencrypted"
+  },
   "id": "esp-idf/reterminal-e1002",
   "inputs": [
     "platforms/esp-idf/targets/reterminal-e1002/bsp/CMakeLists.txt",

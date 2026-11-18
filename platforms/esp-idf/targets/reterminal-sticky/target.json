@@ -38,6 +38,13 @@
     "epd_hello",
     "sht4x"
   ],
+  "firmware": {
+    "formats": [
+      "bin"
+    ],
+    "purpose": "factory",
+    "security": "unsigned-unencrypted"
+  },
   "id": "esp-idf/reterminal-sticky",
   "inputs": [
     "platforms/esp-idf/targets/reterminal-sticky/bsp/CMakeLists.txt",

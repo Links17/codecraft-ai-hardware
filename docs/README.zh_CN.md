@@ -15,6 +15,7 @@
 - [主机测试归属与定向执行](development/testing.md)
 - [ESP-IDF BSP 组合与布局](development/native-compositions.md)
 - [硬件变体与原生构建选择](development/hardware-variants.md)
+- [固件镜像交付与 TODO](development/firmware-images.md)
 - [生成的设备/能力清单](inventory.md)
 - [生成的厂商索引](vendor-sources.md)
 - [设备验收](on-device-validation.md)
