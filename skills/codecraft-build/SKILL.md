@@ -5,7 +5,16 @@ description: Build native firmware and run checks without flashing or publishing
 
 # Build
 
-Run `validate --static`, then `validate --target <id>` for each affected Target. The complete software gate is `validate`. A missing prerequisite is not_run, never passed. No build command flashes or publishes. Diagnose failures before retrying.
+First apply the [root validation policy](../../AGENTS.md#required-validation-and-delivery).
+Use this workflow for requested builds or changes affecting firmware/native build
+inputs or behavior. Otherwise use static/host checks without native builds or
+toolchain setup. Run `validate --static`, then `validate --target <id>` for
+affected Targets; narrow by `--example` / `--variant` where applicable. Use
+`--projects` when native export contents or build behavior changes. No-option
+`validate` runs the complete software gate; reserve it for an explicit full-build
+request or native changes affecting every Target. A missing required prerequisite
+is not_run, never passed. No build command flashes or publishes. Diagnose failures
+before retrying.
 
 All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.
 

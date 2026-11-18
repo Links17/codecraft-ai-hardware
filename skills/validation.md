@@ -1,6 +1,14 @@
 # Validation workflow
 
-Run generate --check, validate --static, affected native Target/project builds, then validate for the complete software gate. The CLI is python3 codecraft.py.
+Choose checks using the [root validation policy](../AGENTS.md#required-validation-and-delivery).
+Run `generate --check`, focused checks and `validate --static`. Unchanged firmware
+and native build inputs/behavior require no native compilation or toolchain
+setup. Native changes require affected Target/example/variant builds, plus native
+project builds when export contents or build behavior changes. The no-option
+`validate` command runs the complete software gate without Git diff filtering;
+use it for an explicit full-build request or native changes affecting every
+Target. The CLI is `python3 codecraft.py`. Report scope-based omissions as skipped
+and missing required prerequisites as not_run.
 
 Tests reject source contradictions, missing/cyclic dependencies, omitted cross-layer resources, empty/incorrect metadata, wrong adapter identity/case coverage and stale evidence. Source checks cover canonical metadata formatting, Python syntax, retained licensing/attribution, local links, README language pairs, forbidden engineering-document translations and private-key material. Native peripheral interfaces and cloud Skill Capabilities are tested at their respective owners. Physical writes are excluded. Missing tools remain not_run; unsupported simulations remain not_supported.
 

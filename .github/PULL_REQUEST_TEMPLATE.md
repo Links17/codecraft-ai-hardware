@@ -14,6 +14,13 @@
 
 Use passed, failed, skipped, not_run or not_supported, with reasons. Do not count missing prerequisites as success.
 
+Select checks using the [root validation policy](../AGENTS.md#required-validation-and-delivery).
+If firmware and native build inputs/behavior are unchanged, mark native builds
+and the complete gate `skipped` with that reason.
+
+- Changed firmware or native build inputs/behavior, and affected Targets:
+- Selected checks and any reused build evidence:
+
 | Check | Result | Command / evidence / limitations |
 | --- | --- | --- |
 | Static, knowledge and host (`validate --static`) | | |
@@ -21,7 +28,7 @@ Use passed, failed, skipped, not_run or not_supported, with reasons. Do not coun
 | Clean generated project (`validate --target <id> --projects`) | | |
 | Simulator, when registered | | |
 | Physical device, with revision and cases | | |
-| Complete software gate (`validate`) | | |
+| Complete software gate (`validate`, when selected by scope) | | |
 
 A build never establishes physical behavior. Reference retained device test records and list remaining unknowns.
 

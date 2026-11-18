@@ -22,7 +22,18 @@ For ESP-IDF builds, follow [native composition and layout](native-compositions.m
 3. Add platforms/<stack>/targets/<device>/target.json with native examples, toolchain provenance, native interface references, common/per-example inputs and dependencies. Preserve native BSP/build conventions. Lock ESP-IDF dependencies; Arduino needs exact CLI/core/library versions and an FQBN. A new stack must declare every operation in platform.json and pass adapter contract tests.
 4. Keep peripheral interfaces in Target metadata. Add a Capability only from a concrete cloud Skill consumer contract; include inputs/outputs, configuration, resources, errors, dependencies and integration tests. Put tests, assets and simulators with their owner. A simulator must declare its coverage; unsupported operations must explain why.
 5. Run `generate`, `generate --check`, `validate --static`, then `validate --target <id> --projects`. These generate and check device indexes, capability and CI matrices. Never manually register a board in multiple lists. Missing build prerequisites prevent a passing gate; experimental support must state the reason.
-6. Collect revision-specific device evidence only under authorization. Keep build, generated-project, simulator and physical results separate. Run the complete gate before delivery.
+6. Collect revision-specific device evidence only under authorization. Keep build, generated-project, simulator and physical results separate. Select any broader checks using the root validation policy below.
+
+## Validation scope
+
+Follow [the root validation policy](../../AGENTS.md#required-validation-and-delivery)
+before setting up toolchains or choosing commands. Documentation/rule changes
+and host-only changes with unchanged firmware and native build inputs need
+static/host checks, not firmware compilation. Native changes require builds
+only for affected Targets, examples and variants. A commit, push or merge does
+not require rebuilding unchanged, already validated native inputs. The no-option
+`python3 codecraft.py validate` command remains a full-build operation, not the
+default delivery check.
 
 ## Delivery format
 

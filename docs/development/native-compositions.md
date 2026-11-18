@@ -86,14 +86,18 @@ Target example scope and native manifests together. Review and explicitly
 relock the application before building. An unchanged original reference-project
 lock is not approval for new sources or dependencies.
 
-For repository changes, run the composition tests, affected native and external
-project builds, then the full gate:
+For changes to native composition, run the composition tests and affected native
+and exported project builds:
 
 ```sh
 python3 codecraft.py test --path platforms/esp-idf/tests/test_composition.py
 python3 codecraft.py validate --target esp-idf/<board> --projects
-python3 codecraft.py validate
 ```
+
+Narrow by example/variant where applicable. Documentation about composition
+does not require firmware compilation. Select static checks and any broader
+native scope using the [root validation policy](../../AGENTS.md#required-validation-and-delivery);
+the complete gate is not a routine prerequisite for every repository change.
 
 ## Verification limits
 

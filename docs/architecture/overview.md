@@ -67,7 +67,11 @@ evidence. A build default does not identify a physical assembly. See
 
 Host tests live with their behavior owner and are collected recursively through
 one runner. Device physical acceptance is separate. Use `test --list`,
-`test --path <owner>`, `validate --static` and `validate`; inspect every result.
+`test --path <owner>` and `validate --static`; select native builds using the
+[root validation policy](../../AGENTS.md#required-validation-and-delivery).
+No-option `validate` runs the complete gate and does not filter by changed files.
+Unchanged firmware/native inputs do not require compilation; inspect every
+selected check's result.
 Support is derived from source-bound evidence, not README assertions. A native
 build and a clean locked export are required for build-verified status; physical
 support requires actual revision-specific observations.

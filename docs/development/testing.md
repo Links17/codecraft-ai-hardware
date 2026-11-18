@@ -1,6 +1,6 @@
 # Host test ownership and execution
 
-Use the same public runner for discovery, focused checks and the complete gate:
+Use the public runner for discovery, focused host checks and the static gate:
 
 ```sh
 python3 codecraft.py test --list
@@ -9,8 +9,14 @@ python3 codecraft.py test --path skills/_cloud/tests/test_protocol.py
 python3 codecraft.py test --path platforms/esp-idf/components/codecraft_sht4x/tests
 python3 codecraft.py test --path platforms/esp-idf/targets/sensecap-watcher/tests
 python3 codecraft.py validate --static
-python3 codecraft.py validate
 ```
+
+Select checks using the [root validation policy](../../AGENTS.md#required-validation-and-delivery).
+Documentation and host-only changes do not require native firmware builds when
+native inputs/behavior are unchanged. Host tests may compile host fixtures; this
+is separate from building board firmware. No-option `python3 codecraft.py validate`
+includes all native Targets and clean project builds, so it is reserved for an
+explicit full-build request or native changes affecting every Target.
 
 `test` executes host tests only. `--path` selects a repository-relative test file
 or owning directory. Empty, escaping or symlink selections fail; they never

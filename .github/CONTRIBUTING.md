@@ -34,14 +34,24 @@ Capability or Skill owner.
 2. Fill in [`.github/PULL_REQUEST_TEMPLATE.md`](PULL_REQUEST_TEMPLATE.md).
    Report static checks, per-board builds, and on-device verification
    separately; list unperformed hardware work under `Unverified`.
-3. Run the validation gate before opening the PR:
+3. Select validation from the actual diff using the
+   [root validation policy](../AGENTS.md#required-validation-and-delivery).
+   Run focused checks and `validate --static`. If firmware and native build
+   inputs/behavior are unchanged, skip native builds and the complete gate.
+   Use the appropriate command below only for affected native scope:
 
    ```bash
-   python3 codecraft.py validate --static           # repository checks + host tests
-   python3 codecraft.py validate --target esp-idf/<board>    # ESP-IDF build for the affected board
+   python3 codecraft.py validate --target <platform>/<device>
    python3 codecraft.py validate --target <platform>/<device> --projects
-   python3 codecraft.py validate                       # complete gate
    ```
+
+   Narrow native checks with `--example` / `--variant` where applicable; add
+   `--projects` when native export contents or build behavior changes. These
+   native commands are alternatives, not a mandatory sequence. Use no-option
+   `python3 codecraft.py validate` for an explicit full-build request or native
+   changes affecting every Target. Opening a PR or merging already validated
+   inputs does not itself require recompilation. Report omitted checks as
+   `skipped` with the scope reason, not as fresh build success.
 
 4. A successful build is not hardware validation. Pin, display, bus, and
    power changes need the board revision and observed hardware results

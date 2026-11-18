@@ -101,12 +101,15 @@ After applying, review the resulting diff and run:
 
 ```sh
 python3 codecraft.py generate
+python3 codecraft.py generate --check
 python3 codecraft.py validate --static
-python3 codecraft.py validate
 ```
 
-The complete gate retains native/export checks separately from cloud client
-tests. No command here flashes, publishes or establishes live service acceptance.
+Select any native/export builds using the
+[root validation policy](../../AGENTS.md#required-validation-and-delivery).
+Cloud client or Skill-only changes with unchanged native build inputs/behavior
+do not require firmware compilation or the complete gate. No command here
+flashes, publishes or establishes live service acceptance.
 Copy an approved complete Skill directory for independent installation; runtime
 imports remain inside it. An installed Skill does not require the repository CLI
 or a sibling Skill. Existing exported applications keep their locked versions

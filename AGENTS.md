@@ -67,6 +67,10 @@ Device AGENTS.md files and reference/ own hardware knowledge. Target manifests o
    See docs/development/project-workspaces.md.
 4. Load the matching routing-table entries and local rules before editing or
    executing a platform operation. MUST NOT load every README by default.
+5. Select validation from the actual diff using
+   [Required validation and delivery](#required-validation-and-delivery).
+   Unchanged firmware and native build inputs do not require compilation or
+   native toolchain setup.
 
 Before AI-assisted development, all five skills MUST be installed and available:
 `codecraft-develop`, `codecraft-setup`, `codecraft-build`,
@@ -274,8 +278,37 @@ the owning layer and preserve unrelated behavior.
 
 ### Required validation and delivery
 
-During contribution work, run the smallest relevant checks first, then the
-complete gate before delivery. Select the board checks by the actual platform:
+During contribution work, inspect the final diff and select checks by actual
+impact. Run the smallest relevant checks first. A commit, push, merge or
+documentation change does not by itself require firmware compilation.
+
+| Change scope | Required validation |
+| --- | --- |
+| Documentation, README, Agent rules or Skill instructions only | Check paths, commands, language policy and generation drift; run `validate --static`. No native builds. |
+| Host tooling, cloud clients, discovery, project briefs, locks or CI with unchanged native build inputs and behavior | Run affected host/contract/export tests and `validate --static`, covering each affected platform. No native builds. |
+| Firmware or native build inputs/behavior | Run focused host checks, `validate --static` and native validation for the affected Targets, examples and variants. Include `--projects` when native export contents or build behavior changes. |
+| Explicit full-build request or native changes affecting every Target | Run the complete gate and inspect every substep. |
+
+Native build impact includes firmware sources/headers, compiled assets, source
+selection, SDK/board configuration, partitions/linker scripts, toolchain or
+dependency versions, and adapter/export changes that alter those inputs or the
+native build command. Judge the changed behavior, not just the directory or file
+extension. Host-only orchestration, provenance, cache and documentation changes
+do not become firmware changes merely because they share a source graph.
+
+When firmware and native build inputs/behavior are unchanged, Agents MUST NOT
+run native builds, set up native toolchains, or use the no-option `validate`
+command unless explicitly requested by the user. Native commands in local
+Platform/example guidance are conditional on this scope selection. For merges,
+compare the final native inputs with validated parent inputs; rebuild only newly affected
+combinations. A new commit or changed source digest alone is not a rebuild
+trigger. Keep evidence freshness rules: do not relabel stale evidence as current
+or claim a new build passed when compilation was skipped.
+
+This is a check-selection policy for Agents and contributors. The CLI does not
+automatically inspect the Git diff; no-option `validate` still runs all Targets
+and clean project builds. CI selection remains defined by its workflow.
+Select any required native checks by the actual platform:
 
 | Command | What it establishes |
 | --- | --- |
@@ -283,11 +316,12 @@ complete gate before delivery. Select the board checks by the actual platform:
 | `python3 codecraft.py validate --target esp-idf/<board>` | ESP-IDF example builds with an activated, board-appropriate IDF |
 | `python3 codecraft.py validate --target linux/<board>` | Linux source checks; inspect whether overlay compilation ran |
 | `python3 codecraft.py validate --target arduino/<board>` | Arduino sketches compiled with the declared core/libraries |
-| `python3 codecraft.py validate` | Complete current gate; inspect substeps and skips before summarizing |
+| `python3 codecraft.py validate` | Explicit complete-gate run under the scope rules above; includes native and clean project builds |
 
 Documentation/rule changes additionally require checking referenced paths,
 commands, README language equivalence, English-only engineering documents and applicability. Shared tools, discovery,
-or CI changes require coverage of every affected platform. Pin, display, bus,
+or CI changes require coverage of every affected platform; native compilation
+is required only for actual native build impact as defined above. Pin, display, bus,
 and power changes require board-revision-specific physical evidence before
 being described as ready to merge, as required by `.github/CONTRIBUTING.md`.
 
@@ -306,7 +340,8 @@ Use these result meanings in reports; the CLI emits a versioned JSON envelope, t
 Final delivery MUST separately report:
 
 1. Changes and scope, including compatibility implications where applicable.
-2. Static/host check results and the complete-gate outcome.
+2. Static/host check results and the complete-gate outcome, or `skipped` with
+   the scope reason when the complete gate was not selected.
 3. Build/check results per affected board and actual toolchain. If none are
    affected, say so; do not imply firmware was built.
 4. On-device verification and evidence, or an explicit statement it was not
