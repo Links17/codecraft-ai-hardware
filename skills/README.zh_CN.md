@@ -6,7 +6,7 @@ Skills 负责硬件工作流、主机侧编排和独立云端客户端。设备�
 
 ## 硬件开发
 
-必需工作流为 codecraft-develop、codecraft-setup、codecraft-build、codecraft-device-test 和 codecraft-debug。使用 codecraft-ideate 整理应用需求，按需使用 codecraft-discover 和 codecraft-validate。设备校验与共享编排位于 _shared/，原生命令仍由对应 Platform 实现。[可移植工作流](../docs/development/application-workflow.mPlatform、工作流指南随应用导出并纳入锁文件。
+必需工作流为 codecraft-develop、codecraft-setup、codecraft-build、codecraft-device-test 和 codecraft-debug。使用 codecraft-ideate 整理应用需求，按需使用 codecraft-discover 和 codecraft-validate。设备校验与共享编排位于 _shared/，原生命令仍由对应 Platform 实现。[可移植工作流](../docs/development/application-workflow.md)及所选 Platform、工作流指南随应用导出并纳入锁文件。
 
 ## 外部 SenseCraft CLI
 
