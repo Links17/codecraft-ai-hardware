@@ -2,51 +2,136 @@
 
 # CodeCraft AI Hardware
 
-Seeed 设备的开发参考仓库，包含设备知识、原生 BSP 与示例、云端 Skill 合同和独立 Agent 工作流。四个云 API 客户端 Skill 在 [skills/](skills/README.zh_CN.md) 中维护，云端服务和账户基础设施仍由外部项目负责。
+**用你的 AI 编程助手，开发和修改 Seeed 硬件项目。**
 
-从 [AGENTS.md](AGENTS.md) 开始。[设备入口](devices/AGENTS.md)和[能力矩阵](docs/inventory.md)由维护的设备 Markdown 与 Target 清单生成。
+CodeCraft AI Hardware 汇集设备知识、原生板级支持包（BSP）、示例和 Agent Skills，帮助你使用 **ESP-IDF、Arduino 和 Linux** 进行 AI 辅助嵌入式开发。从现有示例创建自己的项目，为编程助手提供所需的板卡上下文和开发流程。
+
+[选择示例](#选择一个起点) · [快速开始](#快速开始) · [设备目录](devices/AGENTS.md) · [Agent Skills](skills/README.zh_CN.md) · [文档](docs/README.zh_CN.md) · [English](README.md)
+
+## 你可以做什么
+
+- **先了解板卡。** 修改固件前，找到设备参考资料、原生接口、工具链要求和已知限制。
+- **从示例开始创作。** 导出包含 BSP、依赖和源码锁定信息的私有应用，沿用板卡的原生软件栈开发。
+- **与 AI 编程助手协作。** 使用 Skills 完成环境配置、开发、构建、调试和经过授权的设备测试。
+- **按需加入云端功能。** 通过独立 Skills 为项目扩展云端能力，例如文本生成、语音识别、语音合成和图像生成；本地原生开发无需云端账户。
+
+## 选择一个起点
+
+以下均为仓库已有的源码示例，可作为应用开发起点。硬件版本要求见各设备文档，环境配置见对应 Target 指南。
+
+| 开始体验 | 设备与软件栈 | 示例源码 | 环境配置 |
+| --- | --- | --- | --- |
+| 探索墨水屏显示 | [reTerminal E1001](devices/reterminal-e1001/AGENTS.md) · ESP-IDF | [epd_hello](devices/reterminal-e1001/targets/examples/epd_hello) | [Target 指南](devices/reterminal-e1001/targets/README.zh_CN.md) |
+| 探索显示与按键 | [Wio Terminal](devices/wio-terminal/AGENTS.md) · Arduino | [display_buttons](devices/wio-terminal/targets/examples/display_buttons) | [Target 指南](devices/wio-terminal/targets/README.zh_CN.md) |
+| 从按键和 LED 入门 | [Grove Beginner Kit](devices/grove-beginner-kit/AGENTS.md) · Arduino | [button_led](devices/grove-beginner-kit/targets/examples/button_led) | [Target 指南](devices/grove-beginner-kit/targets/README.zh_CN.md) |
+
+更多板卡和示例见[设备目录](devices/AGENTS.md)。生成的[原生接口与证据矩阵](docs/inventory.md)分别记录实现、构建和实机验证情况。当前源码对应的实机验收仍未完成，历史观察记录不能证明新版本源码的物理表现。
 
 ## 快速开始
 
+### 1. 获取仓库并选择板卡
+
+准备 Git 和 Python 3，在终端运行：
+
 ```sh
-python3 codecraft.py catalog
+git clone https://github.com/Seeed-Solution/codecraft-ai-hardware.git
+cd codecraft-ai-hardware
 python3 codecraft.py discover --interface display
-python3 codecraft.py cloud-catalog
-python3 codecraft.py check-cloud-skills
-python3 codecraft.py resolve-capability --capability asr
-python3 codecraft.py context --target esp-idf/reterminal-e1001
-python3 codecraft.py validate --static
-python3 codecraft.py validate --target esp-idf/reterminal-e1001
 ```
 
-构建前激活 Target 声明的工具链。生成可移植的私有项目工作区：
+以下流程以 **reTerminal E1001 / ESP-IDF** 为例。使用其他板卡时，请遵循它的 Target 指南和声明的软件栈。
+
+```sh
+python3 codecraft.py context --target esp-idf/reterminal-e1001
+```
+
+阅读返回的上下文和 [E1001 环境配置指南](devices/reterminal-e1001/targets/README.zh_CN.md#工具链)。构建前安装并激活 [target.json](devices/reterminal-e1001/targets/target.json) 声明的精确工具链版本；与 Agent 协作时，使用 [codecraft-setup](skills/codecraft-setup/SKILL.md) 处理缺失工具。
+
+### 2. 创建自己的工作区
+
+在仓库根目录运行：
 
 ```sh
 python3 codecraft.py new --target esp-idf/reterminal-e1001 --example epd_hello --output projects/my-e1001-project
+python3 codecraft.py verify-project projects/my-e1001-project
+```
+
+输出目录必须尚不存在。`projects/` 已被 Git 忽略，便于将自己的应用与参考示例分开；也支持显式指定仓库外目录。`project.yaml` 记录选择，`codecraft.lock` 记录导入源码与工具链来源。无需全局安装 CodeCraft CLI。
+
+### 3. 构建所选示例
+
+激活声明的工具链后运行：
+
+```sh
 python3 codecraft.py build-project projects/my-e1001-project
 ```
 
-输出目录必须尚不存在。`project.yaml` 记录选择，`codecraft.lock` 记录导入文件摘要、仓库版本与工具链。生成项目和临时构建产物不跟踪；明确保留且已脱敏的证据统一存放在 tests/devices/<device>/。`projects/` 已忽略，仍支持显式指定仓库外路径。使用 codecraft-ideate 与 `new --brief <file.json>`，将用途、目标用户、场景和 BOM 写入 project.yaml，并生成应用 AGENTS 的对应区域。参见[项目工作区](docs/development/project-workspaces.md)。
+导出的工作区也包含 `codecraft.py`，在该目录内可运行 `python3 codecraft.py build-project .`。构建不会刷写设备。需要实机测试时，先确认板卡和端口并明确授权设备写入，再遵循所选[设备验收步骤](devices/reterminal-e1001/AGENTS.md#physical-acceptance)和 [codecraft-device-test](skills/codecraft-device-test/SKILL.md)。
 
-新导出项目也包含公共入口；在应用目录运行 `python3 codecraft.py build-project .`。无需全局安装 CLI。独立云端 Skill 仍可单独运行；包版本维护使用[候选包工作流](docs/development/skill-releases.md)。
+应用修改、需求简述、经审阅的重新锁定和后续构建，参见[项目工作区指南](docs/development/project-workspaces.md)。使用 [codecraft-ideate](skills/codecraft-ideate/SKILL.md) 和 `new --brief <file.json>`，将用途、用户、场景和物料清单记录到项目中。
 
-## 可选的 SenseCraft 平台工具
+## 与 AI 编程助手协作
 
-涉及 SenseCraft 设备、遥测、CodeCraft Hub、文件、模型库管理或云端部署时，使用外部 [sensecraft-cli](https://github.com/Seeed-Solution/sensecraft-cli) 及其官方 Agent Skill。已验证包版本为 0.5.0（Node.js 16+）：
+在编程助手中打开本仓库，让它先阅读 [AGENTS.md](AGENTS.md)。AI 辅助开发前，将以下五个[硬件工作流 Skill](skills/README.zh_CN.md) 的完整目录安装到助手的 Skill 发现位置：`codecraft-develop`、`codecraft-setup`、`codecraft-build`、`codecraft-device-test` 和 `codecraft-debug`。仓库合同要求 Agent 安装并核实缺失的工作流。
 
-```sh
-npx --yes @seeed-studio/sensecraft-cli@0.5.0 --version
-npx --yes @seeed-studio/sensecraft-cli@0.5.0 --help
+例如，可以这样开始一个新应用：
+
+```text
+阅读 AGENTS.md，并使用要求的 CodeCraft Skills。
+我有一台 reTerminal E1001，请从 epd_hello 示例创建私有项目，
+输出到 projects/my-e1001-project。
+检查板卡上下文和声明的工具链，然后构建。
+报告构建结果与未知项。刷写前先让我确认板卡、端口，
+并明确授权设备写入。
 ```
 
-参见[安装、Skill 发现与任务路由](docs/development/sensecraft-cli.md)。原生开发无需此工具，安装不代表授权云端操作。已有 LLM/ASR/TTS/图像生成客户端与这些平台管理命令保持独立。
+如果已经完成快速开始，请换一个尚不存在的输出路径。对于已有应用，在助手中打开应用工作区并遵循生成的 `AGENTS.md`。Agent 工作流涵盖环境配置、开发、构建、调试和设备测试，原生命令由所选 Platform 负责。
 
-## 结构与贡献
+## 可选的云端功能与固件分享
 
-`devices/AGENTS.md` 提供设备目录索引；每个 `devices/<device>/` 负责设备知识、参考资料、素材，以及 `targets/` 中的 BSP、示例和板级配置；`platforms/` 负责通用的软件栈与运行环境适配、构建辅助和共享组件，`capabilities/` 负责云端 Skill 消费合同，`skills/` 负责流程、编排与独立客户端。所有测试、夹具和 mock 统一放在 `tests/`，按源码归属分组，参见[测试归属](docs/development/testing.md)。板级测试使用 `tests/devices/<device>/targets/`，实测文档、证据记录和日志保存在该子目录的同级位置。阅读[架构](docs/architecture/overview.md)和[贡献规则](.github/CONTRIBUTING.md)。
+通过 [skills/](skills/README.zh_CN.md) 中的独立客户端扩展云端能力，例如 LLM 文本生成、ASR/STT、TTS 和图像生成。每个客户端包含自己的 Skill 指南和 API 参考，可独立安装。云端服务和账户基础设施由外部项目负责；凭据、限制与经过授权的 API 使用方式，见所选 Skill。
 
-元数据修改后执行 `python3 codecraft.py generate`，再执行 `python3 codecraft.py generate --check`。CI 与发现使用同一份 Target 记录。完整软件门禁为 `python3 codecraft.py validate`，物理验证单独记录，在获得真实证据前仍属于未执行。
+可选客户端及其配置方式，参见 [Skills 指南](skills/README.zh_CN.md)和[项目工作区指南](docs/development/project-workspaces.md)。
 
-采用 Apache License 2.0，第三方归属保留在 [NOTICE](NOTICE)。
+[CodeCraft Hub](https://codecraft.seeed.cc/hub) 是独立的固件分享平台。用户要求上传、在线刷写、SenseCraft 设备管理或云端部署时，使用外部 [sensecraft-cli](https://github.com/Seeed-Solution/sensecraft-cli) 及其官方内置 Skill。已核实版本、前提和安装方式见[安装与任务路由](docs/development/sensecraft-cli.md)。原生开发无需此工具，安装 Skill 或 CLI 不代表授权云端操作。
 
-V0.2 实施进度见 [TODO 清单](docs/development/v0.2-todo.md)；[CONTRIBUTION.md](CONTRIBUTION.md) 提供维护规则入口。SenseCraft CLI 已作为外部工具直接引入；仿真和实机验收仍是待办。
+## 文档与贡献
+
+| 你想要…… | 从这里开始 |
+| --- | --- |
+| 查找设备知识和原生示例 | [设备目录](devices/AGENTS.md) |
+| 查看接口实现与证据状态 | [原生接口矩阵](docs/inventory.md) |
+| 修改导出的项目 | [应用开发流程](docs/development/project-workspaces.md) |
+| 了解硬件与云端 Skills | [Skills 指南](skills/README.zh_CN.md) |
+| 理解职责划分和架构 | [架构说明](docs/architecture/overview.md) |
+| 报告问题或参与贡献 | [Issues](https://github.com/Seeed-Solution/codecraft-ai-hardware/issues) · [贡献指南](.github/CONTRIBUTING.md) |
+| 浏览全部指南和待办 | [文档目录](docs/README.zh_CN.md) · [实施进度](docs/development/v0.2-todo.md) |
+
+### 仓库结构
+
+| 路径 | 内容 |
+| --- | --- |
+| `devices/<device>/` | 设备知识、参考资料、素材，以及 `targets/` 下的原生 BSP 和示例 |
+| `platforms/` | 软件栈适配器、构建辅助和共享组件 |
+| `capabilities/` | 独立 Skills 消费的云端契约与提供方选择 |
+| `skills/` | Agent 工作流、编排与独立云端客户端 |
+| `projects/` | 被 Git 忽略的私有应用工作区 |
+| `tests/` | 按源码归属组织的测试、夹具、mock 和留存的设备证据 |
+| `docs/` | 工程指南、生成的索引和待办事项 |
+
+### 贡献者检查
+
+遵循[仓库合同](AGENTS.md)、[维护入口](CONTRIBUTION.md)和[测试归属指南](docs/development/testing.md)。源码元数据变化后执行 `python3 codecraft.py generate`，再检查生成结果漂移和静态/主机行为：
+
+```sh
+python3 codecraft.py generate --check
+python3 codecraft.py validate --static
+```
+
+仅修改文档时无需原生构建。固件或原生构建发生变化时，按[验证策略](AGENTS.md#required-validation-and-delivery)执行对应范围的检查；不带选项的 `python3 codecraft.py validate` 会运行完整软件门禁。构建结果、仿真和实机观察分别报告。生成的固件和临时构建产物不跟踪，留存的脱敏证据位于 `tests/devices/<device>/`。
+
+修改独立客户端包时，遵循[候选包准备、检查、审阅与应用流程](docs/development/skill-releases.md)。打包不等于安装或发布 Skill。尚未完成的验收和仿真工作见上方实施进度文档。
+
+## 许可证
+
+[Apache License 2.0](LICENSE)。第三方归属保留在 [NOTICE](NOTICE)。
