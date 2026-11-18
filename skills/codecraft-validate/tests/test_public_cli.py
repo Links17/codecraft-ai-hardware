@@ -105,3 +105,65 @@ def test_export_failure_returns_a_gate_result_and_retained_diagnostic():
         log=catalog.root/row['log']
         assert 'missing fixture acceptance source' in log.read_text()
         assert row['log_sha256']==digest(log)
+
+
+def test_requested_example_reaches_the_clean_export_and_native_build():
+    run=command(ROOT/'codecraft.py',['validate','--target','linux/reterminal',
+                                   '--example','sensors_sysfs','--projects'],ROOT)
+    payload=json.loads(run.stdout)
+    assert run.returncode==0,run.stdout
+    project=next(row for row in payload['data']['results'] if row['name'].endswith('/generated-project'))
+    assert project['example']=='sensors_sysfs'
+    assert {row['name'] for row in project['build_results']}=={
+        'linux/reterminal/sensors_sysfs','linux/reterminal/overlay/reterminal-peripherals-overlay'}
+    assert 'sensors_sysfs' in project['log']
+
+
+def test_requested_example_is_preserved_for_every_variant_export():
+    with tempfile.TemporaryDirectory() as folder:
+        target={'examples':['first','requested'],'variants':{'gx':{},'dx':{}},'default_variant':'gx'}
+        catalog=SimpleNamespace(root=Path(folder),target=lambda tid:target,
+                                graph=lambda tid:SimpleNamespace(fingerprint=lambda:'fixture'))
+        with patch('cli.generate_project',side_effect=ContractError('controlled export stop')) as generate:
+            row=validate_project(catalog,'esp-idf/fixture',example='requested')
+        assert row['status']=='failed' and row['example']=='requested'
+        assert [(call.args[2],call.kwargs['variant']) for call in generate.call_args_list]==[
+            ('requested','gx'),('requested','dx')]
+
+
+def test_no_public_build_route_bypasses_application_source_lock():
+    with tempfile.TemporaryDirectory() as folder:
+        output=Path(folder)/'app';generate_project(Catalog(ROOT),'linux/reterminal','buttons_evdev',output)
+        native=output/'platforms/linux/targets/reterminal/demos/buttons_evdev.py'
+        native.write_text(native.read_text()+'\n# Unreviewed application edit\n')
+        adapter=output/'platforms/linux/adapter.py'
+        routes=[(output/'codecraft.py',['build-project','.'],'Source changed'),
+                (output/'codecraft.py',['validate','--target','linux/reterminal','--projects'],'build-project'),
+                (ROOT/'codecraft.py',['--root',str(output),'validate','--target','linux/reterminal'],'build-project'),
+                (adapter,['build','--root',str(output),'--target','linux/reterminal'],'Source changed')]
+        for entry,args,message in routes:
+            run=command(entry,args,output)
+            assert run.returncode==1,run.stdout
+            assert message in json.loads(run.stdout)['error']['message']
+            assert not (output/'.codecraft/builds').exists()
+        assert command(output/'codecraft.py',['lock-project','.'],output).returncode==0
+        allowed=command(adapter,['build','--root',str(output),'--target','linux/reterminal'],output)
+        assert allowed.returncode==0 and json.loads(allowed.stdout)['ok'],allowed.stdout
+
+
+def test_direct_adapter_build_checks_locked_toolchain_and_requires_the_lock():
+    with tempfile.TemporaryDirectory() as folder:
+        output=Path(folder)/'app';generate_project(Catalog(ROOT),'linux/reterminal','buttons_evdev',output)
+        lock_path=output/'codecraft.lock';lock=json.loads(lock_path.read_text())
+        lock['resolved_toolchain']={'status':'passed','python':'different'}
+        lock_path.write_text(json.dumps(lock))
+        adapter=output/'platforms/linux/adapter.py'
+        args=['build','--root',str(output),'--target','linux/reterminal']
+        run=command(adapter,args,output)
+        payload=json.loads(run.stdout)
+        assert run.returncode==2 and all(row['status']=='not_run' for row in payload['results']),run.stdout
+        assert not (output/'.codecraft/builds').exists()
+        lock_path.unlink()
+        run=command(adapter,args,output)
+        assert run.returncode==1 and json.loads(run.stdout)['error']['type']=='contract'
+        assert not (output/'.codecraft/builds').exists()

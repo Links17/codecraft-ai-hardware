@@ -12,6 +12,8 @@
 static int failure,cleanup_failure,occurrence=1,seen,calls,setup,deleted;
 static int events[50],panel_object;
 static bool panel_live,spi_started;
+static bool touch_reset_low;
+static unsigned reset_delay_us;
 static uint64_t wire=1469598103934665603ULL;
 #if !CODECRAFT_DISPLAY_GX
 static int dx_pins[12],dx_kinds[12],dx_values[12];
@@ -32,7 +34,12 @@ esp_err_t bsp_io_expander_set_level(int pin,int level)
 #if !CODECRAFT_DISPLAY_GX
     dx_pins[setup]=pin;dx_kinds[setup]=1;dx_values[setup]=level;
 #endif
-    ++setup;return step(setup<=7?setup+1:setup+4);
+    ++setup;esp_err_t ret=step(setup<=7?setup+1:setup+4);
+    if(ret==ESP_OK&&pin==BSP_EXP_IO_TP_RESET){
+        if(level){assert(touch_reset_low&&reset_delay_us>=5000);touch_reset_low=false;}
+        else {touch_reset_low=true;reset_delay_us=0;}
+    }
+    return ret;
 }
 esp_err_t bsp_io_expander_set_direction(int pin,int output)
 {
@@ -58,8 +65,8 @@ esp_err_t gpio_set_level(int pin,int level)
     if(pin==BSP_PIN_LCD_SPI_SCK)return step(18);
     assert(pin==BSP_PIN_LCD_SPI_SDO);return step(19);
 }
-void esp_rom_delay_us(unsigned us){hash(5);hash(us);assert(us==10);}
-void vTaskDelay(unsigned ticks){hash(6);hash(ticks);}
+void esp_rom_delay_us(unsigned us){hash(5);hash(us);assert(us==10||us==5000);if(touch_reset_low)reset_delay_us+=us;}
+void vTaskDelay(unsigned ticks){hash(6);hash(ticks);if(touch_reset_low&&ticks)reset_delay_us+=(ticks-1)*10000;}
 esp_err_t esp_lcd_new_rgb_panel(const esp_lcd_rgb_panel_config_t *c,esp_lcd_panel_handle_t *out)
 {
     assert(!panel_live&&setup==7);

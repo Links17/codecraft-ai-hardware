@@ -194,14 +194,16 @@ def make_build_evidence(c, tid):
     path = f'devices/{target["device"]}/tests/logs/synthetic.log'
     (c.root/path).parent.mkdir(parents=True, exist_ok=True)
     (c.root/path).write_text('Synthetic unit-test observation; no real device or build claim.\n')
-    cases = [{'name':name,'status':'passed','toolchain':'synthetic fixture'} for name in load_adapter(c.root,c.platforms[target['platform']]).cases(c.root,target)]
+    adapter = load_adapter(c.root,c.platforms[target['platform']])
+    cases = [{'name':name,'status':'passed','toolchain':'synthetic fixture'} for name in adapter.cases(c.root,target)]
+    exported_cases = set(adapter.cases(c.root,target,target['examples'][0]))
     source = c.graph(tid).fingerprint()
     return {'schema_version':2,'target':tid,'kind':'build','repository_commit':'0'*40,'repository_dirty':True,
             'source_digest':source,'revision':'unknown','toolchain':'synthetic fixture','command':['test-fixture'],
             'environment':'isolated test','result':'passed','limitations':['Synthetic unit test only'],
             'operator':'test','log':path,'log_sha256':digest(c.root/path),'executed_at':'2026-01-01T00:00:00+00:00','cases':cases,
             'generated_project':{'status':'passed','provenance':'passed','example':target['examples'][0],
-                                 'origin_source_digest':source,'source_digest':'a'*64,'build_results':[cases[0]],'log':path,'log_sha256':digest(c.root/path)}}
+                                 'origin_source_digest':source,'source_digest':'a'*64,'build_results':copy.deepcopy([case for case in cases if case['name'] in exported_cases]),'log':path,'log_sha256':digest(c.root/path)}}
 
 
 def test_evidence_requires_all_native_cases_and_export_from_identical_sources():
@@ -214,6 +216,22 @@ def test_evidence_requires_all_native_cases_and_export_from_identical_sources():
         record = make_build_evidence(c,tid)
         record['generated_project']['origin_source_digest'] = 'b'*64
         rejected(lambda:validate_evidence(c,record,current=True),'same sources')
+
+
+def test_generated_project_evidence_rejects_omitted_duplicate_and_unselected_cases():
+    with fixture() as root:
+        c = Catalog(root)
+        original = make_build_evidence(c, 'linux/reterminal')
+        for mutation in ('omitted-overlay', 'duplicate', 'wrong-example'):
+            record = copy.deepcopy(original)
+            checks = record['generated_project']['build_results']
+            if mutation == 'omitted-overlay':
+                checks.pop()
+            elif mutation == 'duplicate':
+                checks.append(copy.deepcopy(checks[0]))
+            else:
+                checks[0]['name'] = 'linux/reterminal/sensors_sysfs'
+            rejected(lambda: validate_evidence(c, record, current=True), 'every selected native case')
 
 
 def test_evidence_rejects_unsupported_versions_before_interpreting_observations():

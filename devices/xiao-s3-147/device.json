@@ -166,8 +166,8 @@
   "maturity": "experimental",
   "name": "XIAO ESP32-S3 1.47-inch Touch Display",
   "overview": {
-    "en": "Small LCD, two buttons and PDM microphone; touch and storage drivers remain pending.",
-    "zh_CN": "小型 LCD、双按键与 PDM 麦克风；触摸和存储驱动仍待移植。"
+    "en": "Small LCD, two buttons and PDM microphone; touch and storage are outside the registered Target interface scope.",
+    "zh_CN": "小型 LCD、双按键与 PDM 麦克风；当前 Target 的已注册接口不包含触摸和存储。"
   },
   "physical_description": {
     "en": "unknown; revision-specific orientation and imagery have not been verified.",

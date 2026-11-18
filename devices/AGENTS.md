@@ -58,6 +58,6 @@ Use the standalone native sketches and their explicit physical test procedures.
 
 ## [XIAO ESP32-S3 1.47-inch Touch Display](xiao-s3-147/AGENTS.md)
 
-Small LCD, two buttons and PDM microphone; touch and storage drivers remain pending.
+Small LCD, two buttons and PDM microphone; touch and storage are outside the registered Target interface scope.
 
 Use the listed standalone examples as the supported development entry points.

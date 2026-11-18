@@ -94,7 +94,7 @@ No verified redistributable image is registered.
 - [vendor-notes.md](../../devices/sensecap-indicator/reference/vendor-notes.md)
 - [hardware-checklist.md](../../devices/sensecap-indicator/tests/hardware-checklist.md)
 - [display-variants.md](../../devices/sensecap-indicator/reference/display-variants.md)
-- [build-4fa2274e2e872ff2.json](../../devices/sensecap-indicator/tests/records/build-4fa2274e2e872ff2.json)
+- [build-792702e3457ea234.json](../../devices/sensecap-indicator/tests/records/build-792702e3457ea234.json)
 
 ## Vendor links
 

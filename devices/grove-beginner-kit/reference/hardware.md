@@ -85,4 +85,3 @@ repository is a local hardware reference only.
 - **Raw analog values are not engineering units.** The potentiometer, light,
   and sound examples report ADC counts and estimated millivolts only. Lux and
   dB SPL require calibration that this repository has not performed.
-

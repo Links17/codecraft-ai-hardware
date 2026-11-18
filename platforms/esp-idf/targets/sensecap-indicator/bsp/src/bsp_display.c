@@ -254,7 +254,8 @@ esp_err_t bsp_display_init(esp_lcd_panel_handle_t *out_panel)
                         "tp reset");
     ESP_RETURN_ON_ERROR(bsp_io_expander_set_direction(BSP_EXP_IO_TP_RESET, 1),
                         TAG, "tp reset dir");
-    vTaskDelay(pdMS_TO_TICKS(5));
+    /* Preserve the vendor's 5 ms pulse even with a 100 Hz RTOS tick. */
+    esp_rom_delay_us(5000);
     ESP_RETURN_ON_ERROR(bsp_io_expander_set_level(BSP_EXP_IO_TP_RESET, 1), TAG,
                         "tp release");
     ESP_RETURN_ON_ERROR(

@@ -67,7 +67,7 @@ No verified redistributable image is registered.
 - [hardware.md](../../devices/respeaker-lite/reference/hardware.md)
 - [bsp_pins.h](../../platforms/esp-idf/targets/respeaker-lite/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/respeaker-lite/reference/vendor-notes.md)
-- [build-66e55105a58f9e8f.json](../../devices/respeaker-lite/tests/records/build-66e55105a58f9e8f.json)
+- [build-d5a10be8aba54307.json](../../devices/respeaker-lite/tests/records/build-d5a10be8aba54307.json)
 
 ## Vendor links
 

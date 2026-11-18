@@ -100,14 +100,16 @@ def target_receipt(c, tid):
     return {'source_digest':c.graph(tid).fingerprint(),'toolchain':adapter.probe(c.root,target),'expected_cases':adapter.cases(c.root,target)}
 
 
-def validate_project(c, tid, variant=None):
+def validate_project(c, tid, example=None, variant=None):
     """Build the selected example in a clean external directory via its public entry."""
     target=c.target(tid)
-    example=target['examples'][0]
+    example=example or target['examples'][0]
+    require(example in target['examples'], 'unknown example')
+    log_name='generated_'+tid.replace('/','_')+'_'+example
     if target.get('variants') and variant is None:
-        projects={name:validate_project(c,tid,name) for name in target['variants']}
+        projects={name:validate_project(c,tid,example=example,variant=name) for name in target['variants']}
         status='passed' if all(item['status']=='passed' for item in projects.values()) else ('failed' if any(item['status']=='failed' for item in projects.values()) else 'not_run')
-        log=c.root/'.codecraft/logs'/('generated_'+tid.replace('/','_')+'.log')
+        log=c.root/'.codecraft/logs'/(log_name+'.log')
         log.write_text('\n'.join(name+'\n'+(c.root/item['log']).read_text() for name,item in projects.items()))
         return result(tid+'/generated-project',status,'Clean locked exports cover every registered variant.',
                       kind='variant-project-set',example=example,variant_projects=projects,
@@ -118,7 +120,7 @@ def validate_project(c, tid, variant=None):
                       toolchain=projects[target['default_variant']].get('toolchain'))
     with tempfile.TemporaryDirectory(prefix='codecraft-generated-check-') as folder:
         output=Path(folder)/'project'
-        log=c.root/'.codecraft/logs'/('generated_'+tid.replace('/','_')+('_'+variant if variant is not None else '')+'.log')
+        log=c.root/'.codecraft/logs'/(log_name+('_'+variant if variant is not None else '')+'.log')
         log.parent.mkdir(parents=True,exist_ok=True)
         log.write_text('')
         try:
@@ -240,6 +242,8 @@ def main(argv=None):
         elif args.command=='package':data=package_project(args.path,args.output)
         elif args.command=='record-evidence':data=record_evidence(c,args.file)
         elif args.command=='validate':
+            require(not (c.root/'project.yaml').exists() and not (c.root/'codecraft.lock').exists(),
+                    'Application builds require `python3 codecraft.py build-project .`; validate checks the reference repository.')
             require(not(args.static and args.target),'choose --static or --target')
             require(not args.example or args.target,'--example requires --target')
             require(not args.variant or args.target,'--variant requires --target')
@@ -249,7 +253,7 @@ def main(argv=None):
                 receipts[args.target]=target_receipt(c,args.target)
                 checks=run_target(c,args.target,args.example,args.variant)
                 if args.projects:
-                    checks.append(validate_project(c,args.target,args.variant))
+                    checks.append(validate_project(c,args.target,example=args.example,variant=args.variant))
             else:
                 checks=static_checks(c)+run_tests(c.root)
                 if not args.static and all(x['status']=='passed' for x in checks):
@@ -268,4 +272,3 @@ def main(argv=None):
     except (ContractError,OSError,ValueError,KeyError,TypeError) as exc:
         print(json.dumps({'schema_version':2,'ok':False,'error':{'type':'contract','message':str(exc)}},ensure_ascii=False))
         return 1
-

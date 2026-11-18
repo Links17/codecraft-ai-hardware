@@ -13,8 +13,8 @@ def test_indicator_display_readiness_bitbang_errors_and_ownership():
     cases += [[str(n),'0',str(occurrence)] for n in (17,18,19) for occurrence in (10,100)]
     cases += [[str(n),'0',str(last)] for n,last in ((17,487),(18,4990),(19,2188))]
     run_cases('sensecap-indicator','display',cases)
-    # Full GPIO/register/delay trace and pin-write counts from the original.
-    assert run_cases('sensecap-indicator','display',[['wire']])==['17728072056385161187 487 4990 2188\n']
+    # Complete GX GPIO/register/delay trace, including the 5 ms reset pulse.
+    assert run_cases('sensecap-indicator','display',[['wire']])==['17802739854524639500 487 4990 2188\n']
 
 
 

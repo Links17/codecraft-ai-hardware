@@ -4,7 +4,7 @@ Generated from device.json. Edit typed facts and regenerate; never edit this vie
 
 ## Overview
 
-Small LCD, two buttons and PDM microphone; touch and storage drivers remain pending.
+Small LCD, two buttons and PDM microphone; touch and storage are outside the registered Target interface scope.
 
 Use the listed standalone examples as the supported development entry points.
 
@@ -69,7 +69,7 @@ No verified redistributable image is registered.
 - [hardware.md](../../devices/xiao-s3-147/reference/hardware.md)
 - [bsp_pins.h](../../platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/xiao-s3-147/reference/vendor-notes.md)
-- [build-422792000caeff7c.json](../../devices/xiao-s3-147/tests/records/build-422792000caeff7c.json)
+- [build-af8965b1e253666c.json](../../devices/xiao-s3-147/tests/records/build-af8965b1e253666c.json)
 
 ## Vendor links
 

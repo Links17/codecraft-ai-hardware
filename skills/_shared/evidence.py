@@ -13,6 +13,15 @@ def validate_log(catalog, target, path, expected):
     require(not re.search(r'(?i)(access[_-]?token|password|secret)\s*[:=]\s*\S+', log.read_text(errors='replace')), 'Sanitize evidence log before recording')
 
 
+def validate_project_cases(catalog, target, project, example):
+    checks = project['build_results']
+    names = [item.get('name') for item in checks]
+    adapter = load_adapter(catalog.root, catalog.platforms[target['platform']])
+    expected = adapter.cases(catalog.root, target, example)
+    require(len(names) == len(set(names)) and set(names) == set(expected),
+            'Generated project must cover every selected native case, including overlays and variants')
+
+
 def validate_evidence(catalog, record, current=False):
     required = {'schema_version','target','kind','repository_commit','repository_dirty','source_digest','revision','toolchain','command','environment','result','limitations','operator','log','log_sha256','executed_at','cases'}
     require(isinstance(record, dict) and required <= record.keys(), 'Incomplete evidence record')
@@ -46,6 +55,8 @@ def validate_evidence(catalog, record, current=False):
             require(project.get('status') == 'passed' and project.get('provenance') == 'passed' and project.get('origin_source_digest') == record['source_digest'], 'Build verification needs a generated project from the same sources')
             require(project.get('example') in target['examples'] and project.get('source_digest') and project.get('build_results'), 'Incomplete generated project evidence')
             require(all(item['status'] == 'passed' for item in project['build_results']), 'Generated project build failed')
+            if current or record['source_digest'] == catalog.graph(target['id']).fingerprint():
+                validate_project_cases(catalog, target, project, project['example'])
             if (current or record['source_digest'] == catalog.graph(target['id']).fingerprint()) and target.get('variants'):
                 projects = project.get('variant_projects', {})
                 require(set(projects) == set(target['variants']), 'Generated projects must cover every variant')
@@ -53,6 +64,8 @@ def validate_evidence(catalog, record, current=False):
                     require(child.get('variant') == variant and child.get('status') == child.get('provenance') == 'passed', 'Generated project variant evidence mismatch')
                     require(child.get('origin_source_digest') == record['source_digest'] and child.get('source_digest') and child.get('build_results'), 'Incomplete variant project provenance')
                     require(all(item.get('status') == 'passed' and item.get('variant', {}).get('id') == variant for item in child['build_results']), 'Generated project variant build mismatch')
+                    require(child.get('example') == project['example'], 'Generated project variant example mismatch')
+                    validate_project_cases(catalog, catalog.selected_target(target['id'], variant=variant), child, project['example'])
                     validate_log(catalog, target, child['log'], child['log_sha256'])
             validate_log(catalog, target, project['log'], project['log_sha256'])
     elif record['kind'] == 'device':

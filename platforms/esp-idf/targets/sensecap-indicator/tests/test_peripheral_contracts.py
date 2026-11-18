@@ -12,6 +12,11 @@ def test_indicator_touch_readiness_candidates_and_io_ownership():
     run_cases('sensecap-indicator', 'touch', cases)
 
 
+def test_indicator_touch_reset_retains_minimum_pulse_across_tick_rates():
+    for tick_ms in (1, 10, 50):
+        run_cases('sensecap-indicator', 'touch', [['0']], tick_ms=tick_ms)
+
+
 
 def test_buttons_single_task_callback_lifetime_and_debounce():
     boards = ('sensecap-indicator',)

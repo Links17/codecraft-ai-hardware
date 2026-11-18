@@ -120,7 +120,7 @@
       "id": "audio",
       "implementation": [],
       "limitations": [
-        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
       ],
       "operations": {
         "capture": {
@@ -208,7 +208,7 @@
       "id": "display",
       "implementation": [],
       "limitations": [
-        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
       ],
       "operations": {
         "present": {
@@ -262,7 +262,7 @@
       "id": "environment",
       "implementation": [],
       "limitations": [
-        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
       ],
       "operations": {
         "read": {
@@ -313,7 +313,7 @@
       "id": "input",
       "implementation": [],
       "limitations": [
-        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
       ],
       "operations": {
         "read": {
@@ -368,7 +368,7 @@
       "id": "led",
       "implementation": [],
       "limitations": [
-        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
       ],
       "operations": {
         "write": {
@@ -423,7 +423,7 @@
       "id": "power",
       "implementation": [],
       "limitations": [
-        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
       ],
       "operations": {
         "read": {
@@ -483,7 +483,7 @@
       "id": "rtc",
       "implementation": [],
       "limitations": [
-        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
       ],
       "operations": {
         "read": {
@@ -540,7 +540,7 @@
       "id": "storage",
       "implementation": [],
       "limitations": [
-        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
       ],
       "operations": {
         "mount": {

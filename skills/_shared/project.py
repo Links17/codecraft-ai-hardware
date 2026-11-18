@@ -129,19 +129,30 @@ def verify_project(path):
     return {'path': str(path), 'status': 'failed' if drift else 'passed', 'drift': drift, 'source_digest': lock['source_digest']}
 
 
+def verify_project_build(catalog, target, example=None, variant=None):
+    """Check application selection, source and actual tools at every build entry."""
+    path = catalog.root
+    outcome = verify_project(path)
+    require(outcome['status'] == 'passed', 'Source changed: review application changes and run `python3 codecraft.py lock-project .`.')
+    data = profile(path)
+    require(target['id'] == data['target'] and example in (None, data['example']), 'Build selection differs from project.yaml')
+    require(variant in (None, data.get('variant')), 'Build variant differs from project.yaml')
+    adapter = load_adapter(path, catalog.platforms[target['platform']])
+    actual = adapter.probe(path, target)
+    locked = read_json(path/'codecraft.lock')['resolved_toolchain']
+    checks = []
+    if actual.get('status') != 'passed' or actual != locked:
+        checks = [result(name, 'not_run', 'Toolchain is unavailable or differs from codecraft.lock; activate the declared toolchain and explicitly refresh the lock.', actual_toolchain=actual) for name in adapter.cases(path, target, data['example'])]
+    return outcome, actual, checks
+
+
 def build_project(path):
     path = Path(path).resolve()
-    outcome = verify_project(path)
-    require(outcome['status'] == 'passed', 'Source changed: review application changes and run python3 codecraft.py lock-project ..')
     data = profile(path)
     c = Catalog(path)
     target = c.target(data['target'])
-    adapter = load_adapter(path, c.platforms[target['platform']])
-    actual = adapter.probe(path, target)
-    locked = read_json(path/'codecraft.lock')['resolved_toolchain']
-    if actual.get('status') != 'passed' or actual != locked:
-        checks = [result(name, 'not_run', 'Toolchain is unavailable or differs from codecraft.lock; activate the declared toolchain and explicitly refresh the lock.', actual_toolchain=actual) for name in adapter.cases(path, target, data['example'])]
-    else:
+    outcome, actual, checks = verify_project_build(c, target, data['example'], data.get('variant'))
+    if not checks:
         checks = run_target(c, target['id'], data['example'])
     payload = envelope(target['id'], 'build', c.graph(target['id']).fingerprint(), checks)
     payload['project_source_digest'] = outcome['source_digest']

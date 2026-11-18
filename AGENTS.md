@@ -155,7 +155,7 @@ platform success must not change the hardware verification status.
 ### Generated discovery index
 
 <!-- CODECRAFT_INDEX_START -->
-<!-- source_sha256: 4f7a19a323ff5dc9354810e46d466c3c98fe0dc4439a12a8d9d59ce3940d2bd2 -->
+<!-- source_sha256: 29de998adad47bf2351906e360338093d50ff053534b0a8d565f413e8212f87d -->
 
 | Device | Target | Implementations | Build + project | Device |
 | --- | --- | --- | --- | --- |

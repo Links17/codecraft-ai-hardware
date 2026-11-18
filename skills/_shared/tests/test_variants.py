@@ -173,7 +173,7 @@ def test_build_evidence_requires_clean_exports_for_every_declared_variant():
         log_fields={'log':log.relative_to(root).as_posix(),'log_sha256':digest(log)}
         checksum=c.graph(TID).fingerprint();children={}
         for variant in ('gx','dx'):
-            children[variant]={'variant':variant,'status':'passed','provenance':'passed','origin_source_digest':checksum,
+            children[variant]={'variant':variant,'example':'display_color_bars','status':'passed','provenance':'passed','origin_source_digest':checksum,
                 'source_digest':'2'*64,'build_results':[{'name':TID+'/display_color_bars/'+variant,'status':'passed','variant':{'id':variant}}],**log_fields}
         project={'status':'passed','provenance':'passed','origin_source_digest':checksum,'source_digest':'3'*64,
                  'example':'display_color_bars','variant_projects':children,
@@ -188,6 +188,10 @@ def test_build_evidence_requires_clean_exports_for_every_declared_variant():
         rejected(lambda:validate_evidence(c,broken,current=True),'cover every variant')
         broken=copy.deepcopy(record);broken['generated_project']['variant_projects']['dx']['build_results'][0]['variant']['id']='gx'
         rejected(lambda:validate_evidence(c,broken,current=True),'variant build mismatch')
+        broken=copy.deepcopy(record);broken['generated_project']['variant_projects']['dx']['build_results'][0]['name']=TID+'/display_color_bars/gx'
+        rejected(lambda:validate_evidence(c,broken,current=True),'every selected native case')
+        broken=copy.deepcopy(record);broken['generated_project']['variant_projects']['dx']['example']='button_read'
+        rejected(lambda:validate_evidence(c,broken,current=True),'variant example mismatch')
 
 
 def test_public_cli_exports_selected_variant_and_reports_unknown_selection():

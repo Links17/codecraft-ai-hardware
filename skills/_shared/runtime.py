@@ -120,7 +120,12 @@ def main(stack):
             checks = [result('package', 'passed', package=package_project(args.project, args.output))]
         elif args.operation == 'build':
             require(t, 'build needs --target')
-            checks = adapter.build(c.root, t, args.example)
+            checks = []
+            if (c.root/'project.yaml').exists() or (c.root/'codecraft.lock').exists():
+                from project import verify_project_build
+                _, _, checks = verify_project_build(c, t, args.example, args.variant)
+            if not checks:
+                checks = adapter.build(c.root, t, args.example)
         else:
             raise ContractError(f'No handler for declared supported operation: {args.operation}')
         payload = envelope(args.target, args.operation, c.graph(t['id']).fingerprint() if t else None, checks)

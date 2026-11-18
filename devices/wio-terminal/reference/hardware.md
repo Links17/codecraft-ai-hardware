@@ -119,4 +119,3 @@ assignments for hardware that is not present.
   idle can false-ACK the first address; this was measured and worked around.
 - `ir_nec_sender` has only been observed with a camera so far; a 38 kHz
   receiver has not decoded the NEC frames.
-

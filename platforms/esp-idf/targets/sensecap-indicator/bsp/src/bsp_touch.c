@@ -20,6 +20,7 @@
 #include "esp_lcd_touch_ft5x06.h"
 #include "esp_lcd_touch_gt911.h"
 #include "esp_log.h"
+#include "esp_rom_sys.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
@@ -59,7 +60,8 @@ esp_err_t bsp_touch_init(esp_lcd_touch_handle_t *out_handle)
         bsp_io_expander_set_direction(BSP_EXP_IO_TP_RESET, 1), TAG, "tp rst dir");
     ESP_RETURN_ON_ERROR(bsp_io_expander_set_level(BSP_EXP_IO_TP_RESET, 0),
                         TAG, "tp rst low");
-    vTaskDelay(pdMS_TO_TICKS(5));
+    /* Preserve the vendor's 5 ms pulse even with a 100 Hz RTOS tick. */
+    esp_rom_delay_us(5000);
     ESP_RETURN_ON_ERROR(bsp_io_expander_set_level(BSP_EXP_IO_TP_RESET, 1),
                         TAG, "tp rst high");
     vTaskDelay(pdMS_TO_TICKS(100)); /* let the controller boot */

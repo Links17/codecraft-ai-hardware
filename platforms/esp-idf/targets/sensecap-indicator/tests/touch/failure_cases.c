@@ -8,13 +8,21 @@
 #include <string.h>
 static int calls,fail_at,candidate,probes,io,controller,deletions;
 static bool cleanup_fail,missing;
+static bool reset_low;
+static unsigned reset_delay_us;
 static const int addresses[]={BSP_I2C_ADDR_TOUCH_FT6x36,BSP_I2C_ADDR_TOUCH_FT6x36_ALT,BSP_I2C_ADDR_TOUCH_GT911,BSP_I2C_ADDR_TOUCH_GT911_ALT};
 static esp_err_t step(void){return ++calls==fail_at?ESP_FAIL:ESP_OK;}
 esp_err_t bsp_io_expander_init(void){return step();}
 esp_err_t bsp_io_expander_set_direction(int pin,int output){assert(pin==BSP_EXP_IO_TP_RESET&&output==1);return step();}
-esp_err_t bsp_io_expander_set_level(int pin,int level){assert(pin==BSP_EXP_IO_TP_RESET&&level<=1);return step();}
+esp_err_t bsp_io_expander_set_level(int pin,int level){
+    assert(pin==BSP_EXP_IO_TP_RESET&&level<=1);esp_err_t e=step();
+    if(!e){if(level){assert(reset_low&&reset_delay_us>=5000);reset_low=false;}
+           else {reset_low=true;reset_delay_us=0;}}
+    return e;
+}
 esp_err_t bsp_i2c_get_bus(i2c_master_bus_handle_t *out){esp_err_t e=step();if(!e)*out=&calls;return e;}
-void vTaskDelay(TickType_t ticks){assert(ticks==pdMS_TO_TICKS(5)||ticks==pdMS_TO_TICKS(100));}
+void vTaskDelay(TickType_t ticks){if(reset_low&&ticks)reset_delay_us+=(ticks-1)*TEST_TICK_MS*1000;}
+void esp_rom_delay_us(unsigned us){if(reset_low)reset_delay_us+=us;}
 esp_err_t i2c_master_probe(i2c_master_bus_handle_t bus,int addr,int timeout){assert(bus==&calls&&timeout==50&&addr==addresses[probes++]);return !missing&&addr==addresses[candidate]?ESP_OK:ESP_ERR_NOT_FOUND;}
 esp_err_t esp_lcd_new_panel_io_i2c(i2c_master_bus_handle_t bus,const esp_lcd_panel_io_i2c_config_t *c,esp_lcd_panel_io_handle_t *out){assert(bus==&calls&&!io&&c->dev_addr==addresses[candidate]);esp_err_t e=step();if(!e){io=1;*out=&io;}return e;}
 esp_err_t esp_lcd_panel_io_del(esp_lcd_panel_io_handle_t handle){assert(handle==&io&&io&&!controller);deletions++;if(cleanup_fail)return ESP_FAIL;io=0;return ESP_OK;}
