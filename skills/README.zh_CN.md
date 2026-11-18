@@ -6,14 +6,14 @@ Skills 负责硬件开发工作流和独立云端客户端。设备事实与原�
 
 | 分类 | 包命名 | 用途 |
 | --- | --- | --- |
-| 开发工作流 | `sensecraft-development-*` | 硬件应用的发现、开发、环境配置、构建、调试与验证 |
-| 云端能力 | `sensecraft-capabilities-*` | 通过 CodeCraft Device API 使用 ASR、TTS、文本生成和图像生成 |
+| 开发工作流 | `codecraft-development-*` | 硬件应用的发现、开发、环境配置、构建、调试与验证 |
+| 云端能力 | `codecraft-capabilities-*` | 通过 CodeCraft Device API 使用 ASR、TTS、文本生成和图像生成 |
 
 每个 Skill 都是 skills/ 的直接子目录，拥有自己的 SKILL.md；复制一个完整目录即可安装。仓库工具统一位于 [tools/](../tools/AGENTS.md)，与可安装的 Skill 分开。
 
 ## 硬件开发
 
-必需工作流为 sensecraft-development-develop、sensecraft-development-setup、sensecraft-development-build、sensecraft-development-device-test 和 sensecraft-development-debug。使用 sensecraft-development-ideate 整理应用需求，按需使用 sensecraft-development-discover 和 sensecraft-development-validate。设备校验与共享编排位于 tools/codecraft/，原生命令仍由对应 Platform 实现。[可移植工作流](../docs/development/application-workflow.md)及所选 Platform、工作流指南随应用导出并纳入锁文件。
+必需工作流为 codecraft-development-develop、codecraft-development-setup、codecraft-development-build、codecraft-development-device-test 和 codecraft-development-debug。使用 codecraft-development-ideate 整理应用需求，按需使用 codecraft-development-discover 和 codecraft-development-validate。设备校验与共享编排位于 tools/codecraft/，原生命令仍由对应 Platform 实现。[可移植工作流](../docs/development/application-workflow.md)及所选 Platform、工作流指南随应用导出并纳入锁文件。
 
 ## 外部 SenseCraft CLI
 
@@ -23,14 +23,14 @@ Skills 负责硬件开发工作流和独立云端客户端。设备事实与原�
 
 | Skill | 操作 |
 | --- | --- |
-| [sensecraft-capabilities-llm](sensecraft-capabilities-llm/SKILL.md) | 文本生成与 SSE |
-| [sensecraft-capabilities-asr](sensecraft-capabilities-asr/SKILL.md) | WAV 转录、实时 ASR/STT、状态查询与恢复 |
-| [sensecraft-capabilities-tts](sensecraft-capabilities-tts/SKILL.md) | WAV 合成与可选归档 |
-| [sensecraft-capabilities-image-generation](sensecraft-capabilities-image-generation/SKILL.md) | 可配置尺寸的图像生成与可选归档 |
+| [codecraft-capabilities-llm](codecraft-capabilities-llm/SKILL.md) | 文本生成与 SSE |
+| [codecraft-capabilities-asr](codecraft-capabilities-asr/SKILL.md) | WAV 转录、实时 ASR/STT、状态查询与恢复 |
+| [codecraft-capabilities-tts](codecraft-capabilities-tts/SKILL.md) | WAV 合成与可选归档 |
+| [codecraft-capabilities-image-generation](codecraft-capabilities-image-generation/SKILL.md) | 可配置尺寸的图像生成与可选归档 |
 
 每个包包含 contract.json、SKILL.md、公开 API/设备接入/原生集成参考、可移植的 C 认证头文件、Agent 元数据和包内脚本。复制完整目录即可独立使用。MCU/Linux 集成使用设备自己的网络栈；Python 和 SenseCraft CLI 是工作站工具，不是固件依赖。可选辅助脚本需要 Python 3.10+；实时流需要 websockets==15.0.1，图像解码需要 Python 3.11+ 和 Pillow==13.0.0，按各包说明配置环境。无需硬件目录、兄弟包或仓库 CLI。准确限制、默认值、计费声明和未知项由该包契约与 API 参考说明；[生成索引](../docs/skill-inventory.json)提供 ID、操作及各自版本。
 
-各包的接入参考说明 API 地址来源、EUI/DeviceKey 获取、私有文件导入及访问检查；共同流程见 [LLM 接入参考](sensecraft-capabilities-llm/references/onboarding.md)。优先复用现有配置。文档所依据的 CLI 版本尚未导出 CodeCraft Device API 地址，仅有平台网关不能证明对应服务映射。缺少地址时应保留现有凭证，不应阻断独立的本地导入或已配置环境中的 CLI 设备接入操作。
+各包的接入参考说明 API 地址来源、EUI/DeviceKey 获取、私有文件导入及访问检查；共同流程见 [LLM 接入参考](codecraft-capabilities-llm/references/onboarding.md)。优先复用现有配置。文档所依据的 CLI 版本尚未导出 CodeCraft Device API 地址，仅有平台网关不能证明对应服务映射。缺少地址时应保留现有凭证，不应阻断独立的本地导入或已配置环境中的 CLI 设备接入操作。
 
 执行已授权 API 任务前，确认网络/TLS、隐私决定和凭证引用可用性。按包内说明配置 CODECRAFT_API_ORIGIN 与 CODECRAFT_DEVICE_FILE，真实凭证、输入和输出保存在包外。服务路由固定，不能传入模型、供应商或音色覆盖参数。LLM 成功需要正常结束状态；实时恢复使用原始幂等键，不会自动重放音频。媒体默认保存在本地，仅在明确需要时归档；归档失败保留本地结果，不授权再次生成。
 
@@ -65,7 +65,7 @@ python3 scripts/transcribe.py --file /work/recording.wav
 ```json
 [
   {
-    "skill": "sensecraft-capabilities-asr",
+    "skill": "codecraft-capabilities-asr",
     "configuration": {},
     "environment": {
       "network": true,

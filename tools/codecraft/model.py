@@ -124,9 +124,9 @@ class Catalog:
         return support(self, tid)
 
     def context(self, tid, example=None, task='develop', selected_skills=None, variant=None):
-        skills = {'ideate': ['sensecraft-development-ideate', 'sensecraft-development-discover'], 'develop': ['sensecraft-development-develop'], 'setup': ['sensecraft-development-setup'], 'build': ['sensecraft-development-build'],
-                  'debug': ['sensecraft-development-debug'], 'device-test': ['sensecraft-development-device-test'],
-                  'discover': ['sensecraft-development-discover'], 'validate': ['sensecraft-development-validate']}
+        skills = {'ideate': ['codecraft-development-ideate', 'codecraft-development-discover'], 'develop': ['codecraft-development-develop'], 'setup': ['codecraft-development-setup'], 'build': ['codecraft-development-build'],
+                  'debug': ['codecraft-development-debug'], 'device-test': ['codecraft-development-device-test'],
+                  'discover': ['codecraft-development-discover'], 'validate': ['codecraft-development-validate']}
         require(task in skills, f'unknown context task: {task}')
         target = self.selected_target(tid, example, variant)
         graph = self.graph(tid, example, variant)

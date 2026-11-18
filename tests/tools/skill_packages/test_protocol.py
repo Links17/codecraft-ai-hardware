@@ -171,46 +171,46 @@ class SkillTests(unittest.TestCase):
                 self.assertIsNone(forbidden.search(path.read_text()), str(path))
 
     def test_llm_json_and_sse(self):
-        result = self.invoke('sensecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt)
+        result = self.invoke('codecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)['text'], 'hello')
         payload = json.loads(self.requests[0][2])
         self.assertNotIn('model', payload)
         self.assertEqual(payload['max_tokens'], 256)
-        result = self.invoke('sensecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt, '--stream')
+        result = self.invoke('codecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt, '--stream')
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout.strip(), 'hello')
 
     def test_incomplete_sse_is_not_retried(self):
         self.mode = 'incomplete'
-        result = self.invoke('sensecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt, '--stream')
+        result = self.invoke('codecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt, '--stream')
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(result.stdout, 'hello')
         self.assertEqual(len(self.requests), 1)
 
     def test_transcription_and_local_duration_validation(self):
-        result = self.invoke('sensecraft-capabilities-asr', 'transcribe.py', '--file', self.audio)
+        result = self.invoke('codecraft-capabilities-asr', 'transcribe.py', '--file', self.audio)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(json.loads(result.stdout)['text'], 'hello')
         self.assertNotIn(b'name="model"', self.requests[0][2])
         self.assertIn(wav(), self.requests[0][2])
         self.audio.write_bytes(wav(61))
-        result = self.invoke('sensecraft-capabilities-asr', 'transcribe.py', '--file', self.audio)
+        result = self.invoke('codecraft-capabilities-asr', 'transcribe.py', '--file', self.audio)
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(len(self.requests), 1)
         self.audio.write_bytes(b'RIFFinvalid')
-        result = self.invoke('sensecraft-capabilities-asr', 'transcribe.py', '--file', self.audio)
+        result = self.invoke('codecraft-capabilities-asr', 'transcribe.py', '--file', self.audio)
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(len(self.requests), 1)
 
     def test_tts_archive_and_existing_output(self):
         output = self.directory / 'speech.wav'
-        result = self.invoke('sensecraft-capabilities-tts', 'speak.py', '--text-file', self.prompt, '--output', output, '--archive')
+        result = self.invoke('codecraft-capabilities-tts', 'speak.py', '--text-file', self.prompt, '--output', output, '--archive')
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(output.read_bytes(), wav())
         self.assertEqual(json.loads(result.stdout)['content_url'], self.origin + '/deviceapi/media-assets/v1/files/' + ASSET + '/content')
         self.assertEqual(json.loads(self.requests[0][2])['response_format'], 'wav')
-        result = self.invoke('sensecraft-capabilities-tts', 'speak.py', '--text-file', self.prompt, '--output', output)
+        result = self.invoke('codecraft-capabilities-tts', 'speak.py', '--text-file', self.prompt, '--output', output)
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(len(self.requests), 2)
         self.assertEqual(output.read_bytes(), wav())
@@ -218,41 +218,41 @@ class SkillTests(unittest.TestCase):
     def test_archive_failure_retains_generated_file(self):
         self.mode = 'archive-fail'
         output = self.directory / 'speech.wav'
-        result = self.invoke('sensecraft-capabilities-tts', 'speak.py', '--text-file', self.prompt, '--output', output, '--archive')
+        result = self.invoke('codecraft-capabilities-tts', 'speak.py', '--text-file', self.prompt, '--output', output, '--archive')
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(output.read_bytes(), wav())
         self.assertEqual(json.loads(result.stdout)['file'], str(output.resolve()))
         self.assertEqual(len(self.requests), 2)
         self.mode = 'normal'
-        result = self.invoke('sensecraft-capabilities-tts', 'device_api.py', 'archive', '--file', output)
+        result = self.invoke('codecraft-capabilities-tts', 'device_api.py', 'archive', '--file', output)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(sum(path.endswith('/audio/speech') for path, _, _ in self.requests), 1)
 
     def test_image_generation_and_stable_download(self):
         output = self.directory / 'image.png'
-        result = self.invoke('sensecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--output', output, '--archive')
+        result = self.invoke('codecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--output', output, '--archive')
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(output.read_bytes(), PNG)
         payload = json.loads(self.requests[0][2])
         self.assertNotIn('model', payload)
         self.assertEqual((payload['n'], payload['size'], payload['response_format']), (1, '1024x1024', 'b64_json'))
         downloaded = self.directory / 'download.png'
-        result = self.invoke('sensecraft-capabilities-image-generation', 'device_api.py', 'download', '--asset-id', ASSET, '--output', downloaded)
+        result = self.invoke('codecraft-capabilities-image-generation', 'device_api.py', 'download', '--asset-id', ASSET, '--output', downloaded)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(downloaded.read_bytes(), PNG)
 
     def test_text_limits_reject_before_network(self):
         self.prompt.write_text('字' * 501)
-        result = self.invoke('sensecraft-capabilities-tts', 'speak.py', '--text-file', self.prompt, '--output', self.directory / 'speech.wav')
+        result = self.invoke('codecraft-capabilities-tts', 'speak.py', '--text-file', self.prompt, '--output', self.directory / 'speech.wav')
         self.assertNotEqual(result.returncode, 0)
         self.prompt.write_text('字' * 2001)
-        result = self.invoke('sensecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--output', self.directory / 'image.png')
+        result = self.invoke('codecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--output', self.directory / 'image.png')
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(self.requests, [])
 
     def test_unsafe_origins_reject_before_network(self):
         for origin in ['http://remote.example', self.origin + '/other', self.origin + '?key=private', 'https://user:password@example.com']:
-            result = self.invoke('sensecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt, env=dict(self.env, CODECRAFT_API_ORIGIN=origin))
+            result = self.invoke('codecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt, env=dict(self.env, CODECRAFT_API_ORIGIN=origin))
             self.assertNotEqual(result.returncode, 0)
         self.assertEqual(self.requests, [])
 
@@ -260,7 +260,7 @@ class SkillTests(unittest.TestCase):
         for mode in ['redirect', 'denied']:
             self.mode = mode
             before = len(self.requests)
-            result = self.invoke('sensecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt)
+            result = self.invoke('codecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt)
             self.assertNotEqual(result.returncode, 0)
             self.assertEqual(len(self.requests), before + 1)
         self.assertFalse(any(path == '/stolen' for path, _, _ in self.requests))
@@ -271,7 +271,7 @@ class SkillTests(unittest.TestCase):
             self.mode = mode
             for flags in ((), ('--stream',)):
                 before = len(self.requests)
-                result = self.invoke('sensecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt, *flags)
+                result = self.invoke('codecraft-capabilities-llm', 'llm.py', '--prompt-file', self.prompt, *flags)
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn('hello', result.stdout)
                 if not flags:
@@ -281,9 +281,9 @@ class SkillTests(unittest.TestCase):
     def test_short_http_body_rejects_output_and_archive_without_retry(self):
         self.mode = 'short-body'
         for skill, script, arguments in (
-            ('sensecraft-capabilities-tts', 'speak.py', ('--text-file', self.prompt, '--archive')),
-            ('sensecraft-capabilities-image-generation', 'generate.py', ('--prompt-file', self.prompt, '--archive')),
-            ('sensecraft-capabilities-tts', 'device_api.py', ('download', '--asset-id', ASSET)),
+            ('codecraft-capabilities-tts', 'speak.py', ('--text-file', self.prompt, '--archive')),
+            ('codecraft-capabilities-image-generation', 'generate.py', ('--prompt-file', self.prompt, '--archive')),
+            ('codecraft-capabilities-tts', 'device_api.py', ('download', '--asset-id', ASSET)),
         ):
             output = self.directory / (skill + script + '.bin')
             before = len(self.requests)
@@ -298,7 +298,7 @@ class SkillTests(unittest.TestCase):
             self.mode = mode
             output = self.directory / (mode + '.wav')
             before = len(self.requests)
-            result = self.invoke('sensecraft-capabilities-tts', 'speak.py', '--text-file', self.prompt, '--output', output, '--archive')
+            result = self.invoke('codecraft-capabilities-tts', 'speak.py', '--text-file', self.prompt, '--output', output, '--archive')
             self.assertNotEqual(result.returncode, 0)
             self.assertFalse(output.exists())
             self.assertEqual(len(self.requests), before + 1)
@@ -308,7 +308,7 @@ class SkillTests(unittest.TestCase):
             self.mode = mode
             output = self.directory / (mode + '.png')
             before = len(self.requests)
-            result = self.invoke('sensecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--output', output, '--archive')
+            result = self.invoke('codecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--output', output, '--archive')
             self.assertNotEqual(result.returncode, 0)
             self.assertFalse(output.exists())
             self.assertEqual(len(self.requests), before + 1)
@@ -316,20 +316,20 @@ class SkillTests(unittest.TestCase):
     def test_custom_image_sizes_and_decoders(self):
         for size in ('800x480', '512x512', '2048x2048', '2688x1536', '1536x2688'):
             output = self.directory / (size + '.png')
-            result = self.invoke('sensecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--size', size, '--output', output)
+            result = self.invoke('codecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--size', size, '--output', output)
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(json.loads(self.requests[-1][2])['size'], size)
             self.assertEqual(output.read_bytes(), png(*map(int, size.split('x'))))
         for mode in ('image-jpeg', 'image-webp'):
             self.mode = mode
-            result = self.invoke('sensecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--output', self.directory / mode)
+            result = self.invoke('codecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--output', self.directory / mode)
             self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_image_invalid_size_and_missing_decoder_fail_before_billing(self):
         for size in ('0x512', '-512x512', '1x1', '4096x4096', '1024*1024', '1024X1024', ' 512x512', '0512x512', '99999999999999999999x1'):
-            result = self.invoke('sensecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--size=' + size, '--output', self.directory / 'never.png')
+            result = self.invoke('codecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--size=' + size, '--output', self.directory / 'never.png')
             self.assertNotEqual(result.returncode, 0)
-        result = self.invoke('sensecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--output', self.directory / 'never.png', python_flags=('-S',))
+        result = self.invoke('codecraft-capabilities-image-generation', 'generate.py', '--prompt-file', self.prompt, '--output', self.directory / 'never.png', python_flags=('-S',))
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(self.requests, [])
         self.assertFalse((self.directory / 'never.png').exists())

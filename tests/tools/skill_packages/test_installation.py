@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[3]
 
 def test_cloud_helpers_match_the_maintained_source():
     source = (ROOT/'tools/skill_packages/device_api.py').read_bytes()
-    for package in ('sensecraft-capabilities-llm','sensecraft-capabilities-asr','sensecraft-capabilities-tts','sensecraft-capabilities-image-generation'):
+    for package in ('codecraft-capabilities-llm','codecraft-capabilities-asr','codecraft-capabilities-tts','codecraft-capabilities-image-generation'):
         assert (ROOT/'skills'/package/'scripts/device_api.py').read_bytes() == source, package
 
 
@@ -26,15 +26,15 @@ def test_installed_skill_inventory_rejects_extra_missing_and_symlink_files():
         installed = Path(folder)/'skills'
         for sid in records:
             shutil.copytree(ROOT/'skills'/sid, installed/sid, ignore=shutil.ignore_patterns('__pycache__'))
-        extra = installed/'sensecraft-capabilities-asr/scripts/unregistered.py'
+        extra = installed/'codecraft-capabilities-asr/scripts/unregistered.py'
         extra.write_text('# Unregistered module\n')
-        check = next(row for row in check_packages(ROOT,installed) if row['name'] == 'sensecraft-capabilities-asr')
+        check = next(row for row in check_packages(ROOT,installed) if row['name'] == 'codecraft-capabilities-asr')
         assert check['status'] == 'failed' and 'scripts/unregistered.py' in check['drift']
         extra.unlink()
-        entry = installed/'sensecraft-capabilities-asr/scripts/transcribe.py'
+        entry = installed/'codecraft-capabilities-asr/scripts/transcribe.py'
         source = entry.read_bytes()
         entry.unlink()
-        check = next(row for row in check_packages(ROOT,installed) if row['name'] == 'sensecraft-capabilities-asr')
+        check = next(row for row in check_packages(ROOT,installed) if row['name'] == 'codecraft-capabilities-asr')
         assert check['status'] == 'failed' and 'scripts/transcribe.py' in check['drift']
         entry.write_bytes(source)
         extra.symlink_to(entry)
@@ -52,7 +52,7 @@ def test_cli_check_ignores_unpinned_installed_bytecode():
         installed = Path(folder)/'skills'
         for sid in records:
             shutil.copytree(ROOT/'skills'/sid, installed/sid, ignore=shutil.ignore_patterns('__pycache__'))
-        source = installed/'sensecraft-capabilities-asr/scripts/device_api.py'
+        source = installed/'codecraft-capabilities-asr/scripts/device_api.py'
         poisoned = Path(folder)/'bytecode_source.py'
         poisoned.write_text("raise RuntimeError('unregistered bytecode executed')\n")
         cache = Path(importlib.util.cache_from_source(str(source)))

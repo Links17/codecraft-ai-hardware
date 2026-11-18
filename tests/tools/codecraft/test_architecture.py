@@ -108,7 +108,7 @@ def test_cycle_and_external_symlink_dependencies_are_rejected():
 def test_peripherals_are_target_interfaces_separate_from_cloud_skills():
     c=Catalog(ROOT)
     assert all(target['interfaces'] for target in c.targets.values())
-    assert set(contracts.registrations(ROOT))=={'sensecraft-capabilities-asr','sensecraft-capabilities-llm','sensecraft-capabilities-tts','sensecraft-capabilities-image-generation'}
+    assert set(contracts.registrations(ROOT))=={'codecraft-capabilities-asr','codecraft-capabilities-llm','codecraft-capabilities-tts','codecraft-capabilities-image-generation'}
     with fixture() as root:
         edit(root,'devices/reterminal-e1001/targets/target.json',lambda target:target.update(skills=['display']))
         rejected(lambda:Catalog(root),'unknown Target')
@@ -149,8 +149,8 @@ def test_device_target_backlinks_cannot_be_registered_twice():
 def test_context_and_import_choose_declared_example_scope():
     c = Catalog(ROOT)
     context = c.context('linux/reterminal','buttons_evdev',task='build')
-    assert 'skills/sensecraft-development-build/SKILL.md' in context['guidance']
-    assert 'skills/sensecraft-development-device-test/SKILL.md' not in context['guidance']
+    assert 'skills/codecraft-development-build/SKILL.md' in context['guidance']
+    assert 'skills/codecraft-development-device-test/SKILL.md' not in context['guidance']
     assert all(not path.endswith('/sensors_sysfs.py') for path in context['files'])
     assert 'platforms/esp-idf/components/sscma_client/camera.c' not in c.graph('esp-idf/reterminal-e1001').files
     assert 'platforms/esp-idf/components/sscma_client/camera.c' in c.graph('esp-idf/sensecap-watcher').files
@@ -289,12 +289,12 @@ def test_explicit_skill_projection_exports_only_the_selected_package():
         generate_project(c,'linux/reterminal','buttons_evdev',output,[choice])
         assert verify_project(output)['status']=='passed'
         assert read_json(output/'project.yaml')['skills']==[choice]
-        assert (output/contracts.record_path('sensecraft-capabilities-asr')).is_file()
-        assert not (output/'skills/sensecraft-capabilities-tts').exists()
-        package=output/'skills/sensecraft-capabilities-asr'
+        assert (output/contracts.record_path('codecraft-capabilities-asr')).is_file()
+        assert not (output/'skills/codecraft-capabilities-tts').exists()
+        package=output/'skills/codecraft-capabilities-asr'
         assert (package/'scripts/device_api.py').is_file() and (package/'contract.json').is_file()
         lock=read_json(output/'codecraft.lock')
-        assert contracts.record_path('sensecraft-capabilities-asr') in lock['files']
+        assert contracts.record_path('codecraft-capabilities-asr') in lock['files']
         assert all(not Path(path).is_absolute() for path in lock['files'])
         assert contracts.selection(output,choice)['execution']=='not_run'
         # Standalone scripts need their own script directory; -E/-s isolates environment without suppressing it.
@@ -306,15 +306,15 @@ def test_explicit_skill_projection_exports_only_the_selected_package():
 
 def test_package_mutations_missing_pins_and_provenance_are_rejected():
     with fixture() as root:
-        path=root/'skills/sensecraft-capabilities-asr/scripts/transcribe.py'
+        path=root/'skills/codecraft-capabilities-asr/scripts/transcribe.py'
         path.write_text(path.read_text()+'\n# Unreviewed runtime change\n')
-        rejected(lambda:contracts.load_package(root,'sensecraft-capabilities-asr'),'reviewed release')
+        rejected(lambda:contracts.load_package(root,'codecraft-capabilities-asr'),'reviewed release')
     with fixture() as root:
-        edit(root,contracts.record_path('sensecraft-capabilities-asr'),lambda record:record['files'].pop('scripts/transcribe.py'))
-        rejected(lambda:contracts.load_package(root,'sensecraft-capabilities-asr'),'reviewed release')
+        edit(root,contracts.record_path('codecraft-capabilities-asr'),lambda record:record['files'].pop('scripts/transcribe.py'))
+        rejected(lambda:contracts.load_package(root,'codecraft-capabilities-asr'),'reviewed release')
     with fixture() as root:
         (root/'tools/skill_packages/import.json').unlink()
-        rejected(lambda:contracts.load_package(root,'sensecraft-capabilities-asr'),'missing reference')
+        rejected(lambda:contracts.load_package(root,'codecraft-capabilities-asr'),'missing reference')
 
 
 def test_explicit_selection_rejects_unknown_and_duplicate_package_ids():
@@ -340,11 +340,11 @@ def test_failed_skill_validation_preserves_application_rules_and_lock():
 
 
 def test_llm_contract_retains_exclusive_input_and_stream_completion_semantics():
-    record,contract=contracts.load_package(ROOT,'sensecraft-capabilities-llm')
+    record,contract=contracts.load_package(ROOT,'codecraft-capabilities-llm')
     rejected(lambda:contracts.payload(contract['operations']['complete']['input'],{'prompt_file':'/a','messages_file':'/b'}),'exactly one')
     assert contract['operations']['stream']['output']['type']=='string'
     assert contract['limits']['stream_completion_required'] is True
-    choice=cloud_choice();choice['skill']='sensecraft-capabilities-llm';choice['configuration']={'max_tokens':0}
+    choice=cloud_choice();choice['skill']='codecraft-capabilities-llm';choice['configuration']={'max_tokens':0}
     rejected(lambda:contracts.selection(ROOT,choice),'below minimum')
 
 
@@ -363,7 +363,7 @@ def test_private_environment_files_are_not_locked_or_packaged():
 
 
 def cloud_choice():
-    return {'skill':'sensecraft-capabilities-asr','configuration':{},
+    return {'skill':'codecraft-capabilities-asr','configuration':{},
             'environment':{'network':True,'tls':True,'privacy_approved':True,
                            'environment_refs':['CODECRAFT_API_ORIGIN'],'secret_refs':['CODECRAFT_DEVICE_FILE']},'limits':{}}
 
@@ -371,7 +371,7 @@ def cloud_choice():
 def test_cloud_package_checks_need_no_hardware_catalog():
     with tempfile.TemporaryDirectory() as folder:
         root=Path(folder)/'cloud-only'
-        for relative in contracts.package_graph(ROOT,'sensecraft-capabilities-asr').files:
+        for relative in contracts.package_graph(ROOT,'codecraft-capabilities-asr').files:
             destination=root/relative;destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/relative,destination)
         assert not (root/'devices').exists() and not (root/'platforms').exists()
         run=subprocess.run([sys.executable,'-B',str(ROOT/'codecraft.py'),'--root',str(root),'check-cloud-skills'],
@@ -399,7 +399,7 @@ def test_malformed_cloud_selections_are_not_silently_dropped():
         generate_project(c, 'linux/reterminal', 'buttons_evdev', output)
         edit(output, 'project.yaml', lambda data: data.update(skills={}))
         rejected(lambda: lock_project(output), 'selections must be a list')
-    contract=contracts.load_package(ROOT,'sensecraft-capabilities-asr')[1]
+    contract=contracts.load_package(ROOT,'codecraft-capabilities-asr')[1]
     for invalid in ([],False,''):
         rejected(lambda:contracts.prerequisites(contract,invalid),'must be objects')
         rejected(lambda:contracts.prerequisites(contract,limits=invalid),'must be objects')
@@ -408,11 +408,11 @@ def test_malformed_cloud_selections_are_not_silently_dropped():
 def test_pinned_skill_binary_assets_survive_context_export_lock_and_package():
     import zipfile
     with fixture() as root, tempfile.TemporaryDirectory() as folder:
-        asset = 'skills/sensecraft-capabilities-asr/assets/vocabulary.bin'
+        asset = 'skills/codecraft-capabilities-asr/assets/vocabulary.bin'
         path = root/asset
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(b'\x00synthetic packaged vocabulary\xff')
-        edit(root, contracts.record_path('sensecraft-capabilities-asr'),
+        edit(root, contracts.record_path('codecraft-capabilities-asr'),
              lambda record: record['files'].update({'assets/vocabulary.bin': digest(path)}))
         catalog = Catalog(root)
         assert asset in catalog.context('linux/reterminal', selected_skills=[cloud_choice()])['files']
@@ -430,7 +430,7 @@ def test_pinned_skill_binary_assets_survive_context_export_lock_and_package():
 
 
 def test_contract_rejects_ambiguous_or_malformed_cli_mappings():
-    record,original=contracts.load_package(ROOT,'sensecraft-capabilities-llm')
+    record,original=contracts.load_package(ROOT,'codecraft-capabilities-llm')
     for fixed in ('--stream',['--stream','--stream'],[42]):
         contract=copy.deepcopy(original);contract['client']['operations']['stream']['fixed_arguments']=fixed
         rejected(lambda:contracts.validate_contract(contract,record['files']),'CLI' if isinstance(fixed,list) else 'fixed arguments')

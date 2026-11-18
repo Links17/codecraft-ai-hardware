@@ -56,8 +56,8 @@ applications retain their own locked code until a deliberate reviewed update.
 ```text
 skills/
   AGENTS.md
-  sensecraft-development-*/                  # Hardware development workflows
-  sensecraft-capabilities-*/    # ASR, TTS, LLM and image generation
+  codecraft-development-*/                  # Hardware development workflows
+  codecraft-capabilities-*/    # ASR, TTS, LLM and image generation
     SKILL.md
     contract.json              # Semantic contract and separate service policy/API versions
     references/api.md

@@ -8,7 +8,7 @@ remain in the external official CLI and Skill.
 
 Keep each Skill directly under skills/ with its directory name matching the
 SKILL.md name and Agent invocation metadata. Development workflows use
-sensecraft-development-*; cloud capabilities use sensecraft-capabilities-*. These prefixes
+codecraft-development-*; cloud capabilities use codecraft-capabilities-*. These prefixes
 classify Skills without adding category directories to installation paths.
 Repository orchestration belongs in tools/codecraft/ and package maintenance in
 tools/skill_packages/; neither is an installable Skill or a client dependency.

@@ -8,8 +8,8 @@ platforms/. Read [Skill rules](AGENTS.md) and [contract ownership](../docs/archi
 
 | Category | Package names | Purpose |
 | --- | --- | --- |
-| Development workflows | `sensecraft-development-*` | Discover, develop, configure, build, debug and validate hardware applications |
-| Cloud capabilities | `sensecraft-capabilities-*` | ASR, TTS, text generation and image generation through the CodeCraft Device API |
+| Development workflows | `codecraft-development-*` | Discover, develop, configure, build, debug and validate hardware applications |
+| Cloud capabilities | `codecraft-capabilities-*` | ASR, TTS, text generation and image generation through the CodeCraft Device API |
 
 Each Skill is a direct child directory with its own SKILL.md. Copy one complete
 Skill directory to install it. Repository tooling lives in
@@ -17,9 +17,9 @@ Skill directory to install it. Repository tooling lives in
 
 ## Hardware development
 
-The required workflows are sensecraft-development-develop, sensecraft-development-setup, sensecraft-development-build,
-sensecraft-development-device-test and sensecraft-development-debug. Use sensecraft-development-ideate for application
-briefs, plus sensecraft-development-discover and sensecraft-development-validate as needed. Shared Device
+The required workflows are codecraft-development-develop, codecraft-development-setup, codecraft-development-build,
+codecraft-development-device-test and codecraft-development-debug. Use codecraft-development-ideate for application
+briefs, plus codecraft-development-discover and codecraft-development-validate as needed. Shared Device
 validation and orchestration live in tools/codecraft/. Native commands remain in each
 Platform. The [portable workflow](../docs/development/application-workflow.md)
 and selected Platform/workflow guidance are exported and locked with applications.
@@ -36,10 +36,10 @@ not require it, and installation never authorizes a platform operation.
 
 | Skill | Operation |
 | --- | --- |
-| [sensecraft-capabilities-llm](sensecraft-capabilities-llm/SKILL.md) | Text generation and SSE |
-| [sensecraft-capabilities-asr](sensecraft-capabilities-asr/SKILL.md) | WAV transcription, realtime ASR/STT, status and recovery |
-| [sensecraft-capabilities-tts](sensecraft-capabilities-tts/SKILL.md) | WAV synthesis and optional archival |
-| [sensecraft-capabilities-image-generation](sensecraft-capabilities-image-generation/SKILL.md) | Configurable image dimensions and optional archival |
+| [codecraft-capabilities-llm](codecraft-capabilities-llm/SKILL.md) | Text generation and SSE |
+| [codecraft-capabilities-asr](codecraft-capabilities-asr/SKILL.md) | WAV transcription, realtime ASR/STT, status and recovery |
+| [codecraft-capabilities-tts](codecraft-capabilities-tts/SKILL.md) | WAV synthesis and optional archival |
+| [codecraft-capabilities-image-generation](codecraft-capabilities-image-generation/SKILL.md) | Configurable image dimensions and optional archival |
 
 Each package contains contract.json, SKILL.md, public API/onboarding/native
 integration references, a portable C authentication header, Agent metadata and
@@ -54,7 +54,7 @@ provides IDs, operations and separate versions.
 
 Each package's onboarding reference explains API-origin lookup, EUI/DeviceKey
 retrieval, private import and access checking; see the
-[LLM onboarding reference](sensecraft-capabilities-llm/references/onboarding.md) for the common
+[LLM onboarding reference](codecraft-capabilities-llm/references/onboarding.md) for the common
 flow. Reuse existing configuration. The documented CLI release does not export a
 CodeCraft Device API origin; its platform gateway alone does not establish that
 service mapping. Missing-origin work must preserve existing credentials and
@@ -103,7 +103,7 @@ an explicit list such as:
 ```json
 [
   {
-    "skill": "sensecraft-capabilities-asr",
+    "skill": "codecraft-capabilities-asr",
     "configuration": {},
     "environment": {
       "network": true,

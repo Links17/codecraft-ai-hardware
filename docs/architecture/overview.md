@@ -4,8 +4,8 @@ The repository has three content owners. Devices own hardware knowledge and nati
 Platforms supply shared software-stack infrastructure; Skills own development
 workflows, cloud operation contracts and standalone clients.
 Repository tooling in tools/ supports these owners without becoming an
-installable Skill. Development workflow packages use sensecraft-development-* names; cloud
-capability packages use sensecraft-capabilities-* names, all directly under skills/.
+installable Skill. Development workflow packages use codecraft-development-* names; cloud
+capability packages use codecraft-capabilities-* names, all directly under skills/.
 The governing requirements are [codecraft-hardware-distilled.md](../development/codecraft-hardware-distilled.md).
 
 | Owner | Authoritative inputs | Derived outputs |
@@ -62,8 +62,8 @@ platforms/<stack>/
   components/                # Reusable native components, where needed
   cmake/                     # Shared native build helpers, where needed
 skills/
-  sensecraft-development-*/               # Installable development workflow Skills
-  sensecraft-capabilities-*/ # Independently installable cloud capability Skills
+  codecraft-development-*/               # Installable development workflow Skills
+  codecraft-capabilities-*/ # Independently installable cloud capability Skills
 tools/
   codecraft/                 # CLI, source graphs, exports, locks and validation
   skill_packages/            # Client maintenance, provenance and release tooling

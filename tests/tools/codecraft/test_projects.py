@@ -145,8 +145,8 @@ def test_public_new_command_accepts_a_brief_and_ideate_context():
         assert json.loads(run.stdout)['ok'] is True
         assert 'Purpose: Exercise a local example' in (root/'projects/demo/AGENTS.md').read_text()
         context = Catalog(root).context('linux/reterminal', task='ideate')
-        assert 'skills/sensecraft-development-ideate/SKILL.md' in context['guidance']
-        assert 'skills/sensecraft-development-discover/SKILL.md' in context['guidance']
+        assert 'skills/codecraft-development-ideate/SKILL.md' in context['guidance']
+        assert 'skills/codecraft-development-discover/SKILL.md' in context['guidance']
 
 
 def test_absent_optional_brief_stays_unknown_when_relocked():

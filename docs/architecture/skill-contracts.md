@@ -4,8 +4,8 @@ Each inference Skill owns its typed contract and independently runnable client.
 Hardware peripherals remain Device facts and Target native interfaces. The cloud
 server and SenseCraft platform management remain external.
 
-Development workflows use sensecraft-development-* package names. Cloud capability packages
-use sensecraft-capabilities-* names, including matching directory names,
+Development workflows use codecraft-development-* package names. Cloud capability packages
+use codecraft-capabilities-* names, including matching directory names,
 SKILL.md identities, Agent invocation prompts and contract IDs. Both categories
 remain flat under skills/ for installation. Repository tools live under tools/.
 The service API, authentication environment names and operation schemas do not

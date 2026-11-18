@@ -1,0 +1,256 @@
+{
+  "api": {
+    "authorization": "Device",
+    "operations": {
+      "complete": {
+        "method": "POST",
+        "path": "/deviceapi/ai-services/v1/chat/completions"
+      },
+      "stream": {
+        "method": "POST",
+        "path": "/deviceapi/ai-services/v1/chat/completions"
+      }
+    },
+    "routing": "service-fixed",
+    "version": "v1"
+  },
+  "client": {
+    "operations": {
+      "complete": {
+        "arguments": {
+          "messages_file": "--messages-file",
+          "prompt_file": "--prompt-file"
+        },
+        "command": [],
+        "entrypoint": "scripts/llm.py",
+        "fixed_arguments": [],
+        "options": {
+          "max_tokens": "--max-tokens"
+        }
+      },
+      "stream": {
+        "arguments": {
+          "messages_file": "--messages-file",
+          "prompt_file": "--prompt-file"
+        },
+        "command": [],
+        "entrypoint": "scripts/llm.py",
+        "fixed_arguments": [
+          "--stream"
+        ],
+        "options": {
+          "max_tokens": "--max-tokens"
+        }
+      }
+    },
+    "python_minimum": "3.10"
+  },
+  "configuration": {
+    "additionalProperties": false,
+    "description": "Optional output token bound; omitted values use the selected service policy.",
+    "properties": {
+      "max_tokens": {
+        "description": "Positive output token limit",
+        "minimum": 1,
+        "policy_default": true,
+        "type": "integer"
+      }
+    },
+    "required": [],
+    "type": "object"
+  },
+  "consumer": "cloud-skill",
+  "description": {
+    "en": "Text generation",
+    "zh_CN": "文本生成"
+  },
+  "errors": {
+    "invalid_input": "Skill rejects input before a billable request.",
+    "provider_failure": "Nonzero Skill exit; retain valid partial/local results, report uncertain billing, do not automatically retry.",
+    "unknown": "Environment, privacy decision, credentials or source version is unconfirmed.",
+    "unsupported": "Operation or combination is not supported by the selected Skill."
+  },
+  "estimates": {
+    "memory_bytes": null,
+    "storage_bytes": null
+  },
+  "execution": {
+    "device_integration": "unknown",
+    "execution": "agent-host"
+  },
+  "id": "codecraft-capabilities-llm",
+  "limitations": [
+    "Text only; no vision, tool execution or model listing.",
+    "Incomplete streams are not successful results.",
+    "Host workflow compatibility does not imply device firmware/network/audio integration.",
+    "Implementation routing is fixed by the public service; requests must not select a model, provider or voice."
+  ],
+  "limits": {
+    "automatic_retry": false,
+    "roles": [
+      "system",
+      "user",
+      "assistant"
+    ],
+    "stream_completion_required": true,
+    "text_only": true
+  },
+  "operations": {
+    "complete": {
+      "input": {
+        "additionalProperties": false,
+        "description": "Select exactly one input file.",
+        "oneRequired": [
+          "prompt_file",
+          "messages_file"
+        ],
+        "properties": {
+          "messages_file": {
+            "description": "JSON array of system/user/assistant text messages",
+            "minLength": 1,
+            "type": "string"
+          },
+          "prompt_file": {
+            "description": "UTF-8 prompt file",
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": false,
+        "description": "Non-streaming result.",
+        "properties": {
+          "complete": {
+            "description": "False marks retained partial output on a failing invocation.",
+            "enum": [
+              true
+            ],
+            "type": "boolean"
+          },
+          "finish_reason": {
+            "description": "Successful generation ends normally.",
+            "enum": [
+              "stop"
+            ],
+            "type": "string"
+          },
+          "text": {
+            "description": "Generated text",
+            "type": "string"
+          },
+          "usage": {
+            "additionalProperties": true,
+            "description": "Provider usage or null",
+            "nullable": true,
+            "properties": {},
+            "required": [],
+            "type": "object"
+          }
+        },
+        "required": [
+          "text",
+          "usage",
+          "finish_reason",
+          "complete"
+        ],
+        "type": "object"
+      }
+    },
+    "stream": {
+      "input": {
+        "additionalProperties": false,
+        "description": "Select exactly one input file.",
+        "oneRequired": [
+          "prompt_file",
+          "messages_file"
+        ],
+        "properties": {
+          "messages_file": {
+            "description": "JSON array of system/user/assistant text messages",
+            "minLength": 1,
+            "type": "string"
+          },
+          "prompt_file": {
+            "description": "UTF-8 prompt file",
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
+      },
+      "output": {
+        "description": "Incremental stdout text. A successful exit requires a complete stream; partial output with nonzero exit remains incomplete. The Provider owns its transport completion marker.",
+        "type": "string"
+      }
+    }
+  },
+  "policy": {
+    "billing": {
+      "amount": null,
+      "basis": "tokens",
+      "status": "declared",
+      "unit": "platform_quota"
+    },
+    "configuration": {
+      "properties": {
+        "max_tokens": {
+          "maximum": 2048
+        }
+      }
+    },
+    "defaults": {
+      "max_tokens": 256
+    },
+    "limits": {
+      "finish_reason": "stop",
+      "maximum_input_characters": 8192,
+      "maximum_messages": 64,
+      "stream_requires_done": true
+    },
+    "operations": {
+      "complete": {
+        "input": {},
+        "output": {}
+      },
+      "stream": {
+        "input": {},
+        "output": {}
+      }
+    },
+    "schema_version": 1,
+    "sources": [
+      "references/api.md",
+      "scripts/llm.py"
+    ],
+    "version": "2.0.0"
+  },
+  "prerequisites": {
+    "environment_refs": [
+      "CODECRAFT_API_ORIGIN"
+    ],
+    "loopback_http": true,
+    "network": true,
+    "privacy": "User input is sent to the configured cloud origin; explicit operation authorization is required.",
+    "secret_refs": [
+      "CODECRAFT_DEVICE_FILE"
+    ],
+    "tls": true
+  },
+  "resources": {
+    "memory_bytes": "Agent-host working memory; Service bound unknown unless measured.",
+    "storage_bytes": "Agent-host storage; Service bound unknown unless measured."
+  },
+  "risk": {
+    "automatic_retry": false,
+    "billable": true,
+    "device_write": false,
+    "network": true,
+    "secret_values_allowed": false
+  },
+  "schema_version": 2,
+  "version": "3.0.0"
+}
