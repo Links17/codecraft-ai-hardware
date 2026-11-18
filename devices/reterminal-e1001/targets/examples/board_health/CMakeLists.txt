@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.22)
+set(EXTRA_COMPONENT_DIRS
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../bsp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../platforms/esp-idf/components/codecraft_pcf8563"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../platforms/esp-idf/components/codecraft_sht4x")
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+idf_build_set_property(MINIMAL_BUILD ON)
+project(board_health)

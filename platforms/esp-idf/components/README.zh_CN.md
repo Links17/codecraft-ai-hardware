@@ -11,6 +11,6 @@
 - `sscma_client/` — 通用静态相机抽象及 SSCMA-over-SPI 后端（SenseCAP Watcher 上的 Seeed Himax WiseEye2，也适用于 Grove Vision AI V2）。提取自硬件参考快照的 `esp32/components/camera/`（Apache 2.0，保留 Meta 版权头，标明修改）。
 
 提取的传感器协议保留原有来源与许可证注释。各 BSP 继续保留板级 I2C0 辅助实现：它负责本板总线与引脚，要求串行初始化，不代表不同板卡之间具有硬件兼容性。
-传感器公开契约位于组件的 `include/`，实现和可执行 C 用例分别位于 `src/` 与 `tests/`。
-主机运行器 `codecraft_sht4x/tests/test_sensor_drivers.py` 和 `codecraft_pcf8563/tests/test_sensor_drivers.py` 使用有限的 I2C/任务替身，在仓库根目录执行 `python3 codecraft.py validate --static` 即可运行。
+传感器公开契约位于组件的 `include/`，实现位于 `src/`。可执行 C 用例与 Python 运行器统一位于 [tests/platforms/esp-idf/components/](../../../tests/platforms/esp-idf/components/)。
+SHT4x 与 PCF8563 运行器使用有限的 I2C/任务替身，在仓库根目录执行 `python3 codecraft.py validate --static` 即可运行。
 这些检查验证软件行为，不验证物理时序或传感器精度。

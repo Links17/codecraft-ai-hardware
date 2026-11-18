@@ -67,7 +67,7 @@ python3 codecraft.py prepare-capability --selection /work/selection.json --opera
 
 ```sh
 python3 codecraft.py check-cloud-skills
-python3 codecraft.py test --path skills/_cloud/tests/test_protocol.py
+python3 codecraft.py test --path tests/skills/_cloud/test_protocol.py
 python3 codecraft.py validate --static
 ```
 

@@ -8,7 +8,9 @@ hardware revisions retain their separate ownership.
 platforms/esp-idf/
   composition.py                 # metadata/build-output checks
   cmake/bsp.cmake                 # load the example's native composition
-  targets/<board>/
+  components/                    # native components shared across boards
+devices/<board>/
+  targets/
     target.json                  # common and per-example source/dependency scope
     bsp/
       CMakeLists.txt             # native component registration stays here
@@ -24,6 +26,9 @@ platforms/esp-idf/
         CMakeLists.txt           # application and required system components
         idf_component.yml        # this example's managed package dependencies
         main.c
+tests/devices/<board>/targets/
+  test_*.py                      # board-specific host contracts
+  <suite>/                       # native fixtures and test doubles
 ```
 
 ## Native build contract
@@ -64,8 +69,9 @@ still point to the same public contracts.
 
 Shared component `resource.json` files define their runtime source closure,
 including native build files, headers, implementation and retained attribution.
-Owner-local host tests and SDK doubles remain in the repository and are not
-implicitly shipped as runtime application inputs.
+Shared module tests and SDK doubles remain with their Platform or component;
+board-specific host tests live in tests/devices/<board>/targets/.
+Neither is implicitly shipped as runtime application inputs.
 
 `composition.py` checks profile syntax, local header/implementation closure,
 Target declarations and native component-directory selection. After a successful
@@ -90,7 +96,7 @@ For changes to native composition, run the composition tests and affected native
 and exported project builds:
 
 ```sh
-python3 codecraft.py test --path platforms/esp-idf/tests/test_composition.py
+python3 codecraft.py test --path tests/platforms/esp-idf/test_composition.py
 python3 codecraft.py validate --target esp-idf/<board> --projects
 ```
 

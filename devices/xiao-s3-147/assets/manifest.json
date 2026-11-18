@@ -1,8 +1,0 @@
-{
-  "schema_version": 1,
-  "device": "xiao-s3-147",
-  "assets": [],
-  "unknowns": [
-    "No redistributable device image with verified revision/dimensions/license has been registered."
-  ]
-}

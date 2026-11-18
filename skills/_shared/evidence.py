@@ -6,9 +6,13 @@ from io_utils import STATUSES, digest, read_json, require, safe_path
 from runtime import load_adapter
 
 
+def device_evidence_dir(catalog, target):
+    return catalog.root/'tests/devices'/target['device']
+
+
 def validate_log(catalog, target, path, expected):
     log = safe_path(catalog.root, path)
-    require(log.resolve().is_relative_to(catalog.root/'devices'/target['device']/'tests/logs'), 'Evidence logs must be retained with the Device tests')
+    require(log.resolve().is_relative_to(device_evidence_dir(catalog, target)/'logs'), 'Evidence logs must be retained in tests/devices/<device>/logs')
     require(digest(log) == expected, 'Evidence log hash mismatch')
     require(not re.search(r'(?i)(access[_-]?token|password|secret)\s*[:=]\s*\S+', log.read_text(errors='replace')), 'Sanitize evidence log before recording')
 
@@ -70,7 +74,7 @@ def validate_evidence(catalog, record, current=False):
             validate_log(catalog, target, project['log'], project['log_sha256'])
     elif record['kind'] == 'device':
         require(record['revision'] not in ('', None, 'unknown'), 'Device evidence requires observed revision')
-        acceptance = read_json(catalog.root/'devices'/target['device']/'tests/acceptance.json')
+        acceptance = catalog.devices[target['device']]['acceptance']
         require(set(names) <= {case['id'] for case in acceptance['cases']}, 'Unknown physical acceptance case')
         for case in record['cases']:
             require(case.get('observation') and case.get('procedure'), 'Physical evidence needs actual observation and procedure')
@@ -94,7 +98,7 @@ def support(catalog, tid):
     state = {'level':'unknown','build':'not_run','project':'not_run','device':'not_run','records':[],'stale_records':[],
              'interfaces': {entry['id']:'unknown' for entry in target['interfaces']}}
     records = []
-    for path in sorted((catalog.root/'devices'/target['device']/'tests/records').glob('*.json')):
+    for path in sorted((device_evidence_dir(catalog, target)/'records').glob('*.json')):
         record = read_json(path)
         validate_evidence(catalog, record)
         if record['target'] == tid:
@@ -122,7 +126,7 @@ def support(catalog, tid):
                 physical[variant].update({case['name']:case['status'] for case in record['cases']})
     if state['build'] == state['project'] == 'passed':
         state['level'] = 'build-verified'
-    acceptance = read_json(catalog.root/'devices'/target['device']/'tests/acceptance.json')['cases']
+    acceptance = catalog.devices[target['device']]['acceptance']['cases']
     statuses = {}
     for variant, observations in physical.items():
         statuses[variant] = 'passed' if all(observations.get(case['id']) == 'passed' for case in acceptance) else ('failed' if 'failed' in observations.values() else 'not_run')

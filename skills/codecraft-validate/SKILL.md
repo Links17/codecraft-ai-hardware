@@ -25,6 +25,6 @@ For changed standalone packages, follow docs/development/skill-releases.md. Chec
 
 For focused host checks, use `python3 codecraft.py test --path <owner>`; use `test --list` to inspect collected IDs. Read docs/development/testing.md before moving tests. Preserve full scenario coverage; do not keep old forwarding wrappers that execute the same suite twice. Skips and fixture/collection failures must remain visible.
 
-ESP-IDF examples use explicit BSP compositions. Read docs/development/native-compositions.md when changing native source selection, BSP layout or dependencies. Keep the profile, native manifests, Target example scope and lock aligned; settle native lock updates before final source-fingerprint validation. A successful compiler command must also pass the actual BSP-source/requirement check.
+For ESP-IDF source selection and BSP dependencies, follow [native composition rules](../../docs/development/native-compositions.md).
 
-For sourced hardware variants, use context/new/validate --variant as described in docs/development/hardware-variants.md. Keep the Device facts, Target/native profile, export selection and lock aligned. The full Target gate covers all variants. A build default is not physical identification; physical evidence must identify its variant and an observed compatible revision. Unknown compatibility remains unresolved.
+For assembly selection, export and revision-specific evidence, follow [hardware variant rules](../../docs/development/hardware-variants.md).

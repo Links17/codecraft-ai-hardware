@@ -4,10 +4,15 @@ import string
 import struct
 import zlib
 
-from io_utils import digest, localized, read_json, require, safe_path
+from io_utils import digest, require, safe_path
+from device_entry import read_entry, source_notes
 
 SECTIONS = ('Controller', 'Connectivity', 'Inputs', 'Outputs', 'Power', 'Accessories')
 KINDS = {'integer': int, 'number': (int, float), 'string': str, 'boolean': bool, 'strings': list}
+
+
+def text_field(value, label):
+    require(isinstance(value, str) and value.strip(), f'{label}: nonempty English text required')
 
 
 def normalize(text):
@@ -24,12 +29,12 @@ def value_text(fact):
 def validate_fact(root, identity, fact):
     require(isinstance(fact, dict) and {'kind', 'value', 'status', 'label', 'section'} <= fact.keys(), f'{identity}: incomplete typed fact')
     require(fact['section'] in SECTIONS, f'{identity}: invalid fact section')
-    localized(fact['label'], identity + '/label')
+    text_field(fact['label'], identity + '/label')
     require(fact['kind'] in KINDS, f'{identity}: unsupported fact type')
     require(fact['status'] in ('documented', 'measured', 'unknown'), f'{identity}: invalid fact status')
     if fact['status'] == 'unknown':
         require(fact['value'] is None, f'{identity}: unknown facts cannot assert a value')
-        localized(fact.get('reason'), identity + '/reason')
+        text_field(fact.get('reason'), identity + '/reason')
         return
     value = fact['value']
     require(isinstance(value, KINDS[fact['kind']]), f'{identity}: value/type mismatch')
@@ -43,21 +48,22 @@ def validate_fact(root, identity, fact):
     require(isinstance(source, dict) and {'path', 'template'} <= source.keys(), f'{identity}: source assertion required')
     tokens = list(string.Formatter().parse(source['template']))
     require([field for _, field, _, _ in tokens if field is not None] == ['value'] and all(not spec and not conversion for _, _, spec, conversion in tokens), f'{identity}: source assertion must use only {{value}}')
-    text = normalize(safe_path(root, source['path']).read_text())
+    path = safe_path(root, source['path'])
+    text = path.read_text()
+    if path.name == 'AGENTS.md' and path.parent.parent.name == 'devices':
+        # Specification/acceptance tables cannot substantiate their own claims.
+        text = source_notes(read_entry(path), source['path'])
+    text = normalize(text)
     for item in value if isinstance(value, list) else [value]:
         assertion = normalize(source['template'].format(value=item))
         require(assertion in text, f'{identity}: value contradicts cited source assertion: {assertion}')
 
 
-def render_text(device, text, locale):
-    fields = {key: value_text(fact) + (' ' + fact['unit'] if fact.get('unit') and fact['status'] != 'unknown' else '') for key, fact in device['facts'].items()}
-    return text[locale].format_map(fields)
-
-
 def validate(root, device):
     did = device['id']
-    require(device.get('schema_version') == 3, f'{did}: unsupported device schema_version')
-    require(isinstance(device.get('variants'), dict), f'{did}: device schema_version 3 requires variants object')
+    entry = safe_path(root, f'devices/{did}/AGENTS.md')
+    require(device.get('schema_version') == 5, f'{did}: unsupported device schema_version')
+    require(isinstance(device.get('variants'), dict), f'{did}: device schema_version 5 requires variants object')
     require('targets' not in device and 'specs' not in device, f'{did}: Target indexes and translated facts must be derived')
     require(isinstance(device.get('name'), str) and device['name'], f'{did}: name required')
     require(device.get('maintenance') and device.get('maturity') in ('experimental', 'stable', 'deprecated'), f'{did}: separate owner/maturity required')
@@ -67,21 +73,13 @@ def validate(root, device):
         validate_fact(root, f'{did}/{key}', fact)
     require(set(f['section'] for f in device['facts'].values()) == set(SECTIONS), f'{did}: missing specification section')
     for field in ('overview', 'scenarios', 'physical_description'):
-        localized(device.get(field), f'{did}/{field}')
-        fields = []
-        for locale in ('en', 'zh_CN'):
-            parsed = list(string.Formatter().parse(device[field][locale]))
-            require(all(not spec and not conversion for _, _, spec, conversion in parsed), f'{did}/{field}: unsupported template format')
-            names = {name for _, name, _, _ in parsed if name is not None}
-            require(names <= device['facts'].keys(), f'{did}/{field}: unknown fact placeholder')
-            fields.append(names)
-        require(fields[0] == fields[1], f'{did}/{field}: bilingual fact references differ')
+        text_field(device.get(field), f'{did}/{field}')
     require(isinstance(device.get('revision'), str) and device['revision'], f'{did}: explicit revision required')
     require(isinstance(device.get('unknowns'), list) and isinstance(device.get('conflicts'), list), f'{did}: explicit unknowns/conflicts required')
     for item in device['unknowns']:
-        localized(item, f'{did}/unknown')
+        text_field(item, f'{did}/unknown')
     for conflict in device['conflicts']:
-        localized(conflict['resolution'], f'{did}/conflict')
+        text_field(conflict['resolution'], f'{did}/conflict')
         safe_path(root, conflict['source'])
     require(device.get('references'), f'{did}: references required')
     for ref in device['references']:
@@ -91,7 +89,7 @@ def validate(root, device):
     require(isinstance(variants, dict), f'{did}: variants must be an object')
     for name, variant in variants.items():
         require(re.fullmatch(r'[a-z][a-z0-9_-]*', name) and isinstance(variant, dict), f'{did}: invalid hardware variant')
-        localized(variant.get('label'), f'{did}/{name}/label')
+        text_field(variant.get('label'), f'{did}/{name}/label')
         require(variant.get('source') in device['references'], f'{did}/{name}: variant source outside reference closure')
         facts = variant.get('facts')
         require(isinstance(facts, dict) and facts and 'compatible_revisions' in facts, f'{did}/{name}: variant facts/revision compatibility required')
@@ -101,17 +99,18 @@ def validate(root, device):
             validate_fact(root, f'{did}/{name}/{key}', fact)
             require(fact['status'] == 'unknown' or fact['source']['path'] in device['references'], f'{did}/{name}: fact source outside reference closure')
     require(isinstance(device.get('vendor_sources'), list) and all(url.startswith('https://') for url in device['vendor_sources']), f'{did}: invalid vendor sources')
-    acceptance = read_json(safe_path(root, f'devices/{did}/tests/acceptance.json'))
-    require(acceptance.get('schema_version') == 2 and acceptance.get('device') == did, f'{did}: invalid acceptance schema')
+    acceptance = device.get('acceptance')
+    require(isinstance(acceptance, dict) and set(acceptance) == {'preconditions', 'cases'}, f'{did}: acceptance must contain preconditions and cases')
     require(isinstance(acceptance.get('cases'), list) and acceptance['cases'], f'{did}: physical acceptance cases required')
+    require(isinstance(acceptance.get('preconditions', ''), str), f'{did}: invalid acceptance preconditions')
     identities = set()
     for case in acceptance['cases']:
-        require(case.get('id') and case['id'] not in identities and case.get('procedure') and case.get('expected') and case.get('source'), f'{did}: incomplete/duplicate acceptance case')
+        require(isinstance(case, dict) and all(isinstance(case.get(key), str) and case[key].strip() for key in ('id','procedure','expected','source')) and case['id'] not in identities, f'{did}: incomplete/duplicate acceptance case')
         identities.add(case['id'])
+        require(isinstance(case.get('interfaces'), list) and all(isinstance(name, str) and name for name in case['interfaces']), f'{did}: invalid acceptance interfaces')
         safe_path(root, case['source'])
-    assets = read_json(safe_path(root, device['assets']))
-    require(assets.get('schema_version') == 1 and assets.get('device') == did and isinstance(assets.get('assets'), list), f'{did}: invalid asset manifest')
-    for asset in assets['assets']:
+    require(isinstance(device.get('assets'), list), f'{did}: assets must be a list (empty when absent)')
+    for asset in device['assets']:
         require({'path', 'source', 'license', 'sha256', 'revision', 'width', 'height', 'alpha'} <= asset.keys(), f'{did}: incomplete asset')
         image = safe_path(root, asset['path'])
         require(asset['license'] not in ('', 'unknown') and asset['source'] and asset['revision'] == device['revision'] != 'unknown', f'{did}: asset provenance/revision required')

@@ -6,7 +6,7 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "accelerometer": "platforms/arduino/targets/grove-beginner-kit/examples/accelerometer/accelerometer.ino"
+            "accelerometer": "devices/grove-beginner-kit/targets/examples/accelerometer/accelerometer.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -23,9 +23,9 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "air_pressure_spa06": "platforms/arduino/targets/grove-beginner-kit/examples/air_pressure_spa06/air_pressure_spa06.ino",
-            "light_sensor": "platforms/arduino/targets/grove-beginner-kit/examples/light_sensor/light_sensor.ino",
-            "temperature_humidity_dht20": "platforms/arduino/targets/grove-beginner-kit/examples/temperature_humidity_dht20/temperature_humidity_dht20.ino"
+            "air_pressure_spa06": "devices/grove-beginner-kit/targets/examples/air_pressure_spa06/air_pressure_spa06.ino",
+            "light_sensor": "devices/grove-beginner-kit/targets/examples/light_sensor/light_sensor.ino",
+            "temperature_humidity_dht20": "devices/grove-beginner-kit/targets/examples/temperature_humidity_dht20/temperature_humidity_dht20.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -42,7 +42,7 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "i2c_scan": "platforms/arduino/targets/grove-beginner-kit/examples/i2c_scan/i2c_scan.ino"
+            "i2c_scan": "devices/grove-beginner-kit/targets/examples/i2c_scan/i2c_scan.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -59,9 +59,9 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "button_led": "platforms/arduino/targets/grove-beginner-kit/examples/button_led/button_led.ino",
-            "potentiometer": "platforms/arduino/targets/grove-beginner-kit/examples/potentiometer/potentiometer.ino",
-            "sound_sensor": "platforms/arduino/targets/grove-beginner-kit/examples/sound_sensor/sound_sensor.ino"
+            "button_led": "devices/grove-beginner-kit/targets/examples/button_led/button_led.ino",
+            "potentiometer": "devices/grove-beginner-kit/targets/examples/potentiometer/potentiometer.ino",
+            "sound_sensor": "devices/grove-beginner-kit/targets/examples/sound_sensor/sound_sensor.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -78,8 +78,8 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "button_led": "platforms/arduino/targets/grove-beginner-kit/examples/button_led/button_led.ino",
-            "led_blink": "platforms/arduino/targets/grove-beginner-kit/examples/led_blink/led_blink.ino"
+            "button_led": "devices/grove-beginner-kit/targets/examples/button_led/button_led.ino",
+            "led_blink": "devices/grove-beginner-kit/targets/examples/led_blink/led_blink.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -96,7 +96,7 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "buzzer_tones": "platforms/arduino/targets/grove-beginner-kit/examples/buzzer_tones/buzzer_tones.ino"
+            "buzzer_tones": "devices/grove-beginner-kit/targets/examples/buzzer_tones/buzzer_tones.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -113,7 +113,7 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "oled_status": "platforms/arduino/targets/grove-beginner-kit/examples/oled_status/oled_status.ino"
+            "oled_status": "devices/grove-beginner-kit/targets/examples/oled_status/oled_status.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -160,13 +160,13 @@
       "operations": {
         "capture": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/respeaker-lite/bsp/include/bsp_audio.h",
+          "source": "devices/respeaker-lite/targets/bsp/include/bsp_audio.h",
           "supported": true,
           "symbol": "bsp_audio_mic_read"
         },
         "playback": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/respeaker-lite/bsp/include/bsp_audio.h",
+          "source": "devices/respeaker-lite/targets/bsp/include/bsp_audio.h",
           "supported": true,
           "symbol": "bsp_audio_write"
         },
@@ -214,7 +214,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/respeaker-lite/bsp/include/bsp_button.h",
+          "source": "devices/respeaker-lite/targets/bsp/include/bsp_button.h",
           "supported": true,
           "symbol": "bsp_button_pressed"
         }
@@ -259,7 +259,7 @@
       "operations": {
         "write": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/respeaker-lite/bsp/include/bsp_led.h",
+          "source": "devices/respeaker-lite/targets/bsp/include/bsp_led.h",
           "supported": true,
           "symbol": "bsp_led_set_rgb"
         }
@@ -331,7 +331,7 @@
         },
         "tone": {
           "example_sources": {
-            "leds_buzzer_sysfs": "platforms/linux/targets/reterminal/demos/leds_buzzer_sysfs.py"
+            "leds_buzzer_sysfs": "devices/reterminal/targets/demos/leds_buzzer_sysfs.py"
           },
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
           "supported": true,
@@ -423,7 +423,7 @@
         },
         "write": {
           "example_sources": {
-            "header_gpio_blink": "platforms/linux/targets/reterminal/demos/header_gpio_blink.py"
+            "header_gpio_blink": "devices/reterminal/targets/demos/header_gpio_blink.py"
           },
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
           "supported": true,
@@ -469,7 +469,7 @@
       "operations": {
         "read": {
           "example_sources": {
-            "buttons_evdev": "platforms/linux/targets/reterminal/demos/buttons_evdev.py"
+            "buttons_evdev": "devices/reterminal/targets/demos/buttons_evdev.py"
           },
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
           "supported": true,
@@ -578,7 +578,7 @@
       "operations": {
         "capture": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_mic.h",
+          "source": "devices/reterminal-e1001/targets/bsp/include/bsp_mic.h",
           "supported": true,
           "symbol": "bsp_mic_read"
         },
@@ -588,7 +588,7 @@
         },
         "tone": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_buzzer.h",
+          "source": "devices/reterminal-e1001/targets/bsp/include/bsp_buzzer.h",
           "supported": true,
           "symbol": "bsp_buzzer_tone"
         }
@@ -634,7 +634,7 @@
           "minimum": 0,
           "source": {
             "assertion": "#define BSP_EPD_HEIGHT      480",
-            "path": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_epd.h"
+            "path": "devices/reterminal-e1001/targets/bsp/include/bsp_epd.h"
           },
           "status": "known",
           "type": "integer",
@@ -647,7 +647,7 @@
           "minimum": 0,
           "source": {
             "assertion": "#define BSP_EPD_WIDTH       800",
-            "path": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_epd.h"
+            "path": "devices/reterminal-e1001/targets/bsp/include/bsp_epd.h"
           },
           "status": "known",
           "type": "integer",
@@ -659,7 +659,7 @@
       "operations": {
         "present": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_epd.h",
+          "source": "devices/reterminal-e1001/targets/bsp/include/bsp_epd.h",
           "supported": true,
           "symbol": "bsp_epd_update"
         }
@@ -703,7 +703,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_sht4x.h",
+          "source": "devices/reterminal-e1001/targets/bsp/include/bsp_sht4x.h",
           "supported": true,
           "symbol": "bsp_sht4x_read"
         }
@@ -747,7 +747,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_button.h",
+          "source": "devices/reterminal-e1001/targets/bsp/include/bsp_button.h",
           "supported": true,
           "symbol": "bsp_button_pressed"
         }
@@ -792,7 +792,7 @@
       "operations": {
         "write": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_led.h",
+          "source": "devices/reterminal-e1001/targets/bsp/include/bsp_led.h",
           "supported": true,
           "symbol": "bsp_led_set"
         }
@@ -836,7 +836,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_battery.h",
+          "source": "devices/reterminal-e1001/targets/bsp/include/bsp_battery.h",
           "supported": true,
           "symbol": "bsp_battery_read_mv"
         }
@@ -889,13 +889,13 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_rtc.h",
+          "source": "devices/reterminal-e1001/targets/bsp/include/bsp_rtc.h",
           "supported": true,
           "symbol": "bsp_rtc_get_time"
         },
         "write": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_rtc.h",
+          "source": "devices/reterminal-e1001/targets/bsp/include/bsp_rtc.h",
           "supported": true,
           "symbol": "bsp_rtc_set_time"
         }
@@ -939,7 +939,7 @@
       "operations": {
         "mount": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_sdcard.h",
+          "source": "devices/reterminal-e1001/targets/bsp/include/bsp_sdcard.h",
           "supported": true,
           "symbol": "bsp_sdcard_init"
         }
@@ -1003,7 +1003,7 @@
       "operations": {
         "capture": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_mic.h",
+          "source": "devices/reterminal-e1002/targets/bsp/include/bsp_mic.h",
           "supported": true,
           "symbol": "bsp_mic_read"
         },
@@ -1013,7 +1013,7 @@
         },
         "tone": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_buzzer.h",
+          "source": "devices/reterminal-e1002/targets/bsp/include/bsp_buzzer.h",
           "supported": true,
           "symbol": "bsp_buzzer_tone"
         }
@@ -1059,7 +1059,7 @@
           "minimum": 0,
           "source": {
             "assertion": "#define BSP_EPD_HEIGHT      480",
-            "path": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_epd.h"
+            "path": "devices/reterminal-e1002/targets/bsp/include/bsp_epd.h"
           },
           "status": "known",
           "type": "integer",
@@ -1072,7 +1072,7 @@
           "minimum": 0,
           "source": {
             "assertion": "#define BSP_EPD_WIDTH       800",
-            "path": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_epd.h"
+            "path": "devices/reterminal-e1002/targets/bsp/include/bsp_epd.h"
           },
           "status": "known",
           "type": "integer",
@@ -1084,7 +1084,7 @@
       "operations": {
         "present": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_epd.h",
+          "source": "devices/reterminal-e1002/targets/bsp/include/bsp_epd.h",
           "supported": true,
           "symbol": "bsp_epd_update"
         }
@@ -1128,7 +1128,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_sht4x.h",
+          "source": "devices/reterminal-e1002/targets/bsp/include/bsp_sht4x.h",
           "supported": true,
           "symbol": "bsp_sht4x_read"
         }
@@ -1172,7 +1172,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_button.h",
+          "source": "devices/reterminal-e1002/targets/bsp/include/bsp_button.h",
           "supported": true,
           "symbol": "bsp_button_pressed"
         }
@@ -1217,7 +1217,7 @@
       "operations": {
         "write": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_led.h",
+          "source": "devices/reterminal-e1002/targets/bsp/include/bsp_led.h",
           "supported": true,
           "symbol": "bsp_led_set"
         }
@@ -1261,7 +1261,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_battery.h",
+          "source": "devices/reterminal-e1002/targets/bsp/include/bsp_battery.h",
           "supported": true,
           "symbol": "bsp_battery_read_mv"
         }
@@ -1314,13 +1314,13 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_rtc.h",
+          "source": "devices/reterminal-e1002/targets/bsp/include/bsp_rtc.h",
           "supported": true,
           "symbol": "bsp_rtc_get_time"
         },
         "write": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_rtc.h",
+          "source": "devices/reterminal-e1002/targets/bsp/include/bsp_rtc.h",
           "supported": true,
           "symbol": "bsp_rtc_set_time"
         }
@@ -1364,7 +1364,7 @@
       "operations": {
         "mount": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_sdcard.h",
+          "source": "devices/reterminal-e1002/targets/bsp/include/bsp_sdcard.h",
           "supported": true,
           "symbol": "bsp_sdcard_init"
         }
@@ -1410,7 +1410,7 @@
           "minimum": 0,
           "source": {
             "assertion": "#define BSP_EPD_HEIGHT           800",
-            "path": "platforms/esp-idf/targets/reterminal-sticky/bsp/include/bsp_epd.h"
+            "path": "devices/reterminal-sticky/targets/bsp/include/bsp_epd.h"
           },
           "status": "known",
           "type": "integer",
@@ -1423,7 +1423,7 @@
           "minimum": 0,
           "source": {
             "assertion": "#define BSP_EPD_WIDTH            480",
-            "path": "platforms/esp-idf/targets/reterminal-sticky/bsp/include/bsp_epd.h"
+            "path": "devices/reterminal-sticky/targets/bsp/include/bsp_epd.h"
           },
           "status": "known",
           "type": "integer",
@@ -1435,7 +1435,7 @@
       "operations": {
         "present": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-sticky/bsp/include/bsp_epd.h",
+          "source": "devices/reterminal-sticky/targets/bsp/include/bsp_epd.h",
           "supported": true,
           "symbol": "bsp_epd_update"
         }
@@ -1479,7 +1479,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-sticky/bsp/include/bsp_sht4x.h",
+          "source": "devices/reterminal-sticky/targets/bsp/include/bsp_sht4x.h",
           "supported": true,
           "symbol": "bsp_sht4x_read"
         }
@@ -1523,7 +1523,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/reterminal-sticky/bsp/include/bsp_button.h",
+          "source": "devices/reterminal-sticky/targets/bsp/include/bsp_button.h",
           "supported": true,
           "symbol": "bsp_button_pressed"
         }
@@ -1588,7 +1588,7 @@
       "operations": {
         "present": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_display.h",
+          "source": "devices/sensecap-indicator/targets/bsp/include/bsp_display.h",
           "supported": true,
           "symbol": "bsp_display_init"
         }
@@ -1632,13 +1632,13 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_io_expander.h",
+          "source": "devices/sensecap-indicator/targets/bsp/include/bsp_io_expander.h",
           "supported": true,
           "symbol": "bsp_io_expander_get_level"
         },
         "write": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_io_expander.h",
+          "source": "devices/sensecap-indicator/targets/bsp/include/bsp_io_expander.h",
           "supported": true,
           "symbol": "bsp_io_expander_set_level"
         }
@@ -1682,7 +1682,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_button.h",
+          "source": "devices/sensecap-indicator/targets/bsp/include/bsp_button.h",
           "supported": true,
           "symbol": "bsp_button_pressed"
         }
@@ -1744,7 +1744,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_touch.h",
+          "source": "devices/sensecap-indicator/targets/bsp/include/bsp_touch.h",
           "supported": true,
           "symbol": "bsp_touch_get_handle"
         }
@@ -1780,7 +1780,7 @@
           "minimum": 0,
           "source": {
             "assertion": "#define BSP_AUDIO_CHANNELS    1",
-            "path": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_audio.h"
+            "path": "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h"
           },
           "status": "known",
           "type": "integer",
@@ -1793,7 +1793,7 @@
           "minimum": 0,
           "source": {
             "assertion": "#define BSP_AUDIO_SAMPLE_BITS 16",
-            "path": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_audio.h"
+            "path": "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h"
           },
           "status": "known",
           "type": "integer",
@@ -1805,7 +1805,7 @@
           "minimum": 0,
           "source": {
             "assertion": "#define BSP_AUDIO_SAMPLE_RATE 16000",
-            "path": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_audio.h"
+            "path": "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h"
           },
           "status": "known",
           "type": "integer",
@@ -1817,13 +1817,13 @@
       "operations": {
         "capture": {
           "reason": "Initialize BSP audio, obtain the matching native codec handle and use esp_codec_dev_read.",
-          "source": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_audio.h",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h",
           "supported": true,
           "symbol": "esp_codec_dev_read"
         },
         "playback": {
           "reason": "Initialize BSP audio, obtain the matching native codec handle and use esp_codec_dev_write.",
-          "source": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_audio.h",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h",
           "supported": true,
           "symbol": "esp_codec_dev_write"
         },
@@ -1923,7 +1923,7 @@
           "minimum": 0,
           "source": {
             "assertion": "#define BSP_LCD_V_RES 412",
-            "path": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_display.h"
+            "path": "devices/sensecap-watcher/targets/bsp/include/bsp_display.h"
           },
           "status": "known",
           "type": "integer",
@@ -1936,7 +1936,7 @@
           "minimum": 0,
           "source": {
             "assertion": "#define BSP_LCD_H_RES 412",
-            "path": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_display.h"
+            "path": "devices/sensecap-watcher/targets/bsp/include/bsp_display.h"
           },
           "status": "known",
           "type": "integer",
@@ -1948,7 +1948,7 @@
       "operations": {
         "present": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_display.h",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_display.h",
           "supported": true,
           "symbol": "bsp_display_init"
         }
@@ -1992,13 +1992,13 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_io_expander.h",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
           "supported": true,
           "symbol": "bsp_io_expander_get_level"
         },
         "write": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_io_expander.h",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
           "supported": true,
           "symbol": "bsp_io_expander_set_level"
         }
@@ -2042,7 +2042,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_knob.h",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_knob.h",
           "supported": true,
           "symbol": "bsp_knob_get_delta"
         }
@@ -2086,7 +2086,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_battery.h",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_battery.h",
           "supported": true,
           "symbol": "bsp_battery_get_voltage_mv"
         }
@@ -2130,7 +2130,7 @@
       "operations": {
         "mount": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_sdcard.h",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_sdcard.h",
           "supported": true,
           "symbol": "bsp_sdcard_init"
         }
@@ -2192,7 +2192,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_touch.h",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_touch.h",
           "supported": true,
           "symbol": "bsp_touch_get_handle"
         }
@@ -2226,7 +2226,7 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "accelerometer": "platforms/arduino/targets/wio-terminal/examples/accelerometer/accelerometer.ino"
+            "accelerometer": "devices/wio-terminal/targets/examples/accelerometer/accelerometer.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -2243,7 +2243,7 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "display_buttons": "platforms/arduino/targets/wio-terminal/examples/display_buttons/display_buttons.ino"
+            "display_buttons": "devices/wio-terminal/targets/examples/display_buttons/display_buttons.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -2260,8 +2260,8 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "display_buttons": "platforms/arduino/targets/wio-terminal/examples/display_buttons/display_buttons.ino",
-            "light_sensor": "platforms/arduino/targets/wio-terminal/examples/light_sensor/light_sensor.ino"
+            "display_buttons": "devices/wio-terminal/targets/examples/display_buttons/display_buttons.ino",
+            "light_sensor": "devices/wio-terminal/targets/examples/light_sensor/light_sensor.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -2278,8 +2278,8 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "buzzer_tones": "platforms/arduino/targets/wio-terminal/examples/buzzer_tones/buzzer_tones.ino",
-            "microphone_level": "platforms/arduino/targets/wio-terminal/examples/microphone_level/microphone_level.ino"
+            "buzzer_tones": "devices/wio-terminal/targets/examples/buzzer_tones/buzzer_tones.ino",
+            "microphone_level": "devices/wio-terminal/targets/examples/microphone_level/microphone_level.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -2296,7 +2296,7 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "sd_card_log": "platforms/arduino/targets/wio-terminal/examples/sd_card_log/sd_card_log.ino"
+            "sd_card_log": "devices/wio-terminal/targets/examples/sd_card_log/sd_card_log.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -2313,7 +2313,7 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "ir_nec_sender": "platforms/arduino/targets/wio-terminal/examples/ir_nec_sender/ir_nec_sender.ino"
+            "ir_nec_sender": "devices/wio-terminal/targets/examples/ir_nec_sender/ir_nec_sender.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -2330,7 +2330,7 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "grove_i2c_scan": "platforms/arduino/targets/wio-terminal/examples/grove_i2c_scan/grove_i2c_scan.ino"
+            "grove_i2c_scan": "devices/wio-terminal/targets/examples/grove_i2c_scan/grove_i2c_scan.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -2347,8 +2347,8 @@
       "operations": {
         "run_demo": {
           "example_sources": {
-            "ble_scan": "platforms/arduino/targets/wio-terminal/examples/ble_scan/ble_scan.ino",
-            "wifi_scan": "platforms/arduino/targets/wio-terminal/examples/wifi_scan/wifi_scan.ino"
+            "ble_scan": "devices/wio-terminal/targets/examples/ble_scan/ble_scan.ino",
+            "wifi_scan": "devices/wio-terminal/targets/examples/wifi_scan/wifi_scan.ino"
           },
           "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
           "supported": true,
@@ -2395,7 +2395,7 @@
       "operations": {
         "capture": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_mic.h",
+          "source": "devices/xiao-s3-147/targets/bsp/include/bsp_mic.h",
           "supported": true,
           "symbol": "bsp_mic_read"
         },
@@ -2468,7 +2468,7 @@
       "operations": {
         "present": {
           "reason": "Initialize the BSP display, then call esp_lcd_panel_draw_bitmap on its returned native panel handle.",
-          "source": "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_display.h",
+          "source": "devices/xiao-s3-147/targets/bsp/include/bsp_display.h",
           "supported": true,
           "symbol": "esp_lcd_panel_draw_bitmap"
         }
@@ -2512,7 +2512,7 @@
       "operations": {
         "read": {
           "reason": "Native API semantics and lifetime are defined in the cited implementation.",
-          "source": "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_button.h",
+          "source": "devices/xiao-s3-147/targets/bsp/include/bsp_button.h",
           "supported": true,
           "symbol": "bsp_button_pressed"
         }

@@ -12,10 +12,10 @@ def domain(root, name):
     return module
 
 
-def load_group(root, pattern):
+def load_group(root, pattern, reader=read_json):
     values = {}
     for path in sorted(root.glob(pattern)):
-        data = read_json(path)
+        data = reader(path)
         require(isinstance(data, dict), f'{path}: expected object')
         identity = data.get('id')
         require(isinstance(identity, str) and re.fullmatch(r'[a-z0-9]+(?:[-/][a-z0-9]+)*', identity), f'{path}: invalid id')

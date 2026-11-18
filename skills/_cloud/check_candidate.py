@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'skills/_shared'))
-sys.path.insert(0,str(ROOT/'capabilities/_tests'))
+sys.path.insert(0,str(ROOT/'tests/capabilities'))
 from io_utils import read_json, require, safe_path
 from model import load_cloud
 
@@ -26,7 +26,7 @@ def main():
     for p in cloud.providers.values():
         if p['kind']=='repository-skill':
             require((ROOT/p['skill']['path']/'scripts/device_api.py').read_bytes()==source,'Candidate helper differs from maintenance source')
-    fixture=module('protocol_fixture',ROOT/'skills/_cloud/tests/test_protocol.py')
+    fixture=module('protocol_fixture',ROOT/'tests/skills/_cloud/test_protocol.py')
     suite=unittest.defaultTestLoader.loadTestsFromModule(fixture)
     transcript=io.StringIO();result=unittest.TextTestRunner(stream=transcript).run(suite)
     require(result.testsRun>0 and result.wasSuccessful() and not result.skipped,transcript.getvalue())

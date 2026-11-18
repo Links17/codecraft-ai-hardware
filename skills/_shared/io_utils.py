@@ -29,17 +29,24 @@ def require(condition, message):
         raise ContractError(message)
 
 
-def read_json(path):
+def parse_json(text, label):
     def unique(items):
         value = {}
         for key, item in items:
-            require(key not in value, f'{path}: duplicate key {key}')
+            require(key not in value, f'{label}: duplicate key {key}')
             value[key] = item
         return value
     try:
-        return json.loads(Path(path).read_text(encoding='utf-8'), object_pairs_hook=unique,
-                          parse_constant=lambda value: require(False, f'{path}: non-finite number {value}'))
-    except (OSError, json.JSONDecodeError) as exc:
+        return json.loads(text, object_pairs_hook=unique,
+                          parse_constant=lambda value: require(False, f'{label}: non-finite number {value}'))
+    except json.JSONDecodeError as exc:
+        raise ContractError(f'{label}: {exc}') from exc
+
+
+def read_json(path):
+    try:
+        return parse_json(Path(path).read_text(encoding='utf-8'), path)
+    except OSError as exc:
         raise ContractError(f'{path}: {exc}') from exc
 
 

@@ -2,7 +2,7 @@
 
 This guide covers the software portion of OPT-06. A panel or assembly choice
 does not identify a physical PCB revision. Current Indicator GX/DX profiles
-are based on [pinned vendor evidence](../../devices/sensecap-indicator/reference/display-variants.md).
+are based on [pinned vendor evidence](../../devices/sensecap-indicator/AGENTS.md).
 Revision-specific compatibility and physical acceptance remain unknown.
 
 ## Ownership and selection
@@ -56,10 +56,12 @@ not import another implementation and is rejected even during relocking.
 To change assembly in an application, import the sourced implementation and
 metadata together, review the application changes and explicitly relock.
 
-All Device and Target records use schema_version 3, with an explicit variants
-object. Use an empty object when no variants are declared. Platform metadata,
-adapter envelopes, project profiles and locks have independent version numbers.
-Source changes invalidate matching locks and build evidence.
+Device variant facts follow [Device document rules](device-documents.md); the
+parsed model exposes a variants map, with an omitted Markdown section meaning no
+variants. Target manifests use schema_version 3 and require an explicit variants
+object, empty when none exist. Platform metadata, adapter envelopes, project
+profiles and locks have independent version numbers. Source changes invalidate
+matching locks and build evidence.
 
 ## Physical evidence and remaining acceptance
 

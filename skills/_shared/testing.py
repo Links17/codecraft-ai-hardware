@@ -1,4 +1,4 @@
-"""Discover owner-local host tests and run plain functions or unittest suites."""
+"""Discover host tests under tests/ and run plain functions or unittest suites."""
 from contextlib import redirect_stderr, redirect_stdout
 import hashlib
 import importlib.util
@@ -9,7 +9,7 @@ from pathlib import Path
 import sys
 import unittest
 
-from io_utils import require, result
+from io_utils import read_json, require, result
 
 _load_sequence = itertools.count()
 
@@ -17,21 +17,28 @@ _load_sequence = itertools.count()
 def test_files(root, platform=None, selection=None):
     root = Path(root).resolve()
     stack = platform or '*'
-    patterns = ('skills/*/tests', f'platforms/{stack}/tests',
-                f'platforms/{stack}/components/*/tests',
-                f'platforms/{stack}/targets/*/tests',
-                'capabilities/*/tests', 'capabilities/_tests')
+    patterns = ('tests/skills/*', f'tests/platforms/{stack}', 'tests/capabilities')
+    directories = {directory for pattern in patterns for directory in root.glob(pattern)}
+    for directory in root.glob('tests/devices/*/targets'):
+        device = directory.parent.name
+        native = f'devices/{device}/targets'
+        target = read_json(root/native/'target.json')
+        require(target.get('device') == device and target.get('path') == native
+                and target.get('id') == f'{target.get("platform")}/{device}',
+                f'{directory}: test owner differs from Target manifest')
+        if platform is None or target.get('platform') == platform:
+            directories.add(directory)
     paths = set()
-    for pattern in patterns:
-        for directory in root.glob(pattern):
-            for path in directory.rglob('test_*.py'):
-                relative = path.relative_to(root)
-                if any(part.startswith('.') or part in ('__pycache__', 'fixtures', 'stubs', 'build')
-                       for part in relative.parts):
-                    continue
-                require(not any(p.is_symlink() for p in (path, *path.parents) if p != root),
-                        f'Symlink test path is not allowed: {relative}')
-                paths.add(path)
+    for directory in sorted(directories):
+        for path in directory.rglob('test_*.py'):
+            relative = path.relative_to(root)
+            if any(part.startswith('.') or part in ('__pycache__', 'fixtures', 'stubs', 'mocks', 'build')
+                   or part.startswith('build-')
+                   for part in relative.parts):
+                continue
+            require(not any(p.is_symlink() for p in (path, *path.parents) if p != root),
+                    f'Symlink test path is not allowed: {relative}')
+            paths.add(path)
     if selection is not None:
         relative = Path(selection)
         require(not relative.is_absolute() and '..' not in relative.parts,

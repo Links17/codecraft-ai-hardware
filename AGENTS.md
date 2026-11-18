@@ -33,16 +33,18 @@ The implementation separates device facts, software stacks, cloud Skill contract
 
 | Path | Responsibility |
 | --- | --- |
-| `devices/<board>/` | Generated knowledge entry, metadata, source references, assets and device evidence |
+| `devices/AGENTS.md` | Generated device directory index linking each device knowledge entry |
+| `devices/<board>/` | Device knowledge, references, assets and native implementation; AGENTS is the entry and Device contract owner |
 | `capabilities/<capability>/` | Reusable contracts and integration resources consumed by cloud Skills |
-| `platforms/esp-idf/targets/<board>/` | ESP-IDF BSP, board configuration, and standalone examples |
+| `devices/<board>/targets/` | Native BSP, examples and board configuration directly under one Target root; target.json declares its software stack |
 | `platforms/esp-idf/components/` | Components shared by ESP-IDF boards |
-| `platforms/linux/targets/<board>/` | Linux device support, overlays, and demos |
-| `platforms/arduino/targets/<board>/` | Arduino board profiles and sketches, rules in `platforms/arduino/AGENTS.md` |
+| `platforms/<stack>/` | Shared software-stack/runtime adapters, build helpers and reusable components; no board directories |
 | `skills/` | Hardware development workflows and independently installable cloud API Skills |
-| `skills/_cloud/` | Cloud client maintenance source, import provenance and offline protocol tests |
-| `skills/_shared/` | Shared orchestration and its core integration tests |
-| `skills/codecraft-validate/tests/` | Validation entry, public CLI and gate/discovery tests |
+| `skills/_cloud/` | Cloud client maintenance source, import provenance and release tooling |
+| `skills/_shared/` | Shared orchestration and public CLI implementation |
+| `tests/` | All repository-maintained tests, fixtures and mocks, grouped by Device, Platform, Capability or Skill owner; see tests/AGENTS.md |
+| `tests/devices/<board>/` | Retained observations, source-bound evidence records and sanitized original logs |
+| `tests/devices/<board>/targets/` | Board-specific host tests, native fixtures and test doubles |
 | `projects/<name>/` | Ignored private application exports, briefs and local locks; never reference dependencies |
 | `docs/`, `.github/` | Reference documentation, contribution guidance, and CI |
 
@@ -50,7 +52,12 @@ Choose the platform by software stack, not chip name. An ESP32 using Arduino
 belongs to the Arduino workflow. MUST NOT substitute another platform's build
 or deployment procedure.
 
-Device AGENTS.md files and reference/ own hardware knowledge. Target manifests own software configuration and implementation bindings. Platform adapters preserve native toolchains. Generated indexes below are checked against these sources; unknown verification remains unknown. A README listing is not proof of a passing build or working hardware.
+Device AGENTS.md owns authored hardware knowledge, specifications and acceptance
+procedures. Follow [Device documents and shared references][device-documents] for
+its format, source validation and ownership. Native code and board configuration
+live directly in targets/. Apply platforms/<stack>/AGENTS.md to that stack's
+Targets. Verification comes from source-bound evidence, never from a directory
+listing or README claim.
 
 ### Task selection and required AI skills
 
@@ -91,13 +98,13 @@ a failed operation must be diagnosed through `codecraft-debug` before retrying.
 | New application ideation | `skills/codecraft-ideate/SKILL.md`, `docs/development/project-workspaces.md`, then selected Device/Target context |
 | Code change | `docs/development/ai-guide.md`, relevant headers and neighboring implementation |
 | Environment bootstrap or missing toolchain | `skills/codecraft-setup/SKILL.md`, Target manifest and device knowledge entry |
-| ESP-IDF board work | `devices/<board>/AGENTS.md`, `platforms/esp-idf/AGENTS.md`, `platforms/esp-idf/targets/<board>/target.json`, matching entry in `docs/vendor-sources.md` |
-| Linux board work | `devices/<board>/AGENTS.md`, `platforms/linux/AGENTS.md`, `platforms/linux/targets/<board>/target.json`, matching entry in `docs/vendor-sources.md` |
-| Arduino board work | `devices/<board>/AGENTS.md`, `platforms/arduino/AGENTS.md`, `platforms/arduino/targets/<board>/target.json`, matching entry in `docs/vendor-sources.md` |
+| ESP-IDF board work | `devices/<board>/AGENTS.md`, `platforms/esp-idf/AGENTS.md`, `devices/<board>/targets/target.json`, matching entry in `docs/vendor-sources.md` |
+| Linux board work | `devices/<board>/AGENTS.md`, `platforms/linux/AGENTS.md`, `devices/<board>/targets/target.json`, matching entry in `docs/vendor-sources.md` |
+| Arduino board work | `devices/<board>/AGENTS.md`, `platforms/arduino/AGENTS.md`, `devices/<board>/targets/target.json`, matching entry in `docs/vendor-sources.md` |
 | New board | Part II, `docs/development/ai-guide.md` onboarding section, platform rules, `docs/vendor-sources.md` |
 | Build, tests, dependencies, partitions | `skills/codecraft-build/SKILL.md`, device knowledge entry, Target manifest and platform configuration (`sdkconfig.defaults`, `target.json`, as applicable) |
 | Firmware image planning, merging or verification | `docs/development/firmware-images.md`, `skills/codecraft-build/SKILL.md`, Target firmware profile and Platform implementation |
-| Flashing or on-device testing | `skills/codecraft-device-test/SKILL.md`, board deployment instructions |
+| Flashing or on-device testing | `skills/codecraft-device-test/SKILL.md`, `tests/AGENTS.md`, board deployment instructions |
 | Diagnosis | `skills/codecraft-debug/SKILL.md`, failing command/output and affected board context |
 | Documentation or Agent rules | Part II, `docs/README.md`, affected rules and their referenced files |
 | Skills or validation changes | `skills/README.md`, `skills/validation.md`, `docs/development/testing.md`, affected Skills and validation implementation |
@@ -176,32 +183,12 @@ change is not an upload request. Hardware facts remain owned by this repository;
 platform success must not change the hardware verification status.
 
 
-### Generated discovery index
+### Discovery and reference indexes
 
-<!-- CODECRAFT_INDEX_START -->
-<!-- source_sha256: 5df43d1a9c9c4e02a3c8d1f311adbcdcafe4205296957f45e412e758f7e0f589 -->
-
-| Device | Target | Implementations | Build + project | Device |
-| --- | --- | --- | --- | --- |
-| [Grove Beginner Kit for Arduino](devices/grove-beginner-kit/AGENTS.md) | arduino/grove-beginner-kit | audio, display, environment, gpio, input, led, motion | unknown | not_run |
-| [reSpeaker Lite (XIAO ESP32-S3)](devices/respeaker-lite/AGENTS.md) | esp-idf/respeaker-lite | audio, input, led | unknown | not_run |
-| [reTerminal (CM4)](devices/reterminal/AGENTS.md) | linux/reterminal | audio, environment, gpio, input, led | unknown | not_run |
-| [reTerminal E1001](devices/reterminal-e1001/AGENTS.md) | esp-idf/reterminal-e1001 | audio, display, environment, input, led, power, rtc, storage | unknown | not_run |
-| [reTerminal E1002](devices/reterminal-e1002/AGENTS.md) | esp-idf/reterminal-e1002 | audio, display, environment, input, led, power, rtc, storage | unknown | not_run |
-| [reTerminal Sticky](devices/reterminal-sticky/AGENTS.md) | esp-idf/reterminal-sticky | display, environment, input | unknown | not_run |
-| [SenseCAP Indicator](devices/sensecap-indicator/AGENTS.md) | esp-idf/sensecap-indicator | display, gpio, input, touch | unknown | not_run |
-| [SenseCAP Watcher](devices/sensecap-watcher/AGENTS.md) | esp-idf/sensecap-watcher | audio, camera, display, gpio, input, power, storage, touch | unknown | not_run |
-| [Wio Terminal](devices/wio-terminal/AGENTS.md) | arduino/wio-terminal | audio, display, gpio, input, ir, motion, storage, wireless | unknown | not_run |
-| [XIAO ESP32-S3 1.47-inch Touch Display](devices/xiao-s3-147/AGENTS.md) | esp-idf/xiao-s3-147 | audio, display, input | unknown | not_run |
-
-Platforms: [arduino](platforms/arduino/AGENTS.md), [esp-idf](platforms/esp-idf/AGENTS.md), [linux](platforms/linux/AGENTS.md)
-
-Cloud Skill Capabilities: [contracts](capabilities/AGENTS.md)
-- [asr](capabilities/asr/AGENTS.md) · 2.0.0 · codecraft-asr · API execution: not_run
-- [image-generation](capabilities/image-generation/AGENTS.md) · 2.0.0 · codecraft-image-generation · API execution: not_run
-- [llm](capabilities/llm/AGENTS.md) · 2.0.0 · codecraft-llm · API execution: not_run
-- [tts](capabilities/tts/AGENTS.md) · 2.0.0 · codecraft-tts · API execution: not_run
-<!-- CODECRAFT_INDEX_END -->
+- [Device directory](devices/AGENTS.md)
+- [Native interfaces and current evidence](docs/inventory.md)
+- [Cloud Skill Capabilities](capabilities/AGENTS.md)
+- [Documentation and authoritative guides](docs/README.md)
 
 ## Part II: Developer contribution constraints
 
@@ -211,9 +198,18 @@ Before editing, identify the affected files, boards/platforms, source of truth,
 and required validation. A contribution MUST solve the requested problem at
 the owning layer and preserve unrelated behavior.
 
-- Board-specific reusable logic belongs in the board BSP. ESP-IDF components
+- Native board-specific reusable logic belongs in devices/<board>/targets/bsp. Device
+  hardware principles, stack-independent implementation references and assets
+  belong in devices/<board>/. A Target consuming reference source MUST declare
+  it in its dependency graph instead of copying it. ESP-IDF components
   shared by two or more boards belong in `platforms/esp-idf/components/`. Pages, state
   machines, animations, and application tasks belong in examples/applications.
+- A Target's logical ID is <stack>/<device>; its only physical source root is
+  devices/<device>/targets/. Keep board-specific native configuration
+  there and shared build helpers in platforms/<stack>/. MUST NOT duplicate a
+  board under platforms/, copy shared components into a Device, or add forwarding
+  directories. Declare the software stack in target.json, without an additional
+  platform subdirectory inside targets/. Preserve each stack's native conventions.
 - Keep standalone examples independently buildable. Keep testable logic
   independent of platform runtimes where possible; behavior changes require
   relevant host tests when that behavior can be tested on the host.
@@ -221,8 +217,8 @@ the owning layer and preserve unrelated behavior.
   hardware support. MUST NOT force a shared code ABI across software stacks.
 - For a new board or changed hardware fact, establish the vendor/source record
   first, then update the owning header/BSP/profile and its documentation.
-  Record source conflicts and their resolution in devices/<device>/reference/ and reference them from the device knowledge entry.
-- New devices MUST provide device.json, reference/ sources, a Target manifest and native examples. Target native interfaces MUST cite their implementation paths. Capability is a cloud Skill consumption boundary, not a peripheral taxonomy; MUST NOT register GPIO, display or audio as individual Capabilities. Run `python3 codecraft.py generate` and `python3 codecraft.py generate --check`; root/device indexes, native interface and CI matrices are generated and MUST NOT be registered manually. Add meaningful positive/negative contract tests for new schema or adapter behavior.
+  Record cited source notes, implementation references and conflicts in the authored Device AGENTS.md section; retain supporting reference material in reference/ when needed.
+- New devices MUST provide an authored AGENTS.md following [Device documents and shared references][device-documents], a Target manifest and native examples. Native interfaces cite implementation paths. Capability is a cloud Skill consumption boundary; GPIO, display and audio remain native interfaces. Regenerate derived indexes and add relevant positive/negative checks when schema or adapter behavior changes.
 - Toolchain, dependency, partition, and persistent-data changes MUST state
   compatibility and recovery implications. A directory move must not silently
   change a toolchain, hardware value, or firmware behavior.
@@ -260,20 +256,21 @@ the owning layer and preserve unrelated behavior.
 
 ### Enforced ownership and source closure
 
-- Device metadata MUST hold one typed value per fact. Localized views MUST render that value; translated numeric specifications MUST NOT be stored separately. Known facts MUST match their cited source assertions. All Device records MUST use schema v3 and declare variants, using an empty object when none exist.
+- Device specifications MUST maintain one typed value per fact with independent source assertions. Follow [Device documents and shared references][device-documents] for the Markdown format and parsed schema; do not maintain translated or generated copies of hardware facts.
+- Device Markdown is an authored source. Generation MUST leave it unchanged; exports and source graphs hash its complete bytes. Facts require independent cited notes or native sources. Keep procedures in that document and observations in the central evidence area; follow [Device documents and shared references][device-documents].
 - Target metadata MUST declare native interfaces, common inputs, per-example inputs and dependencies. The Device-to-Target index MUST be derived from Target.device; duplicate backlinks are forbidden. All Target records MUST use schema v3 with an explicit variants object. Platform and adapter protocol versions remain independent.
 - Native build/configuration logic MUST live in platforms/<stack>. Shared Skill code MUST NOT branch on stack IDs to implement native operations.
 - Context, project export and evidence MUST use the same transitive dependency graph. Never filter out missing dependencies to make export pass. The graph MUST include the actual adapter and all pipeline code.
 - Application briefs MUST be owned by project.yaml. Render the marked application AGENTS region on creation/relocking, preserve custom rules outside it, and leave missing intent/BOM values unknown. Private projects MUST NOT enter reference discovery, test collection or source dependencies.
 - A project lock MUST preserve initial import provenance separately from explicitly reviewed application updates. Builds MUST check the actual toolchain against the current lock.
-- Evidence MUST name complete expected cases and the source digest. Changed source/adapter/contracts invalidate prior verification. Physical promotion additionally requires matching revision and named acceptance observations.
+- Evidence MUST name complete expected cases and the source digest, and live in tests/devices/<board>/. Preserve original log bytes, timestamps and observed results; storage changes MUST NOT refresh historical source digests. Changed source/adapter/contracts invalidate prior verification. Physical promotion additionally requires matching revision and named acceptance observations.
 - Capability contracts are consumed by cloud Skills. Device peripherals and native interfaces MUST NOT be registered as Capabilities. This repository MUST NOT implement the consuming cloud service.
 - Cloud domain code MUST NOT import or construct the hardware Catalog. Use neutral registry primitives and caller-injected Target lookup. Stable semantics belong to Capability; service policy belongs to a separately versioned Provider policy. Provider constraints MUST NOT weaken the Capability schema, and defaults require explicit Capability permission. See `docs/architecture/capability-provider-policy.md` for ownership and enforcement boundaries.
 - Cloud Skill packages MUST run independently after copying one directory. Runtime imports MUST remain inside the package. A repository-skill Provider MUST pin all package files and declare the package as an export dependency. Source changes require reviewed hash updates and offline client tests; validation MUST NOT call real cloud APIs or use real credentials.
 - Bundle changes MUST use the candidate/check/review/apply workflow in `docs/development/skill-releases.md`. Apply MUST name the reviewed candidate digest, rerun isolated conformance and reject source drift. Package, API, Capability and policy versions MUST remain separately reviewed; original import provenance MUST NOT be rewritten. Packaging MUST NOT imply installation or publication.
 - ESP-IDF examples MUST keep native BSP composition, Target example scope and managed dependency locks aligned. Public headers stay in include/ and private implementation in src/. Validate actual build-source selection and portable exports; changing source layout MUST NOT silently change hardware configuration or dependency versions. See `docs/development/native-compositions.md`.
 - Hardware variants MUST come from sourced Device facts and explicit Target/native bindings. Carry the selected variant through context, export, locks, native build cases and physical evidence. A declared build default MUST NOT imply panel detection or revision compatibility; one variant's observations MUST NOT promote another. Unknown revision mappings remain unresolved. See `docs/development/hardware-variants.md`.
-- Host tests MUST live with their owning core, cloud, Capability, platform, component or Target. Use the recursive public test runner; each current test MUST be discovered once at its owning layer. Gate/entry tests remain with codecraft-validate; physical acceptance is not part of automatic host discovery. See `docs/development/testing.md`.
+- All repository-maintained tests, fixtures and mocks MUST live under tests/, grouped by source owner. MUST NOT place test directories inside devices/, platforms/, capabilities/ or skills/. Use the recursive public test runner; each test MUST be discovered once. Physical evidence and logs are not executable test suites. Follow `docs/development/testing.md` for the authoritative ownership map, filtering and execution rules.
 - Document and invoke repository tools through `python3 codecraft.py`. The public entry is the only repository/application CLI. It loads skills/_shared/cli.py; native commands remain in platform adapters. New exports MUST carry the public entry in their graph and lock.
 
 ### Required validation and delivery
@@ -353,3 +350,5 @@ authorize a commit, publication, or a stronger hardware-support claim. When
 commits/PRs are requested, follow `.github/CONTRIBUTING.md` and the PR template;
 use English imperative Conventional Commit subjects and include only the
 authorized changes.
+
+[device-documents]: docs/development/device-documents.md

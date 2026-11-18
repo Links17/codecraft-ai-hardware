@@ -8,6 +8,7 @@ from pathlib import Path
 from io_utils import read_json, require, safe_path
 from graph import SourceGraph
 from registry import domain, load_group
+from device_entry import read_contract
 
 
 def load_cloud(root, target_lookup=None):
@@ -29,9 +30,9 @@ def load_cloud(root, target_lookup=None):
 class Catalog:
     def __init__(self, root):
         self.root = Path(root).resolve()
-        self.devices = load_group(self.root, 'devices/*/device.json')
+        self.devices = load_group(self.root, 'devices/*/AGENTS.md', reader=read_contract)
         self.platforms = load_group(self.root, 'platforms/*/platform.json')
-        self.targets = load_group(self.root, 'platforms/*/targets/*/target.json')
+        self.targets = load_group(self.root, 'devices/*/targets/target.json')
         self._cloud_cache = None
         self.device_schema = domain(self.root, 'devices')
         self.platform_schema = domain(self.root, 'platforms')
@@ -39,16 +40,29 @@ class Catalog:
         self.check()
 
     def check(self):
-        for area, manifest in [('devices', 'device.json'), ('platforms', 'platform.json')]:
+        for area, manifest in [('devices', 'AGENTS.md'), ('platforms', 'platform.json')]:
             for path in (self.root/area).iterdir():
                 if path.is_dir() and not path.name.startswith(('.', '_')):
                     require((path/manifest).is_file(), f'unregistered {area} directory: {path.name}')
-        for path in self.root.glob('platforms/*/targets/*'):
+        for path in self.root.glob('devices/*/targets'):
             if path.is_dir() and not path.name.startswith('.'):
                 require((path/'target.json').is_file(), f'unregistered Target: {path}')
+                entry = read_json(path/'target.json')
+                require(entry.get('path') == path.relative_to(self.root).as_posix(),
+                        f'{path}: Target manifest location mismatch')
+                require(not (path/'tests').exists(),
+                        'Target tests belong in tests/devices/<device>/targets')
+                require(not any((path/stack).exists() for stack in self.platforms),
+                        f'{path}: native files belong directly in targets/, without a stack directory')
+        for path in self.root.glob('platforms/*/targets'):
+            require(not path.exists(), 'Targets belong in devices/<device>/targets')
         for identity, item in self.devices.items():
-            require((self.root/'devices'/identity/'device.json').is_file(), 'Device identity/path mismatch')
+            require((self.root/'devices'/identity/'AGENTS.md').is_file(), 'Device identity/path mismatch')
+            require(not (self.root/'devices'/identity/'tests').exists(), 'Device evidence belongs in tests/devices/<device>')
             self.device_schema.validate(self.root, item)
+        for path in self.root.glob('tests/devices/*'):
+            if path.is_dir() and not path.name.startswith('.'):
+                require(path.name in self.devices, f'evidence for unregistered Device: {path.name}')
         for identity, item in self.platforms.items():
             require((self.root/'platforms'/identity/'platform.json').is_file(), 'Platform identity/path mismatch')
             self.platform_schema.validate(self.root, item)
@@ -105,14 +119,12 @@ class Catalog:
         target = self.selected_target(tid, example, variant)
         device = self.devices[target['device']]
         platform = self.platforms[target['platform']]
-        roots = [f'devices/{device["id"]}/device.json', f'{target["path"]}/target.json',
+        roots = [f'devices/{device["id"]}/AGENTS.md', f'{target["path"]}/target.json',
                  f'platforms/{platform["id"]}/platform.json', platform['adapter'],
-                 *platform['runtime'], *device['references'], device['assets'],
-                 f'devices/{device["id"]}/tests/acceptance.json',
+                 *platform['runtime'], *device['references'],
                  *target['inputs'], *target['dependencies'], target['toolchain']['source']]
-        for asset in read_json(self.root/device['assets'])['assets']:
-            roots.append(asset['path'])
-        for case in read_json(self.root/f'devices/{device["id"]}/tests/acceptance.json')['cases']:
+        roots.extend(asset['path'] for asset in device['assets'])
+        for case in device['acceptance']['cases']:
             roots.append(case['source'])
         for name in target['examples']:
             roots += target['example_inputs'][name] + target['example_dependencies'][name]

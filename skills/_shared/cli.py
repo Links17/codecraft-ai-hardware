@@ -19,8 +19,9 @@ from runtime import run_target, load_adapter, check_envelope, exit_code
 from model import Catalog, load_cloud
 from project import generate_project, package_project, verify_project, lock_project, build_project
 from render import generate, matrix
-from evidence import validate_evidence
+from evidence import device_evidence_dir, validate_evidence
 from testing import inventory as test_inventory, run_tests
+from markdown_docs import document_links
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -42,8 +43,8 @@ def check_documentation(root):
                     f'{relative}: missing reciprocal README links')
         elif entry.name == 'README.zh_CN.md':
             require(entry.with_name('README.md').is_file(), f'{relative}: orphan Chinese README')
-        for match in re.findall(r'\]\(([^)]+)\)|href="([^"]+)"',entry.read_text()):
-            link=next(x for x in match if x).split('#')[0]
+        for url in document_links(entry.read_text(), relative):
+            link=url.split('#')[0]
             if not link or '://' in link or link.startswith(('mailto:','data:')) or any(x in link for x in '<> '):
                 continue
             require((entry.parent/unquote(link)).exists(),f'{relative}: broken local link {link}')
@@ -58,12 +59,15 @@ def static_checks(c):
     for t in c.targets.values():
         load_adapter(c.root, c.platforms[t['platform']]).validate_target(c.root, t)
         checks.append(result(t['id']+'/contract', 'passed'))
-    for pattern in ('devices/*/device.json', 'platforms/*/platform.json', 'platforms/*/targets/*/target.json', 'capabilities/*/capability.json'):
+    for pattern in ('platforms/*/platform.json', 'devices/*/targets/target.json', 'capabilities/*/capability.json'):
         for path in c.root.glob(pattern):
             canonical=json.dumps(read_json(path),ensure_ascii=False,indent=2,sort_keys=True)+'\n'
             require(path.read_text()==canonical,f'{path}: noncanonical metadata formatting')
-    for area in ('skills','platforms','capabilities','devices'):
+    for area in ('skills','platforms','capabilities','devices','tests'):
         for path in source_files(c.root/area):
+            if area != 'tests':
+                require(not {'test', 'tests', '_tests'}.intersection(path.relative_to(c.root/area).parts[:-1]),
+                        f'{path.relative_to(c.root)}: maintained tests must live under tests/')
             if path.suffix=='.py':
                 ast.parse(path.read_text(),filename=str(path))
     require('Apache License' in (c.root/'LICENSE').read_text() and (c.root/'NOTICE').read_text().strip(), 'Repository license/attribution missing')
@@ -73,7 +77,7 @@ def static_checks(c):
             require(any('Copyright' in text or 'SPDX-License-Identifier' in text or 'Apache License' in text for text in texts), f'{path}: component attribution missing')
     checks += [result('source/format-and-python-syntax','passed'),result('source/licenses-and-attribution','passed')]
     # Engineering entry points are required once, in English.
-    entries = [c.root/'AGENTS.md', c.root/'CONTRIBUTION.md', c.root/'README.md', c.root/'CLAUDE.md', c.root/'devices/AGENTS.md', c.root/'capabilities/AGENTS.md', c.root/'platforms/AGENTS.md']
+    entries = [c.root/'AGENTS.md', c.root/'CONTRIBUTION.md', c.root/'README.md', c.root/'CLAUDE.md', c.root/'devices/AGENTS.md', c.root/'capabilities/AGENTS.md', c.root/'platforms/AGENTS.md', c.root/'tests/AGENTS.md']
     entries += list(c.root.glob('devices/*/AGENTS.md')) + list(c.root.glob('platforms/*/AGENTS.md'))
     entries += list(c.root.glob('skills/*/SKILL.md')) + list(c.root.glob('capabilities/*/AGENTS.md'))
     for entry in entries:
@@ -88,7 +92,7 @@ def static_checks(c):
     # Scan source files and untracked additions too; split the pattern so this
     # validator's own source is not mistaken for a private key.
     key = re.compile('-----BEGIN '+'(?:RSA |EC |OPENSSH )?PRIVATE KEY-----')
-    for area in ('devices','platforms','capabilities','skills','docs','.github'):
+    for area in ('devices','platforms','capabilities','skills','tests','docs','.github'):
         for path in source_files(c.root/area):
             if path.suffix in ('.md','.py','.c','.h','.json','.yml','.yaml','.sh'):
                 require(not key.search(path.read_text(errors='replace')), f'private-key material in {path.relative_to(c.root)}')
@@ -181,7 +185,7 @@ def record_evidence(c,source):
     commit=subprocess.run(['git','cat-file','-e',record['repository_commit']+'^{commit}'],cwd=c.root,capture_output=True)
     require(commit.returncode==0,'repository_commit does not exist in this repository')
     identity=hashlib.sha256(json.dumps(record,sort_keys=True).encode()).hexdigest()[:16]
-    out=c.root/'devices'/t['device']/'tests/records'/f'{record["kind"]}-{identity}.json'
+    out=device_evidence_dir(c,t)/'records'/f'{record["kind"]}-{identity}.json'
     require(not out.exists(),'evidence record exists; do not overwrite prior observations')
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(record,ensure_ascii=False,indent=2)+'\n')

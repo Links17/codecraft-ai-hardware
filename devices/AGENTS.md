@@ -1,6 +1,8 @@
-# Device discovery
+# Device directory
 
-Generated from Device Overviews; edit the owning records.
+This directory index is generated from the authored Device Markdown entries.
+
+Each device has its own directory and AGENTS.md knowledge entry. Keep hardware knowledge, references and assets there; targets/ owns its native BSP, examples and board configuration. Use reference/ for supporting material and assets/ for actual registered media when needed. Shared stack/runtime adapters, build helpers and reusable components belong in platforms/<stack>/. Board-specific tests live in tests/devices/<device>/targets/; observations, records and logs live alongside that test subtree.
 
 ## [Grove Beginner Kit for Arduino](grove-beginner-kit/AGENTS.md)
 

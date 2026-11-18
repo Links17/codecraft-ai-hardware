@@ -5,7 +5,18 @@ description: Develop hardware applications and repository contributions with nat
 
 # Develop
 
-Read the root two-part contract and obtain context for the selected Target. Hardware facts come from devices/<device>/AGENTS.md and reference/. Native BSPs/examples remain in platforms/<stack>/targets/<device>. Use codecraft-ideate when the application brief needs clarification. Generate private projects with `python3 codecraft.py new --target <id> --example <name> --output projects/<name>`; explicit external directories remain supported. Use --brief <file.json> for a confirmed brief. Keep generated AGENTS content sourced from project.yaml and preserve custom rules outside its marked region. See [project workspaces](../../docs/development/project-workspaces.md). Preserve application/BSP boundaries and user changes; finish with the required validation report.
+Read the root two-part contract and obtain context for the selected Target.
+Start from devices/AGENTS.md and the selected Device's authored AGENTS.md. Follow
+[Device documents and shared references](../../docs/development/device-documents.md)
+when editing knowledge, specifications, sources or acceptance. Follow the matching
+platforms/<stack>/AGENTS.md for native work. Use codecraft-ideate when the
+application brief needs clarification. Generate private projects with
+`new --target <id> --example <name> --output projects/<name>`; explicit external
+directories remain supported. Use --brief <file.json> for a confirmed brief.
+Keep generated application AGENTS content sourced from project.yaml and preserve
+custom rules outside its marked region. See [project workspaces](../../docs/development/project-workspaces.md).
+Preserve application/BSP boundaries and user changes; finish with the required
+validation report.
 
 All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.
 
@@ -17,6 +28,6 @@ Maintain README.md and README.zh_CN.md together. All other engineering documents
 
 Use skill-release prepare/check/apply for standalone package changes, following docs/development/skill-releases.md. Keep helper maintenance under skills/_cloud and runtime imports package-local. Review candidate bytes, separate versions and the exact digest before applying; never automatically accept hash drift or rewrite original provenance. Exported applications use the same public CLI and source lock.
 
-ESP-IDF examples use explicit BSP compositions. Read docs/development/native-compositions.md when changing native source selection, BSP layout or dependencies. Keep the profile, native manifests, Target example scope and lock aligned; settle native lock updates before final source-fingerprint validation. A successful compiler command must also pass the actual BSP-source/requirement check.
+For ESP-IDF source selection and BSP dependencies, follow [native composition rules](../../docs/development/native-compositions.md).
 
-For sourced hardware variants, use context/new/validate --variant as described in docs/development/hardware-variants.md. Keep the Device facts, Target/native profile, export selection and lock aligned. The full Target gate covers all variants. A build default is not physical identification; physical evidence must identify its variant and an observed compatible revision. Unknown compatibility remains unresolved.
+For assembly selection, export and revision-specific evidence, follow [hardware variant rules](../../docs/development/hardware-variants.md).

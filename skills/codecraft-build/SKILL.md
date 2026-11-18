@@ -31,6 +31,6 @@ platforms/formats return not_supported. Output includes firmware.bin and its
 manifest; source package behavior is unchanged. These commands do not flash or
 publish. See docs/development/firmware-images.md in the reference repository.
 
-ESP-IDF examples use explicit BSP compositions. Read docs/development/native-compositions.md when changing native source selection, BSP layout or dependencies. Keep the profile, native manifests, Target example scope and lock aligned; settle native lock updates before final source-fingerprint validation. A successful compiler command must also pass the actual BSP-source/requirement check.
+For ESP-IDF source selection and BSP dependencies, follow [native composition rules](../../docs/development/native-compositions.md).
 
-For sourced hardware variants, use context/new/validate --variant as described in docs/development/hardware-variants.md. Keep the Device facts, Target/native profile, export selection and lock aligned. The full Target gate covers all variants. A build default is not physical identification; physical evidence must identify its variant and an observed compatible revision. Unknown compatibility remains unresolved.
+For assembly selection, export and revision-specific evidence, follow [hardware variant rules](../../docs/development/hardware-variants.md).

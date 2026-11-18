@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-[`AGENTS.md`](./AGENTS.md) is the single source of truth for AI instructions
+[`AGENTS.md`](AGENTS.md) is the single source of truth for AI instructions
 in this repository. Claude Code must follow it directly for project structure,
 build and validation commands, coding conventions, and contribution rules.
 
