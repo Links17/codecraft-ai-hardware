@@ -70,7 +70,7 @@ No verified redistributable image is registered.
 - [bsp_pins.h](../../platforms/esp-idf/targets/reterminal-sticky/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/reterminal-sticky/reference/vendor-notes.md)
 - [inventory.md](../../devices/reterminal-sticky/reference/inventory.md)
-- [build-6319c007a1fb0bdb.json](../../devices/reterminal-sticky/tests/records/build-6319c007a1fb0bdb.json)
+- [build-ae830e6b2760ced2.json](../../devices/reterminal-sticky/tests/records/build-ae830e6b2760ced2.json)
 
 ## Vendor links
 

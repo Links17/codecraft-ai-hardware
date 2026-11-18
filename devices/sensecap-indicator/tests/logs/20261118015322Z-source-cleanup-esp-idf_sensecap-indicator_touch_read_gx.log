@@ -1,0 +1,101 @@
+Executing action: all (aliases: build)
+Running ninja in directory <repository>/.codecraft/builds/sensecap-indicator/touch_read/gx
+Executing "ninja all"...
+[0/1] Re-running CMake...
+-- Component directory <home>/esp/esp-idf-v6.0.2/components/mqtt does not contain a CMakeLists.txt file. No component will be added
+-- Minimal build - ON
+-- Building ESP-IDF components for target esp32s3
+NOTICE: Processing 4 dependencies:
+NOTICE: [1/4] espressif/esp_lcd_touch (1.2.1)
+NOTICE: [2/4] espressif/esp_lcd_touch_ft5x06 (1.1.1)
+NOTICE: [3/4] espressif/esp_lcd_touch_gt911 (1.2.1)
+NOTICE: [4/4] idf (6.0.2)
+-- ESP-TEE is currently supported only on the esp32c6;esp32h2;esp32c5;esp32c61 SoCs
+-- KCONFIG_REPORT_VERBOSITY not set, using default
+-- Project sdkconfig file <repository>/platforms/esp-idf/targets/sensecap-indicator/examples/touch_read/sdkconfig
+Loading defaults file <repository>/platforms/esp-idf/targets/sensecap-indicator/examples/touch_read/sdkconfig.defaults...
+info: Default value for MBEDTLS_HARDWARE_RSA_DS_PERIPHERAL in sdkconfig is y but it is n according to Kconfig.
+Using default value from sdkconfig (y).
+Configuration Report                                                            
+ ────────────────────────────────────────────────────────────────────────────── 
+   Parser Version: 1                                                            
+   Verbosity: default                                                           
+   Defaults policy: sdkconfig                                                   
+   Status: Finished with notifications                                          
+                                                                                
+  Default Value Mismatch                                                        
+   ──────────────────────────────────────────────────────────────────────────   
+    Using sdkconfig default values                                              
+    Config symbols with different default value between sdkconfig and           
+    Kconfig                                                                     
+    MBEDTLS_HARDWARE_RSA_DS_PERIPHERAL: Kconfig default value: n,               
+    sdkconfig default value: y                                                  
+   ──────────────────────────────────────────────────────────────────────────   
+ ────────────────────────────────────────────────────────────────────────────── 
+-- Compiler supported targets: xtensa-esp-elf
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- App "touch_read" version: da0b699-dirty
+-- Setting up mbedtls configuration
+-- Linkage type is PUBLIC
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_hal_wdt/esp32s3/rom.wdt.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_system/ld/esp32s3/memory.ld.in
+--   -> Preprocessing .in script: <home>/esp/esp-idf-v6.0.2/components/esp_system/ld/esp32s3/memory.ld.in
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_system/ld/esp32s3/sections.ld.in
+--   -> Preprocessing .in script: <home>/esp/esp-idf-v6.0.2/components/esp_system/ld/esp32s3/sections.ld.in
+--   -> Applying ldgen processing: <repository>/.codecraft/builds/sensecap-indicator/touch_read/gx/esp-idf/esp_system/ld/sections.ld.in
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.api.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.bt_funcs.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.libgcc.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.version.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_master.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_50.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_smp.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_dtm.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_test.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_scan.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/esp_rom/esp32s3/ld/esp32s3.rom.libc.ld
+-- Adding linker script <home>/esp/esp-idf-v6.0.2/components/soc/esp32s3/ld/esp32s3.peripherals.ld
+-- Components: app_update bootloader bootloader_support bsp cxx driver efuse esp_app_format esp_blockdev esp_bootloader_format esp_common esp_driver_bitscrambler esp_driver_dma esp_driver_gpio esp_driver_i2c esp_driver_i2s esp_driver_parlio esp_driver_spi esp_hal_ana_conv esp_hal_clock esp_hal_dma esp_hal_gpio esp_hal_gpspi esp_hal_i2c esp_hal_i2s esp_hal_lcd esp_hal_mspi esp_hal_parlio esp_hal_pmu esp_hal_rtc_timer esp_hal_security esp_hal_timg esp_hal_touch_sens esp_hal_twai esp_hal_uart esp_hal_usb esp_hal_wdt esp_hw_support esp_lcd esp_libc esp_mm esp_partition esp_pm esp_psram esp_ringbuf esp_rom esp_security esp_stdio esp_system esp_timer esp_usb_cdc_rom_console espressif__esp_lcd_touch espressif__esp_lcd_touch_ft5x06 espressif__esp_lcd_touch_gt911 esptool_py freertos hal heap log main mbedtls partition_table pthread soc spi_flash xtensa
+-- Component paths: <home>/esp/esp-idf-v6.0.2/components/app_update <home>/esp/esp-idf-v6.0.2/components/bootloader <home>/esp/esp-idf-v6.0.2/components/bootloader_support <repository>/platforms/esp-idf/targets/sensecap-indicator/bsp <home>/esp/esp-idf-v6.0.2/components/cxx <home>/esp/esp-idf-v6.0.2/components/driver <home>/esp/esp-idf-v6.0.2/components/efuse <home>/esp/esp-idf-v6.0.2/components/esp_app_format <home>/esp/esp-idf-v6.0.2/components/esp_blockdev <home>/esp/esp-idf-v6.0.2/components/esp_bootloader_format <home>/esp/esp-idf-v6.0.2/components/esp_common <home>/esp/esp-idf-v6.0.2/components/esp_driver_bitscrambler <home>/esp/esp-idf-v6.0.2/components/esp_driver_dma <home>/esp/esp-idf-v6.0.2/components/esp_driver_gpio <home>/esp/esp-idf-v6.0.2/components/esp_driver_i2c <home>/esp/esp-idf-v6.0.2/components/esp_driver_i2s <home>/esp/esp-idf-v6.0.2/components/esp_driver_parlio <home>/esp/esp-idf-v6.0.2/components/esp_driver_spi <home>/esp/esp-idf-v6.0.2/components/esp_hal_ana_conv <home>/esp/esp-idf-v6.0.2/components/esp_hal_clock <home>/esp/esp-idf-v6.0.2/components/esp_hal_dma <home>/esp/esp-idf-v6.0.2/components/esp_hal_gpio <home>/esp/esp-idf-v6.0.2/components/esp_hal_gpspi <home>/esp/esp-idf-v6.0.2/components/esp_hal_i2c <home>/esp/esp-idf-v6.0.2/components/esp_hal_i2s <home>/esp/esp-idf-v6.0.2/components/esp_hal_lcd <home>/esp/esp-idf-v6.0.2/components/esp_hal_mspi <home>/esp/esp-idf-v6.0.2/components/esp_hal_parlio <home>/esp/esp-idf-v6.0.2/components/esp_hal_pmu <home>/esp/esp-idf-v6.0.2/components/esp_hal_rtc_timer <home>/esp/esp-idf-v6.0.2/components/esp_hal_security <home>/esp/esp-idf-v6.0.2/components/esp_hal_timg <home>/esp/esp-idf-v6.0.2/components/esp_hal_touch_sens <home>/esp/esp-idf-v6.0.2/components/esp_hal_twai <home>/esp/esp-idf-v6.0.2/components/esp_hal_uart <home>/esp/esp-idf-v6.0.2/components/esp_hal_usb <home>/esp/esp-idf-v6.0.2/components/esp_hal_wdt <home>/esp/esp-idf-v6.0.2/components/esp_hw_support <home>/esp/esp-idf-v6.0.2/components/esp_lcd <home>/esp/esp-idf-v6.0.2/components/esp_libc <home>/esp/esp-idf-v6.0.2/components/esp_mm <home>/esp/esp-idf-v6.0.2/components/esp_partition <home>/esp/esp-idf-v6.0.2/components/esp_pm <home>/esp/esp-idf-v6.0.2/components/esp_psram <home>/esp/esp-idf-v6.0.2/components/esp_ringbuf <home>/esp/esp-idf-v6.0.2/components/esp_rom <home>/esp/esp-idf-v6.0.2/components/esp_security <home>/esp/esp-idf-v6.0.2/components/esp_stdio <home>/esp/esp-idf-v6.0.2/components/esp_system <home>/esp/esp-idf-v6.0.2/components/esp_timer <home>/esp/esp-idf-v6.0.2/components/esp_usb_cdc_rom_console <repository>/platforms/esp-idf/targets/sensecap-indicator/examples/touch_read/managed_components/espressif__esp_lcd_touch <repository>/platforms/esp-idf/targets/sensecap-indicator/examples/touch_read/managed_components/espressif__esp_lcd_touch_ft5x06 <repository>/platforms/esp-idf/targets/sensecap-indicator/examples/touch_read/managed_components/espressif__esp_lcd_touch_gt911 <home>/esp/esp-idf-v6.0.2/components/esptool_py <home>/esp/esp-idf-v6.0.2/components/freertos <home>/esp/esp-idf-v6.0.2/components/hal <home>/esp/esp-idf-v6.0.2/components/heap <home>/esp/esp-idf-v6.0.2/components/log <repository>/platforms/esp-idf/targets/sensecap-indicator/examples/touch_read/main <home>/esp/esp-idf-v6.0.2/components/mbedtls <home>/esp/esp-idf-v6.0.2/components/partition_table <home>/esp/esp-idf-v6.0.2/components/pthread <home>/esp/esp-idf-v6.0.2/components/soc <home>/esp/esp-idf-v6.0.2/components/spi_flash <home>/esp/esp-idf-v6.0.2/components/xtensa
+-- Configuring done (8.9s)
+-- Generating done (0.3s)
+-- Build files have been written to: <repository>/.codecraft/builds/sensecap-indicator/touch_read/gx
+[1/13] Building C object esp-idf/esp_app_format/CMakeFiles/__idf_esp_app_format.dir/esp_app_desc.c.obj
+[2/13] Performing build step for 'bootloader'
+[1/1] cd <repository>/.codecraft/builds/sensecap-indicator/touch_read/gx/bootloader && <home>/.espressif/python_env/idf6.0_py3.14_env/bin/python <home>/esp/esp-idf-v6.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 <repository>/.codecraft/builds/sensecap-indicator/touch_read/gx/bootloader/bootloader.bin
+Bootloader binary size 0x57e0 bytes. 0x2820 bytes (31%) free.
+[3/13] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/src/bsp_touch.c.obj
+[4/13] No install step for 'bootloader'
+[5/13] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/src/bsp_io_expander.c.obj
+[6/13] Linking C static library esp-idf/esp_app_format/libesp_app_format.a
+[7/13] Completed 'bootloader'
+[8/13] Linking C static library esp-idf/bsp/libbsp.a
+[9/13] Generating esp-idf/esp_system/ld/sections.ld
+info: Default value for MBEDTLS_HARDWARE_RSA_DS_PERIPHERAL in sdkconfig is y but it is n according to Kconfig.
+Using default value from sdkconfig (y).
+[10/13] Linking CXX executable touch_read.elf
+[11/13] Generating binary image from built executable
+esptool v5.3.1
+Creating ESP32-S3 image...
+Merged 3 ELF sections.
+Successfully created ESP32-S3 image.
+Generated <repository>/.codecraft/builds/sensecap-indicator/touch_read/gx/touch_read.bin
+[12/13] cd <repository>/.codecraft/builds/sensecap-indicator/touch_read/gx && <home>/.espressif/python_env/idf6.0_py3.14_env/bin/python <home>/esp/esp-idf-v6.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app <repository>/.codecraft/builds/sensecap-indicator/touch_read/gx/partition_table/partition-table.bin <repository>/.codecraft/builds/sensecap-indicator/touch_read/gx/touch_read.bin
+touch_read.bin binary size 0x30ca0 bytes. Smallest app partition is 0x100000 bytes. 0xcf360 bytes (81%) free.
+
+Project build complete. To flash, run:
+ idf.py flash
+or
+ idf.py -p PORT flash
+or
+ python -m esptool --chip esp32s3 -b 460800 --before default-reset --after hard-reset write-flash --flash-mode dio --flash-size 8MB --flash-freq 80m 0x0 .codecraft/builds/sensecap-indicator/touch_read/gx/bootloader/bootloader.bin 0x8000 .codecraft/builds/sensecap-indicator/touch_read/gx/partition_table/partition-table.bin 0x10000 .codecraft/builds/sensecap-indicator/touch_read/gx/touch_read.bin
+or from the "<repository>/.codecraft/builds/sensecap-indicator/touch_read/gx" directory
+ python -m esptool --chip esp32s3 -b 460800 --before default-reset --after hard-reset write-flash "@flash_args"

@@ -1,14 +1,14 @@
 CodeCraft AI Hardware
 Copyright (c) 2026 CodeCraft AI Hardware contributors
 
-This repository's board facts, porting notes, and selected BSP-level code
-were derived from the following open source projects:
+This repository contains adapted third-party code and hardware references.
+The following notices describe those materials; individual source files
+retain their copyright and license declarations.
 
 - Imported hardware reference code (Apache License 2.0)
   Copyright (c) Meta Platforms, Inc. and affiliates.
-  Used for: per-board sdkconfig facts, power-profiling findings for
-  SenseCAP Watcher, SSCMA camera client structure, and the vendor-source
-  citation discipline in docs/vendor-sources.md.
+  Used for: selected board configuration, audio and display drivers,
+  sensor protocol implementations, and the SSCMA camera client.
 
 - Seeed-Solution/SenseCAP_Indicator_ESP32 (Apache License 2.0)
   https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32
@@ -19,7 +19,7 @@ were derived from the following open source projects:
 - Seeed Studio vendor repositories (see docs/vendor-sources.md for the
   per-board authoritative source and its license).
 
-- the imported hardware reference esp32/main/epd_ssd1677.c (MIT License,
+- SSD1677 reference driver, epd_ssd1677.c (MIT License,
   Copyright (c) 2026 JoJang2u, limengdu)
   Used for: the reTerminal Sticky SSD1677 panel driver ported as
   platforms/esp-idf/targets/reterminal-sticky/bsp/src/bsp_epd.c (protocol, refresh
@@ -37,3 +37,6 @@ CodeCraft Gadgets Cloud Agent Skills were imported from the user-provided
 codecraft-gadgets-cloud checkout. The source commit, uncommitted snapshot
 file hashes and local adaptations are recorded in skills/_cloud/import.json.
 The supplied checkout contained no separate upstream license file.
+
+Normalized reference source labels and inspected file hashes are documented
+in docs/source-provenance.md and docs/reference-snapshot.json.

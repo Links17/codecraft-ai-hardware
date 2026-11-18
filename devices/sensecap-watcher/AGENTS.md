@@ -69,7 +69,7 @@ No verified redistributable image is registered.
 - [vendor-notes.md](../../devices/sensecap-watcher/reference/vendor-notes.md)
 - [inventory.md](../../devices/sensecap-watcher/reference/inventory.md)
 - [hardware-checklist.md](../../devices/sensecap-watcher/tests/hardware-checklist.md)
-- [build-d5dd4242cc8c1f4c.json](../../devices/sensecap-watcher/tests/records/build-d5dd4242cc8c1f4c.json)
+- [build-e159d5a5c4307ddb.json](../../devices/sensecap-watcher/tests/records/build-e159d5a5c4307ddb.json)
 
 ## Vendor links
 

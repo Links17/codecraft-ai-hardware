@@ -68,7 +68,7 @@ No verified redistributable image is registered.
 - [reterminal-peripherals-overlay.dts](../../platforms/linux/targets/reterminal/overlays/reterminal-peripherals-overlay.dts)
 - [vendor-notes.md](../../devices/reterminal/reference/vendor-notes.md)
 - [hardware-checklist.md](../../devices/reterminal/tests/hardware-checklist.md)
-- [build-e606532c045e1983.json](../../devices/reterminal/tests/records/build-e606532c045e1983.json)
+- [build-0d0fa19927256ec8.json](../../devices/reterminal/tests/records/build-0d0fa19927256ec8.json)
 
 ## Vendor links
 

@@ -72,7 +72,7 @@ No verified redistributable image is registered.
 - [vendor-notes.md](../../devices/reterminal-e1001/reference/vendor-notes.md)
 - [inventory.md](../../devices/reterminal-e1001/reference/inventory.md)
 - [hardware-checklist.md](../../devices/reterminal-e1001/tests/hardware-checklist.md)
-- [build-1fd5c3aa5d7abacb.json](../../devices/reterminal-e1001/tests/records/build-1fd5c3aa5d7abacb.json)
+- [build-bcabcda785295a7e.json](../../devices/reterminal-e1001/tests/records/build-bcabcda785295a7e.json)
 
 ## Vendor links
 

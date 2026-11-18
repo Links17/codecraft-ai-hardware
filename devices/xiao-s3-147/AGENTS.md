@@ -70,7 +70,7 @@ No verified redistributable image is registered.
 - [bsp_pins.h](../../platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/xiao-s3-147/reference/vendor-notes.md)
 - [inventory.md](../../devices/xiao-s3-147/reference/inventory.md)
-- [build-1676d9399e0cfb9e.json](../../devices/xiao-s3-147/tests/records/build-1676d9399e0cfb9e.json)
+- [build-798e2beab05bf54d.json](../../devices/xiao-s3-147/tests/records/build-798e2beab05bf54d.json)
 
 ## Vendor links
 
