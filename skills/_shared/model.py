@@ -137,7 +137,7 @@ class Catalog:
         return support(self, tid)
 
     def context(self, tid, example=None, task='develop', providers=(), variant=None):
-        skills = {'develop': ['codecraft-develop'], 'setup': ['codecraft-setup'], 'build': ['codecraft-build'],
+        skills = {'ideate': ['codecraft-ideate', 'codecraft-discover'], 'develop': ['codecraft-develop'], 'setup': ['codecraft-setup'], 'build': ['codecraft-build'],
                   'debug': ['codecraft-debug'], 'device-test': ['codecraft-device-test'],
                   'discover': ['codecraft-discover'], 'validate': ['codecraft-validate']}
         require(task in skills, f'unknown context task: {task}')

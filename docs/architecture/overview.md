@@ -38,6 +38,12 @@ orchestration implementation; a selected cloud Provider adds its complete pinned
 Skill package. The immutable import origin and the reviewed application snapshot
 are recorded separately. A changed source or toolchain invalidates verification.
 
+## Private projects and V0.2 alignment
+
+User applications may be generated under ignored projects/<name> or explicit external paths. project.yaml owns a validated brief; creation and relocking render its marked application AGENTS region without replacing custom rules. Reference graphs reject private-project inputs, while application locks still cover their complete source inventory. Ideation context adds the ideate and discover Skills. See [project workspaces](../development/project-workspaces.md).
+
+The [V0.2 ledger](../development/v0.2-todo.md) tracks the design target separately from current implementation. SenseCraft platform operations use the official external sensecraft-cli and bundled Skill, with [setup/routing guidance](../development/sensecraft-cli.md) in this repository. Authentication, platform HTTP calls and command implementation stay upstream. Existing CodeCraft inference clients remain in their Skill packages; the verified platform command set does not replace them. MQTT/local/edge Providers and a registered simulator are pending. The existing simulation decision is a current limitation, not completion of V0.2 simulator acceptance.
+
 ## Native implementation
 
 ESP-IDF BSPs separate public include/ contracts from private src/ implementation.

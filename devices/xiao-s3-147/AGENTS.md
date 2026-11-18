@@ -49,7 +49,7 @@ Revision: unknown
 
 ## Evidence
 
-Build/project: build-verified. Device: not_run. Maintenance: unassigned. Maturity: experimental.
+Build/project: unknown. Device: not_run. Maintenance: unassigned. Maturity: experimental.
 
 - Physical board revision and fresh on-device verification are not recorded.
 - Read the original hardware reference for unsupported drivers, prerequisites and known limitations.
@@ -69,7 +69,6 @@ No verified redistributable image is registered.
 - [hardware.md](../../devices/xiao-s3-147/reference/hardware.md)
 - [bsp_pins.h](../../platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/xiao-s3-147/reference/vendor-notes.md)
-- [build-af2c2542a26cae9d.json](../../devices/xiao-s3-147/tests/records/build-af2c2542a26cae9d.json)
 
 ## Vendor links
 

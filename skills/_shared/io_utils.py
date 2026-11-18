@@ -8,7 +8,7 @@ from pathlib import Path
 
 STATUSES = frozenset({'passed', 'failed', 'skipped', 'not_run', 'not_supported'})
 OPERATIONS = ('inspect', 'configure', 'generate', 'build', 'host-test', 'simulate', 'flash', 'device-test', 'logs', 'package', 'firmware-plan', 'firmware-merge', 'firmware-verify')
-IGNORED = {'.git', '.codecraft', '.venv', 'secrets', '.secrets', '__pycache__', '.pytest_cache', 'node_modules', 'managed_components', 'build', 'built'}
+IGNORED = {'.git', '.codecraft', '.codegraph', '.venv', 'secrets', '.secrets', '__pycache__', '.pytest_cache', 'node_modules', 'managed_components', 'build', 'built'}
 
 
 class ContractError(ValueError):
@@ -68,17 +68,19 @@ def object_digest(value):
     return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
 
 
-def source_files(path):
+def source_files(path, *, excluded_dirs=()):
     """Directory imports exclude local build products; explicit file inputs do not."""
-    for directory, dirs, files in os.walk(path):
-        dirs[:] = sorted(x for x in dirs if x not in IGNORED and not x.startswith('build-'))
+    root = Path(path)
+    for directory, dirs, files in os.walk(root):
+        excluded = set(excluded_dirs) if Path(directory) == root else set()
+        dirs[:] = sorted(x for x in dirs if x not in IGNORED | excluded and not x.startswith('build-'))
         for name in dirs:
             require(not (Path(directory)/name).is_symlink(), f'Directory symlink must be an explicit resource input: {Path(directory)/name}')
         for name in sorted(files):
             file = Path(directory) / name
             if name == '.env' or name.startswith('.env.') and name != '.env.example':
                 continue
-            if name in {'sdkconfig', 'sdkconfig.old', '.DS_Store'} or file.suffix in {'.pyc', '.uf2', '.hex', '.bin', '.elf'}:
+            if name in IGNORED | {'sdkconfig', 'sdkconfig.old', '.DS_Store'} or file.suffix in {'.pyc', '.uf2', '.hex', '.bin', '.elf'}:
                 continue
             require(not file.is_symlink() or file.exists(), f'Broken source symlink: {file}')
             if file.is_file():

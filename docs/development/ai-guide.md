@@ -4,7 +4,7 @@ Read both applicable parts of the root AGENTS.md. Use `python3 codecraft.py cont
 
 ## Application and BSP boundary
 
-Reusable board drivers belong in platforms/<stack>/targets/<device>/bsp; ESP-IDF components shared by multiple boards belong in platforms/esp-idf/components. Pages, state machines, animations and application tasks belong in examples or an external user project. Tests live with their owning core, cloud client, Capability, Platform, component or Target; validation-entry tests stay with codecraft-validate. See [test ownership and execution](testing.md). Keep testable logic independent of ESP-IDF/LVGL.
+Reusable board drivers belong in platforms/<stack>/targets/<device>/bsp; ESP-IDF components shared by multiple boards belong in platforms/esp-idf/components. Pages, state machines, animations and application tasks belong in examples or a private user project under projects/<name> (or an explicitly selected external directory). See [project workspaces and briefs](project-workspaces.md). Tests live with their owning core, cloud client, Capability, Platform, component or Target; validation-entry tests stay with codecraft-validate. See [test ownership and execution](testing.md). Keep testable logic independent of ESP-IDF/LVGL.
 
 For ESP-IDF builds, follow [native composition and layout](native-compositions.md). Match the example BSP source/requirement lists, managed manifest, Target input/dependency/interface scopes and regenerated lock. Keep the native registration in the BSP root; public include/ and private src/ have distinct visibility.
 

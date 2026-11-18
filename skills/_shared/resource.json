@@ -11,6 +11,7 @@
     "skills/_shared/runtime.py",
     "skills/_shared/testing.py",
     "skills/_shared/model.py",
+    "skills/_shared/application.py",
     "skills/_shared/project.py",
     "skills/_shared/evidence.py",
     "skills/_shared/cli.py",

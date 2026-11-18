@@ -47,7 +47,7 @@ Revision: post-October-2025 DHT20/SPA06-003 kit; identify the actual Lotus PCB r
 
 ## Evidence
 
-Build/project: build-verified. Device: not_run. Maintenance: unassigned. Maturity: experimental.
+Build/project: unknown. Device: not_run. Maintenance: unassigned. Maturity: experimental.
 
 - Current source-bound on-device acceptance has not been performed. Recorded observations do not certify new source bytes.
 
@@ -67,7 +67,6 @@ No verified redistributable image is registered.
 - [toolchain.md](../../devices/grove-beginner-kit/reference/toolchain.md)
 - [hardware-checklist.md](../../devices/grove-beginner-kit/tests/hardware-checklist.md)
 - [observations.md](../../devices/grove-beginner-kit/tests/observations.md)
-- [build-b6d185de42254228.json](../../devices/grove-beginner-kit/tests/records/build-b6d185de42254228.json)
 
 ## Vendor links
 

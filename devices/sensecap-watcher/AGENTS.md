@@ -47,7 +47,7 @@ Revision: unknown
 
 ## Evidence
 
-Build/project: build-verified. Device: not_run. Maintenance: unassigned. Maturity: experimental.
+Build/project: unknown. Device: not_run. Maintenance: unassigned. Maturity: experimental.
 
 - Physical board revision and fresh on-device verification are not recorded.
 - Read the original hardware reference for unsupported drivers, prerequisites and known limitations.
@@ -68,7 +68,6 @@ No verified redistributable image is registered.
 - [bsp_pins.h](../../platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/sensecap-watcher/reference/vendor-notes.md)
 - [hardware-checklist.md](../../devices/sensecap-watcher/tests/hardware-checklist.md)
-- [build-657556827f4f7b8a.json](../../devices/sensecap-watcher/tests/records/build-657556827f4f7b8a.json)
 
 ## Vendor links
 

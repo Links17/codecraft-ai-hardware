@@ -6,7 +6,11 @@ This directory contains hardware development workflows and standalone clients th
 
 ## Hardware development
 
-The five required workflows are codecraft-develop, codecraft-setup, codecraft-build, codecraft-device-test and codecraft-debug. Use codecraft-discover and codecraft-validate when needed. Generic orchestration lives in _shared/; each platform owns its native commands and toolchain probe.
+The five required workflows are codecraft-develop, codecraft-setup, codecraft-build, codecraft-device-test and codecraft-debug. Use [codecraft-ideate](codecraft-ideate/SKILL.md) for application intent and briefs, plus codecraft-discover and codecraft-validate when needed. `context --task ideate` includes ideation and discovery guidance. Generic orchestration lives in _shared/; each platform owns its native commands and toolchain probe.
+
+## External SenseCraft CLI
+
+Use the upstream [sensecraft-cli Skill](https://github.com/Seeed-Solution/sensecraft-cli/blob/main/skills/sensecraft-cli/SKILL.md) shipped with `@seeed-studio/sensecraft-cli` for devices, telemetry, Hub, file and model-library management, and cloud deployment. Install/link the complete official Skill directory outside this repository; [setup and routing](../docs/development/sensecraft-cli.md) records the verified package version and commands. No local replacement Skill or API wrapper is maintained here. This optional platform tool is separate from the inference clients below.
 
 ## Cloud API clients
 
@@ -21,7 +25,7 @@ Each directory contains English-only SKILL.md and references/api.md documents, a
 
 Set CODECRAFT_API_ORIGIN and CODECRAFT_DEVICE_FILE only when performing an authorized API task; credential format and limits are in each API reference. Inputs, generated files and credentials belong outside the installed Skill. TTS and image generation save local files by default. Use --archive only when the task requires a stable device-authenticated asset link; it is not a public URL. A failed archive does not require another generation request.
 
-repository-skill Providers pin these local package files and declare them as dependencies. `new --capabilities <selection.json>` exports the selected package into the external project and includes it in codecraft.lock. Plain native projects do not include cloud clients. `prepare-capability` returns a handoff envelope and never invokes an API. Cloud discovery, resolution and preparation work without a hardware Target; --target adds optional validated context. Device integration remains unknown.
+repository-skill Providers pin these local package files and declare them as dependencies. `new --capabilities <selection.json>` exports the selected package into the private project and includes it in codecraft.lock. Plain native projects do not include cloud clients. `prepare-capability` returns a handoff envelope and never invokes an API. Cloud discovery, resolution and preparation work without a hardware Target; --target adds optional validated context. Device integration remains unknown.
 
 Capability contracts are version 2.0.0; each current Provider has policy 1.0.0. Stable semantics remain in Capability. Service bounds, billing and approved defaults belong to the selected Provider. Preparation returns both raw and effective configuration and effective input/output schemas; defaults reach the client as explicit arguments. The table above describes the current CodeCraft Provider, not universal Capability restrictions or measured billing. See [policy ownership](../docs/architecture/capability-provider-policy.md).
 

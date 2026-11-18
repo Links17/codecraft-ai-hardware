@@ -46,7 +46,7 @@ Revision: unknown; source schematic v1.2 does not identify a connected board
 
 ## Evidence
 
-Build/project: build-verified. Device: not_run. Maintenance: unassigned. Maturity: experimental.
+Build/project: unknown. Device: not_run. Maintenance: unassigned. Maturity: experimental.
 
 - Current source-bound on-device acceptance has not been performed. Recorded observations do not certify new source bytes.
 
@@ -66,7 +66,6 @@ No verified redistributable image is registered.
 - [toolchain.md](../../devices/wio-terminal/reference/toolchain.md)
 - [hardware-checklist.md](../../devices/wio-terminal/tests/hardware-checklist.md)
 - [observations.md](../../devices/wio-terminal/tests/observations.md)
-- [build-f08aae3381a622b3.json](../../devices/wio-terminal/tests/records/build-f08aae3381a622b3.json)
 
 ## Vendor links
 

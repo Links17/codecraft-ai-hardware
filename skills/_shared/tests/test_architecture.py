@@ -25,7 +25,7 @@ def fixture():
     with tempfile.TemporaryDirectory(prefix='codecraft-architecture-test-') as folder:
         root = Path(folder)/'repo'
         root.mkdir()
-        for source in source_files(ROOT):
+        for source in source_files(ROOT, excluded_dirs={'projects'}):
             out = root/source.relative_to(ROOT)
             out.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, out, follow_symlinks=True)

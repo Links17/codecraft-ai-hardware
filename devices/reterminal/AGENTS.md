@@ -47,7 +47,7 @@ Revision: unknown
 
 ## Evidence
 
-Build/project: build-verified. Device: not_run. Maintenance: unassigned. Maturity: experimental.
+Build/project: unknown. Device: not_run. Maintenance: unassigned. Maturity: experimental.
 
 - Physical board revision and fresh on-device verification are not recorded.
 - Read the original hardware reference for unsupported drivers, prerequisites and known limitations.
@@ -68,7 +68,6 @@ No verified redistributable image is registered.
 - [reterminal-peripherals-overlay.dts](../../platforms/linux/targets/reterminal/overlays/reterminal-peripherals-overlay.dts)
 - [vendor-notes.md](../../devices/reterminal/reference/vendor-notes.md)
 - [hardware-checklist.md](../../devices/reterminal/tests/hardware-checklist.md)
-- [build-9cd1e59a31fa9df2.json](../../devices/reterminal/tests/records/build-9cd1e59a31fa9df2.json)
 
 ## Vendor links
 

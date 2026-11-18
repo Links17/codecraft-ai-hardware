@@ -50,7 +50,7 @@ Revision: unknown
 
 ## Evidence
 
-Build/project: build-verified. Device: not_run. Maintenance: unassigned. Maturity: experimental.
+Build/project: unknown. Device: not_run. Maintenance: unassigned. Maturity: experimental.
 
 - Physical board revision and fresh on-device verification are not recorded.
 - Read the original hardware reference for unsupported drivers, prerequisites and known limitations.
@@ -71,7 +71,6 @@ No verified redistributable image is registered.
 - [bsp_pins.h](../../platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/reterminal-e1001/reference/vendor-notes.md)
 - [hardware-checklist.md](../../devices/reterminal-e1001/tests/hardware-checklist.md)
-- [build-965dea5578207f5c.json](../../devices/reterminal-e1001/tests/records/build-965dea5578207f5c.json)
 
 ## Vendor links
 

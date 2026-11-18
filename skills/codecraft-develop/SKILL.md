@@ -5,11 +5,13 @@ description: Develop hardware applications and repository contributions with nat
 
 # Develop
 
-Read the root two-part contract and obtain context for the selected Target. Hardware facts come from devices/<device>/AGENTS.md and reference/. Native BSPs/examples remain in platforms/<stack>/targets/<device>. Generate user projects outside the repository with `new --target <id> --example <name> --output <new-directory>`. Preserve application/BSP boundaries and user changes; finish with the required validation report.
+Read the root two-part contract and obtain context for the selected Target. Hardware facts come from devices/<device>/AGENTS.md and reference/. Native BSPs/examples remain in platforms/<stack>/targets/<device>. Use codecraft-ideate when the application brief needs clarification. Generate private projects with `python3 codecraft.py new --target <id> --example <name> --output projects/<name>`; explicit external directories remain supported. Use --brief <file.json> for a confirmed brief. Keep generated AGENTS content sourced from project.yaml and preserve custom rules outside its marked region. See [project workspaces](../../docs/development/project-workspaces.md). Preserve application/BSP boundaries and user changes; finish with the required validation report.
 
 All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.
 
-For cloud functionality, select a Capability/Provider from cloud-catalog. Use new --capabilities with reviewed selections; the export contains the selected pinned standalone Skill package and its API client. Run python3 codecraft.py lock-project . after deliberate application or environment updates; the initial import provenance remains intact.
+For SenseCraft platform management or CodeCraft Hub tasks, use the official external sensecraft-cli Skill; see [external setup and routing](../../docs/development/sensecraft-cli.md). Install/select the required external tool version when needed and follow its task-specific reference.
+
+For CodeCraft inference functionality, select a Capability/Provider from cloud-catalog. Use new --capabilities with reviewed selections; the export contains the selected pinned standalone Skill package and its API client. Run python3 codecraft.py lock-project . after deliberate application or environment updates; the initial import provenance remains intact.
 
 Maintain README.md and README.zh_CN.md together. All other engineering documents, including AGENTS.md, SKILL.md, API references, plans and reports, use one English source. Update generators and local references with documentation changes; never generate translated Agent rules or duplicate hardware facts.
 

@@ -27,7 +27,9 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def check_documentation(root):
     """Enforce README-only translations and resolve every local Markdown link."""
-    for entry in source_files(root):
+    # Private applications are validated explicitly, not as reference content.
+    excluded = {'projects'} if not (root/'project.yaml').is_file() else set()
+    for entry in source_files(root, excluded_dirs=excluded):
         if entry.suffix != '.md':
             continue
         relative = entry.relative_to(root).as_posix()
@@ -71,7 +73,7 @@ def static_checks(c):
             require(any('Copyright' in text or 'SPDX-License-Identifier' in text or 'Apache License' in text for text in texts), f'{path}: component attribution missing')
     checks += [result('source/format-and-python-syntax','passed'),result('source/licenses-and-attribution','passed')]
     # Engineering entry points are required once, in English.
-    entries = [c.root/'AGENTS.md', c.root/'README.md', c.root/'CLAUDE.md', c.root/'devices/AGENTS.md', c.root/'capabilities/AGENTS.md', c.root/'platforms/AGENTS.md']
+    entries = [c.root/'AGENTS.md', c.root/'CONTRIBUTION.md', c.root/'README.md', c.root/'CLAUDE.md', c.root/'devices/AGENTS.md', c.root/'capabilities/AGENTS.md', c.root/'platforms/AGENTS.md']
     entries += list(c.root.glob('devices/*/AGENTS.md')) + list(c.root.glob('platforms/*/AGENTS.md'))
     entries += list(c.root.glob('skills/*/SKILL.md')) + list(c.root.glob('capabilities/*/AGENTS.md'))
     for entry in entries:
@@ -206,6 +208,7 @@ def main(argv=None):
     tests.add_argument('--path',help='Repository-relative test file or owning directory')
     tests.add_argument('--list',action='store_true',help='Collect test IDs without executing test bodies')
     new=sub.add_parser('new');new.add_argument('--target',required=True);new.add_argument('--example',required=True);new.add_argument('--output',type=Path,required=True);new.add_argument('--capabilities',type=Path)
+    new.add_argument('--brief',type=Path,help='JSON project brief: name, purpose, target_users, scenarios and bom')
     new.add_argument('--variant',help='Explicit variant selection; otherwise use the declared build default')
     verify=sub.add_parser('verify-project');verify.add_argument('path',type=Path)
     refresh=sub.add_parser('lock-project');refresh.add_argument('path',type=Path)
@@ -273,7 +276,7 @@ def main(argv=None):
         elif args.command=='new':
             selections=read_json(args.capabilities) if args.capabilities else []
             require(isinstance(selections,list),'Capability selections must be a list')
-            data=generate_project(c,args.target,args.example,args.output,selections,variant=args.variant)
+            data=generate_project(c,args.target,args.example,args.output,selections,variant=args.variant,brief=read_json(args.brief) if args.brief else None)
         elif args.command=='lock-project':data=lock_project(args.path)
         elif args.command=='build-project':
             data=build_project(args.path);ok=data['ok'];code=exit_code(data['results'])
