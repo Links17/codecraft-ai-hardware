@@ -11,7 +11,7 @@ from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'skills/_shared'))
 from io_utils import ContractError, digest, object_digest, read_json, write_json
-from model import load_cloud
+from skill_contracts import load_package
 
 spec=importlib.util.spec_from_file_location('skill_release',ROOT/'skills/_cloud/release.py')
 release=importlib.util.module_from_spec(spec);spec.loader.exec_module(release)
@@ -35,7 +35,7 @@ def rejects(fn):
 
 
 def next_version(root, pid):
-    major, minor, patch_version=release.versions(release.registrations(root)[pid]['skill']['version'])
+    major, minor, patch_version=release.versions(release.registrations(root)[pid]['version'])
     return f'{major}.{minor}.{patch_version+1}'
 
 
@@ -62,16 +62,18 @@ def test_reviewed_documentation_release_executes_isolated_clients_and_preserves_
         before=file_bytes(root);provenance=(root/'skills/_cloud/import.json').read_bytes()
         rejects(lambda:release.prepare(root,base/'unversioned'))
         assert not (base/'unversioned').exists() and file_bytes(root)==before
-        version=next_version(root,'asr/codecraft-cloud')
-        candidate=release.prepare(root,base/'candidate',{'asr/codecraft-cloud':{'skill_version':version}})
-        assert candidate['packages']['asr/codecraft-cloud']['classification']=='documentation'
+        version=next_version(root,'codecraft-asr')
+        candidate=release.prepare(root,base/'candidate',{'codecraft-asr':{'skill_version':version}})
+        assert candidate['packages']['codecraft-asr']['classification']=='documentation'
         outcome=release.apply(root,base/'candidate',candidate['review_sha256'])
-        assert outcome['repository_changed'] and len(outcome['checks'])==17
+        assert outcome['repository_changed'] and len(outcome['checks'])==20
         assert all(x['status']=='passed' for x in outcome['checks'])
-        assert next(x for x in outcome['checks'] if x['name']=='standalone-protocol-suite')['cases']==9
-        provider=load_cloud(root).providers['asr/codecraft-cloud']
-        assert provider['skill']['version']==version
-        assert provider['skill']['files']['references/api.md']==digest(source)
+        assert next(x for x in outcome['checks'] if x['name']=='standalone-protocol-suite')['cases']==16
+        assert next(x for x in outcome['checks'] if x['name']=='standalone-onboarding-suite')['cases']==7
+        assert next(x for x in outcome['checks'] if x['name']=='codecraft-asr::test_realtime')['cases']==6
+        provider=load_package(root,'codecraft-asr')[0]
+        assert provider['version']==version
+        assert provider['files']['references/api.md']==digest(source)
         assert (root/'skills/_cloud/import.json').read_bytes()==provenance
         assert not (root/'.codecraft/skill-release.lock').exists()
         assert outcome['api_execution']=='not_run' and outcome['published'] is False
@@ -93,17 +95,17 @@ def test_shared_helper_candidates_classify_runtime_and_do_not_rewrite_distributi
         candidate=release.prepare(root,base/'candidate',versions)
         assert all(p['classification']=='runtime' for p in candidate['packages'].values())
         for p in release.registrations(root).values():
-            relative=p['skill']['path']+'/scripts/device_api.py'
+            relative=('skills/'+p['id'])+'/scripts/device_api.py'
             assert (base/'candidate'/relative).read_bytes()==maintained.read_bytes()
             assert (root/relative).read_bytes()!=maintained.read_bytes()
         assert file_bytes(root)==before
         cache=base/'candidate/skills/codecraft-asr/scripts/__pycache__/unregistered.pyc'
         cache.parent.mkdir();cache.write_bytes(b'unregistered candidate cache')
         outcome=release.apply(root,base/'candidate',candidate['review_sha256'])
-        assert outcome['repository_changed'] and len(outcome['checks'])==17
+        assert outcome['repository_changed'] and len(outcome['checks'])==20
         assert not (root/'skills/codecraft-asr/scripts/__pycache__').exists()
-        for p in load_cloud(root).providers.values():
-            assert (root/p['skill']['path']/'scripts/device_api.py').read_bytes()==maintained.read_bytes()
+        for p in release.registrations(root).values():
+            assert (root/('skills/'+p['id'])/'scripts/device_api.py').read_bytes()==maintained.read_bytes()
 
 
 def test_wrong_review_digest_candidate_drift_and_source_drift_fail_before_execution():
@@ -129,14 +131,14 @@ def test_invalid_or_tampered_version_plans_cannot_bypass_release_validation():
         invalid=[{'skill_version':'0.0.1'},{'contract_version':'99.0.0'},
                  {'policy_version':'0.0.1'},{'api_version':''},{'unexpected':True}]
         for index,entry in enumerate(invalid):
-            rejects(lambda:release.prepare(root,base/str(index),{'asr/codecraft-cloud':entry}))
+            rejects(lambda:release.prepare(root,base/str(index),{'codecraft-asr':entry}))
         versions=base/'versions.json';versions.write_text('null\n')
         stdout=io.StringIO()
         with patch('sys.stdout',stdout):
             code=release.main(['prepare','--versions',str(versions),'--output',str(base/'null-versions')],root=root)
         assert code==1 and not (base/'null-versions').exists()
-        path=root/'capabilities/asr/providers/codecraft-cloud/provider.json';original=path.read_bytes()
-        for index,change in enumerate(({'capability':'../outside'},{'id':'asr/codecraft-cloud/extra'})):
+        path=root/'skills/_cloud/packages/codecraft-asr.json';original=path.read_bytes()
+        for index,change in enumerate(({'id':'../outside'},{'id':'codecraft-asr/extra'})):
             provider=read_json(path);provider.update(change);write_json(path,provider)
             rejects(lambda:release.prepare(root,base/('bad-path-'+str(index))))
             path.write_bytes(original)
@@ -146,9 +148,9 @@ def test_invalid_or_tampered_version_plans_cannot_bypass_release_validation():
             write_json(path,invalid_manifest)
             rejects(lambda:release.inspect(root,base/'candidate'))
         write_json(path,manifest)
-        entry=manifest['packages']['asr/codecraft-cloud'];entry['proposed']['skill']['version']='0.0.1'
-        provider=base/'candidate'/entry['provider_path'];write_json(provider,entry['proposed'])
-        manifest['files'][entry['provider_path']]=digest(provider);write_json(path,manifest)
+        entry=manifest['packages']['codecraft-asr'];entry['proposed']['version']='0.0.1'
+        provider=base/'candidate'/entry['record_path'];write_json(provider,entry['proposed'])
+        manifest['files'][entry['record_path']]=digest(provider);write_json(path,manifest)
         rejects(lambda:release.inspect(root,base/'candidate',object_digest(manifest)))
 
 
@@ -156,25 +158,25 @@ def test_failed_candidate_cli_prevents_any_apply_changes():
     with workspace() as (root,base):
         source=root/'skills/codecraft-asr/scripts/transcribe.py'
         source.write_text('raise SystemExit(7)\n')
-        prepared=release.prepare(root,base/'candidate',{'asr/codecraft-cloud':{'skill_version':next_version(root,'asr/codecraft-cloud')}})
+        prepared=release.prepare(root,base/'candidate',{'codecraft-asr':{'skill_version':next_version(root,'codecraft-asr')}})
         before=file_bytes(root)
         rejects(lambda:release.apply(root,base/'candidate',prepared['review_sha256']))
         assert file_bytes(root)==before and not (root/'.codecraft/skill-release.lock').exists()
 
 
-def test_mid_apply_failure_restores_all_packages_and_provider_metadata():
+def test_mid_apply_failure_restores_all_packages_and_release_metadata():
     with workspace() as (root,base):
         maintained=root/'skills/_cloud/device_api.py'
         maintained.write_text(maintained.read_text()+'\n# Transaction fixture.\n')
         versions={pid:{'skill_version':next_version(root,pid)} for pid in release.registrations(root)}
         prepared=release.prepare(root,base/'candidate',versions);before=file_bytes(root)
         replace=release.os.replace;calls=[]
-        def fail_second_provider(source,destination):
+        def fail_second_record(source,destination):
             calls.append(destination)
             if len(calls)==2:raise OSError('injected metadata write failure')
             return replace(source,destination)
         # Real validation is covered above; isolate the transaction fault here.
-        with patch.object(release,'validate',return_value={'checks':[]}),patch.object(release.os,'replace',side_effect=fail_second_provider):
+        with patch.object(release,'validate',return_value={'checks':[]}),patch.object(release.os,'replace',side_effect=fail_second_record):
             rejects(lambda:release.apply(root,base/'candidate',prepared['review_sha256']))
         assert len(calls)==2 and file_bytes(root)==before
         assert not list((root/'skills').glob('.release-*'))

@@ -3,8 +3,8 @@
 This repository owns Seeed device knowledge, native Targets and board support,
 cloud Skill contracts, and development workflows. Standalone cloud clients live
 in their Skill packages; cloud servers, pairing, account management and telemetry
-infrastructure remain external. Each change belongs to its Device, Platform,
-Capability or Skill owner.
+infrastructure remain external. Each change belongs to its Device, Platform or
+Skill owner.
 
 ## Before you start
 

@@ -2,16 +2,18 @@
 
 Use this workflow for changes to the bundled cloud Skill packages. It prepares
 reviewable local candidates, checks isolated clients and updates reviewed package
-fingerprints. It does not install Skills globally, publish artifacts or call a
+fingerprints in skills/_cloud/packages/<skill-id>.json. It does not install Skills globally, publish artifacts or call a
 real cloud service. Original import provenance in skills/_cloud/import.json and
-Provider source fields is preserved.
+Skill release source fields is preserved.
+The separately reviewed current upstream snapshot is recorded in
+skills/_cloud/upstream.json; copying new source must not rewrite the original import.
 
 ## Maintained inputs and versions
 
 Edit common client behavior in skills/_cloud/device_api.py. Other package files
 remain maintained under their own skills/codecraft-* directories. The candidate
 builder copies the common helper into every distribution; it does not rewrite
-working package copies or their Provider manifests while preparing a candidate.
+working package copies or their release records while preparing a candidate.
 
 If a distribution helper differs from both its previously pinned bytes and the
 maintained helper, preparation fails and preserves the local edit. Reconcile
@@ -20,30 +22,31 @@ discard a conflicting edit to a distribution copy.
 
 A candidate covers all registered repository-skill packages together. Its
 manifest records the exact maintained source graph, current package inventories,
-previous/proposed Providers, file additions/removals/changes and independent
+previous/proposed release records, file additions/removals/changes and independent
 versions. Package changes containing only Markdown files are classified as
 documentation; code, assets, Agent configuration or other changes are runtime
 changes. This classification does not infer API compatibility.
 
 Any package-byte or API-version change requires an explicit higher numeric
 major.minor.patch Skill version. Policy versions cannot decrease. Contract
-versions must match the reviewed Capability. A changed semantic contract or
+versions must match the reviewed Skill contract. A changed semantic contract or
 binding must be implemented and reviewed at its owning source; the packager
-does not invent operation translations or update the Capability itself.
+does not invent operation translations or update the contract itself.
 
-Version overrides are a JSON object keyed by Provider ID. For example, after a
-documentation-only ASR edit from package 1.0.1:
+Version overrides are a JSON object keyed by Skill ID. For example, after a
+documentation-only ASR edit from package 2.0.1:
 
 ```json
 {
-  "asr/codecraft-cloud": {
-    "skill_version": "1.0.2"
+  "codecraft-asr": {
+    "skill_version": "2.0.2"
   }
 }
 ```
 
-Optional fields are api_version, contract_version and policy_version. Omitted
-versions remain unchanged. A shared-helper edit needs a reviewed version change
+Optional fields are api_version, contract_version and policy_version. These must
+match the separately reviewed values in package contract.json; omitted versions
+remain unchanged. Release record schema is 1; candidate manifest and Skill contract container schemas are 2. A shared-helper edit needs a reviewed version change
 for every affected package. Do not change versions or hashes merely to suppress
 a failing contract test.
 
@@ -56,7 +59,7 @@ python3 codecraft.py skill-release prepare --versions /work/release-versions.jso
 ```
 
 For a reproducibility check with unchanged package inputs, omit --versions.
-Outputs contain complete skills/<name> packages, proposed Provider JSON files
+Outputs contain complete skills/<name> packages, proposed package release records
 and manifest.json. Identical source bytes and version overrides produce identical
 candidate file bytes and review_sha256 values; no timestamp or absolute source
 path participates in the candidate identity. Normal Python caches and .DS_Store
@@ -79,18 +82,21 @@ python3 codecraft.py skill-release apply --candidate /work/skill-candidate --rev
 
 check stages the candidate in a temporary repository with the exact declared
 validation inputs. It checks complete pinned package inventories and CLI flags,
-shared-helper equality, the nine offline protocol cases and the twelve current
-prepared-client conformance functions. Each client runs alone against a loopback
+shared-helper equality, 16 offline protocol cases, seven onboarding/authentication
+cases, six realtime cases and the thirteen current direct-client conformance
+functions. Activate the host test environment from [testing.md](testing.md) first;
+the optional client dependency pins are required by these suites.
+Each client runs alone against a loopback
 fixture with synthetic credentials. The explicit release-checks.json registry
-must cover registered Providers and their operations. Added Providers require
+must cover registered Skills and their operations. Added Skills require
 their own concrete tests; the workflow does not fabricate a substitute service.
 
 apply requires the exact reviewed digest and reruns those checks. A modified
-candidate, missing/extra files, changed maintained sources or outdated Provider
+candidate, missing/extra files, changed maintained sources or outdated release
 inventory fails before application. Validation receipts are not trusted as a
 substitute for this rerun. A release lock prevents simultaneous apply operations.
 
-Only changed distribution directories and Provider manifests are replaced.
+Only changed distribution directories and release records are replaced.
 Unrelated repository files and original provenance are preserved. On a write
 failure, completed replacements are restored. If restoring a backup itself
 fails, recovery files remain under the reported skills/.release-* directory;

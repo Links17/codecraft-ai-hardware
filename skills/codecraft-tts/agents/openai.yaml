@@ -1,4 +1,4 @@
 interface:
-  display_name: "CodeCraft 语音合成"
-  short_description: "Generate device WAV speech with CodeCraft"
-  default_prompt: "使用 $codecraft-tts 生成指定文本的语音文件。"
+  display_name: "CodeCraft Speech Synthesis"
+  short_description: "Integrate CodeCraft speech on MCU and Linux"
+  default_prompt: "Use $codecraft-tts to integrate device authentication and speech synthesis into my MCU or Linux application."

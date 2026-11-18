@@ -1,4 +1,4 @@
 interface:
-  display_name: "CodeCraft 语音识别"
-  short_description: "Transcribe device WAV audio with CodeCraft"
-  default_prompt: "使用 $codecraft-asr 将指定 WAV 文件识别为文本。"
+  display_name: "CodeCraft Speech Recognition"
+  short_description: "Integrate file and realtime ASR on MCU and Linux"
+  default_prompt: "Use $codecraft-asr to integrate device authentication and speech recognition into my MCU or Linux application."

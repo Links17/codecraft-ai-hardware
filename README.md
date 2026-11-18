@@ -2,51 +2,137 @@
 
 # CodeCraft AI Hardware
 
-A development reference for Seeed devices: device knowledge, native BSPs and examples, cloud Skill contracts, and standalone Agent workflows. The four cloud API client Skills are maintained under [skills/](skills/README.md); the cloud service and account infrastructure remain external.
+**Build and customize Seeed hardware projects with your AI coding assistant.**
 
-Start with [AGENTS.md](AGENTS.md). [Devices](devices/AGENTS.md) and the [native interface matrix](docs/inventory.md) are generated from authored Device Markdown and Target manifests.
+CodeCraft AI Hardware brings together device knowledge, native board support packages (BSPs), examples and Agent Skills for AI-assisted embedded development with **ESP-IDF, Arduino and Linux**. Start from an existing example, create your own project, and give your coding assistant the board context and development workflow it needs.
+
+[Choose an example](#choose-a-starting-example) · [Quick start](#quick-start) · [Devices](devices/AGENTS.md) · [Agent Skills](skills/README.md) · [Documentation](docs/README.md) · [简体中文](README.zh_CN.md)
+
+## What you can do
+
+- **Start with board context.** Find device references, native interfaces, toolchain requirements and known limitations before changing firmware.
+- **Make an example your own.** Export a private application with its BSP, dependencies and source lock; develop with the board's native software stack.
+- **Work with an AI coding assistant.** Use Skills for setup, development, builds, debugging and authorized device testing.
+- **Add optional cloud features.** Standalone Skills extend your project with capabilities such as text generation, speech recognition, speech synthesis and image generation. Local native development does not require a cloud account.
+
+## Choose a starting example
+
+These are existing source examples to build on. Follow each Device entry for hardware revision requirements and the Target guide for setup.
+
+| Starting point | Device and software stack | Example source | Setup |
+| --- | --- | --- | --- |
+| Explore an e-paper display | [reTerminal E1001](devices/reterminal-e1001/AGENTS.md) · ESP-IDF | [epd_hello](devices/reterminal-e1001/targets/examples/epd_hello) | [Target guide](devices/reterminal-e1001/targets/README.md) |
+| Explore a display and buttons | [Wio Terminal](devices/wio-terminal/AGENTS.md) · Arduino | [display_buttons](devices/wio-terminal/targets/examples/display_buttons) | [Target guide](devices/wio-terminal/targets/README.md) |
+| Start with a button and LED | [Grove Beginner Kit](devices/grove-beginner-kit/AGENTS.md) · Arduino | [button_led](devices/grove-beginner-kit/targets/examples/button_led) | [Target guide](devices/grove-beginner-kit/targets/README.md) |
+
+Find more boards and examples in the [device directory](devices/AGENTS.md). The generated [native interface and evidence matrix](docs/inventory.md) distinguishes implementation from build and physical verification. Current-source on-device acceptance remains unperformed; historical observations do not certify a new source version.
 
 ## Quick start
 
+### 1. Get the repository and select your board
+
+Have Git and Python 3 available. Run the following commands in your terminal:
+
 ```sh
-python3 codecraft.py catalog
+git clone https://github.com/Seeed-Solution/codecraft-ai-hardware.git
+cd codecraft-ai-hardware
 python3 codecraft.py discover --interface display
-python3 codecraft.py cloud-catalog
-python3 codecraft.py check-cloud-skills
-python3 codecraft.py resolve-capability --capability asr
-python3 codecraft.py context --target esp-idf/reterminal-e1001
-python3 codecraft.py validate --static
-python3 codecraft.py validate --target esp-idf/reterminal-e1001
 ```
 
-Activate the Target's declared toolchain before building. To create a portable private workspace:
+The following walkthrough uses **reTerminal E1001 / ESP-IDF**. For another board, use its Target guide and declared software stack.
+
+```sh
+python3 codecraft.py context --target esp-idf/reterminal-e1001
+```
+
+Read the returned context and the [E1001 setup guide](devices/reterminal-e1001/targets/README.md#toolchain). Install and activate the exact toolchain declared in [target.json](devices/reterminal-e1001/targets/target.json) before building; when working with an agent, use [codecraft-setup](skills/codecraft-setup/SKILL.md) for missing tools.
+
+### 2. Create your own workspace
+
+Run from the repository root:
 
 ```sh
 python3 codecraft.py new --target esp-idf/reterminal-e1001 --example epd_hello --output projects/my-e1001-project
+python3 codecraft.py verify-project projects/my-e1001-project
+```
+
+Choose an output directory that does not already exist. `projects/` is ignored by Git so your application stays separate from the reference examples; an explicit external directory also works. `project.yaml` records your selections, and `codecraft.lock` tracks imported sources and toolchain provenance. No global CodeCraft CLI installation is needed.
+
+### 3. Build the selected example
+
+With the declared toolchain active, run:
+
+```sh
 python3 codecraft.py build-project projects/my-e1001-project
 ```
 
-The output directory must not already exist. `project.yaml` records selections; `codecraft.lock` records imported file hashes, the repository revision and toolchain. Generated projects and transient build output stay untracked; deliberately retained, sanitized evidence is stored under tests/devices/<device>/. `projects/` is ignored; explicit external paths remain supported. Use codecraft-ideate and `new --brief <file.json>` to capture purpose, target users, scenarios and BOM in project.yaml and the generated application AGENTS region. See [project workspaces](docs/development/project-workspaces.md).
+The exported workspace also contains `codecraft.py`; from that directory, use `python3 codecraft.py build-project .`. Builds do not flash the device. To test on hardware, follow the selected [Device acceptance procedure](devices/reterminal-e1001/AGENTS.md#physical-acceptance) and [codecraft-device-test](skills/codecraft-device-test/SKILL.md), with the board and port identified and device writes explicitly authorized.
 
-The public entry is also included in new exports; from an application directory use `python3 codecraft.py build-project .`. No global CLI installation is needed. Standalone cloud Skills remain independent; maintain package releases through the [candidate workflow](docs/development/skill-releases.md).
+For application changes, briefs, reviewed relocking and repeat builds, follow the [portable application workflow](docs/development/application-workflow.md). Use [codecraft-ideate](skills/codecraft-ideate/SKILL.md) and `new --brief <file.json>` to record purpose, users, scenarios and a bill of materials in your project.
 
-## Optional SenseCraft platform tool
+## Develop with your AI coding assistant
 
-For SenseCraft devices, telemetry, CodeCraft Hub, files, model-library management or cloud deployment, use the external [sensecraft-cli](https://github.com/Seeed-Solution/sensecraft-cli) and its official Agent Skill. The verified package version is 0.5.0 (Node.js 16+):
+Open this checkout in your coding assistant and have it read [AGENTS.md](AGENTS.md). Before AI-assisted development, install the complete directories for these five [hardware workflow Skills](skills/README.md) into your assistant's Skill discovery location: `codecraft-develop`, `codecraft-setup`, `codecraft-build`, `codecraft-device-test` and `codecraft-debug`. The repository contract directs the agent to install and verify any missing workflows.
 
-```sh
-npx --yes @seeed-studio/sensecraft-cli@0.5.0 --version
-npx --yes @seeed-studio/sensecraft-cli@0.5.0 --help
+For example, start a new application with this request:
+
+```text
+Read AGENTS.md and use the required CodeCraft Skills.
+I have a reTerminal E1001. Help me create a private project at
+projects/my-e1001-project from the epd_hello example.
+Check the board context and declared toolchain, then build it.
+Report the build result and any unknowns. Ask me to identify the
+board and port and authorize device writes before flashing.
 ```
 
-See [installation, Skill discovery and task routing](docs/development/sensecraft-cli.md). Native development does not require this tool; installation does not authorize cloud operations. The existing LLM/ASR/TTS/image-generation clients remain separate from these platform-management commands.
+Use a fresh output path if you already followed the quick start. For an existing application, open its workspace and follow its generated `AGENTS.md`. Agent workflows cover setup, development, build, debugging and device testing; the selected Platform owns the native commands.
 
-## Structure and contribution
+## Optional cloud features and firmware sharing
 
-`devices/AGENTS.md` is the device directory index. Each `devices/<device>/` owns device knowledge, references, assets and `targets/` with its BSP, examples and board configuration; `platforms/` owns shared software-stack/runtime adapters, build helpers and reusable components; `capabilities/` owns contracts consumed by cloud Skills; `skills/` owns orchestration, workflows and standalone clients. All tests, fixtures and mocks live under `tests/`, grouped by source owner; see [test ownership](docs/development/testing.md). Board-specific tests use `tests/devices/<device>/targets/`; retained observations, records and logs live alongside that subtree. Read [architecture](docs/architecture/overview.md) and [contribution rules](.github/CONTRIBUTING.md).
+Standalone clients in [skills/](skills/README.md#standalone-inference-clients) extend cloud capabilities with features such as LLM text generation, ASR/STT, TTS and image generation. Each client owns its `contract.json` and API reference and can be installed independently. Cloud service and account infrastructure remain external; read the selected Skill for credentials, limits and authorized API use.
 
-After source metadata changes, run `python3 codecraft.py generate`, then `python3 codecraft.py generate --check`. CI and discovery use the same Target records. The complete software gate is `python3 codecraft.py validate`; physical verification is separate and remains unperformed until real evidence is recorded.
+See the [free allowance table](skills/README.md#free-allowance) for monthly per-device usage and monthly totals across five devices. The features share one monthly device allowance; the rows are alternative usage estimates.
 
-Apache License 2.0. Retained third-party attributions: [NOTICE](NOTICE).
+To include clients in an application, CLI contract 3 uses `new --skills <selection.json>` with explicit selections; project profiles and locks use schema 3. See [project composition](skills/README.md#optional-project-composition) and the generated [Skill inventory](docs/skill-inventory.json).
 
-V0.2 implementation is tracked in the [TODO ledger](docs/development/v0.2-todo.md); [CONTRIBUTION.md](CONTRIBUTION.md) links the maintenance rules. The external SenseCraft CLI is referenced directly; simulation and physical acceptance remain open work items.
+[CodeCraft Hub](https://codecraft.seeed.cc/hub) is the separate firmware-sharing platform. For requested uploads, online flashing, SenseCraft device management or cloud deployment, use the external [sensecraft-cli](https://github.com/Seeed-Solution/sensecraft-cli) and its official bundled Skill. Follow [installation and task routing](docs/development/sensecraft-cli.md) for the verified version and prerequisites. Native development does not require this tool; installing a Skill or CLI does not authorize cloud operations.
+
+## Documentation and contribution
+
+| You want to… | Start here |
+| --- | --- |
+| Find device knowledge and native examples | [Device directory](devices/AGENTS.md) |
+| Check implementation and evidence status | [Native interface matrix](docs/inventory.md) |
+| Customize an exported project | [Application workflow](docs/development/application-workflow.md) |
+| Explore hardware and cloud Skills | [Skills guide](skills/README.md) |
+| Understand ownership and architecture | [Architecture](docs/architecture/overview.md) |
+| Report a problem or contribute | [Issues](https://github.com/Seeed-Solution/codecraft-ai-hardware/issues) · [Contribution guide](.github/CONTRIBUTING.md) |
+| Browse all guides and open work | [Documentation](docs/README.md) · [Implementation ledger](docs/development/v0.2-todo.md) |
+
+### Repository layout
+
+| Path | Contents |
+| --- | --- |
+| `devices/<device>/` | Device knowledge, references, assets and native BSPs/examples under `targets/` |
+| `platforms/` | Software-stack adapters, build helpers and shared components |
+| `skills/` | Agent workflows and standalone cloud clients; package release records under `_cloud/packages/` |
+| `projects/` | Ignored private application workspaces |
+| `tests/` | Tests, fixtures, mocks and retained device evidence, grouped by source owner |
+| `docs/` | Engineering guidance, generated indexes and open work |
+
+### Contributor checks
+
+Follow the [repository contract](AGENTS.md), [maintenance entry](CONTRIBUTION.md) and [test ownership guide](docs/development/testing.md). After source metadata changes, run `python3 codecraft.py generate`; then check generation drift and static/host behavior:
+
+```sh
+python3 codecraft.py generate --check
+python3 codecraft.py validate --static
+```
+
+Documentation-only changes do not require native builds. Firmware or native build changes need scoped validation under the [validation policy](AGENTS.md#required-validation-and-delivery); no-option `python3 codecraft.py validate` runs the complete software gate. Build results, simulation and physical observations are reported separately. Generated firmware and transient build output stay untracked; retained, sanitized evidence lives under `tests/devices/<device>/`.
+
+For standalone client package changes, follow the [candidate/check/review/apply release workflow](docs/development/skill-releases.md). Packaging does not install or publish a Skill. Remaining acceptance and simulation work is tracked in the implementation ledger linked above.
+
+## License
+
+[Apache License 2.0](LICENSE). Retained third-party attributions: [NOTICE](NOTICE).

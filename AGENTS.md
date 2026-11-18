@@ -29,20 +29,19 @@ CodeCraft cloud APIs. Cloud clients live in their Skill packages. Server runtime
 device provisioning/pairing, account management and telemetry infrastructure
 remain external and MUST NOT be introduced here.
 
-The implementation separates device facts, software stacks, cloud Skill contracts, and Agent workflows:
+The implementation separates Device facts, Platform software stacks and Skill-owned workflows/contracts:
 
 | Path | Responsibility |
 | --- | --- |
 | `devices/AGENTS.md` | Generated device directory index linking each device knowledge entry |
 | `devices/<board>/` | Device knowledge, references, assets and native implementation; AGENTS is the entry and Device contract owner |
-| `capabilities/<capability>/` | Reusable contracts and integration resources consumed by cloud Skills |
 | `devices/<board>/targets/` | Native BSP, examples and board configuration directly under one Target root; target.json declares its software stack |
 | `platforms/esp-idf/components/` | Components shared by ESP-IDF boards |
 | `platforms/<stack>/` | Shared software-stack/runtime adapters, build helpers and reusable components; no board directories |
 | `skills/` | Hardware development workflows and independently installable cloud API Skills |
-| `skills/_cloud/` | Cloud client maintenance source, import provenance and release tooling |
+| `skills/_cloud/` | Cloud client maintenance source, package release records, immutable import provenance and release tooling |
 | `skills/_shared/` | Shared orchestration and public CLI implementation |
-| `tests/` | All repository-maintained tests, fixtures and mocks, grouped by Device, Platform, Capability or Skill owner; see tests/AGENTS.md |
+| `tests/` | All repository-maintained tests, fixtures and mocks, grouped by Device, Platform or Skill owner; see tests/AGENTS.md |
 | `tests/devices/<board>/` | Retained observations, source-bound evidence records and sanitized original logs |
 | `tests/devices/<board>/targets/` | Board-specific host tests, native fixtures and test doubles |
 | `projects/<name>/` | Ignored private application exports, briefs and local locks; never reference dependencies |
@@ -187,7 +186,7 @@ platform success must not change the hardware verification status.
 
 - [Device directory](devices/AGENTS.md)
 - [Native interfaces and current evidence](docs/inventory.md)
-- [Cloud Skill Capabilities](capabilities/AGENTS.md)
+- [Skill contracts and workflows](skills/AGENTS.md)
 - [Documentation and authoritative guides](docs/README.md)
 
 ## Part II: Developer contribution constraints
@@ -218,7 +217,7 @@ the owning layer and preserve unrelated behavior.
 - For a new board or changed hardware fact, establish the vendor/source record
   first, then update the owning header/BSP/profile and its documentation.
   Record cited source notes, implementation references and conflicts in the authored Device AGENTS.md section; retain supporting reference material in reference/ when needed.
-- New devices MUST provide an authored AGENTS.md following [Device documents and shared references][device-documents], a Target manifest and native examples. Native interfaces cite implementation paths. Capability is a cloud Skill consumption boundary; GPIO, display and audio remain native interfaces. Regenerate derived indexes and add relevant positive/negative checks when schema or adapter behavior changes.
+- New devices MUST provide an authored AGENTS.md following [Device documents and shared references][device-documents], a Target manifest and native examples. Native interfaces cite implementation paths. Cloud consumption contracts belong to their standalone Skills; GPIO, display and audio remain native interfaces. Regenerate derived indexes and add relevant positive/negative checks when schema or adapter behavior changes.
 - Toolchain, dependency, partition, and persistent-data changes MUST state
   compatibility and recovery implications. A directory move must not silently
   change a toolchain, hardware value, or firmware behavior.
@@ -264,14 +263,14 @@ the owning layer and preserve unrelated behavior.
 - Application briefs MUST be owned by project.yaml. Render the marked application AGENTS region on creation/relocking, preserve custom rules outside it, and leave missing intent/BOM values unknown. Private projects MUST NOT enter reference discovery, test collection or source dependencies.
 - A project lock MUST preserve initial import provenance separately from explicitly reviewed application updates. Builds MUST check the actual toolchain against the current lock.
 - Evidence MUST name complete expected cases and the source digest, and live in tests/devices/<board>/. Preserve original log bytes, timestamps and observed results; storage changes MUST NOT refresh historical source digests. Changed source/adapter/contracts invalidate prior verification. Physical promotion additionally requires matching revision and named acceptance observations.
-- Capability contracts are consumed by cloud Skills. Device peripherals and native interfaces MUST NOT be registered as Capabilities. This repository MUST NOT implement the consuming cloud service.
-- Cloud domain code MUST NOT import or construct the hardware Catalog. Use neutral registry primitives and caller-injected Target lookup. Stable semantics belong to Capability; service policy belongs to a separately versioned Provider policy. Provider constraints MUST NOT weaken the Capability schema, and defaults require explicit Capability permission. See `docs/architecture/capability-provider-policy.md` for ownership and enforcement boundaries.
-- Cloud Skill packages MUST run independently after copying one directory. Runtime imports MUST remain inside the package. A repository-skill Provider MUST pin all package files and declare the package as an export dependency. Source changes require reviewed hash updates and offline client tests; validation MUST NOT call real cloud APIs or use real credentials.
-- Bundle changes MUST use the candidate/check/review/apply workflow in `docs/development/skill-releases.md`. Apply MUST name the reviewed candidate digest, rerun isolated conformance and reject source drift. Package, API, Capability and policy versions MUST remain separately reviewed; original import provenance MUST NOT be rewritten. Packaging MUST NOT imply installation or publication.
+- Cloud operation contracts MUST live in the consuming Skill package's contract.json. Device peripherals and native interfaces MUST NOT become cloud contracts. This repository MUST NOT implement the cloud service.
+- Shared Skill contract validation MUST NOT import or construct the hardware Catalog. Native-only context, export and project checks MUST NOT load cloud packages or contract code. Explicit Skill selections add only their complete package and verification graph. Stable semantics, service policy and API versions remain separately reviewed. Policy may only narrow schemas; defaults require explicit permission. Follow docs/architecture/skill-contracts.md.
+- Cloud Skill packages MUST run independently after copying one directory. Runtime imports MUST remain inside the package. Package release records in skills/_cloud/packages MUST pin every package file, including contract.json, and preserve original provenance. Keep inventories outside packages to avoid self-hashing. Validation MUST use offline fixtures and synthetic credentials, never real services.
+- Bundle changes MUST use candidate/check/review/apply in docs/development/skill-releases.md. Apply MUST name the reviewed digest, rerun isolated conformance and reject source drift. Package, API, semantic contract and policy versions MUST remain separately reviewed; original import provenance MUST NOT be rewritten. Packaging MUST NOT imply installation or publication.
 - ESP-IDF examples MUST keep native BSP composition, Target example scope and managed dependency locks aligned. Public headers stay in include/ and private implementation in src/. Validate actual build-source selection and portable exports; changing source layout MUST NOT silently change hardware configuration or dependency versions. See `docs/development/native-compositions.md`.
 - Hardware variants MUST come from sourced Device facts and explicit Target/native bindings. Carry the selected variant through context, export, locks, native build cases and physical evidence. A declared build default MUST NOT imply panel detection or revision compatibility; one variant's observations MUST NOT promote another. Unknown revision mappings remain unresolved. See `docs/development/hardware-variants.md`.
-- All repository-maintained tests, fixtures and mocks MUST live under tests/, grouped by source owner. MUST NOT place test directories inside devices/, platforms/, capabilities/ or skills/. Use the recursive public test runner; each test MUST be discovered once. Physical evidence and logs are not executable test suites. Follow `docs/development/testing.md` for the authoritative ownership map, filtering and execution rules.
-- Document and invoke repository tools through `python3 codecraft.py`. The public entry is the only repository/application CLI. It loads skills/_shared/cli.py; native commands remain in platform adapters. New exports MUST carry the public entry in their graph and lock.
+- All repository-maintained tests, fixtures and mocks MUST live under tests/, grouped by source owner. MUST NOT place test directories inside devices/, platforms/ or skills/. Use the recursive public test runner; each test MUST be discovered once. Physical evidence and logs are not executable test suites. Follow `docs/development/testing.md` for the authoritative ownership map, filtering and execution rules.
+- Document and invoke repository tools through `python3 codecraft.py`. The public entry is the only repository/application CLI. It loads skills/_shared/cli.py; native commands remain in platform adapters. New exports MUST carry the public entry and portable workflow guidance in their graph and lock. CLI contract 3 uses explicit --skills selections; project profiles and locks use schema 3 without mixed-version readers.
 
 ### Required validation and delivery
 

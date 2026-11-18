@@ -1,6 +1,6 @@
 # Native interface matrix
 
-Generated implementations and scoped evidence.
+Generated implementations and scoped evidence. See the [JSON bindings](interface-matrix.json) for operation, configuration and resource details.
 
 | Device | Target | Implementations | Build + project | Device |
 | --- | --- | --- | --- | --- |

@@ -27,7 +27,7 @@ def test_nested_owners_and_suite_styles_are_collected_once_without_running_bodie
            'tests/platforms/esp-idf/test_adapter.py',
            'tests/platforms/esp-idf/components/chip/protocol/test_protocol.py',
            'tests/devices/board/targets/test_board.py',
-           'tests/capabilities/test_catalog.py','tests/capabilities/asr/test_contract.py']
+           'tests/skills/_shared/test_skill_contracts.py','tests/skills/codecraft-asr/test_contract.py']
     with tempfile.TemporaryDirectory() as folder:
         root=Path(folder)
         register_target(root,'board','esp-idf')
@@ -164,16 +164,16 @@ def test_device_test_platform_selection_uses_manifest_and_excludes_evidence():
         write(root,'tests/platforms/arduino/nested/test_adapter.py','def test_body(): pass\n')
         write(root,'tests/platforms/esp-idf/components/chip/test_driver.py','def test_body(): pass\n')
         write(root,'tests/skills/_shared/test_common.py','def test_body(): pass\n')
-        write(root,'tests/capabilities/asr/test_contract.py','def test_body(): pass\n')
+        write(root,'tests/skills/codecraft-asr/test_contract.py','def test_body(): pass\n')
         current=inventory(root,platform='arduino')
         assert not current['collection_errors']
         assert [row['name'] for row in current['tests']]==[
-            'tests/capabilities/asr/test_contract.py::test_body',
             'tests/devices/board-b/targets/test_board.py::test_body',
             'tests/platforms/arduino/nested/test_adapter.py::test_body',
-            'tests/skills/_shared/test_common.py::test_body']
+            'tests/skills/_shared/test_common.py::test_body',
+            'tests/skills/codecraft-asr/test_contract.py::test_body']
         assert {row['name'] for row in inventory(root,platform='esp-idf')['tests']}=={
-            'tests/capabilities/asr/test_contract.py::test_body',
+            'tests/skills/codecraft-asr/test_contract.py::test_body',
             'tests/devices/board-a/targets/test_board.py::test_body',
             'tests/platforms/esp-idf/components/chip/test_driver.py::test_body',
             'tests/skills/_shared/test_common.py::test_body'}

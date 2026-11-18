@@ -22,6 +22,23 @@ integration tests compile the Linux overlay and validate locked application
 exports. On Ubuntu, install `build-essential` and `device-tree-compiler`; the
 contracts CI job installs both before discovery and execution.
 
+Cloud protocol tests additionally need Python 3.11+, curl, Pillow and websockets.
+Use a private virtual environment and install the exact package-owned pins through
+tests/requirements.txt before test discovery or release checks:
+
+```sh
+export CODECRAFT_TEST_ENV="${TMPDIR:-/tmp}/codecraft-host-tests-env"
+python3 -m venv "$CODECRAFT_TEST_ENV"
+. "$CODECRAFT_TEST_ENV/bin/activate"
+python3 -m pip install -r tests/requirements.txt
+python3 -m pip check
+```
+
+These are host test dependencies, not MCU runtime or native toolchain requirements.
+The onboarding suite compiles a temporary C/C++ authentication fixture only;
+protocol tests use synthetic credentials and loopback services. Missing optional
+client dependencies must be reported rather than silently skipping their cases.
+
 Select checks using the [root validation policy](../../AGENTS.md#required-validation-and-delivery).
 Documentation and host-only changes do not require native firmware builds when
 native inputs/behavior are unchanged. Host tests may compile host fixtures; this
@@ -43,10 +60,10 @@ remain separate, explicitly scoped workflows.
 
 | Location | Responsibility |
 | --- | --- |
-| `tests/skills/_shared/` | Catalogs, source graph, generation, project exports/locks, evidence and cross-layer orchestration |
+| `tests/skills/_shared/` | Device Markdown parsing/validation, catalogs, source graph, generation, project exports/locks, evidence and cross-layer orchestration |
 | `tests/skills/_cloud/` | Standalone installation/inventory, loopback protocols and reviewed release transactions |
 | `tests/skills/codecraft-validate/` | Validation entry, public CLI, test discovery, language/link policy and unique test identities |
-| `tests/capabilities/`, `tests/capabilities/<capability>/` | Shared policy/harness and per-Capability semantic contracts and prepared-client conformance |
+| `tests/skills/<skill-id>/` | Semantic contracts and direct standalone-client conformance |
 | `tests/platforms/<stack>/` | Platform-wide adapter/registration contracts and shared native test support |
 | `tests/platforms/<stack>/components/<component>/` | Shared native implementation and its C fixtures |
 | `tests/devices/<device>/targets/` | BSP bindings, board-specific contracts and example callers |
@@ -62,7 +79,7 @@ For Device tests, platform filtering reads devices/<device>/targets/target.json;
 it does not infer the software stack from the test folder name. Missing or
 mismatched Target ownership fails discovery. Platform filtering includes the
 selected tests/platforms/<stack>/ tree and Device tests bound to that stack.
-Shared Skill and Capability tests run for every platform scope.
+Shared Skill and contract tests run for every platform scope.
 Shared fixture/compiler helpers live in tests/platforms/<stack>/ and
 use names such as `host_sensor.py`; C fixtures and SDK doubles are not Python
 test entries. `fixtures/`, `stubs/`, `mocks/`, build/cache and hidden directories are
@@ -83,6 +100,6 @@ aliases and reports import/fixture failures. Adding or moving tests must retain
 behavioral coverage without forwarding wrappers or duplicate execution.
 Release candidates run isolated client conformance in their own workflow; those
 checks do not turn offline protocol results into live service acceptance.
-Their source graph explicitly includes tests/capabilities/ and the standalone
+Their source graph explicitly includes the four per-Skill conformance directories and the shared standalone
 protocol fixture. Native application exports include production dependencies
 and cited Device observations, not test code, fixtures, records or logs.

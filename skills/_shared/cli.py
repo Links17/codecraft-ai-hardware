@@ -16,9 +16,9 @@ from urllib.parse import unquote
 
 from io_utils import ContractError, OperationUnavailable, digest, read_json, require, source_files, object_digest, result
 from runtime import run_target, load_adapter, check_envelope, exit_code
-from model import Catalog, load_cloud
+from model import Catalog
 from project import generate_project, package_project, verify_project, lock_project, build_project
-from render import generate, matrix
+from render import generate
 from evidence import device_evidence_dir, validate_evidence
 from testing import inventory as test_inventory, run_tests
 from markdown_docs import document_links
@@ -53,17 +53,17 @@ def check_documentation(root):
 def static_checks(c):
     checks = []
     ast.parse((c.root/'codecraft.py').read_text(),filename='codecraft.py')
-    c.cloud()
-    checks.append(result('cloud-capabilities/contracts-and-provider-references','passed'))
-    checks.extend(c.cloud().check_skills())
+    from skill_contracts import check_packages
+    checks.extend(check_packages(c.root))
+    checks.append(result('skills/contracts-and-release-records','passed'))
     for t in c.targets.values():
         load_adapter(c.root, c.platforms[t['platform']]).validate_target(c.root, t)
         checks.append(result(t['id']+'/contract', 'passed'))
-    for pattern in ('platforms/*/platform.json', 'devices/*/targets/target.json', 'capabilities/*/capability.json'):
+    for pattern in ('platforms/*/platform.json', 'devices/*/targets/target.json', 'skills/*/contract.json', 'skills/_cloud/packages/*.json'):
         for path in c.root.glob(pattern):
             canonical=json.dumps(read_json(path),ensure_ascii=False,indent=2,sort_keys=True)+'\n'
             require(path.read_text()==canonical,f'{path}: noncanonical metadata formatting')
-    for area in ('skills','platforms','capabilities','devices','tests'):
+    for area in ('skills','platforms','devices','tests'):
         for path in source_files(c.root/area):
             if area != 'tests':
                 require(not {'test', 'tests', '_tests'}.intersection(path.relative_to(c.root/area).parts[:-1]),
@@ -77,9 +77,9 @@ def static_checks(c):
             require(any('Copyright' in text or 'SPDX-License-Identifier' in text or 'Apache License' in text for text in texts), f'{path}: component attribution missing')
     checks += [result('source/format-and-python-syntax','passed'),result('source/licenses-and-attribution','passed')]
     # Engineering entry points are required once, in English.
-    entries = [c.root/'AGENTS.md', c.root/'CONTRIBUTION.md', c.root/'README.md', c.root/'CLAUDE.md', c.root/'devices/AGENTS.md', c.root/'capabilities/AGENTS.md', c.root/'platforms/AGENTS.md', c.root/'tests/AGENTS.md']
+    entries = [c.root/'AGENTS.md', c.root/'CONTRIBUTION.md', c.root/'README.md', c.root/'CLAUDE.md', c.root/'devices/AGENTS.md', c.root/'skills/AGENTS.md', c.root/'platforms/AGENTS.md', c.root/'tests/AGENTS.md']
     entries += list(c.root.glob('devices/*/AGENTS.md')) + list(c.root.glob('platforms/*/AGENTS.md'))
-    entries += list(c.root.glob('skills/*/SKILL.md')) + list(c.root.glob('capabilities/*/AGENTS.md'))
+    entries += list(c.root.glob('skills/*/SKILL.md'))
     for entry in entries:
         require(entry.is_file(), f'{entry}: missing required documentation entry')
     check_documentation(c.root)
@@ -92,7 +92,7 @@ def static_checks(c):
     # Scan source files and untracked additions too; split the pattern so this
     # validator's own source is not mistaken for a private key.
     key = re.compile('-----BEGIN '+'(?:RSA |EC |OPENSSH )?PRIVATE KEY-----')
-    for area in ('devices','platforms','capabilities','skills','tests','docs','.github'):
+    for area in ('devices','platforms','skills','tests','docs','.github'):
         for path in source_files(c.root/area):
             if path.suffix in ('.md','.py','.c','.h','.json','.yml','.yaml','.sh'):
                 require(not key.search(path.read_text(errors='replace')), f'private-key material in {path.relative_to(c.root)}')
@@ -195,23 +195,20 @@ def record_evidence(c,source):
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root',type=Path,default=ROOT)
+    parser.add_argument('--version',action='version',version='CodeCraft CLI contract 3')
     sub=parser.add_subparsers(dest='command',required=True)
     sub.add_parser('catalog')
-    sub.add_parser('cloud-catalog')
     external=sub.add_parser('check-cloud-skills');external.add_argument('--skills-root',type=Path,help='Installed Skill parent; defaults to this repository’s skills directory')
-    resolve=sub.add_parser('resolve-capability');resolve.add_argument('--capability',required=True);resolve.add_argument('--target',help='Optional hardware context; cloud Skills run on the Agent host');resolve.add_argument('--requirements',type=Path)
-    prepare=sub.add_parser('prepare-capability');prepare.add_argument('--selection',type=Path,required=True);prepare.add_argument('--target',help='Optional hardware context');prepare.add_argument('--operation',required=True);prepare.add_argument('--input',type=Path,required=True)
-    inspect=sub.add_parser('context');inspect.add_argument('--target',required=True);inspect.add_argument('--example');inspect.add_argument('--task',default='develop');inspect.add_argument('--provider',action='append',default=[])
+    inspect=sub.add_parser('context');inspect.add_argument('--target',required=True);inspect.add_argument('--example');inspect.add_argument('--task',default='develop');inspect.add_argument('--skills',type=Path,help='JSON list of explicit Skill selections')
     inspect.add_argument('--variant',help='Declared hardware build variant; physical revision remains separate')
     discover=sub.add_parser('discover');discover.add_argument('--interface',action='append',default=[]);discover.add_argument('--platform');discover.add_argument('--constraints',type=Path)
     gen=sub.add_parser('generate');gen.add_argument('--check',action='store_true')
-    sub.add_parser('matrix')
     val=sub.add_parser('validate');val.add_argument('--static',action='store_true');val.add_argument('--target');val.add_argument('--example');val.add_argument('--projects',action='store_true');val.add_argument('--report',type=Path)
     val.add_argument('--variant',help='Build one declared variant; the full gate builds all registered variants')
     tests=sub.add_parser('test',help='List or run host tests at their owning paths')
     tests.add_argument('--path',help='Repository-relative test file or owning directory')
     tests.add_argument('--list',action='store_true',help='Collect test IDs without executing test bodies')
-    new=sub.add_parser('new');new.add_argument('--target',required=True);new.add_argument('--example',required=True);new.add_argument('--output',type=Path,required=True);new.add_argument('--capabilities',type=Path)
+    new=sub.add_parser('new');new.add_argument('--target',required=True);new.add_argument('--example',required=True);new.add_argument('--output',type=Path,required=True);new.add_argument('--skills',type=Path)
     new.add_argument('--brief',type=Path,help='JSON project brief: name, purpose, target_users, scenarios and bom')
     new.add_argument('--variant',help='Explicit variant selection; otherwise use the declared build default')
     verify=sub.add_parser('verify-project');verify.add_argument('path',type=Path)
@@ -260,26 +257,34 @@ def main(argv=None):
             spec=importlib.util.spec_from_file_location('codecraft_skill_release',path)
             module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
             return module.main(args.release_args,root=args.root)
-        cloud_command=args.command in ('cloud-catalog','check-cloud-skills','resolve-capability','prepare-capability')
-        c=load_cloud(args.root) if cloud_command else Catalog(args.root)
+        if args.command=='check-cloud-skills':
+            if not (args.root/'skills/_shared/skill_contracts.py').is_file():
+                require((args.root/'project.yaml').is_file() and (args.root/'codecraft.lock').is_file(),
+                        'Missing maintained Skill contract implementation')
+                from project import profile
+                require(not profile(args.root)['skills'], 'Missing verification code for selected Skills; restore the locked source')
+                raise OperationUnavailable('not_supported','This native-only application contains no Skill packages or release records to check.')
+            from skill_contracts import check_packages
+            checks=check_packages(args.root,args.skills_root)
+            ok=all(item['status']=='passed' for item in checks)
+            print(json.dumps({'schema_version':2,'ok':ok,'data':{'results':checks,'api_execution':'not_run'}},indent=2))
+            return 0 if ok else 1
+        if args.command=='generate' and (args.root/'project.yaml').is_file():
+            raise OperationUnavailable('not_supported','Reference index generation requires the repository; use lock-project to update application guidance.')
+        application_commands={'verify-project','lock-project','build-project','package'}
+        c=None if args.command in application_commands else Catalog(args.root)
         data={};ok=True;code=0
-        if args.command=='catalog':data={'devices':c.devices,'platforms':c.platforms,'targets':c.targets,'capabilities':c.capabilities}
-        elif args.command=='cloud-catalog':data=c.describe()
-        elif args.command=='check-cloud-skills':
-            data={'results':c.check_skills(args.skills_root),'api_execution':'not_run'};ok=all(item['status']=='passed' for item in data['results'])
-        elif args.command=='resolve-capability':
-            requirements=read_json(args.requirements) if args.requirements else {}
-            require(isinstance(requirements,dict) and set(requirements)<={'environment','limits'},'Requirements must be an object with environment and/or limits')
-            data=c.resolve(args.capability,args.target,requirements.get('environment'),requirements.get('limits'))
-        elif args.command=='prepare-capability':data=c.prepare(read_json(args.selection),args.target,args.operation,read_json(args.input))
-        elif args.command=='context':data=c.context(args.target,args.example,args.task,args.provider,variant=args.variant)
+        if args.command=='catalog':data={'schema_version':3,'devices':c.devices,'platforms':c.platforms,'targets':c.targets}
+        elif args.command=='context':
+            selections=read_json(args.skills) if args.skills else []
+            require(isinstance(selections,list),'Skill selections must be a list')
+            data=c.context(args.target,args.example,args.task,selections,variant=args.variant)
         elif args.command=='discover':data=c.resolve(args.interface,args.platform,read_json(args.constraints) if args.constraints else None)
-        elif args.command=='matrix':data=matrix(c)
         elif args.command=='generate':
             changed=generate(c,args.check);data={'changed':changed,'check':args.check};ok=not args.check or not changed
         elif args.command=='new':
-            selections=read_json(args.capabilities) if args.capabilities else []
-            require(isinstance(selections,list),'Capability selections must be a list')
+            selections=read_json(args.skills) if args.skills else []
+            require(isinstance(selections,list),'Skill selections must be a list')
             data=generate_project(c,args.target,args.example,args.output,selections,variant=args.variant,brief=read_json(args.brief) if args.brief else None)
         elif args.command=='lock-project':data=lock_project(args.path)
         elif args.command=='build-project':

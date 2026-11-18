@@ -86,7 +86,7 @@ def application_rules(data, existing=''):
         return existing.rstrip() + '\n\n' + generated + '\n'
     return (
         '# Application context and rules\n\n' + generated + '\n\n## Development rules\n\n'
-        'Read README.md and project.yaml. Preserve source citations and native APIs. Keep application changes in this project. '
+        'Read README.md, project.yaml and [the portable workflow](docs/development/application-workflow.md). Preserve source citations and native APIs. Keep application changes in this project. '
         'Verify/update the lock before building. Device writes require an identified device and explicit authorization; builds and packages never perform them. '
         'Keep secrets out of source and locks. Maintain README.md and README.zh_CN.md together; all other engineering documents use English only.\n'
     )

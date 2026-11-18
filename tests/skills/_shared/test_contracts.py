@@ -60,8 +60,8 @@ def test_discovery_keeps_unknowns_and_rejects_unavailable_combinations():
 def test_context_contains_native_sources_and_only_selected_workflow():
     context=Catalog(ROOT).context('esp-idf/sensecap-watcher')
     assert any(p.endswith('bsp_pins.h') for p in context['files'])
-    assert 'skills/codecraft-develop/SKILL.md' in context['files']
-    assert 'skills/codecraft-device-test/SKILL.md' not in context['files']
+    assert 'skills/codecraft-develop/SKILL.md' in context['guidance']
+    assert 'skills/codecraft-device-test/SKILL.md' not in context['guidance']
     assert context['unknowns'] and context['support']['device']=='not_run'
 
 
@@ -110,7 +110,7 @@ def test_missing_reference_and_nonreciprocal_binding_fail():
         rejected(lambda:Catalog(root),'identity/path mismatch')
 
 
-def test_verified_claim_cannot_be_inserted_into_capability_manifest():
+def test_verified_claim_cannot_be_inserted_into_native_interface():
     with fixture() as root:
         change(root,'devices/reterminal-e1001/targets/target.json',lambda d:d['interfaces'][0].update(verification='device-verified'))
         rejected(lambda:Catalog(root),'verification is derived')
@@ -125,6 +125,18 @@ def test_generation_is_stable_and_detects_metadata_changes():
         assert 'devices/AGENTS.md' in generate(c,check=True)
         assert 'devices/reterminal/AGENTS.md' not in generate(c,check=True)
         generate(c)
+        assert generate(c,check=True)==[]
+        target=c.target('linux/reterminal')
+        interface=target['interfaces'][0]['id']
+        operation=next(iter(target['interfaces'][0]['operations']))
+        reason='Native interface test guidance.'
+        change(root,target['path']+'/target.json',lambda d:d['interfaces'][0]['operations'][operation].update(reason=reason))
+        c=Catalog(root)
+        assert 'docs/interface-matrix.json' in generate(c,check=True)
+        generate(c)
+        bindings=read_json(root/'docs/interface-matrix.json')['bindings']
+        binding=next(item for item in bindings if item['target']=='linux/reterminal' and item['interface']==interface)
+        assert binding['operations'][operation]['reason']==reason
         assert generate(c,check=True)==[]
 
 
@@ -153,8 +165,9 @@ def test_project_is_portable_reproducible_and_refuses_overwrite():
         rejected(lambda:package_project(a,Path(folder)/'bad.zip'),'differs from its current lock')
 
 
-def test_exported_documentation_resolves_without_the_reference_checkout():
+def test_exported_guidance_and_device_validation_are_self_contained():
     catalog=Catalog(ROOT)
+    validator='skills/_shared/device_validation.py'
     with tempfile.TemporaryDirectory(prefix='codecraft-export-docs-') as folder:
         for tid,target in catalog.targets.items():
             native=load_adapter(ROOT,catalog.platforms[target['platform']])
@@ -165,6 +178,21 @@ def test_exported_documentation_resolves_without_the_reference_checkout():
                 generate_project(catalog,tid,target['examples'][0],output)
             check_documentation(output)
             assert verify_project(output)['status']=='passed'
+            assert validator in catalog.context(tid)['files']
+            lock=read_json(output/'codecraft.lock')
+            assert 'docs/interface-matrix.json' not in lock['files']
+            for files in (lock['files'],lock['dependency_graph']['files'],lock['origin']['import_graph']['files']):
+                assert files[validator]==digest(ROOT/validator)
+            assert (output/validator).read_bytes()==(ROOT/validator).read_bytes()
+            command=[sys.executable,'-I','-B',str(output/'codecraft.py'),'discover']
+            run=subprocess.run(command,cwd=folder,capture_output=True,text=True,timeout=30)
+            assert run.returncode==0, run.stdout+run.stderr
+            data=json.loads(run.stdout)
+            assert data['ok'] is True
+            assert [item['target'] for item in data['data']['candidates']]==[tid]
+            change(output,f'devices/{target["device"]}/AGENTS.md',lambda d:d.update(maturity='unreviewed'))
+            run=subprocess.run(command,cwd=folder,capture_output=True,text=True,timeout=30)
+            assert run.returncode!=0 and 'separate owner/maturity required' in run.stdout, run.stdout+run.stderr
 
 
 def test_missing_executable_is_not_a_success_or_unsupported_hardware():

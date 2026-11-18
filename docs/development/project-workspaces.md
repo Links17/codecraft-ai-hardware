@@ -46,6 +46,6 @@ python3 codecraft.py verify-project projects/desk-display
 python3 codecraft.py build-project projects/desk-display
 ```
 
-The lock preserves initial import provenance separately from the current application inventory. Brief and generated context changes are locked; source drift requires deliberate review and relocking. An unavailable toolchain remains not_run, not proof of a successful build. Exporting, locking, building and packaging never authorize device writes. Existing external projects and schema-2 profiles without briefs remain readable; this change does not alter native BSPs, dependencies or toolchain requirements.
+The lock preserves initial import provenance separately from the current application inventory. Brief and generated context changes are locked; source drift requires deliberate review and relocking. An unavailable toolchain remains not_run, not proof of a successful build. Exporting, locking, building and packaging never authorize device writes. Project profiles and locks use schema 3 with explicit Skill selections. Existing exported projects retain their own locked CLI until a reviewed update; the current CLI does not accept older profile/lock formats. Native BSPs, dependencies and toolchain requirements are unchanged.
 
 For reference changes, use [CONTRIBUTION.md](../../CONTRIBUTION.md). Remaining V0.2 cloud, simulator, asset and physical acceptance work is tracked in the [implementation ledger](v0.2-todo.md).

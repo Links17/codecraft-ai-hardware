@@ -1,0 +1,35 @@
+{
+  "api_version": "v1",
+  "contract_version": "3.0.0",
+  "files": {
+    "SKILL.md": "a47b179afefa80221b85c9fe3218e04b0c899bd81f7d13c997b800adfb83994d",
+    "agents/openai.yaml": "b8a510f811c0606d34a6674c960dda0b400f1311dc1ea6dcf5318cdf91965a88",
+    "assets/device_auth.h": "a87327e80c1cc5d8b921a3500c944b0b0bcdd43f303693ec13d2768584cfb44d",
+    "contract.json": "8656c998575486b9faba071216cfa9eae81ff0a23274560768688dd47bf185aa",
+    "references/api.md": "035ef33103773ec2f8e6484250de362599437cf7b55a6e94e2bbafe9ffe867c9",
+    "references/device-integration.md": "f2ef2ec8d66fd36050ab3af142afac02040a65f627a38b5a7d6dc549d29e3bb7",
+    "references/onboarding.md": "e3253ece74f5bdd73011246363adf3e4ce501800f26fd43c5d867fe1889e8631",
+    "references/realtime.md": "4f6927d8cae99486ece8e4ddba8af5620dc96689b3552dca2096bf7bfcdb83f5",
+    "scripts/device_api.py": "0d418b066ddb816aa9beb4e2a13e9a5269b2664990ef54cb6ceebb39518c9ea2",
+    "scripts/device_credentials.py": "150933751915fc07f2a50be9fa11453b6b3e4d291f6fcb4905a523fdf5e75628",
+    "scripts/realtime.py": "2e2546fa2e27e60dbd2f734179d9e039fbe317c36d1de206be8dbf48c21dff2a",
+    "scripts/requirements-realtime.txt": "5f199b910253441eaed8eda7f33cb7a60e9f8750f61d8f4533a612b6e5a7ae70",
+    "scripts/transcribe.py": "9edafaecda69cc619e29f0f5e2656912a32a2e06e3ab99e1e81fdfe5a608e0c3"
+  },
+  "id": "codecraft-asr",
+  "policy_version": "2.0.0",
+  "schema_version": 1,
+  "source": {
+    "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",
+    "dirty": true,
+    "import_manifest": "skills/_cloud/import.json",
+    "paths": [
+      "skills/codecraft-asr/SKILL.md",
+      "skills/codecraft-asr/references/api.md",
+      "skills/codecraft-asr/scripts/transcribe.py"
+    ],
+    "repository": "codecraft-gadgets-cloud",
+    "snapshot_date": "2026-11-17"
+  },
+  "version": "2.0.4"
+}

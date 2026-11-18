@@ -20,6 +20,10 @@ def validate(root, platform):
 
 def target(root, entry, devices, platforms):
     tid = entry['id']
+    allowed = {'schema_version','id','platform','device','path','examples','inputs','dependencies',
+               'example_inputs','example_dependencies','toolchain','interfaces','firmware',
+               'variants','default_variant','selected_variant'}
+    require(set(entry) <= allowed, f'{tid}: unknown Target fields; cloud selections belong in project.yaml')
     require(entry.get('schema_version') == 3, f'{tid}: unsupported Target schema')
     require(isinstance(entry.get('variants'), dict), f'{tid}: Target schema_version 3 requires variants object')
     require(entry.get('platform') in platforms and entry.get('device') in devices, f'{tid}: unknown platform/device')
@@ -55,7 +59,6 @@ def target(root, entry, devices, platforms):
             require(set(variants) == {entry['selected_variant']} and entry['default_variant'] == entry['selected_variant'], f'{tid}: selected variant projection mismatch')
     else:
         require('default_variant' not in entry and 'selected_variant' not in entry, f'{tid}: variant selection without declarations')
-    require('capabilities' not in entry, f'{tid}: peripherals are native interfaces, not cloud Skill Capabilities')
     require(isinstance(entry.get('interfaces'), list) and entry['interfaces'], f'{tid}: native interfaces required')
     require(len({item['id'] for item in entry['interfaces']}) == len(entry['interfaces']), f'{tid}: duplicate native interface')
     for item in entry['interfaces']:

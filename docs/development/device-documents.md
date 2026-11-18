@@ -6,6 +6,16 @@ reader produces a schema-5 Device model from explicit sections and tables;
 it does not interpret arbitrary prose or ask an Agent to infer machine fields.
 There is no embedded JSON, generated region or separate Device/acceptance file.
 
+The host tools in [device_entry.py](../../skills/_shared/device_entry.py) parse
+this document; [device_validation.py](../../skills/_shared/device_validation.py)
+validates the resulting Device data, cited assertions, acceptance cases and
+assets. Catalog loads this validator directly. Both modules belong to the
+shared CLI implementation and are declared in its resource manifest so context,
+export and project locks include the same validation code. Device directories
+own authored knowledge and native implementation, not the host validation tools.
+Citation checks establish consistency with the referenced text; they do not
+establish hardware accuracy or replace revision-specific observations.
+
 ## One owner per piece of information
 
 | Information | Maintained source | Other documents |
@@ -109,7 +119,12 @@ provenance, checksum, revision and image-dimension validation.
 ## Generation, export and evidence
 
 `python3 codecraft.py generate` updates the device directory, source navigation,
-native interface and Capability matrices, and CI matrix. It never edits authored
+the [native interface inventory](../inventory.md) and its
+[JSON bindings](../interface-matrix.json), the Capability matrix, and the CI
+matrix. The native interface views are derived from Target declarations and
+source-bound evidence; they are not runtime inputs or application export
+dependencies. Native discovery reads the owning Target manifests.
+Generation never edits authored
 Device documents or the root rules. Their links route to those derived indexes.
 Verification state is computed from records by `context` and shown in the native
 interface matrix; it is not copied back into a Device document.
