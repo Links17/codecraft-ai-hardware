@@ -1,20 +1,18 @@
 # Hardware repository architecture
 
-The repository has four owners. Devices own hardware knowledge and native Targets;
-Platforms supply shared software-stack infrastructure; Capabilities define cloud Skill
-contracts; Skills orchestrate development and provide standalone cloud clients.
+The repository has three content owners. Devices own hardware knowledge and native Targets;
+Platforms supply shared software-stack infrastructure; Skills own development
+workflows, cloud operation contracts and standalone clients.
 The governing requirements are [codecraft-hardware-distilled.md](../development/codecraft-hardware-distilled.md).
 
 | Owner | Authoritative inputs | Derived outputs |
 | --- | --- | --- |
 | Device / Target | Per-device knowledge, authored specifications, assets, target.json, native BSP/configuration/examples | Device index, native interface bindings, scoped source closure and support state |
 | Platform | adapter, platform.json, shared build helpers and reusable components | Native build cases, stack validation and CI matrix |
-| Capability / Provider | semantic schema, service policy, client bindings and complete package inventory | Resolution candidates, effective schemas and prepared argument arrays |
-| Skill | workflow instructions, orchestration, source graph, validation and standalone clients | Task context, project lock, build receipt and reviewed release candidate |
+| Skill | workflows, contract.json, service policy, standalone clients and external package release records | Task context, project lock, build receipt, Skill inventory and reviewed release candidate |
 
 Each Device registers its native Target at targets/target.json. That manifest
-selects one software stack; peripheral interfaces belong to the Target. Capabilities are consumed by cloud
-Skills and do not represent GPIO, display or individual device peripherals.
+selects one software stack; peripheral interfaces belong to the Target. Cloud contracts belong to their consuming Skills and do not represent GPIO, display or individual device peripherals.
 Cloud servers, accounts, pairing, telemetry and publishing infrastructure are external.
 
 ## Device knowledge entry
@@ -68,7 +66,6 @@ tests/
     logs/                    # Original sanitized logs
   platforms/<stack>/         # Adapter tests and shared test support
     components/<component>/  # Shared component tests and fixtures
-  capabilities/              # Shared policy/harness and per-Capability tests
   skills/                    # Core, client, release and validation tests
 ```
 
@@ -78,7 +75,7 @@ one owner: Targets reference shared Platform resources through their declared
 dependency closure. Platform directories do not contain board copies or forwarding
 paths. The same layout is preserved in generated projects and their locks.
 
-Source graph schema 3 and application locks hash complete files. Exports copy the
+Source graphs and application locks use schema 3 and hash complete files. Project profiles also use schema 3. Exports copy the
 authored Device entry unchanged; derived indexes and evidence summaries live
 outside it. Editing hardware guidance or acceptance changes source identity.
 
@@ -90,17 +87,16 @@ and exported application commands share one result contract. The application
 workflow is `new`, `verify-project`, `lock-project`, `build-project`, then
 `package` when a source archive is needed. Build and package never write a device.
 
-The cloud catalog imports neutral registry/graph primitives and its own schema.
-It does not import the hardware Catalog. Optional Target context is injected by
-the composition layer and validated only when supplied. Resolution selects a
-Provider; preparation validates semantic and policy constraints and returns an
-argument array. Only an authorized standalone Skill execution opens user files,
-reads credentials or contacts a service. See [Capability and Provider policy](capability-provider-policy.md).
+Standalone Skill contract checks import neutral registry/graph helpers and never
+the hardware Catalog. Native-only graphs exclude cloud code and records. Explicit
+Skill selection validates configuration and declared prerequisites, then exports
+that package. Authorized execution calls the standalone entry directly. See
+[Skill contracts and release ownership](skill-contracts.md).
 
 Context, export, locks and evidence use the same transitive source graph. Missing
 inputs fail. Exports contain native sources, the selected adapter and the actual
-orchestration implementation; a selected cloud Provider adds its complete pinned
-Skill package. The immutable import origin and the reviewed application snapshot
+orchestration implementation; an explicit Skill selection adds its complete pinned
+package and release identity. The immutable import origin and the reviewed application snapshot
 are recorded separately. A changed source or toolchain invalidates verification.
 
 ## Private projects and V0.2 alignment

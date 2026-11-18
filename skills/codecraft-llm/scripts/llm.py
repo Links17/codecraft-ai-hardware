@@ -3,6 +3,9 @@ import argparse
 import json
 import sys
 
+# Keep the installed skill directory free of Python bytecode caches.
+sys.dont_write_bytecode = True
+
 from device_api import DeviceAPI, SkillError, decode_json, read_text, run
 
 
@@ -14,16 +17,18 @@ def main():
     parser.add_argument('--max-tokens', type=int, default=256)
     parser.add_argument('--stream', action='store_true', help='Write content deltas to stdout; a missing DONE is an error')
     args = parser.parse_args()
-    if args.max_tokens <= 0:
-        raise SkillError('--max-tokens must be positive.')
+    if not 1 <= args.max_tokens <= 2048:
+        raise SkillError('--max-tokens must be between 1 and 2048.')
     messages = json.loads(read_text(args.messages_file)) if args.messages_file else [{'role': 'user', 'content': read_text(args.prompt_file)}]
     if not isinstance(messages, list) or not messages or any(
         not isinstance(m, dict) or m.get('role') not in ('system', 'user', 'assistant')
         or not isinstance(m.get('content'), str) or not m['content'].strip() for m in messages
     ):
         raise SkillError('Provide a nonempty list of system/user/assistant text messages.')
+    if len(messages) > 64 or sum(len(m['content']) for m in messages) > 8192:
+        raise SkillError('Use at most 64 messages and 8192 total Unicode characters.')
     # Project only supported fields; this CLI does not execute tools or support image inputs.
-    payload = {'model': 'qwen-plus', 'messages': [{'role': m['role'], 'content': m['content']} for m in messages],
+    payload = {'messages': [{'role': m['role'], 'content': m['content']} for m in messages],
                'max_tokens': args.max_tokens, 'stream': args.stream}
     api = DeviceAPI()
     path = '/deviceapi/ai-services/v1/chat/completions'
@@ -32,9 +37,15 @@ def main():
         text = result['choices'][0]['message']['content']
         if not isinstance(text, str):
             raise SkillError('Model returned no text content.')
-        print(json.dumps({'text': text, 'usage': result.get('usage')}, ensure_ascii=False))
+        reason = result['choices'][0].get('finish_reason')
+        complete = reason == 'stop'
+        print(json.dumps({'text': text, 'usage': result.get('usage'),
+                          'finish_reason': reason, 'complete': complete}, ensure_ascii=False))
+        if not complete:
+            raise SkillError('Generation did not finish normally (token limit, filtering, or missing completion status). Partial output is retained; no automatic retry.')
         return
     done = False
+    finish_reason = None
     total = 0
     with api.open(path, json.dumps(payload, ensure_ascii=False).encode()) as response:
         if 'text/event-stream' not in response.headers.get('Content-Type', ''):
@@ -54,6 +65,8 @@ def main():
                 break
             result = decode_json(event)
             for choice in result.get('choices', []):
+                if choice.get('finish_reason') is not None:
+                    finish_reason = choice['finish_reason']
                 text = choice.get('delta', {}).get('content')
                 if text is not None:
                     if not isinstance(text, str):
@@ -62,6 +75,8 @@ def main():
                     sys.stdout.flush()
     if not done:
         raise SkillError('SSE ended without DONE; partial output is incomplete. Do not automatically retry.')
+    if finish_reason != 'stop':
+        raise SkillError('Generation did not finish normally (token limit, filtering, or missing completion status). Partial output is retained; no automatic retry.')
     print()
 
 

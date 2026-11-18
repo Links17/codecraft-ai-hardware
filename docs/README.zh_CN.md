@@ -8,11 +8,12 @@
 
 - [仓库与贡献约束](../AGENTS.md)
 - [架构](architecture/overview.md)
-- [Capability 与 Provider 策略](architecture/capability-provider-policy.md)
+- [独立 Skill 契约与发布归属](architecture/skill-contracts.md)
 - [仿真范围决策](architecture/simulation-scope.md)
 - [私有项目工作区与项目说明](development/project-workspaces.md)
 - [仓库维护入口](../CONTRIBUTION.md)
 - [外部 SenseCraft CLI 安装与路由](development/sensecraft-cli.md)
+- [本地 CLI 职责边界与 Skill 契约收拢](development/cli-boundaries-review.md) — 当前命令归属与已完成的实施验收。
 - [设备文档格式与统一引用](development/device-documents.md)
 - [AI 开发指南](development/ai-guide.md)
 - [独立 Skill 打包与版本工作流](development/skill-releases.md)
@@ -20,7 +21,9 @@
 - [ESP-IDF BSP 组合与布局](development/native-compositions.md)
 - [硬件变体与原生构建选择](development/hardware-variants.md)
 - [固件镜像交付与 TODO](development/firmware-images.md)
-- [生成的设备/能力清单](inventory.md)
+- [生成的 Skill 索引](skill-inventory.json)
+- [可移植应用工作流](development/application-workflow.md)
+- [生成的原生接口清单](inventory.md)与 [JSON 绑定索引](interface-matrix.json)
 - [生成的厂商索引](vendor-sources.md)
 - [设备验收](on-device-validation.md)
 
@@ -28,7 +31,7 @@
 
 - [V0.2 实施 TODO](development/v0.2-todo.md) — 设计对齐、已完成工作与待验收事项。
 
-- [架构要求](development/codecraft-hardware-distilled.md) — 定义四个内容所有者的范围与验收要求。
-- [优化方案与 TODO](development/optimization-plan.md) — 尚未完成的外部验收与治理事项。
+- [架构要求](development/codecraft-hardware-distilled.md) — 定义三个内容所有者的范围与验收要求。
+- [优化方案与 TODO](development/optimization-plan.md) — 尚未完成的工具、外部验收与治理事项。
 
 从[设备目录](../devices/AGENTS.md)进入各设备。[设备文档指南](development/device-documents.md)统一定义唯一维护来源、Markdown 字段、公共引用与导出检查；原生目录布局见[架构](architecture/overview.md)。

@@ -1,4 +1,4 @@
-"""Run package and prepared-client checks only against isolated loopback fixtures."""
+"""Run package and standalone-client checks only against isolated loopback fixtures."""
 import importlib.util
 import io
 import json
@@ -8,9 +8,9 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'skills/_shared'))
-sys.path.insert(0,str(ROOT/'tests/capabilities'))
+sys.path.insert(0,str(ROOT/'tests/skills/_cloud'))
 from io_utils import read_json, require, safe_path
-from model import load_cloud
+from skill_contracts import check_packages, registrations, load_package
 
 
 def module(name, path):
@@ -19,27 +19,34 @@ def module(name, path):
     return loaded
 
 
-def main():
-    cloud=load_cloud(ROOT);checks=cloud.check_skills()
-    require(all(x['status']=='passed' for x in checks),'Pinned package/CLI check failed')
-    source=(ROOT/'skills/_cloud/device_api.py').read_bytes()
-    for p in cloud.providers.values():
-        if p['kind']=='repository-skill':
-            require((ROOT/p['skill']['path']/'scripts/device_api.py').read_bytes()==source,'Candidate helper differs from maintenance source')
-    fixture=module('protocol_fixture',ROOT/'tests/skills/_cloud/test_protocol.py')
+def check_suite(name, path):
+    fixture=module(name,path)
     suite=unittest.defaultTestLoader.loadTestsFromModule(fixture)
     transcript=io.StringIO();result=unittest.TextTestRunner(stream=transcript).run(suite)
     require(result.testsRun>0 and result.wasSuccessful() and not result.skipped,transcript.getvalue())
-    checks.append({'name':'standalone-protocol-suite','status':'passed','cases':result.testsRun})
+    return {'name':name,'status':'passed','cases':result.testsRun}
+
+
+def main():
+    records=registrations(ROOT);checks=check_packages(ROOT)
+    require(all(x['status']=='passed' for x in checks),'Pinned package/CLI check failed')
+    source=(ROOT/'skills/_cloud/device_api.py').read_bytes()
+    for sid in records:
+        require((ROOT/'skills'/sid/'scripts/device_api.py').read_bytes()==source,'Candidate helper differs from maintenance source')
+    checks.append(check_suite('standalone-protocol-suite',ROOT/'tests/skills/_cloud/test_protocol.py'))
+    checks.append(check_suite('standalone-onboarding-suite',ROOT/'tests/skills/_cloud/test_onboarding.py'))
     coverage=read_json(ROOT/'skills/_cloud/release-checks.json')
-    require(set(coverage)==set(cloud.providers),'Release conformance registration must cover every Provider')
+    require(set(coverage)==set(records),'Release conformance registration must cover every Skill')
     for index,(pid,entry) in enumerate(sorted(coverage.items())):
-        require(set(entry['operations'])==set(cloud.providers[pid]['operations']),'Missing operation coverage')
+        require(set(entry['operations'])==set(load_package(ROOT,pid)[1]['operations']),'Missing operation coverage')
         tests=module('candidate_contract_'+str(index),safe_path(ROOT,entry['path']))
         require(entry['tests'] and len(set(entry['tests']))==len(entry['tests']),'Missing or duplicate conformance test')
         for name in entry['tests']:
             fn=getattr(tests,name);require(callable(fn),'Invalid conformance test')
             fn();checks.append({'name':pid+'::'+name,'status':'passed'})
+        for path in entry.get('suites',[]):
+            require(path.startswith('tests/skills/'+pid+'/'), 'Skill suite must have its owning path')
+            checks.append(check_suite(pid+'::'+Path(path).stem,safe_path(ROOT,path)))
     print(json.dumps({'status':'passed','checks':checks}))
 
 

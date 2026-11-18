@@ -42,7 +42,26 @@ Read that entry before a SenseCraft task, then its product-specific reference. A
 
 Use the selected version's `--help` and the official Skill for arguments, authentication and result handling. Keep credentials in the external tool's supported configuration location, outside source, project profiles and locks. Native board builds, source facts, toolchain selection and physical acceptance remain governed by the hardware repository. Platform upload advice is not proof of hardware compatibility, a successful build or a physical flash.
 
-The verified command list does not contain replacements for the CodeCraft LLM, ASR, TTS or image-generation APIs. In particular, `image --help` describes a prompt for the Agent to write SVG, not the existing inference service. The four current CodeCraft client Skills and their Capability contracts therefore remain separate. Introducing this platform tool does not register a synthetic Capability Provider or claim those APIs have migrated.
+The verified command list does not contain replacements for the CodeCraft LLM, ASR, TTS or image-generation APIs. In particular, `image --help` describes a prompt for the Agent to write SVG, not the existing inference service. The four current CodeCraft client Skills and their package-owned contracts therefore remain separate. Introducing this platform tool does not register a synthetic service implementation or claim those APIs have migrated.
+
+## CodeCraft Device API onboarding
+
+Each standalone client maintains its complete onboarding flow inside its own
+package; start with the selected Skill, for example
+[codecraft-llm onboarding](../../skills/codecraft-llm/references/onboarding.md).
+That flow covers the three runtime inputs: API origin, EUI and DeviceKey.
+Existing configurations do not require another account login or device creation.
+The CLI supplies development-device credentials; local import is independent of
+CodeCraft API availability.
+
+The documented 0.5.0 profile summary and devkit outputs do not export a CodeCraft
+Device API origin. A platform gateway used for account-authenticated /openapi
+calls does not establish the Device-authenticated /deviceapi route. Until the
+external CLI publishes a service-specific endpoint contract, obtain the matching
+origin from the service's published environment configuration. Do not add a
+repository CLI proxy, parse private CLI configuration or guess a domain.
+Automatic discovery remains [OPT-22](optimization-plan.md), not an implemented
+Skill feature.
 
 ## Offline verification
 

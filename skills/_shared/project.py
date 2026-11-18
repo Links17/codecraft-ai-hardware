@@ -24,9 +24,10 @@ def inventory(path, explicit=()):
 
 def profile(path):
     data = read_json(path/'project.yaml')
-    require(data.get('schema_version') == 2 and data.get('device') and data.get('target') and data.get('example'), 'invalid project profile')
+    require(data.get('schema_version') == 3 and data.get('device') and data.get('target') and data.get('example'), 'invalid project profile')
     require(data.get('secrets') == {}, 'Project profile must not contain secret values')
-    require(isinstance(data.get('capabilities', []), list), 'Capability selections must be a list')
+    require(set(data)<={'schema_version','device','target','example','toolchain','interfaces','skills','secrets','brief','variant','physical_compatibility'}, 'Unknown project profile fields')
+    require(isinstance(data.get('skills'), list), 'Skill selections must be a list')
     if 'variant' in data:
         require(isinstance(data['variant'], str) and data['variant'] and data.get('physical_compatibility') == 'unknown', 'Variant project profile must preserve unresolved physical identity')
     if 'brief' in data:
@@ -34,14 +35,14 @@ def profile(path):
     return data
 
 
-def generate_project(catalog, tid, example, output, capabilities=None, variant=None, brief=None):
+def generate_project(catalog, tid, example, output, skills=None, variant=None, brief=None):
     selected = catalog.selected_target(tid, example, variant)
     graph = catalog.graph(tid, example, variant)
-    capabilities = [] if capabilities is None else capabilities
-    require(isinstance(capabilities, list), 'Capability selections must be a list')
-    for selection in capabilities:
-        catalog.cloud().selection(selection, tid)
-        graph.resolve(catalog.cloud().graph(selection['provider']).files)
+    skills = [] if skills is None else skills
+    require(isinstance(skills, list), 'Skill selections must be a list')
+    if skills:
+        from skill_contracts import selected_graph
+        graph.resolve(selected_graph(catalog.root, skills).files)
     output = project_destination(catalog.root, output)
     application_brief = validate_brief(brief, selected['device'])
     output.mkdir(parents=True)
@@ -52,12 +53,13 @@ def generate_project(catalog, tid, example, output, capabilities=None, variant=N
             shutil.copy2(safe_path(catalog.root, relative), destination, follow_symlinks=True)
         # An explicit projection by declared example scope, never by file existence.
         write_json(output/selected['path']/'target.json', selected)
-        data = {'schema_version': 2, 'device': selected['device'], 'target': tid, 'example': example,
-                'toolchain': selected['toolchain'], 'interfaces': [entry['id'] for entry in selected['interfaces']], 'capabilities': capabilities, 'secrets': {}, 'brief': application_brief}
+        data = {'schema_version': 3, 'device': selected['device'], 'target': tid, 'example': example,
+                'toolchain': selected['toolchain'], 'interfaces': [entry['id'] for entry in selected['interfaces']], 'skills': skills, 'secrets': {}, 'brief': application_brief}
         if 'selected_variant' in selected:
             data['variant'] = selected['selected_variant']
             data['physical_compatibility'] = 'unknown'
         write_json(output/'project.yaml', data)
+        (output/'AGENTS.md').write_text(application_rules(data), encoding='utf-8')
         from render import paired
         for relative, text in paired('README.md', f'# {selected["device"]}: {example}\n\nActivate the declared toolchain, run `python3 codecraft.py lock-project .` to record the actual environment, then `python3 codecraft.py build-project .`. `python3 codecraft.py verify-project .` checks source integrity. Builds never flash. After deliberate application edits, review the changes and run `python3 codecraft.py lock-project .` again. `codecraft.lock` retains the original import provenance and a separate current application snapshot.\n\nproject.yaml uses JSON-compatible YAML 1.2. The native application lives under `{selected["path"]}`. Edit native configuration there; unknown hardware facts remain unknown. A successful build does not verify hardware.\n', f'# {selected["device"]}: {example}\n\n激活声明的工具链，运行 `python3 codecraft.py lock-project .` 记录实际环境，再运行 `python3 codecraft.py build-project .`。`python3 codecraft.py verify-project .` 检查源码完整性。构建不会烧录。修改应用后，审查变更并重新运行 `python3 codecraft.py lock-project .`。`codecraft.lock` 分别保留最初导入来源和当前应用快照。\n\nproject.yaml 使用兼容 JSON 的 YAML 1.2。原生应用位于 `{selected["path"]}`，配置直接在原生文件中修改，未知硬件事实保持 unknown。构建成功不代表硬件验证。\n').items():
             (output/relative).write_text(text)
@@ -87,24 +89,23 @@ def lock_project(path, origin=None):
     data = profile(path)
     if origin is None:
         previous = read_json(path/'codecraft.lock')
-        require(previous.get('schema_version') == 2, 'unsupported lock version')
+        require(previous.get('schema_version') == 3, 'unsupported lock version')
         origin = previous['origin']
         require(object_digest(origin['import_graph']) == origin['import_digest'], 'original import provenance is corrupt')
+    agents = path/'AGENTS.md'
+    require(not agents.is_symlink(), 'Application AGENTS must not be a symlink; preserve the linked rules before relocking.')
+    rules = application_rules(data, agents.read_text() if agents.exists() else '')
     c = Catalog(path)
     target = c.target(data['target'])
     require(target['device'] == data['device'] and target['examples'] == [data['example']], 'profile/Target selection mismatch')
     require(data.get('variant') == target.get('selected_variant'), 'profile/Target variant mismatch')
-    for selection in data.get('capabilities', []):
-        c.cloud().selection(selection, target['id'])
     adapter = load_adapter(path, c.platforms[target['platform']])
     adapter.validate_target(path, target)
     graph = c.graph(data['target'])
     resolved_toolchain = adapter.probe(path, target)
-    agents = path/'AGENTS.md'
-    require(not agents.is_symlink(), 'Application AGENTS must not be a symlink; preserve the linked rules before relocking.')
-    agents.write_text(application_rules(data, agents.read_text() if agents.exists() else ''), encoding='utf-8')
+    agents.write_text(rules, encoding='utf-8')
     files = inventory(path, graph.files)
-    lock = {'schema_version': 2, 'origin': origin, 'target': data['target'], 'example': data['example'],
+    lock = {'schema_version': 3, 'origin': origin, 'target': data['target'], 'example': data['example'],
             'declared_toolchain': target['toolchain'], 'resolved_toolchain': resolved_toolchain,
             'files': files, 'source_digest': object_digest(files), 'dependency_graph': graph.snapshot()}
     if 'variant' in data:
@@ -116,7 +117,7 @@ def lock_project(path, origin=None):
 def verify_project(path):
     path = Path(path).resolve()
     lock = read_json(path/'codecraft.lock')
-    require(lock.get('schema_version') == 2 and isinstance(lock.get('files'), dict) and lock['files'], 'invalid project lock')
+    require(lock.get('schema_version') == 3 and isinstance(lock.get('files'), dict) and lock['files'], 'invalid project lock')
     require('codecraft.lock' not in lock['files'], 'recursive lock inventory')
     for relative in lock['files']:
         safe_path(path, relative, exists=False)

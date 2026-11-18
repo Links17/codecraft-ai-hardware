@@ -8,7 +8,7 @@ import sys
 import tempfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]/'skills/_shared'))
-from model import load_cloud
+from skill_contracts import registrations, check_packages
 from io_utils import ContractError
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -21,25 +21,25 @@ def test_cloud_helpers_match_the_maintained_source():
 
 
 def test_installed_skill_inventory_rejects_extra_missing_and_symlink_files():
-    cloud = load_cloud(ROOT)
+    records = registrations(ROOT)
     with tempfile.TemporaryDirectory() as folder:
         installed = Path(folder)/'skills'
-        for provider in cloud.providers.values():
-            shutil.copytree(ROOT/provider['skill']['path'], installed/provider['skill']['id'], ignore=shutil.ignore_patterns('__pycache__'))
+        for sid in records:
+            shutil.copytree(ROOT/'skills'/sid, installed/sid, ignore=shutil.ignore_patterns('__pycache__'))
         extra = installed/'codecraft-asr/scripts/unregistered.py'
         extra.write_text('# Unregistered module\n')
-        check = next(row for row in cloud.check_skills(installed) if row['name'] == 'asr/codecraft-cloud')
+        check = next(row for row in check_packages(ROOT,installed) if row['name'] == 'codecraft-asr')
         assert check['status'] == 'failed' and 'scripts/unregistered.py' in check['drift']
         extra.unlink()
         entry = installed/'codecraft-asr/scripts/transcribe.py'
         source = entry.read_bytes()
         entry.unlink()
-        check = next(row for row in cloud.check_skills(installed) if row['name'] == 'asr/codecraft-cloud')
+        check = next(row for row in check_packages(ROOT,installed) if row['name'] == 'codecraft-asr')
         assert check['status'] == 'failed' and 'scripts/transcribe.py' in check['drift']
         entry.write_bytes(source)
         extra.symlink_to(entry)
         try:
-            cloud.check_skills(installed)
+            check_packages(ROOT,installed)
         except ContractError as exc:
             assert 'symlink' in str(exc)
         else:
@@ -47,11 +47,11 @@ def test_installed_skill_inventory_rejects_extra_missing_and_symlink_files():
 
 
 def test_cli_check_ignores_unpinned_installed_bytecode():
-    cloud = load_cloud(ROOT)
+    records = registrations(ROOT)
     with tempfile.TemporaryDirectory() as folder:
         installed = Path(folder)/'skills'
-        for provider in cloud.providers.values():
-            shutil.copytree(ROOT/provider['skill']['path'], installed/provider['skill']['id'], ignore=shutil.ignore_patterns('__pycache__'))
+        for sid in records:
+            shutil.copytree(ROOT/'skills'/sid, installed/sid, ignore=shutil.ignore_patterns('__pycache__'))
         source = installed/'codecraft-asr/scripts/device_api.py'
         poisoned = Path(folder)/'bytecode_source.py'
         poisoned.write_text("raise RuntimeError('unregistered bytecode executed')\n")
@@ -61,4 +61,4 @@ def test_cli_check_ignores_unpinned_installed_bytecode():
         data = bytearray(cache.read_bytes())
         data[8:16] = struct.pack('<II', int(source.stat().st_mtime), source.stat().st_size)
         cache.write_bytes(data)
-        assert all(row['status'] == 'passed' for row in cloud.check_skills(installed))
+        assert all(row['status'] == 'passed' for row in check_packages(ROOT,installed))

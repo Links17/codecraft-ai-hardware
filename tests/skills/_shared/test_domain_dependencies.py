@@ -1,5 +1,4 @@
-"""Cloud domains stay below hardware orchestration; exports keep their loaders."""
-import importlib.util
+"""Cloud maintenance and native application graphs remain independently usable."""
 import json
 from pathlib import Path
 import subprocess
@@ -7,79 +6,89 @@ import sys
 import tempfile
 from unittest.mock import patch
 
-ROOT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(ROOT/'skills/_shared'))
-from io_utils import ContractError
-from model import Catalog, load_cloud
+ROOT=Path(__file__).resolve().parents[3]
+sys.path.insert(0,str(ROOT/'skills/_shared'))
+from model import Catalog
 from project import generate_project, verify_project
+from cli import check_documentation
+from io_utils import read_json
 
 
-def domain_catalog():
-    spec = importlib.util.spec_from_file_location('standalone_cloud_domain', ROOT/'capabilities/catalog.py')
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module.CapabilityCatalog
+def selection(sid):
+    return {'skill':sid,'configuration':{},'limits':{},
+            'environment':{'network':True,'tls':True,'privacy_approved':True,
+                           'environment_refs':['CODECRAFT_API_ORIGIN'],'secret_refs':['CODECRAFT_DEVICE_FILE']}}
 
 
-def test_cloud_domain_import_and_discovery_do_not_import_hardware_catalog():
-    program = '''
-import importlib.abc, importlib.util, json, pathlib, sys
+def test_skill_contracts_never_import_hardware_or_read_credentials():
+    program='''
+import importlib.abc, pathlib, sys
 root=pathlib.Path(sys.argv[1]);sys.path.insert(0,str(root/'skills/_shared'))
 class NoHardware(importlib.abc.MetaPathFinder):
     def find_spec(self,fullname,path=None,target=None):
-        if fullname=='model':raise AssertionError('cloud imported hardware orchestration')
+        if fullname=='model':raise AssertionError('Skill checks imported hardware')
 sys.meta_path.insert(0,NoHardware())
-spec=importlib.util.spec_from_file_location('cloud_domain',root/'capabilities/catalog.py')
-module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
-cloud=module.CapabilityCatalog(root)
+from skill_contracts import registrations, load_package, prerequisites
+for sid in registrations(root):
+    record,contract=load_package(root,sid)
+    assert prerequisites(contract)['status']=='unknown'
 assert 'model' not in sys.modules
-assert cloud.resolve('asr')['status']=='candidates'
-assert len(cloud.describe()['capabilities'])==4
-print(json.dumps({'loaded_hardware':False}))
 '''
-    result = subprocess.run([sys.executable, '-I', '-B', '-c', program, str(ROOT)],
-                            capture_output=True, text=True, timeout=30)
-    assert result.returncode == 0, result.stdout+result.stderr
-    assert json.loads(result.stdout) == {'loaded_hardware': False}
+    run=subprocess.run([sys.executable,'-I','-B','-c',program,str(ROOT)],capture_output=True,text=True,timeout=30)
+    assert run.returncode==0,run.stdout+run.stderr
 
 
-def test_target_lookup_is_injected_and_public_composition_stays_lazy():
-    cloud_type = domain_catalog()
-    cloud = cloud_type(ROOT)
-    try:
-        cloud.resolve('asr', 'linux/reterminal')
-    except ContractError as error:
-        assert 'caller-supplied Target resolver' in str(error)
-    else:
-        raise AssertionError('Domain accepted unvalidated Target context')
-    looked_up = []
-    def resolve_target(tid):
-        looked_up.append(tid)
-        if tid != 'linux/reterminal':
-            raise ContractError('Unknown injected Target')
-    cloud = cloud_type(ROOT, target_lookup=resolve_target)
-    cloud.resolve('asr');assert looked_up == []
-    cloud.resolve('asr', 'linux/reterminal');assert looked_up == ['linux/reterminal']
-    try:cloud.resolve('asr', 'linux/missing')
-    except ContractError:pass
-    else:raise AssertionError('Unknown explicit Target was accepted')
-    with patch('model.Catalog', side_effect=AssertionError('eager hardware lookup')):
-        assert load_cloud(ROOT).resolve('asr')['status'] == 'candidates'
-    assert load_cloud(ROOT).resolve('asr', 'linux/reterminal')['target'] == 'linux/reterminal'
-    try:load_cloud(ROOT).resolve('asr', 'linux/missing')
-    except ContractError:pass
-    else:raise AssertionError('Public composition accepted an unknown Target')
-
-
-def test_registry_is_in_cloud_native_and_export_source_closures():
-    c = Catalog(ROOT)
-    required = {'skills/_shared/registry.py','skills/_shared/graph.py','skills/_shared/io_utils.py'}
-    assert required <= c.cloud().graph('asr/codecraft-cloud').files
-    assert 'skills/_shared/registry.py' in c.context('linux/reterminal')['files']
+def test_application_dispatch_uses_explicit_path_without_reference_catalog():
+    import cli
     with tempfile.TemporaryDirectory() as folder:
-        output = Path(folder)/'app'
-        generate_project(c, 'linux/reterminal', 'buttons_evdev', output)
-        assert (output/'skills/_shared/registry.py').read_bytes() == (ROOT/'skills/_shared/registry.py').read_bytes()
-        assert verify_project(output)['status'] == 'passed'
-        (output/'skills/_shared/registry.py').write_text('# changed neutral loader\n')
-        assert verify_project(output)['status'] == 'failed'
+        app=Path(folder)/'app'
+        generate_project(Catalog(ROOT),'linux/reterminal','buttons_evdev',app)
+        # Invalid --root must not be consulted for an explicit application operation.
+        run=subprocess.run([sys.executable,'-B',str(ROOT/'codecraft.py'),'--root',folder,'verify-project',str(app)],
+                           capture_output=True,text=True,timeout=30)
+        assert run.returncode==0,run.stdout+run.stderr
+        assert json.loads(run.stdout)['data']['status']=='passed'
+        selected=Path(folder)/'selected'
+        generate_project(Catalog(ROOT),'linux/reterminal','buttons_evdev',selected,[selection('codecraft-asr')])
+        (selected/'skills/_shared/skill_contracts.py').unlink()
+        run=subprocess.run([sys.executable,'-B',str(selected/'codecraft.py'),'check-cloud-skills'],
+                           cwd=selected,capture_output=True,text=True,timeout=30)
+        assert run.returncode==1 and not run.stderr
+        assert json.loads(run.stdout)['error']['type']=='contract'
+
+
+def test_all_target_variant_exports_preserve_context_and_selected_skill_closure():
+    c=Catalog(ROOT)
+    ids=['codecraft-asr','codecraft-llm','codecraft-tts','codecraft-image-generation']
+    for tid,target in c.targets.items():
+        for variant in target.get('variants') or [None]:
+            for chosen in ([],[selection(sid) for sid in ids]):
+                with tempfile.TemporaryDirectory() as folder:
+                    app=Path(folder)/'app'
+                    generate_project(c,tid,target['examples'][0],app,chosen,variant=variant)
+                    assert verify_project(app)['status']=='passed'
+                    check_documentation(app)
+                    lock=read_json(app/'codecraft.lock')
+                    assert lock['schema_version']==read_json(app/'project.yaml')['schema_version']==3
+                    assert 'docs/development/application-workflow.md' in lock['files']
+                    assert f'platforms/{target["platform"]}/AGENTS.md' in lock['dependency_graph']['files']
+                    assert ('skills/_shared/skill_contracts.py' in lock['files'])==bool(chosen)
+                    assert (app/'skills/_cloud').exists()==bool(chosen)
+                    program='''
+import importlib.abc, pathlib, sys
+root=pathlib.Path(sys.argv[1]);sys.path.insert(0,str(root/'skills/_shared'))
+if sys.argv[3]=='native':
+    class NoCloud(importlib.abc.MetaPathFinder):
+        def find_spec(self,fullname,path=None,target=None):
+            if fullname=='skill_contracts':raise AssertionError('Native context imported cloud checks')
+    sys.meta_path.insert(0,NoCloud())
+from model import Catalog
+c=Catalog(root)
+for task in ('ideate','develop','setup','build','debug','device-test','discover','validate'):
+    value=c.context(sys.argv[2],task=task)
+    assert set(value['guidance'])<=set(value['files'])
+    assert all((root/path).is_file() for path in value['files'])
+'''
+                    run=subprocess.run([sys.executable,'-I','-B','-c',program,str(app),tid,'selected' if chosen else 'native'],
+                                       cwd=folder,capture_output=True,text=True,timeout=90)
+                    assert run.returncode==0,(tid,variant,run.stdout,run.stderr)

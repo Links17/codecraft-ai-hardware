@@ -9,4 +9,4 @@ Use `discover --interface <id>` (repeatable) and optional `--platform <id>`. Sho
 
 All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.
 
-Use cloud-catalog and resolve-capability for cloud capabilities; a peripheral interface list is not a Capability registry. Current entries are llm, asr, tts and image-generation, with Providers pinning standalone Skills maintained in this repository. Do not assume missing network, credential references, privacy decisions or resource bounds are satisfied.
+For cloud inference, select an explicit standalone Skill by its documented operation. In the reference repository, docs/skill-inventory.json is generated from package contracts and release records. Read the selected SKILL.md and contract.json. Do not assume missing network, credential references, privacy decisions or resource bounds are satisfied. Peripheral interfaces remain hardware metadata.

@@ -68,7 +68,7 @@ python3 codecraft.py build-project projects/my-e1001-project
 
 The exported workspace also contains `codecraft.py`; from that directory, use `python3 codecraft.py build-project .`. Builds do not flash the device. To test on hardware, follow the selected [Device acceptance procedure](devices/reterminal-e1001/AGENTS.md#physical-acceptance) and [codecraft-device-test](skills/codecraft-device-test/SKILL.md), with the board and port identified and device writes explicitly authorized.
 
-For application changes, briefs, reviewed relocking and repeat builds, follow the [project workspace guide](docs/development/project-workspaces.md). Use [codecraft-ideate](skills/codecraft-ideate/SKILL.md) and `new --brief <file.json>` to record purpose, users, scenarios and a bill of materials in your project.
+For application changes, briefs, reviewed relocking and repeat builds, follow the [portable application workflow](docs/development/application-workflow.md). Use [codecraft-ideate](skills/codecraft-ideate/SKILL.md) and `new --brief <file.json>` to record purpose, users, scenarios and a bill of materials in your project.
 
 ## Develop with your AI coding assistant
 
@@ -89,9 +89,11 @@ Use a fresh output path if you already followed the quick start. For an existing
 
 ## Optional cloud features and firmware sharing
 
-Standalone clients in [skills/](skills/README.md) extend cloud capabilities with features such as LLM text generation, ASR/STT, TTS and image generation. Each client includes its Skill guide and API reference and can be installed independently. Cloud service and account infrastructure remain external; read the selected Skill for credentials, limits and authorized API use.
+Standalone clients in [skills/](skills/README.md#standalone-inference-clients) extend cloud capabilities with features such as LLM text generation, ASR/STT, TTS and image generation. Each client owns its `contract.json` and API reference and can be installed independently. Cloud service and account infrastructure remain external; read the selected Skill for credentials, limits and authorized API use.
 
-For optional clients and their configuration, follow the [Skills guide](skills/README.md) and [project workspace guide](docs/development/project-workspaces.md).
+See the [free allowance table](skills/README.md#free-allowance) for monthly per-device usage and monthly totals across five devices. The features share one monthly device allowance; the rows are alternative usage estimates.
+
+To include clients in an application, CLI contract 3 uses `new --skills <selection.json>` with explicit selections; project profiles and locks use schema 3. See [project composition](skills/README.md#optional-project-composition) and the generated [Skill inventory](docs/skill-inventory.json).
 
 [CodeCraft Hub](https://codecraft.seeed.cc/hub) is the separate firmware-sharing platform. For requested uploads, online flashing, SenseCraft device management or cloud deployment, use the external [sensecraft-cli](https://github.com/Seeed-Solution/sensecraft-cli) and its official bundled Skill. Follow [installation and task routing](docs/development/sensecraft-cli.md) for the verified version and prerequisites. Native development does not require this tool; installing a Skill or CLI does not authorize cloud operations.
 
@@ -101,7 +103,7 @@ For optional clients and their configuration, follow the [Skills guide](skills/R
 | --- | --- |
 | Find device knowledge and native examples | [Device directory](devices/AGENTS.md) |
 | Check implementation and evidence status | [Native interface matrix](docs/inventory.md) |
-| Customize an exported project | [Application workflow](docs/development/project-workspaces.md) |
+| Customize an exported project | [Application workflow](docs/development/application-workflow.md) |
 | Explore hardware and cloud Skills | [Skills guide](skills/README.md) |
 | Understand ownership and architecture | [Architecture](docs/architecture/overview.md) |
 | Report a problem or contribute | [Issues](https://github.com/Seeed-Solution/codecraft-ai-hardware/issues) · [Contribution guide](.github/CONTRIBUTING.md) |
@@ -113,8 +115,7 @@ For optional clients and their configuration, follow the [Skills guide](skills/R
 | --- | --- |
 | `devices/<device>/` | Device knowledge, references, assets and native BSPs/examples under `targets/` |
 | `platforms/` | Software-stack adapters, build helpers and shared components |
-| `capabilities/` | Cloud contracts and provider selections consumed by standalone Skills |
-| `skills/` | Agent workflows, orchestration and standalone cloud clients |
+| `skills/` | Agent workflows and standalone cloud clients; package release records under `_cloud/packages/` |
 | `projects/` | Ignored private application workspaces |
 | `tests/` | Tests, fixtures, mocks and retained device evidence, grouped by source owner |
 | `docs/` | Engineering guidance, generated indexes and open work |

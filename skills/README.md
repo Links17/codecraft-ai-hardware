@@ -2,78 +2,130 @@
 
 # Agent Skills
 
-This directory contains hardware development workflows and standalone clients that consume CodeCraft cloud Capability contracts. Device facts live in devices/, native implementations in platforms/, and cloud contracts in capabilities/.
+Skills own hardware workflows, host orchestration and standalone cloud clients.
+Device facts/native implementations belong in devices/; shared stacks belong in
+platforms/. Read [Skill rules](AGENTS.md) and [contract ownership](../docs/architecture/skill-contracts.md).
 
 ## Hardware development
 
-The five required workflows are codecraft-develop, codecraft-setup, codecraft-build, codecraft-device-test and codecraft-debug. Use [codecraft-ideate](codecraft-ideate/SKILL.md) for application intent and briefs, plus codecraft-discover and codecraft-validate when needed. `context --task ideate` includes ideation and discovery guidance. Generic orchestration lives in _shared/; each platform owns its native commands and toolchain probe.
+The required workflows are codecraft-develop, codecraft-setup, codecraft-build,
+codecraft-device-test and codecraft-debug. Use codecraft-ideate for application
+briefs, plus codecraft-discover and codecraft-validate as needed. Shared Device
+validation and orchestration live in _shared/. Native commands remain in each
+Platform. The [portable workflow](../docs/development/application-workflow.md)
+and selected Platform/workflow guidance are exported and locked with applications.
 
 ## External SenseCraft CLI
 
-Use the upstream [sensecraft-cli Skill](https://github.com/Seeed-Solution/sensecraft-cli/blob/main/skills/sensecraft-cli/SKILL.md) shipped with `@seeed-studio/sensecraft-cli` for devices, telemetry, Hub, file and model-library management, and cloud deployment. Install/link the complete official Skill directory outside this repository; [setup and routing](../docs/development/sensecraft-cli.md) records the verified package version and commands. No local replacement Skill or API wrapper is maintained here. This optional platform tool is separate from the inference clients below.
+Use the official Skill bundled with @seeed-studio/sensecraft-cli for platform
+authentication, managed devices, telemetry, Hub, files, model libraries and cloud
+deployment. Follow [setup and routing](../docs/development/sensecraft-cli.md).
+Install it outside this repository only when needed. Native development does
+not require it, and installation never authorizes a platform operation.
 
-## Cloud API clients
+## Standalone inference clients
 
-| Skill | Operation | Default model | Platform quota |
-| --- | --- | --- | --- |
-| [codecraft-llm](codecraft-llm/SKILL.md) | Text generation and SSE | qwen-plus | By token |
-| [codecraft-asr](codecraft-asr/SKILL.md) | WAV transcription; ASR/STT | qwen-audio-3.0-asr-flash | 1000 per call |
-| [codecraft-tts](codecraft-tts/SKILL.md) | WAV synthesis and optional archival | qwen3-tts-flash | 1000 per call |
-| [codecraft-image-generation](codecraft-image-generation/SKILL.md) | One 1024×1024 image and optional archival | qwen-image-2.0 | 10000 per image |
+| Skill | Operation |
+| --- | --- |
+| [codecraft-llm](codecraft-llm/SKILL.md) | Text generation and SSE |
+| [codecraft-asr](codecraft-asr/SKILL.md) | WAV transcription, realtime ASR/STT, status and recovery |
+| [codecraft-tts](codecraft-tts/SKILL.md) | WAV synthesis and optional archival |
+| [codecraft-image-generation](codecraft-image-generation/SKILL.md) | Configurable image dimensions and optional archival |
 
-Each directory contains English-only SKILL.md and references/api.md documents, agents/openai.yaml, an entry script and its own scripts/device_api.py. Copy the entire desired directory into an Agent Skills discovery directory. The package runs independently with Python 3.10+ standard library; no sibling Skill or cloud repository checkout is needed. Automatic discovery remains enabled. Installation alone grants no API permission.
+Each package contains contract.json, SKILL.md, public API/onboarding/native
+integration references, a portable C authentication header, Agent metadata and
+package-local scripts. Copy the complete directory for independent use. MCU/Linux
+integration uses the device networking stack; Python and SenseCraft CLI are
+workstation tools, not firmware dependencies. Optional helpers use Python 3.10+;
+realtime streaming needs websockets==15.0.1, and image decoding needs Python
+3.11+ with Pillow==13.0.0. Follow each package's environment setup. No hardware
+catalog, sibling package or repository CLI is required. Read its contract and API reference for exact limits,
+defaults, billing declarations and unknowns; the [generated inventory](../docs/skill-inventory.json)
+provides IDs, operations and separate versions.
 
-Set CODECRAFT_API_ORIGIN and CODECRAFT_DEVICE_FILE only when performing an authorized API task; credential format and limits are in each API reference. Inputs, generated files and credentials belong outside the installed Skill. TTS and image generation save local files by default. Use --archive only when the task requires a stable device-authenticated asset link; it is not a public URL. A failed archive does not require another generation request.
+Each package's onboarding reference explains API-origin lookup, EUI/DeviceKey
+retrieval, private import and access checking; see the
+[LLM onboarding reference](codecraft-llm/references/onboarding.md) for the common
+flow. Reuse existing configuration. The documented CLI release does not export a
+CodeCraft Device API origin; its platform gateway alone does not establish that
+service mapping. Missing-origin work must preserve existing credentials and
+must not block independent local import or configured CLI provisioning.
 
-repository-skill Providers pin these local package files and declare them as dependencies. `new --capabilities <selection.json>` exports the selected package into the private project and includes it in codecraft.lock. Plain native projects do not include cloud clients. `prepare-capability` returns a handoff envelope and never invokes an API. Cloud discovery, resolution and preparation work without a hardware Target; --target adds optional validated context. Device integration remains unknown.
+Before an authorized API task, confirm network/TLS, privacy and credential-reference
+availability. Set CODECRAFT_API_ORIGIN and CODECRAFT_DEVICE_FILE according to the
+package reference. Keep real credentials, inputs and outputs outside the package.
+Service routing is fixed: do not send model/provider/voice overrides. LLM
+completion requires a normal finish status; realtime recovery uses the original
+idempotency key and never automatically replays audio. Media is local by default; archive only when explicitly required. A failed archive
+retains the local output and does not authorize another generation request.
 
-Capability contracts are version 2.0.0; each current Provider has policy 1.0.0. Stable semantics remain in Capability. Service bounds, billing and approved defaults belong to the selected Provider. Preparation returns both raw and effective configuration and effective input/output schemas; defaults reach the client as explicit arguments. The table above describes the current CodeCraft Provider, not universal Capability restrictions or measured billing. See [policy ownership](../docs/architecture/capability-provider-policy.md).
-
-## Repository call chain
-
-For an authorized cloud task, read the selected Skill and API reference, resolve its Capability prerequisites, then prepare the handoff. For example, an ASR selection file contains:
-
-```json
-{
-  "capability": "asr",
-  "provider": "asr/codecraft-cloud",
-  "configuration": {},
-  "environment": {
-    "network": true,
-    "tls": true,
-    "privacy_approved": true,
-    "environment_refs": ["CODECRAFT_API_ORIGIN"],
-    "secret_refs": ["CODECRAFT_DEVICE_FILE"]
-  },
-  "limits": {}
-}
-```
-
-The environment describes confirmed conditions and reference names, never credential values; unknown conditions must remain unknown. An input file contains `{"file":"/work/recording.wav"}`. Run:
+Run the selected Skill entry directly, for example from its installed directory:
 
 ```sh
-python3 codecraft.py prepare-capability --selection /work/selection.json --operation transcribe --input /work/input.json
+python3 scripts/transcribe.py --file /work/recording.wav
 ```
 
-Use the successful envelope's entrypoint and arguments array to run the selected, checked Skill with the authorized environment. Pass arguments as separate process arguments, without shell evaluation. The Skill owns file validation, authentication, HTTP, streaming and optional archival. Treat a nonzero exit as failure even if partial text or a retained local file exists; on success consume the declared output schema. Preparation itself reads no credentials and makes no request. Standalone Skill installation remains independent of this repository CLI.
+The client validates actual files, authentication, protocol and outputs. A nonzero
+exit remains failure even if partial text or a valid local file exists. No
+automatic charged retries are permitted. Host execution does not prove device
+integration or live service acceptance.
 
-## Maintenance and validation
+## Free allowance
 
-Source provenance and inspected checksums live in [_cloud/import.json](_cloud/import.json).
-Only README documents are bilingual; other engineering documents use English.
-Maintain common client code in _cloud/device_api.py and use the
-[candidate release workflow](../docs/development/skill-releases.md): prepare,
-inspect the file/version diff, check, then apply the reviewed digest. Application
-reruns isolated conformance and rejects source drift. Runtime imports always use
-the package-local copy. The complete package inventory and version are pinned in
-its Provider; independently installed packages must match that full inventory.
+Each device receives the following free allowance every month, shared by the AI features below. Each row assumes the entire unused monthly device allowance is spent on that feature; **the rows are alternatives and must not be added together**.
 
-Repository commands use `python3 codecraft.py`. The gate checks deterministic
-release candidates, explicit version changes, source/candidate tamper rejection,
-transactional rollback and locked exports. Packaging does not install or publish;
-offline checks do not establish live API acceptance.
+| Feature | Per device per month | Per user per month, total across 5 devices |
+| --- | --- | --- |
+| File ASR / STT (up to 60 seconds per call) | **62 calls** | **310 calls** |
+| Realtime ASR (up to 60 seconds per session) | **62 sessions** | **310 sessions** |
+| TTS (up to 500 input characters per call) | **62 calls** | **310 calls** |
+| Image generation | **6 images** | **30 images** |
+| LLM: 100 input + 50 output tokens | **About 41 calls** | **About 205 calls** |
+| LLM: 100 input + 100 output tokens | **About 31 calls** | **About 155 calls** |
+| LLM: 200 input + 100 output tokens | **About 20 calls** | **About 100 calls** |
 
-From the repository root:
+The five-device column adds the complete calls available on five separate devices; it is not a pooled account balance. LLM counts are estimates for the stated token usage. Actual usage includes the full request context and generated output; longer conversations or replies reduce the number of calls. Using one feature reduces the allowance available for the others. The service manages monthly renewal; checking device access again does not replenish the allowance.
+
+## Optional project composition
+
+`new --skills <selection.json>` and `context --skills <selection.json>` consume
+an explicit list such as:
+
+```json
+[
+  {
+    "skill": "codecraft-asr",
+    "configuration": {},
+    "environment": {
+      "network": true,
+      "tls": true,
+      "privacy_approved": true,
+      "environment_refs": ["CODECRAFT_API_ORIGIN"],
+      "secret_refs": ["CODECRAFT_DEVICE_FILE"]
+    },
+    "limits": {}
+  }
+]
+```
+
+These are confirmed conditions/reference names, not credentials or API permission.
+Missing conditions and constrained unknown resources fail selection. A native-only
+project includes no cloud contracts/clients; explicit selection adds the exact
+package, external release record and provenance to the source graph and lock.
+
+## Maintenance
+
+Release records in _cloud/packages/ pin every distributed file, including binary
+assets and contract.json. _cloud/import.json preserves original provenance;
+_cloud/upstream.json records the separately reviewed current source snapshot.
+Maintain shared runtime helpers under _cloud/ and use the
+[candidate/check/review/apply workflow](../docs/development/skill-releases.md).
+Package, API, semantic and policy versions are reviewed independently. Apply names
+the exact digest, reruns isolated conformance and rejects source drift. Packaging
+never installs or publishes a Skill.
+
+Activate the [host test environment](../docs/development/testing.md) before the
+following repository-root checks; dependency installation makes no API calls.
 
 ```sh
 python3 codecraft.py check-cloud-skills
@@ -81,7 +133,9 @@ python3 codecraft.py test --path tests/skills/_cloud/test_protocol.py
 python3 codecraft.py validate --static
 ```
 
-check-cloud-skills verifies the complete repository package inventory by default; --skills-root can check separately installed copies. Missing, extra or symlink files fail. Python caches and .DS_Store are excluded from the inventory, and --help runs from a fresh copy of pinned files without installed bytecode or PYTHONPATH. Binary assets explicitly pinned in skill.files remain in context, exports and locks. The static gate includes all four package/CLI checks, the nine offline protocol tests and twelve Capability-to-client conformance tests plus seven common Provider-policy tests. Each offline test installs an individual package into a temporary directory and uses a loopback mock service with synthetic credentials. Tests cover JSON/SSE, incomplete streams, audio limits, image decoding, archival/download, output preservation, redirect rejection, redacted errors and no automatic retries. No real cloud API is called.
-
-Live API acceptance remains a separate [open task](../docs/development/optimization-plan.md).
-This repository does not host the cloud service or publish Skills automatically.
+check-cloud-skills verifies repository packages; --skills-root checks installed
+copies. Missing, extra and symlink files fail. Caches are excluded; CLI checks use
+fresh pinned bytes without inherited PYTHONPATH. Tests live under tests/skills/:
+per-client conformance under its ID, shared contracts under _shared and
+installation/protocol/releases under _cloud. Tests use loopback fixtures and
+synthetic credentials only. Real API acceptance remains [open](../docs/development/optimization-plan.md).

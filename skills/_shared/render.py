@@ -46,9 +46,16 @@ def views(c):
                                       'verification':states[target['id']]['interfaces'][binding['id']]})
     outputs['devices/AGENTS.md'] = '\n'.join(overview).rstrip()+'\n'
     outputs['docs/vendor-sources.md'] = '\n'.join(sources).rstrip()+'\n'
-    outputs['docs/inventory.md'] = '# Native interface matrix\n\nGenerated implementations and scoped evidence.\n\n'+'\n'.join(rows).replace('(devices/','(../devices/')+'\n'
-    outputs['platforms/interface-matrix.json'] = json.dumps({'schema_version':2,'bindings':compatibility},ensure_ascii=False,indent=2,sort_keys=True)+'\n'
-    outputs['capabilities/matrix.json'] = json.dumps({'schema_version':2,**c.cloud().describe()},ensure_ascii=False,indent=2,sort_keys=True)+'\n'
+    outputs['docs/inventory.md'] = '# Native interface matrix\n\nGenerated implementations and scoped evidence. See the [JSON bindings](interface-matrix.json) for operation, configuration and resource details.\n\n'+'\n'.join(rows).replace('(devices/','(../devices/')+'\n'
+    outputs['docs/interface-matrix.json'] = json.dumps({'schema_version':2,'bindings':compatibility},ensure_ascii=False,indent=2,sort_keys=True)+'\n'
+    from skill_contracts import registrations, load_package
+    packages = []
+    for sid in sorted(registrations(c.root)):
+        record, contract = load_package(c.root, sid)
+        packages.append({'id':sid,'version':record['version'],'contract_version':contract['version'],
+                         'policy_version':contract['policy']['version'],'api_version':contract['api']['version'],
+                         'operations':sorted(contract['operations']),'route':f'skills/{sid}/SKILL.md'})
+    outputs['docs/skill-inventory.json'] = json.dumps({'schema_version':1,'skills':packages},ensure_ascii=False,indent=2,sort_keys=True)+'\n'
     outputs['.github/target-matrix.json'] = json.dumps(matrix(c),ensure_ascii=False,indent=2)+'\n'
     return outputs
 

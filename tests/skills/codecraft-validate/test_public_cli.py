@@ -26,8 +26,8 @@ def command(entry,arguments,cwd,environment=None):
 
 def test_public_cli_emits_typed_results_and_errors_from_any_working_directory():
     with tempfile.TemporaryDirectory() as folder:
-        for args in (['catalog'],['cloud-catalog'],['--help'],['not-a-command'],
-                     ['resolve-capability','--capability','missing'],['skill-release','--help']):
+        for args in (['catalog'],['check-cloud-skills'],['--help'],['not-a-command'],
+                     ['context','--target','linux/missing'],['skill-release','--help']):
             public=command(ROOT/'codecraft.py',args,folder)
             if args[-1]=='--help':
                 assert public.returncode==0 and 'usage:' in public.stdout
@@ -39,7 +39,7 @@ def test_public_cli_emits_typed_results_and_errors_from_any_working_directory():
                 assert payload['ok']==(public.returncode==0)
                 assert ('data' in payload) if payload['ok'] else payload['error']['type']=='contract'
         assert command(ROOT/'codecraft.py',['catalog'],folder).returncode==0
-        assert command(ROOT/'codecraft.py',['resolve-capability','--capability','missing'],folder).returncode==1
+        assert command(ROOT/'codecraft.py',['context','--target','linux/missing'],folder).returncode==1
         assert command(ROOT/'codecraft.py',['not-a-command'],folder).returncode==2
 
 
@@ -75,6 +75,10 @@ def test_exported_public_entry_preserves_not_run_and_not_supported_exit_statuses
         release=command(output/'codecraft.py',['skill-release','prepare','--output',str(Path(folder)/'release')],output)
         assert release.returncode==2 and json.loads(release.stdout)['data']['status']=='not_supported'
         assert not (Path(folder)/'release').exists()
+        for args in (['check-cloud-skills'],['generate']):
+            unavailable=command(output/'codecraft.py',args,output)
+            assert unavailable.returncode==2 and not unavailable.stderr,unavailable.stdout+unavailable.stderr
+            assert json.loads(unavailable.stdout)['data']['status']=='not_supported'
         incomplete=Path(folder)/'incomplete';incomplete.mkdir()
         missing_source=command(ROOT/'codecraft.py',['--root',str(incomplete),'skill-release','prepare','--output',str(Path(folder)/'missing-release')],folder)
         assert missing_source.returncode==1

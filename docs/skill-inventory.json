@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "skills": [
+    {
+      "api_version": "v1",
+      "contract_version": "3.0.0",
+      "id": "codecraft-asr",
+      "operations": [
+        "realtime-recover",
+        "realtime-status",
+        "realtime-stream",
+        "transcribe"
+      ],
+      "policy_version": "2.0.0",
+      "route": "skills/codecraft-asr/SKILL.md",
+      "version": "2.0.4"
+    },
+    {
+      "api_version": "v1",
+      "contract_version": "3.0.0",
+      "id": "codecraft-image-generation",
+      "operations": [
+        "generate"
+      ],
+      "policy_version": "2.0.0",
+      "route": "skills/codecraft-image-generation/SKILL.md",
+      "version": "2.0.4"
+    },
+    {
+      "api_version": "v1",
+      "contract_version": "3.0.0",
+      "id": "codecraft-llm",
+      "operations": [
+        "complete",
+        "stream"
+      ],
+      "policy_version": "2.0.0",
+      "route": "skills/codecraft-llm/SKILL.md",
+      "version": "2.0.4"
+    },
+    {
+      "api_version": "v1",
+      "contract_version": "3.0.0",
+      "id": "codecraft-tts",
+      "operations": [
+        "speak"
+      ],
+      "policy_version": "2.0.0",
+      "route": "skills/codecraft-tts/SKILL.md",
+      "version": "2.0.4"
+    }
+  ]
+}

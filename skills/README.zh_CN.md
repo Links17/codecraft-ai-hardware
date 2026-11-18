@@ -2,68 +2,83 @@
 
 # Agent Skills
 
-本目录同时包含硬件开发工作流与消费 CodeCraft 云端 Capability 合同的独立客户端。设备事实归 devices/，原生实现归 platforms/，云端合同归 capabilities/。
+Skills 负责硬件工作流、主机侧编排和独立云端客户端。设备事实与原生实现归 devices/，共享软件栈归 platforms/。阅读 [Skill 规则](AGENTS.md)与[契约归属](../docs/architecture/skill-contracts.md)。
 
 ## 硬件开发
 
-五个必需工作流为 codecraft-develop、codecraft-setup、codecraft-build、codecraft-device-test、codecraft-debug，使用 [codecraft-ideate](codecraft-ideate/SKILL.md) 梳理应用意图和项目说明，按需使用 codecraft-discover 与 codecraft-validate。`context --task ideate` 包含构思与发现指南。通用编排位于 _shared/；各平台拥有原生命令与工具链探测逻辑。
+必需工作流为 codecraft-develop、codecraft-setup、codecraft-build、codecraft-device-test 和 codecraft-debug。使用 codecraft-ideate 整理应用需求，按需使用 codecraft-discover 和 codecraft-validate。设备校验与共享编排位于 _shared/，原生命令仍由对应 Platform 实现。[可移植工作流](../docs/development/application-workflow.mPlatform、工作流指南随应用导出并纳入锁文件。
 
 ## 外部 SenseCraft CLI
 
-设备、遥测、Hub、文件与模型库管理、云端部署使用 `@seeed-studio/sensecraft-cli` 包提供的官方 [sensecraft-cli Skill](https://github.com/Seeed-Solution/sensecraft-cli/blob/main/skills/sensecraft-cli/SKILL.md)。完整官方 Skill 目录安装或链接在仓库之外；[安装与路由指南](../docs/development/sensecraft-cli.md) 记录已验证包版本和命令。仓库不维护替代 Skill 或 API 包装层。这个可选的平台工具与下列推理客户端相互独立。
+平台认证、云端设备、遥测、Hub、文件、模型库和云端部署使用 @seeed-studio/sensecraft-cli 自带的官方 Skill，遵循[安装与路由指南](../docs/development/sensecraft-cli.md)。仅在需要时安装到仓库外；原生开发无需此工具，安装不授权平台操作。
 
-## 云 API 客户端
+## 独立推理客户端
 
-| Skill | 操作 | 默认模型 | 平台额度 |
-| --- | --- | --- | --- |
-| [codecraft-llm](codecraft-llm/SKILL.md) | 文本生成与 SSE | qwen-plus | 按 token |
-| [codecraft-asr](codecraft-asr/SKILL.md) | WAV 转写；ASR/STT | qwen-audio-3.0-asr-flash | 每次 1000 |
-| [codecraft-tts](codecraft-tts/SKILL.md) | WAV 合成与可选归档 | qwen3-tts-flash | 每次 1000 |
-| [codecraft-image-generation](codecraft-image-generation/SKILL.md) | 单张 1024×1024 图片与可选归档 | qwen-image-2.0 | 每张 10000 |
+| Skill | 操作 |
+| --- | --- |
+| [codecraft-llm](codecraft-llm/SKILL.md) | 文本生成与 SSE |
+| [codecraft-asr](codecraft-asr/SKILL.md) | WAV 转录、实时 ASR/STT、状态查询与恢复 |
+| [codecraft-tts](codecraft-tts/SKILL.md) | WAV 合成与可选归档 |
+| [codecraft-image-generation](codecraft-image-generation/SKILL.md) | 可配置尺寸的图像生成与可选归档 |
 
-每个目录包含仅英文的 SKILL.md 与 references/api.md、agents/openai.yaml、入口脚本和自己的 scripts/device_api.py。把所需完整目录复制到 Agent Skills 发现目录即可安装。仅依赖 Python 3.10+ 标准库，无需其他 Skill 或云端仓库检出，可独立运行。保持自动发现开启；安装本身不授予 API 权限。
+每个包包含 contract.json、SKILL.md、公开 API/设备接入/原生集成参考、可移植的 C 认证头文件、Agent 元数据和包内脚本。复制完整目录即可独立使用。MCU/Linux 集成使用设备自己的网络栈；Python 和 SenseCraft CLI 是工作站工具，不是固件依赖。可选辅助脚本需要 Python 3.10+；实时流需要 websockets==15.0.1，图像解码需要 Python 3.11+ 和 Pillow==13.0.0，按各包说明配置环境。无需硬件目录、兄弟包或仓库 CLI。准确限制、默认值、计费声明和未知项由该包契约与 API 参考说明；[生成索引](../docs/skill-inventory.json)提供 ID、操作及各自版本。
 
-仅在执行已授权 API 任务时配置 CODECRAFT_API_ORIGIN 和 CODECRAFT_DEVICE_FILE，凭据格式与限制见各 API 参考。输入、生成文件和凭据保存在安装目录之外。TTS 和生图默认保存本地文件；任务需要稳定的设备鉴权资产链接时才使用 --archive，该链接不是公开 URL。归档失败不需要再次生成。
+各包的接入参考说明 API 地址来源、EUI/DeviceKey 获取、私有文件导入及访问检查；共同流程见 [LLM 接入参考](codecraft-llm/references/onboarding.md)。优先复用现有配置。文档所依据的 CLI 版本尚未导出 CodeCraft Device API 地址，仅有平台网关不能证明对应服务映射。缺少地址时应保留现有凭证，不应阻断独立的本地导入或已配置环境中的 CLI 设备接入操作。
 
-repository-skill Provider 固定本地包文件并声明依赖。new --capabilities <selection.json> 将所选包导出到私有项目并纳入 codecraft.lock；纯原生项目不包含云客户端。prepare-capability 只返回调用参数信封，不执行 API。云端发现、解析和准备无需硬件 Target；--target 增加可选且经过校验的上下文，设备集成仍保持 unknown。
+执行已授权 API 任务前，确认网络/TLS、隐私决定和凭证引用可用性。按包内说明配置 CODECRAFT_API_ORIGIN 与 CODECRAFT_DEVICE_FILE，真实凭证、输入和输出保存在包外。服务路由固定，不能传入模型、供应商或音色覆盖参数。LLM 成功需要正常结束状态；实时恢复使用原始幂等键，不会自动重放音频。媒体默认保存在本地，仅在明确需要时归档；归档失败保留本地结果，不授权再次生成。
 
-Capability 合同版本为 2.0.0，当前各 Provider 的策略版本为 1.0.0。稳定语义保留在 Capability；服务边界、计费声明和获准的默认值归所选 Provider。准备阶段返回原始与有效配置以及有效输入/输出 schema，并通过显式参数把默认值交给客户端。上表描述当前 CodeCraft Provider，不代表通用 Capability 限制或实测计费。参见[策略职责](../docs/architecture/capability-provider-policy.md)。
-
-## 仓库调用链
-
-对于已授权的云端任务，先阅读所选 Skill 与 API 参考，解析 Capability 前置条件，再准备调用信封。例如 ASR 选择文件为：
-
-```json
-{
-  "capability": "asr",
-  "provider": "asr/codecraft-cloud",
-  "configuration": {},
-  "environment": {
-    "network": true,
-    "tls": true,
-    "privacy_approved": true,
-    "environment_refs": ["CODECRAFT_API_ORIGIN"],
-    "secret_refs": ["CODECRAFT_DEVICE_FILE"]
-  },
-  "limits": {}
-}
-```
-
-environment 仅描述已确认条件与引用名，禁止放入凭据值；未知条件仍须保持未知。输入文件为 `{"file":"/work/recording.wav"}`。执行：
+直接运行所选 Skill 的入口，例如在已安装目录执行：
 
 ```sh
-python3 codecraft.py prepare-capability --selection /work/selection.json --operation transcribe --input /work/input.json
+python3 scripts/transcribe.py --file /work/recording.wav
 ```
 
-使用成功信封中的 entrypoint 与 arguments 数组，在已授权环境中运行所选且已校验的 Skill；参数应作为独立进程参数传递，不经 shell 求值。Skill 负责文件校验、鉴权、HTTP、流式处理和可选归档。非零退出视为失败，即使已有部分文本或保留的本地文件；成功时按声明的输出 schema 消费结果。准备阶段不读取凭据、不发请求。独立 Skill 安装仍不依赖本仓库 CLI。
+客户端校验真实文件、认证、协议与输出。即使存在部分文本或有效本地文件，非零退出仍表示失败。禁止自动重试收费请求；主机侧执行不证明设备集成或线上服务验收。
 
-## 维护与验证
+## 免费额度
 
-来源和已检查文件的哈希在 [_cloud/import.json](_cloud/import.json)。仅 README 维护英文与简体中文，其余工程文档统一英文。共用客户端源码位于 _cloud/device_api.py，请使用[候选包工作流](../docs/development/skill-releases.md)：准备候选，审查文件和版本差异，执行检查，再应用已审查的确切摘要。应用会重跑隔离一致性测试并拒绝源码漂移。运行时始终导入包内副本；Provider 固定完整包清单和版本，独立安装的包必须与该清单完全一致。
+每台设备每月获得下列免费额度，由各项 AI 功能共享。表中每一行均按该功能独占设备当月全部未使用额度估算，**各行是不同使用方式，不能相加**。
 
-仓库命令统一使用 `python3 codecraft.py`。门禁检查候选包可重复性、显式版本变更、源码和候选篡改拒绝、事务回滚及锁定导出项目。打包不会自动安装或发布；离线检查不代表真实 API 已验收。
+| 功能 | 每台设备每月可调用 | 每用户 5 台设备每月合计 |
+| --- | --- | --- |
+| 文件 ASR / STT（每次最多 60 秒） | **62 次** | **310 次** |
+| 实时 ASR（每会话最多 60 秒） | **62 个会话** | **310 个会话** |
+| TTS（每次最多 500 个输入字符） | **62 次** | **310 次** |
+| 生图 | **6 张** | **30 张** |
+| LLM：输入 100＋输出 50 token | **约 41 次** | **约 205 次** |
+| LLM：输入 100＋输出 100 token | **约 31 次** | **约 155 次** |
+| LLM：输入 200＋输出 100 token | **约 20 次** | **约 100 次** |
 
-从仓库根执行：
+5 台设备的合计是各台设备可完成调用次数之和，不是可合并使用的账户余额。LLM 次数根据表中的 token 用量估算；实际用量包括完整请求上下文和生成内容，较长的对话或回复会减少可调用次数。使用任一功能都会消耗其他功能可用的额度。每月额度的更新由服务端管理，重复检查设备访问状态不会补充额度。
+
+## 可选项目组合
+
+`new --skills <selection.json>` 与 `context --skills <selection.json>` 使用显式列表，例如：
+
+```json
+[
+  {
+    "skill": "codecraft-asr",
+    "configuration": {},
+    "environment": {
+      "network": true,
+      "tls": true,
+      "privacy_approved": true,
+      "environment_refs": ["CODECRAFT_API_ORIGIN"],
+      "secret_refs": ["CODECRAFT_DEVICE_FILE"]
+    },
+    "limits": {}
+  }
+]
+```
+
+这些字段记录已确认条件和引用名，不是凭证或 API 授权。缺失条件或受约束但未知的资源会使选择失败。纯原生项目不包含云端契约与客户端；显式选择后，精确包内容、包外发布记录和来源进入同一源码图与锁文件。
+
+## 维护
+
+_cloud/packages/ 中的发布记录锁定全部分发文件，包括二进制素材与 contract.json；_cloud/import.json 保留原始来源，_cloud/upstream.json 单独记录当前已审查的源快照。共享运行时辅助代码在 _cloud/ 维护，使用[候选、检查、审查与应用流程](../docs/development/skill-releases.md)。包、API、语义契约及策略版本分别审查。应用必须指定准确摘要，重新运行隔离一致性检查并拒绝来源漂移；打包不会安装或发布 Skill。
+
+执行以下仓库根目录检查前，先激活[宿主机测试环境](../docs/development/testing.md)；安装依赖不会调用 API。
 
 ```sh
 python3 codecraft.py check-cloud-skills
@@ -71,6 +86,4 @@ python3 codecraft.py test --path tests/skills/_cloud/test_protocol.py
 python3 codecraft.py validate --static
 ```
 
-check-cloud-skills 默认校验仓库内完整包清单，也可用 --skills-root 校验单独安装的副本。缺失、多余或符号链接文件均失败。清单排除 Python 缓存与 .DS_Store，--help 从固定文件的全新副本运行，不使用已安装字节码或 PYTHONPATH。skill.files 显式固定的二进制素材保留在上下文、导出和锁中。静态门禁包含四个包/CLI 检查、九项离线协议测试，以及十二项 Capability 到真实客户端的一致性测试与七项共用 Provider 策略测试。离线测试把单个包安装到临时目录，使用本机回环模拟服务与合成凭据，覆盖 JSON/SSE、断流、音频限制、图片解码、归档/下载、输出保留、重定向拒绝、错误脱敏和失败不自动重试，不调用真实云 API。
-
-真实 API 验收仍是独立的[待办事项](../docs/development/optimization-plan.md)。本仓库不托管云服务，也不自动发布 Skill。
+check-cloud-skills 检查仓库包，--skills-root 检查已安装副本。缺失、多余文件和符号链接均失败；缓存不纳入清单，CLI 检查使用新复制的已锁定源码且不继承 PYTHONPATH。测试统一位于 tests/skills/：各客户端一致性测试按 ID 分组，共享契约归 _shared，安装、协议与发布测试归 _cloud。仅使用本地回环服务与合成凭证；真实 API 验收仍是[待办](../docs/development/optimization-plan.md)。

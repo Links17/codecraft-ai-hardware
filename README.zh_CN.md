@@ -68,7 +68,7 @@ python3 codecraft.py build-project projects/my-e1001-project
 
 导出的工作区也包含 `codecraft.py`，在该目录内可运行 `python3 codecraft.py build-project .`。构建不会刷写设备。需要实机测试时，先确认板卡和端口并明确授权设备写入，再遵循所选[设备验收步骤](devices/reterminal-e1001/AGENTS.md#physical-acceptance)和 [codecraft-device-test](skills/codecraft-device-test/SKILL.md)。
 
-应用修改、需求简述、经审阅的重新锁定和后续构建，参见[项目工作区指南](docs/development/project-workspaces.md)。使用 [codecraft-ideate](skills/codecraft-ideate/SKILL.md) 和 `new --brief <file.json>`，将用途、用户、场景和物料清单记录到项目中。
+应用修改、需求简述、经审阅的重新锁定和后续构建，参见[可移植应用流程](docs/development/application-workflow.md)。使用 [codecraft-ideate](skills/codecraft-ideate/SKILL.md) 和 `new --brief <file.json>`，将用途、用户、场景和物料清单记录到项目中。
 
 ## 与 AI 编程助手协作
 
@@ -89,9 +89,11 @@ python3 codecraft.py build-project projects/my-e1001-project
 
 ## 可选的云端功能与固件分享
 
-通过 [skills/](skills/README.zh_CN.md) 中的独立客户端扩展云端能力，例如 LLM 文本生成、ASR/STT、TTS 和图像生成。每个客户端包含自己的 Skill 指南和 API 参考，可独立安装。云端服务和账户基础设施由外部项目负责；凭据、限制与经过授权的 API 使用方式，见所选 Skill。
+通过 [skills/](skills/README.zh_CN.md#独立推理客户端) 中的独立客户端扩展云端能力，例如 LLM 文本生成、ASR/STT、TTS 和图像生成。每个客户端拥有自己的 `contract.json` 和 API 参考，可独立安装。云端服务和账户基础设施由外部项目负责；凭据、限制与经过授权的 API 使用方式，见所选 Skill。
 
-可选客户端及其配置方式，参见 [Skills 指南](skills/README.zh_CN.md)和[项目工作区指南](docs/development/project-workspaces.md)。
+每台设备每月可调用次数及 5 台设备的每月合计见[免费额度表](skills/README.zh_CN.md#免费额度)。各功能共享设备每月额度，表中各行是不同使用方式下的估算。
+
+将客户端组合进应用时，CLI 契约版本 3 使用 `new --skills <selection.json>` 显式选择；项目配置与锁文件采用 schema 3。参见[项目组合](skills/README.zh_CN.md#可选项目组合)和生成的 [Skill 索引](docs/skill-inventory.json)。
 
 [CodeCraft Hub](https://codecraft.seeed.cc/hub) 是独立的固件分享平台。用户要求上传、在线刷写、SenseCraft 设备管理或云端部署时，使用外部 [sensecraft-cli](https://github.com/Seeed-Solution/sensecraft-cli) 及其官方内置 Skill。已核实版本、前提和安装方式见[安装与任务路由](docs/development/sensecraft-cli.md)。原生开发无需此工具，安装 Skill 或 CLI 不代表授权云端操作。
 
@@ -101,7 +103,7 @@ python3 codecraft.py build-project projects/my-e1001-project
 | --- | --- |
 | 查找设备知识和原生示例 | [设备目录](devices/AGENTS.md) |
 | 查看接口实现与证据状态 | [原生接口矩阵](docs/inventory.md) |
-| 修改导出的项目 | [应用开发流程](docs/development/project-workspaces.md) |
+| 修改导出的项目 | [应用开发流程](docs/development/application-workflow.md) |
 | 了解硬件与云端 Skills | [Skills 指南](skills/README.zh_CN.md) |
 | 理解职责划分和架构 | [架构说明](docs/architecture/overview.md) |
 | 报告问题或参与贡献 | [Issues](https://github.com/Seeed-Solution/codecraft-ai-hardware/issues) · [贡献指南](.github/CONTRIBUTING.md) |
@@ -113,8 +115,7 @@ python3 codecraft.py build-project projects/my-e1001-project
 | --- | --- |
 | `devices/<device>/` | 设备知识、参考资料、素材，以及 `targets/` 下的原生 BSP 和示例 |
 | `platforms/` | 软件栈适配器、构建辅助和共享组件 |
-| `capabilities/` | 独立 Skills 消费的云端契约与提供方选择 |
-| `skills/` | Agent 工作流、编排与独立云端客户端 |
+| `skills/` | Agent 工作流与独立云端客户端，包发布记录位于 `_cloud/packages/` |
 | `projects/` | 被 Git 忽略的私有应用工作区 |
 | `tests/` | 按源码归属组织的测试、夹具、mock 和留存的设备证据 |
 | `docs/` | 工程指南、生成的索引和待办事项 |

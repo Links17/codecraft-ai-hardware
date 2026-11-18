@@ -5,7 +5,7 @@ description: Validate repository contracts, generated indexes, native builds and
 
 # Validate
 
-Select checks using the [root validation policy](../../AGENTS.md#required-validation-and-delivery).
+Select checks using the [root validation policy](../../AGENTS.md).
 Run `generate --check`, focused checks and `validate --static`. If firmware and
 native build inputs/behavior are unchanged, skip native builds and toolchain
 setup. Otherwise validate affected Targets, examples and variants, including
@@ -25,6 +25,6 @@ For changed standalone packages, follow docs/development/skill-releases.md. Chec
 
 For focused host checks, use `python3 codecraft.py test --path <owner>`; use `test --list` to inspect collected IDs. Read docs/development/testing.md before moving tests. Preserve full scenario coverage; do not keep old forwarding wrappers that execute the same suite twice. Skips and fixture/collection failures must remain visible.
 
-For ESP-IDF source selection and BSP dependencies, follow [native composition rules](../../docs/development/native-compositions.md).
+For ESP-IDF source selection and BSP dependencies, follow [native composition rules](../../docs/development/application-workflow.md#native-composition).
 
-For assembly selection, export and revision-specific evidence, follow [hardware variant rules](../../docs/development/hardware-variants.md).
+For assembly selection, export and revision-specific evidence, follow [hardware variant rules](../../docs/development/application-workflow.md#hardware-variants-and-evidence).

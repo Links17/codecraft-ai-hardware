@@ -145,13 +145,13 @@ def test_public_new_command_accepts_a_brief_and_ideate_context():
         assert json.loads(run.stdout)['ok'] is True
         assert 'Purpose: Exercise a local example' in (root/'projects/demo/AGENTS.md').read_text()
         context = Catalog(root).context('linux/reterminal', task='ideate')
-        assert 'skills/codecraft-ideate/SKILL.md' in context['files']
-        assert 'skills/codecraft-discover/SKILL.md' in context['files']
+        assert 'skills/codecraft-ideate/SKILL.md' in context['guidance']
+        assert 'skills/codecraft-discover/SKILL.md' in context['guidance']
 
 
-def test_older_profile_without_brief_can_be_relocked_without_inventing_a_bom():
+def test_absent_optional_brief_stays_unknown_when_relocked():
     with reference() as root:
-        output = root/'projects/older'
+        output = root/'projects/without-brief'
         generate_project(Catalog(root), 'linux/reterminal', 'buttons_evdev', output)
         profile = read_json(output/'project.yaml')
         profile.pop('brief')
@@ -169,7 +169,7 @@ def test_relocking_preserves_custom_agent_rules():
         agents.write_text(agents.read_text() + '\n## Custom rule\n\nKeep the application offline.\n')
         lock_project(output)
         assert 'Keep the application offline.' in agents.read_text()
-        # An older application without generated markers keeps its original rules.
+        # Authored application rules remain intact when adding managed guidance.
         agents.write_text('# Existing application rules\n\nKeep local behavior.\n')
         lock_project(output)
         assert agents.read_text().startswith('# Existing application rules')

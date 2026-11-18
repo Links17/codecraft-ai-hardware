@@ -17,11 +17,30 @@ facts and unowned metadata. They preserve authored bytes and physical procedures
 source graphs and exported locks both hash complete files. Retained evidence lives
 under tests/devices/<device>/ with source identity and log hashes intact.
 
-Tests reject source contradictions, missing/cyclic dependencies, omitted cross-layer resources, empty/incorrect metadata, wrong adapter identity/case coverage and stale evidence. Source checks cover canonical metadata formatting, Python syntax, retained licensing/attribution, local links, README language pairs, forbidden engineering-document translations and private-key material. Native peripheral interfaces and cloud Skill Capabilities are tested at their respective owners. Physical writes are excluded. Missing tools remain not_run; unsupported simulations remain not_supported.
+Tests reject source contradictions, missing/cyclic dependencies, omitted cross-layer resources, empty/incorrect metadata, wrong adapter identity/case coverage and stale evidence. Source checks cover canonical metadata formatting, Python syntax, retained licensing/attribution, local links, README language pairs, forbidden engineering-document translations and private-key material. Native peripheral interfaces and cloud Skill contracts are tested at their respective owners. Physical writes are excluded. Missing tools remain not_run; unsupported simulations remain not_supported.
 
-The static gate also verifies bundled cloud Skill fingerprints and CLI contracts, helper synchronization, and the imported nine-case offline protocol suite. Each client is tested after isolated installation against a loopback service; no real cloud credentials or paid API calls are used. Capability-owned tests drive metadata → prepare → standalone CLI → mock API → actual output schema/exit status, covering every operation and local/archived media. Regressions also require cloud-only resolution without a hardware catalog, reject malformed selections and extra installed files, isolate installed bytecode, and preserve pinned binary assets through context/export/lock/package.
+The static gate verifies complete Skill release inventories and CLI contracts,
+helper synchronization and the 16-case offline HTTP/SSE/media protocol suite.
+The seven onboarding/authentication cases and six realtime cases verify isolated
+credentials, native host encoding, paced WebSocket audio and same-key recovery.
+Each client
+runs independently against a loopback fixture. Direct-client conformance covers
+all eight operations, local/archived media, approved defaults and overrides,
+input file bounds, SSE completion/finish status, image integrity/dimensions,
+nonzero failures and retained partial output.
+No real credential or paid API call is used. Tests reject extra installed files,
+ignore unpinned bytecode and preserve pinned binary assets through exports/locks.
 
-Common Provider policy tests live in tests/capabilities/test_policy.py and are included in the same host gate. They check independent policy/Capability versions, restrictive schema fragments, approved defaults, effective outputs and exported-lock drift. Capability-owned client tests also cover the current ASR audio boundaries, TTS text/default voice, image prompt/request size and LLM token defaults. The domain regression prohibits hardware Catalog imports while loading the cloud domain and checks the registry's native/cloud/export dependency closure. Synthetic policy variations are not a second real Provider or live billing evidence.
+Shared contract tests live in tests/skills/_shared/test_skill_contracts.py. They
+check separate semantic/policy/API/package versions, restrictive schemas,
+explicit default permission, unknown prerequisites/resources and source drift.
+Per-client cases live under tests/skills/<skill-id>/. Domain tests prohibit
+hardware Catalog imports from Skill checks, verify application dispatch uses its
+explicit path, and exercise native-only plus selected-Skill exports for every
+Target/variant. All eight workflow contexts work in isolated exports; their
+source graph includes the selected Platform and portable guidance. Native-only
+runs reject cloud imports. Synthetic policy tests are not a second live service
+or measured billing evidence.
 
 Standalone release tests live in tests/skills/_cloud/test_release.py. They verify identical candidate bytes, explicit version changes, real isolated candidate/client conformance, source/candidate drift rejection, transactional rollback and retained recovery backups. Public-entry tests check JSON, typed errors and exit codes, source-locked exports and explicit relocking. Reference validation rejects application roots; both the application build command and direct adapter builds check the current source lock and actual toolchain. Clean export checks preserve the requested example across every selected variant, and retained evidence must cover all native cases for that selection, including overlays. README/Skill/CI commands use python3 codecraft.py; repository-only release maintenance is not required by exported applications.
 

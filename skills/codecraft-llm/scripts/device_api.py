@@ -1,6 +1,6 @@
 """Shared standard-library client, copied into each independently installable skill.
 
-Maintain this source through the skill-release candidate workflow; runtime imports stay package-local.
+Edit this source and run tools/skills/sync_helpers.py; never import across skills.
 """
 import argparse
 import base64
@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import re
 import sys
+import struct
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -51,6 +52,54 @@ def decode_json(data):
     if not isinstance(result, dict) or 'error' in result:
         raise SkillError('API reported a failure; no automatic retry.')
     return result
+
+
+def read_response(response, maximum):
+    """Reject incomplete fixed-length bodies as well as oversized responses."""
+    expected = None
+    length = response.headers.get('Content-Length')
+    if length is not None and not getattr(response, 'chunked', False):
+        if not re.fullmatch(r'[0-9]+', length.strip()):
+            raise SkillError('Invalid response length; no automatic retry.')
+        expected = int(length)
+        if expected > maximum:
+            raise SkillError('API response exceeds the local size limit; no automatic retry.')
+    data = response.read(maximum + 1)
+    if len(data) > maximum:
+        raise SkillError('API response exceeds the local size limit; no automatic retry.')
+    if expected is not None and len(data) != expected:
+        raise SkillError('Response interrupted; received fewer bytes than declared. Outcome and charge may be uncertain; no automatic retry.')
+    return data
+
+
+def validate_pcm_wav(data, max_seconds=None, max_bytes=MAX_FILE):
+    """Validate the complete RIFF container and PCM payload, without repairing it."""
+    if (len(data) < 44 or len(data) > max_bytes or data[:4] != b'RIFF'
+            or data[8:12] != b'WAVE' or struct.unpack_from('<I', data, 4)[0] + 8 != len(data)):
+        raise SkillError('Expected a complete PCM WAV with accurate chunk lengths.')
+    offset, formats, chunks, byte_rate, pcm_size = 12, 0, 0, 0, 0
+    while offset + 8 <= len(data):
+        kind = data[offset:offset + 4]
+        size = struct.unpack_from('<I', data, offset + 4)[0]
+        start = offset + 8
+        end = start + size
+        if end > len(data):
+            raise SkillError('WAV contains a truncated chunk.')
+        if kind == b'fmt ':
+            if size < 16:
+                raise SkillError('WAV format chunk is incomplete.')
+            encoding, channels, frequency, byte_rate, align, bits = struct.unpack_from('<HHIIHH', data, start)
+            if encoding != 1 or channels != 1 or bits != 16 or not 8000 <= frequency <= 48000 or byte_rate != frequency * 2 or align != 2:
+                raise SkillError('Expected mono PCM 16-bit WAV at 8-48 kHz.')
+            formats += 1
+        elif kind == b'data':
+            pcm_size += size
+            chunks += 1
+        offset = end + size % 2
+    if offset != len(data) or formats != 1 or chunks != 1 or not byte_rate or not pcm_size or pcm_size % 2:
+        raise SkillError('WAV requires one complete PCM data chunk with valid sample boundaries.')
+    if max_seconds is not None and pcm_size > byte_rate * max_seconds:
+        raise SkillError(f'WAV duration exceeds {max_seconds} seconds.')
 
 
 @contextlib.contextmanager
@@ -100,6 +149,7 @@ class DeviceAPI:
             valid = False
         if not valid:
             raise SkillError('Credential file requires a 16-hex EUI and 32-hex deviceKey.')
+        self.eui = eui
         self.origin = origin.rstrip('/')
         self.authorization = 'Device ' + base64.b64encode((eui + ':' + key).encode()).decode()
         self.opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect())
@@ -115,10 +165,11 @@ class DeviceAPI:
             status = error.code
             error.close()
             hints = {401: 'Device credentials are invalid or device quota is exhausted.',
+                     402: 'Device quota is unavailable.',
                      403: 'Device access is disabled or forbidden.', 404: 'Asset or API path not found.',
                      400: 'Request parameters are invalid.', 413: 'Input is too large.',
-                     429: 'Rate limit or quota limit reached.', 502: 'Model provider failed.',
-                     503: 'Authentication, provisioning or storage dependency is unavailable.'}
+                     429: 'Rate limit or quota limit reached.', 502: 'The service could not complete the request.',
+                     503: 'The service is temporarily unavailable.'}
             raise SkillError(f'HTTP {status}: {hints.get(status, "Request failed.")} No automatic retry.') from None
         except (urllib.error.URLError, TimeoutError):
             raise SkillError('Network failure; request outcome and charge may be uncertain. Do not automatically retry.') from None
@@ -128,11 +179,9 @@ class DeviceAPI:
             data = json.dumps(payload, ensure_ascii=False).encode()
         try:
             with self.open(path, data, content_type) as response:
-                result = response.read(maximum + 1)
+                result = read_response(response, maximum)
         except (OSError, http.client.HTTPException):
             raise SkillError('Response interrupted; request outcome and charge may be uncertain. Do not automatically retry.') from None
-        if len(result) > maximum:
-            raise SkillError('API response exceeds the local size limit; no automatic retry.')
         return result
 
     def archive(self, path):

@@ -5,7 +5,7 @@ description: Build native firmware and run checks without flashing or publishing
 
 # Build
 
-First apply the [root validation policy](../../AGENTS.md#required-validation-and-delivery).
+First apply the [root validation policy](../../AGENTS.md).
 Use this workflow for requested builds or changes affecting firmware/native build
 inputs or behavior. Otherwise use static/host checks without native builds or
 toolchain setup. Run `validate --static`, then `validate --target <id>` for
@@ -31,6 +31,6 @@ platforms/formats return not_supported. Output includes firmware.bin and its
 manifest; source package behavior is unchanged. These commands do not flash or
 publish. See docs/development/firmware-images.md in the reference repository.
 
-For ESP-IDF source selection and BSP dependencies, follow [native composition rules](../../docs/development/native-compositions.md).
+For ESP-IDF source selection and BSP dependencies, follow [native composition rules](../../docs/development/application-workflow.md#native-composition).
 
-For assembly selection, export and revision-specific evidence, follow [hardware variant rules](../../docs/development/hardware-variants.md).
+For assembly selection, export and revision-specific evidence, follow [hardware variant rules](../../docs/development/application-workflow.md#hardware-variants-and-evidence).

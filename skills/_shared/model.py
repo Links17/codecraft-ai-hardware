@@ -1,30 +1,14 @@
-"""Catalog orchestration across Device, Platform and Capability domain contracts."""
+"""Catalog orchestration across Device and Platform contracts."""
 from __future__ import annotations
 
 import copy
-import importlib.util
 from pathlib import Path
 
 from io_utils import read_json, require, safe_path
 from graph import SourceGraph
 from registry import domain, load_group
 from device_entry import read_contract
-
-
-def load_cloud(root, target_lookup=None):
-    """Compose cloud contracts with lazy, optional hardware-context validation."""
-    root = Path(root).resolve()
-    path = root/'capabilities/catalog.py'
-    require(path.is_file(), 'Cloud Capability support is not included in this project')
-    spec = importlib.util.spec_from_file_location('cloud_capability_catalog', path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    if target_lookup is None:
-        # Keep public CLI behavior here. The cloud domain neither imports nor
-        # constructs a hardware Catalog, and no hardware is read without tid.
-        def target_lookup(tid):
-            return Catalog(root).target(tid)
-    return module.CapabilityCatalog(root, target_lookup=target_lookup)
+from device_validation import validate as validate_device
 
 
 class Catalog:
@@ -33,8 +17,6 @@ class Catalog:
         self.devices = load_group(self.root, 'devices/*/AGENTS.md', reader=read_contract)
         self.platforms = load_group(self.root, 'platforms/*/platform.json')
         self.targets = load_group(self.root, 'devices/*/targets/target.json')
-        self._cloud_cache = None
-        self.device_schema = domain(self.root, 'devices')
         self.platform_schema = domain(self.root, 'platforms')
         require(self.devices and self.platforms and self.targets, 'empty catalog')
         self.check()
@@ -59,7 +41,7 @@ class Catalog:
         for identity, item in self.devices.items():
             require((self.root/'devices'/identity/'AGENTS.md').is_file(), 'Device identity/path mismatch')
             require(not (self.root/'devices'/identity/'tests').exists(), 'Device evidence belongs in tests/devices/<device>')
-            self.device_schema.validate(self.root, item)
+            validate_device(self.root, item)
         for path in self.root.glob('tests/devices/*'):
             if path.is_dir() and not path.name.startswith('.'):
                 require(path.name in self.devices, f'evidence for unregistered Device: {path.name}')
@@ -70,15 +52,6 @@ class Catalog:
             self.platform_schema.target(self.root, target, self.devices, self.platforms)
             self.graph(tid)
         require(all(self.device_targets(did) for did in self.devices), 'Device requires at least one Target')
-
-    def cloud(self):
-        if self._cloud_cache is None:
-            self._cloud_cache = load_cloud(self.root, target_lookup=self.target)
-        return self._cloud_cache
-
-    @property
-    def capabilities(self):
-        return self.cloud().capabilities
 
     def device_targets(self, did):
         return sorted(tid for tid, target in self.targets.items() if target['device'] == did)
@@ -119,7 +92,7 @@ class Catalog:
         target = self.selected_target(tid, example, variant)
         device = self.devices[target['device']]
         platform = self.platforms[target['platform']]
-        roots = [f'devices/{device["id"]}/AGENTS.md', f'{target["path"]}/target.json',
+        roots = ['AGENTS.md', f'platforms/{platform["id"]}/AGENTS.md', f'devices/{device["id"]}/AGENTS.md', f'{target["path"]}/target.json',
                  f'platforms/{platform["id"]}/platform.json', platform['adapter'],
                  *platform['runtime'], *device['references'],
                  *target['inputs'], *target['dependencies'], target['toolchain']['source']]
@@ -137,32 +110,38 @@ class Catalog:
         graph.resolve(roots)
         profile = self.root/'project.yaml'
         if profile.is_file():
-            selections = read_json(profile).get('capabilities', [])
-            require(isinstance(selections, list), 'Capability selections must be a list')
-            for selection in selections:
-                require(isinstance(selection, dict) and isinstance(selection.get('provider'), str), 'Invalid Capability selection')
-                graph.resolve(self.cloud().graph(selection['provider']).files)
+            from project import profile as read_profile
+            data = read_profile(self.root)
+            items = data.get('skills', [])
+            require(isinstance(items, list), 'Skill selections must be a list')
+            if items:
+                from skill_contracts import selected_graph
+                graph.resolve(selected_graph(self.root, items).files)
         return graph
 
     def support(self, tid):
         from evidence import support
         return support(self, tid)
 
-    def context(self, tid, example=None, task='develop', providers=(), variant=None):
+    def context(self, tid, example=None, task='develop', selected_skills=None, variant=None):
         skills = {'ideate': ['codecraft-ideate', 'codecraft-discover'], 'develop': ['codecraft-develop'], 'setup': ['codecraft-setup'], 'build': ['codecraft-build'],
                   'debug': ['codecraft-debug'], 'device-test': ['codecraft-device-test'],
                   'discover': ['codecraft-discover'], 'validate': ['codecraft-validate']}
         require(task in skills, f'unknown context task: {task}')
         target = self.selected_target(tid, example, variant)
         graph = self.graph(tid, example, variant)
-        for pid in providers:
-            graph.resolve(self.cloud().graph(pid).files)
+        if selected_skills is not None:
+            require(isinstance(selected_skills,list),'Skill selections must be a list')
+            if selected_skills:
+                from skill_contracts import selected_graph
+                graph.resolve(selected_graph(self.root,selected_skills).files)
         guidance = ['AGENTS.md', f'devices/{target["device"]}/AGENTS.md', f'platforms/{target["platform"]}/AGENTS.md']
         guidance += [f'skills/{name}/SKILL.md' for name in skills[task]]
         for path in guidance:
             safe_path(self.root, path)
-        return {'schema_version': 2, 'device': self.devices[target['device']], 'target': target, 'task': task,
-                'files': sorted(graph.files | set(guidance)), 'dependencies': graph.snapshot()['edges'],
+        require(set(guidance)<=graph.files, 'Workflow guidance is missing from the source graph')
+        return {'schema_version': 3, 'device': self.devices[target['device']], 'target': target, 'task': task,
+                'guidance': guidance, 'files': sorted(graph.files), 'dependencies': graph.snapshot()['edges'],
                 'source_digest': graph.fingerprint(), 'support': self.support(tid), 'unknowns': self.devices[target['device']]['unknowns']}
 
     def resolve(self, interface_ids=(), platform=None, constraints=None):

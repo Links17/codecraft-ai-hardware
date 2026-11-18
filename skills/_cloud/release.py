@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT/'skills/_shared'))
 from graph import SourceGraph
 from io_utils import ContractError, digest, object_digest, read_json, require, safe_path, write_json
-from registry import domain, load_group
+from skill_contracts import registrations, record_path, package_inventory, validate_contract, load_package
 
 
 def versions(value):
@@ -24,45 +24,28 @@ def versions(value):
     return tuple(map(int, value.split('.')))
 
 
-def registrations(root):
-    providers = load_group(root, 'capabilities/*/providers/*/provider.json')
-    providers = {pid:p for pid,p in providers.items() if p['kind']=='repository-skill'}
-    require(providers, 'No repository Skill Providers to package')
-    require(len({p['skill']['id'] for p in providers.values()})==len(providers), 'A release requires one owning Provider per package')
-    for pid,p in providers.items():
-        require(pid.count('/')==1 and p['capability']==pid.split('/')[0], 'Invalid Capability/Provider identity')
-        require(read_json(safe_path(root,provider_path(p)))==p, 'Provider identity/path mismatch')
-        require(p['skill']['path']=='skills/'+p['skill']['id'], 'Invalid package path')
-        require(re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', p['skill']['id']), 'Invalid Skill identity')
-    return providers
-
-
-def provider_path(provider):
-    return f'capabilities/{provider["capability"]}/providers/{provider["id"].split("/")[1]}/provider.json'
-
-
 def inputs(root):
-    providers = registrations(root)
+    packages = registrations(root)
     graph = SourceGraph(root)
-    roots = ['skills/_shared', 'capabilities', 'docs/architecture/capability-provider-policy.md',
+    roots = ['skills/_shared/resource.json', 'skills/_shared/skill_contracts.py', 'docs/architecture/skill-contracts.md',
              'skills/_cloud/release.py', 'skills/_cloud/check_candidate.py',
              'skills/_cloud/release-checks.json', 'skills/_cloud/device_api.py',
-             'skills/_cloud/import.json', 'tests/skills/_cloud/test_protocol.py',
-             'tests/capabilities']
+             'skills/_cloud/import.json', 'skills/_cloud/upstream.json',
+             'tests/requirements.txt', 'tests/skills/_cloud/test_protocol.py', 'tests/skills/_cloud/test_onboarding.py',
+             'tests/skills/_cloud/skill_harness.py', *[f'tests/skills/{sid}' for sid in packages]]
     inventories = {}
-    schema = domain(root, 'capabilities')
     helper = 'scripts/device_api.py'
     maintained = digest(safe_path(root, 'skills/_cloud/device_api.py'))
-    for pid,p in providers.items():
-        package = safe_path(root, p['skill']['path'])
-        inventories[pid] = schema.package_inventory(package)
-        require(isinstance(p['skill']['files'],dict) and helper in inventories[pid], 'Package lacks its distribution helper or pinned inventory')
-        require(inventories[pid][helper] in {p['skill']['files'].get(helper), maintained},
+    for pid,p in packages.items():
+        package = safe_path(root, ('skills/'+p['id']))
+        inventories[pid] = package_inventory(package)
+        require(isinstance(p['files'],dict) and helper in inventories[pid], 'Package lacks its distribution helper or pinned inventory')
+        require(inventories[pid][helper] in {p['files'].get(helper), maintained},
                 f'{pid}: distribution helper differs from both its pin and the maintained source; reconcile local edits before preparing a release')
-        roots += p['dependencies']
-        roots += [p['skill']['path']+'/'+relative for relative in inventories[pid]]
+        roots += [record_path(pid),p['source']['import_manifest']]
+        roots += [('skills/'+p['id'])+'/'+relative for relative in inventories[pid]]
     graph.resolve(roots)
-    return graph.snapshot(), inventories, providers
+    return graph.snapshot(), inventories, packages
 
 
 def diff_files(before, after):
@@ -83,23 +66,25 @@ def copy_package(source, destination, files):
         copy_verified(safe_path(source, relative), safe_path(destination, relative, exists=False), checksum)
 
 
-def proposal(previous, proposed, capability):
+def proposal(previous, proposed, contract):
     """Validate version/fingerprint changes again when consuming a candidate."""
     expected = copy.deepcopy(previous)
-    for key in ('version','api_version','files'):expected['skill'][key]=proposed['skill'][key]
+    for key in ('version','api_version','files'):expected[key]=proposed[key]
     expected['contract_version']=proposed['contract_version']
-    expected['policy']['version']=proposed['policy']['version']
+    expected['policy_version']=proposed['policy_version']
     require(expected==proposed, 'Release cannot rewrite bindings, semantics or provenance')
-    changes=diff_files(previous['skill']['files'], proposed['skill']['files'])
+    changes=diff_files(previous['files'], proposed['files'])
     kind='none' if not changes else ('documentation' if all(x['path'].endswith('.md') for x in changes) else 'runtime')
-    old_version=versions(previous['skill']['version']);new_version=versions(proposed['skill']['version'])
+    old_version=versions(previous['version']);new_version=versions(proposed['version'])
     require(new_version>=old_version, 'Package version cannot decrease')
-    api=proposed['skill']['api_version']
+    api=proposed['api_version']
     require(isinstance(api,str) and api.strip(), 'API version must be explicit')
-    if changes or api!=previous['skill']['api_version']:
+    if changes or api!=previous['api_version']:
         require(new_version>old_version, previous['id']+': changed package/API needs an explicit higher Skill version')
-    require(versions(proposed['policy']['version'])>=versions(previous['policy']['version']), 'Policy version cannot decrease')
-    require(proposed['contract_version']==capability['version'], 'Release contract version must match the reviewed Capability')
+    require(versions(proposed['policy_version'])>=versions(previous['policy_version']), 'Policy version cannot decrease')
+    require(proposed['contract_version']==contract['version'], 'Release contract version must match the reviewed Skill contract')
+    require(proposed['policy_version']==contract['policy']['version'] and proposed['api_version']==contract['api']['version'],
+            'Release API/policy versions must match the reviewed package contract')
     return changes,kind
 
 
@@ -107,37 +92,37 @@ def prepare(root, output, releases=None):
     root = Path(root).resolve();output = Path(output).expanduser().resolve()
     require(not output.exists() and not output.is_relative_to(root), 'Candidate output must be a new directory outside the repository')
     releases = {} if releases is None else releases
-    require(isinstance(releases, dict), 'Release versions must be an object keyed by Provider ID')
-    sources, inventories, providers = inputs(root)
-    require(set(releases)<=providers.keys(), 'Unknown Provider in release versions')
-    schema = domain(root, 'capabilities');packages = {};files = {}
+    require(isinstance(releases, dict), 'Release versions must be an object keyed by Skill ID')
+    sources, inventories, records = inputs(root)
+    require(set(releases)<=records.keys(), 'Unknown Skill in release versions')
+    packages = {};files = {}
     output.mkdir(parents=True)
     try:
-        for pid,p in sorted(providers.items()):
+        for pid,p in sorted(records.items()):
             override = releases.get(pid, {})
             require(isinstance(override, dict) and set(override)<=
                     {'skill_version','api_version','contract_version','policy_version'}, 'Unknown release version field')
-            proposed = copy.deepcopy(p);skill = proposed['skill'];relative = skill['path']
+            proposed = copy.deepcopy(p);skill = proposed;relative = 'skills/'+pid
             package = output/relative;package.mkdir(parents=True)
             require('scripts/device_api.py' in inventories[pid], 'Package lacks its distribution helper')
             for name in inventories[pid]:
                 source = root/'skills/_cloud/device_api.py' if name=='scripts/device_api.py' else safe_path(root, relative+'/'+name)
                 target = package/name;target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(source.read_bytes())
-            skill['files'] = schema.package_inventory(package)
+            skill['files'] = package_inventory(package)
             skill['version'] = override.get('skill_version', skill['version'])
             skill['api_version'] = override.get('api_version', skill['api_version'])
             proposed['contract_version'] = override.get('contract_version', proposed['contract_version'])
-            proposed['policy']['version'] = override.get('policy_version', proposed['policy']['version'])
-            capability=read_json(root/f'capabilities/{p["capability"]}/capability.json')
-            changes,kind=proposal(p,proposed,capability)
-            schema.policy(proposed,capability)
-            path = provider_path(proposed);write_json(output/path, proposed)
+            proposed['policy_version'] = override.get('policy_version', proposed['policy_version'])
+            contract=read_json(root/relative/'contract.json')
+            changes,kind=proposal(p,proposed,contract)
+            validate_contract(contract,skill['files'])
+            path = record_path(pid);write_json(output/path, proposed)
             files[path] = digest(output/path)
             files.update({relative+'/'+name:checksum for name,checksum in skill['files'].items()})
-            packages[pid] = {'provider_path':path, 'skill_path':relative, 'classification':kind,
+            packages[pid] = {'record_path':path, 'skill_path':relative, 'classification':kind,
                              'changes':changes, 'previous':p, 'proposed':proposed}
-        manifest = {'schema_version':1, 'kind':'skill-release-candidate', 'sources':sources,
+        manifest = {'schema_version':2, 'kind':'skill-release-candidate', 'sources':sources,
                     'baseline_packages':inventories, 'packages':packages, 'files':files,
                     'provenance_sha256':digest(root/'skills/_cloud/import.json')}
         write_json(output/'manifest.json', manifest)
@@ -155,26 +140,25 @@ def inspect(root, candidate, reviewed=None):
     manifest = read_json(candidate/'manifest.json');checksum = object_digest(manifest)
     keys={'schema_version','kind','sources','baseline_packages','packages','files','provenance_sha256'}
     require(isinstance(manifest,dict) and set(manifest)==keys and type(manifest['schema_version']) is int
-            and manifest['schema_version']==1 and manifest['kind']=='skill-release-candidate', 'Invalid candidate manifest')
+            and manifest['schema_version']==2 and manifest['kind']=='skill-release-candidate', 'Invalid candidate manifest')
     require(all(isinstance(manifest[key],dict) for key in ('sources','baseline_packages','packages','files')), 'Candidate inventories must be objects')
     if reviewed is not None:
         require(isinstance(reviewed, str) and reviewed==checksum, 'Candidate differs from the explicitly reviewed digest')
-    schema = domain(root, 'capabilities')
-    actual = schema.package_inventory(candidate)
+    actual = package_inventory(candidate)
     require(actual=={**manifest['files'], 'manifest.json':digest(candidate/'manifest.json')}, 'Candidate files drifted')
-    sources, inventories, providers = inputs(root)
+    sources, inventories, packages = inputs(root)
     require(sources==manifest['sources'] and inventories==manifest['baseline_packages'], 'Maintained sources changed after candidate preparation')
-    require(set(providers)==set(manifest['packages']), 'Candidate Provider set changed')
+    require(set(packages)==set(manifest['packages']), 'Candidate Skill set changed')
     require(digest(root/'skills/_cloud/import.json')==manifest['provenance_sha256'], 'Original import provenance changed')
     for pid,entry in manifest['packages'].items():
-        require(entry['previous']==providers[pid], 'Provider changed after candidate preparation')
+        require(entry['previous']==packages[pid], 'Skill changed after candidate preparation')
         proposed = entry['proposed']
-        changes,kind=proposal(providers[pid],proposed,read_json(root/f'capabilities/{providers[pid]["capability"]}/capability.json'))
+        changes,kind=proposal(packages[pid],proposed,read_json(candidate/entry['skill_path']/'contract.json'))
         require(entry['changes']==changes and entry['classification']==kind,'Candidate change summary differs from its bytes')
-        require(entry['provider_path']==provider_path(providers[pid]) and entry['skill_path']==providers[pid]['skill']['path'], 'Release cannot relocate a Provider or package')
-        require(read_json(safe_path(candidate, entry['provider_path']))==proposed, 'Candidate Provider metadata mismatch')
-        require(proposed['source']==providers[pid]['source'], 'Release cannot rewrite original provenance')
-        require(schema.package_inventory(safe_path(candidate, entry['skill_path']))==proposed['skill']['files'], 'Candidate package differs from proposed fingerprints')
+        require(entry['record_path']==record_path(pid) and entry['skill_path']=='skills/'+pid, 'Release cannot relocate a Skill or package')
+        require(read_json(safe_path(candidate, entry['record_path']))==proposed, 'Candidate Skill metadata mismatch')
+        require(proposed['source']==packages[pid]['source'], 'Release cannot rewrite original provenance')
+        require(package_inventory(safe_path(candidate, entry['skill_path']))==proposed['files'], 'Candidate package differs from proposed fingerprints')
     return manifest, checksum
 
 
@@ -188,8 +172,8 @@ def validate(root, candidate, reviewed=None):
         for entry in manifest['packages'].values():
             destination = staged/entry['skill_path']
             if destination.exists():shutil.rmtree(destination)
-            copy_package(candidate/entry['skill_path'], destination, entry['proposed']['skill']['files'])
-            copy_verified(candidate/entry['provider_path'], staged/entry['provider_path'], manifest['files'][entry['provider_path']])
+            copy_package(candidate/entry['skill_path'], destination, entry['proposed']['files'])
+            copy_verified(candidate/entry['record_path'], staged/entry['record_path'], manifest['files'][entry['record_path']])
         env = os.environ.copy()
         for name in ('PYTHONPATH','CODECRAFT_API_ORIGIN','CODECRAFT_DEVICE_FILE'):env.pop(name, None)
         run = subprocess.run([sys.executable, '-I', '-B', str(staged/'skills/_cloud/check_candidate.py')],
@@ -220,19 +204,19 @@ def apply(root, candidate, reviewed):
             try:
                 for pid,entry in sorted(manifest['packages'].items()):
                     destination = root/entry['skill_path'];source = candidate/entry['skill_path']
-                    if manifest['baseline_packages'][pid]!=entry['proposed']['skill']['files']:
+                    if manifest['baseline_packages'][pid]!=entry['proposed']['files']:
                         ready = stage/('new-'+destination.name);backup = stage/('old-'+destination.name)
-                        copy_package(source, ready, entry['proposed']['skill']['files'])
+                        copy_package(source, ready, entry['proposed']['files'])
                         destination.rename(backup);moved.append((destination, backup))
                         ready.rename(destination);changed.append(entry['skill_path'])
                     if entry['previous']!=entry['proposed']:
-                        path = root/entry['provider_path'];written.append((path, path.read_bytes()))
+                        path = root/entry['record_path'];written.append((path, path.read_bytes()))
                         temporary = stage/(destination.name+'.json')
-                        copy_verified(candidate/entry['provider_path'], temporary, manifest['files'][entry['provider_path']])
-                        os.replace(temporary, path);changed.append(entry['provider_path'])
+                        copy_verified(candidate/entry['record_path'], temporary, manifest['files'][entry['record_path']])
+                        os.replace(temporary, path);changed.append(entry['record_path'])
                 require(digest(root/'skills/_cloud/import.json')==manifest['provenance_sha256'], 'Original provenance changed during apply')
-                from model import load_cloud
-                load_cloud(root)
+                for sid in registrations(root):
+                    load_package(root,sid)
             except Exception:
                 try:
                     for path,content in reversed(written):path.write_bytes(content)
@@ -266,7 +250,7 @@ def main(argv=None, root=ROOT):
     try:
         if args.command=='prepare':
             releases=read_json(args.versions) if args.versions else {}
-            require(isinstance(releases,dict),'Release versions must be an object keyed by Provider ID')
+            require(isinstance(releases,dict),'Release versions must be an object keyed by Skill ID')
             data=prepare(root,args.output,releases)
         elif args.command=='check':data=validate(root,args.candidate)
         else:data=apply(root,args.candidate,args.review_sha256)

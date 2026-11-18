@@ -17,7 +17,7 @@ _load_sequence = itertools.count()
 def test_files(root, platform=None, selection=None):
     root = Path(root).resolve()
     stack = platform or '*'
-    patterns = ('tests/skills/*', f'tests/platforms/{stack}', 'tests/capabilities')
+    patterns = ('tests/skills/*', f'tests/platforms/{stack}')
     directories = {directory for pattern in patterns for directory in root.glob(pattern)}
     for directory in root.glob('tests/devices/*/targets'):
         device = directory.parent.name
