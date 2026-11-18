@@ -47,7 +47,8 @@ def inputs(root):
     roots = ['skills/_shared', 'capabilities', 'docs/architecture/capability-provider-policy.md',
              'skills/_cloud/release.py', 'skills/_cloud/check_candidate.py',
              'skills/_cloud/release-checks.json', 'skills/_cloud/device_api.py',
-             'skills/_cloud/import.json', 'skills/_cloud/tests/test_protocol.py']
+             'skills/_cloud/import.json', 'tests/skills/_cloud/test_protocol.py',
+             'tests/capabilities']
     inventories = {}
     schema = domain(root, 'capabilities')
     helper = 'scripts/device_api.py'

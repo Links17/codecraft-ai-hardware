@@ -9,19 +9,19 @@
       "runner": "ubuntu-latest"
     },
     {
-      "id": "arduino/wio-terminal",
-      "device": "wio-terminal",
-      "platform": "arduino",
-      "toolchain": "1.5.0",
-      "chip": "",
-      "runner": "ubuntu-latest"
-    },
-    {
       "id": "esp-idf/respeaker-lite",
       "device": "respeaker-lite",
       "platform": "esp-idf",
       "toolchain": "6.0.2",
       "chip": "esp32s3",
+      "runner": "ubuntu-latest"
+    },
+    {
+      "id": "linux/reterminal",
+      "device": "reterminal",
+      "platform": "linux",
+      "toolchain": "unknown",
+      "chip": "",
       "runner": "ubuntu-latest"
     },
     {
@@ -65,19 +65,19 @@
       "runner": "ubuntu-latest"
     },
     {
+      "id": "arduino/wio-terminal",
+      "device": "wio-terminal",
+      "platform": "arduino",
+      "toolchain": "1.5.0",
+      "chip": "",
+      "runner": "ubuntu-latest"
+    },
+    {
       "id": "esp-idf/xiao-s3-147",
       "device": "xiao-s3-147",
       "platform": "esp-idf",
       "toolchain": "6.0.2",
       "chip": "esp32s3",
-      "runner": "ubuntu-latest"
-    },
-    {
-      "id": "linux/reterminal",
-      "device": "reterminal",
-      "platform": "linux",
-      "toolchain": "unknown",
-      "chip": "",
       "runner": "ubuntu-latest"
     }
   ]

@@ -1,15 +1,26 @@
 # Host test ownership and execution
 
+All repository-maintained tests, fixtures and mocks live under root tests/.
+The subdirectories mirror the behavior owner; production modules retain their
+implementation and reference material. Do not add module-local test directories,
+forwarding wrappers or duplicate fixture copies. Dependencies' own tests inside
+ignored SDK or package installations are not maintained repository suites.
+
 Use the public runner for discovery, focused host checks and the static gate:
 
 ```sh
 python3 codecraft.py test --list
-python3 codecraft.py test --path skills/_shared/tests
-python3 codecraft.py test --path skills/_cloud/tests/test_protocol.py
-python3 codecraft.py test --path platforms/esp-idf/components/codecraft_sht4x/tests
-python3 codecraft.py test --path platforms/esp-idf/targets/sensecap-watcher/tests
+python3 codecraft.py test --path tests/skills/_shared
+python3 codecraft.py test --path tests/skills/_cloud/test_protocol.py
+python3 codecraft.py test --path tests/platforms/esp-idf/components/codecraft_sht4x
+python3 codecraft.py test --path tests/devices/sensecap-watcher/targets
 python3 codecraft.py validate --static
 ```
+
+The full host gate needs a C11 compiler, pthreads and `dtc` on PATH. Public CLI
+integration tests compile the Linux overlay and validate locked application
+exports. On Ubuntu, install `build-essential` and `device-tree-compiler`; the
+contracts CI job installs both before discovery and execution.
 
 Select checks using the [root validation policy](../../AGENTS.md#required-validation-and-delivery).
 Documentation and host-only changes do not require native firmware builds when
@@ -18,7 +29,10 @@ is separate from building board firmware. No-option `python3 codecraft.py valida
 includes all native Targets and clean project builds, so it is reserved for an
 explicit full-build request or native changes affecting every Target.
 
-`test` executes host tests only. `--path` selects a repository-relative test file
+`test` executes host tests only; native host suites compile C fixtures and need
+a C compiler. `validate --static` includes those suites. For a task that excludes
+compilation, use discovery and explicitly selected Python-only checks; do not
+report the host or complete gate as passed. `--path` selects a repository-relative test file
 or owning directory. Empty, escaping or symlink selections fail; they never
 report a successful empty suite. `--list` imports test modules and collects IDs
 without running test bodies. Imports must therefore have no hardware, network
@@ -29,19 +43,29 @@ remain separate, explicitly scoped workflows.
 
 | Location | Responsibility |
 | --- | --- |
-| `skills/_shared/tests/` | Catalogs, source graph, generation, project exports/locks, evidence and cross-layer orchestration |
-| `skills/_cloud/tests/` | Standalone installation/inventory, loopback protocols and reviewed release transactions |
-| `skills/codecraft-validate/tests/` | Validation entry, public CLI, test discovery, language/link policy and unique test identities |
-| `capabilities/<capability>/tests/`, `capabilities/_tests/` | Semantic contracts, Provider policy and actual prepared-client conformance |
-| `platforms/<stack>/tests/` | Platform-wide adapter/registration contracts and shared native test support |
-| `platforms/<stack>/components/<component>/tests/` | Shared native implementation and its C fixtures |
-| `platforms/<stack>/targets/<device>/tests/` | BSP bindings, board-specific contracts and example callers |
-| `devices/<device>/tests/` | Physical acceptance procedures, observations and retained evidence; not automatically run by the host gate |
+| `tests/skills/_shared/` | Catalogs, source graph, generation, project exports/locks, evidence and cross-layer orchestration |
+| `tests/skills/_cloud/` | Standalone installation/inventory, loopback protocols and reviewed release transactions |
+| `tests/skills/codecraft-validate/` | Validation entry, public CLI, test discovery, language/link policy and unique test identities |
+| `tests/capabilities/`, `tests/capabilities/<capability>/` | Shared policy/harness and per-Capability semantic contracts and prepared-client conformance |
+| `tests/platforms/<stack>/` | Platform-wide adapter/registration contracts and shared native test support |
+| `tests/platforms/<stack>/components/<component>/` | Shared native implementation and its C fixtures |
+| `tests/devices/<device>/targets/` | BSP bindings, board-specific contracts and example callers |
+| `tests/devices/<device>/{observations.md,records/,logs/}` | Dated observations, structured evidence and original logs; excluded from host discovery |
+
+Device acceptance procedures are authored directly in
+devices/<device>/AGENTS.md; see [Device document rules](device-documents.md). Its knowledge, implementation references and assets
+remain in the device directory. The central evidence area follows
+[tests/AGENTS.md](../../tests/AGENTS.md). Only each Device's targets/ subtree is a host-test owner; observations, records and logs are never collected as tests.
 
 The runner searches `test_*.py` recursively within the host test owners above.
-Shared fixture/compiler helpers stay in their platform's tests directory and
+For Device tests, platform filtering reads devices/<device>/targets/target.json;
+it does not infer the software stack from the test folder name. Missing or
+mismatched Target ownership fails discovery. Platform filtering includes the
+selected tests/platforms/<stack>/ tree and Device tests bound to that stack.
+Shared Skill and Capability tests run for every platform scope.
+Shared fixture/compiler helpers live in tests/platforms/<stack>/ and
 use names such as `host_sensor.py`; C fixtures and SDK doubles are not Python
-test entries. `fixtures/`, `stubs/`, build/cache and hidden directories are
+test entries. `fixtures/`, `stubs/`, `mocks/`, build/cache and hidden directories are
 excluded. Imported test functions/classes are not collected as new local cases.
 
 Plain module-level `test_*` functions and local `unittest.TestCase` methods are
@@ -59,3 +83,6 @@ aliases and reports import/fixture failures. Adding or moving tests must retain
 behavioral coverage without forwarding wrappers or duplicate execution.
 Release candidates run isolated client conformance in their own workflow; those
 checks do not turn offline protocol results into live service acceptance.
+Their source graph explicitly includes tests/capabilities/ and the standalone
+protocol fixture. Native application exports include production dependencies
+and cited Device observations, not test code, fixtures, records or logs.

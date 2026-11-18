@@ -14,8 +14,8 @@ cannot be emulated. No emulator was installed or run for this assessment.
 The concrete scenario evaluated is E1001/E1002 SHT4x command → conversion →
 receive, including CRC errors, timeouts, retry and access by another I2C device
 during conversion. This scenario already has a deterministic execution path in
-[the shared component tests](../../platforms/esp-idf/components/codecraft_sht4x/tests/failure_cases.c)
-and [the host runner](../../platforms/esp-idf/components/codecraft_sht4x/tests/test_sensor_drivers.py). These
+[the shared component tests](../../tests/platforms/esp-idf/components/codecraft_sht4x/failure_cases.c)
+and [the host runner](../../tests/platforms/esp-idf/components/codecraft_sht4x/test_sensor_drivers.py). These
 tests execute the actual C protocol and board bindings using narrow SDK doubles;
 they are host tests, not a whole-board simulator.
 

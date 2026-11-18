@@ -6,23 +6,31 @@ The repository supplies discoverable, attributable and verifiable Seeed hardware
 
 ## Architecture
 
-Four content owners: devices owns physical identity/revision, facts, sources, assets and device evidence; platforms owns software-stack adapters, native Targets, configuration, tests and simulation; capabilities owns reusable contracts consumed by cloud Skills, with their inputs/outputs, configuration, resources, errors and limitations; skills owns workflows, scripts, shared logic and the validation entry. Root AGENTS provides global rules, routing and a generated light index; README provides quick start; docs explains architecture; CI calls the shared gate.
+Four content owners: devices owns the directory index, per-device knowledge, physical identity/revision, facts, sources, assets and native Targets under devices/<device>/targets/, including BSPs, examples and board configuration; platforms owns shared software-stack/runtime adapters, build helpers, reusable components and simulation support; capabilities owns reusable contracts consumed by cloud Skills, with their inputs/outputs, configuration, resources, errors and limitations; skills owns workflows, scripts, shared logic and the validation entry. All repository-maintained tests, fixtures and mocks live under tests/, grouped by these source owners; tests/devices/<device>/ also retains board observations and evidence. Root AGENTS provides global rules, routing and links to the shared indexes; README provides quick start; docs explains architecture; CI calls the shared gate.
 
-A Device is independent of software stack. A Target implements one Device on one stack. Capabilities serve cloud Skills and reference Targets/dependencies when device implementations are needed. GPIO, display, audio and other peripherals are Device facts and Target native interfaces, not individual Capabilities. Consuming cloud-facing contracts does not add a cloud runtime to this repository. Standardize metadata, operations and results while preserving native drivers/build systems; do not force a cross-platform ABI.
+A Device is independent of software stack. A Target implements one Device on one stack. Its logical ID is <stack>/<device>, while its sole physical root is devices/<device>/targets/. Register the Device's native Target in targets/target.json, with bsp/, examples/ and native configuration directly beside it. The manifest declares the platform; do not add another stack directory inside targets/. Platform code consumes the Target manifest and shared resources; it must not maintain another board tree or copy Device implementations. Capabilities serve cloud Skills and reference Targets/dependencies when device implementations are needed. GPIO, display, audio and other peripherals are Device facts and Target native interfaces, not individual Capabilities. Consuming cloud-facing contracts does not add a cloud runtime to this repository. Standardize metadata, operations and results while preserving native drivers/build systems; do not force a cross-platform ABI.
 
-Four standalone CodeCraft inference API Skill packages live under skills/. Their clients, local package references and offline tests are maintained here; the cloud server remains outside this repository. SenseCraft platform management uses the separately installed official sensecraft-cli and its bundled Skill. This repository owns [setup and routing](sensecraft-cli.md); the external project owns its command, authentication and HTTP implementation.
+Four standalone CodeCraft inference API Skill packages live under skills/. Their clients and local package references are maintained there; offline tests live under tests/; the cloud server remains outside this repository. SenseCraft platform management uses the separately installed official sensecraft-cli and its bundled Skill. This repository owns [setup and routing](sensecraft-cli.md); the external project owns its command, authentication and HTTP implementation.
 
 ## Device knowledge
 
-Each device has one AGENTS entry and reference/ sources. Generate devices/AGENTS from device Overviews. Include Overview/scenarios and physical orientation where known, controller/memory/storage and software stacks, connectivity/pin maps/Grove, inputs/outputs, power/battery/accessories, assets/purchase links and sources. Omit absent hardware and mark missing facts unknown. Cite primary vendor sources, BSP/DTS/pins or measurements for pins, addresses, electrical limits and compatibility. Retain source conflicts and their resolution. Maintain each fact once and generate or reference its other views.
+Each device has one authored AGENTS.md containing ordinary Markdown knowledge,
+sourced specification tables and physical acceptance procedures. Its format and
+reference rules are defined once in [Device documents and shared references][device-documents].
+Do not embed a JSON contract, maintain a second rendered copy, or create parallel
+Device/acceptance files. Keep actual reference material and assets with the Device,
+and observations and evidence under tests/devices/<device>/. Declare missing facts
+as unknown and retain source conflicts. The device index and matrices are derived;
+generation never rewrites the authored Device entry. Each document has an owner;
+other documents link to that authoritative source instead of copying its rules.
 
 ## Development and maintenance
 
 - Load only task-relevant device, Target, dependency, limitation and Skill context. Every reference must resolve.
 - Declare inspect/configure/generate/build/host-test/simulate/flash/device-test/logs/package support and reasons for unavailability.
 - Generate private projects into new directories through the development workflow; record selections in project.yaml and lock versions in codecraft.lock, with minimum validation instructions.
-- Keep tests, simulators and assets with their Device, Platform or Capability. Simulators state coverage; assets record provenance, license, version and checksum. Device imagery must match revision, dimensions and alpha.
-- Generate device indexes, capability and CI matrices and enforce generation drift checks. Share structured bilingual facts; do not register lists manually.
+- Keep all repository-maintained tests, mocks and test fixtures under tests/, grouped by source owner according to [test ownership](testing.md). Retain Device observations and evidence in tests/devices/<device>/. Device knowledge, native Targets, implementation references and assets stay with the Device. Simulators state coverage; assets record provenance, license, version and checksum. Device imagery must match revision, dimensions and alpha.
+- Generate device indexes, capability and CI matrices and enforce generation drift checks. Read facts from the authored Device Markdown; do not register lists manually.
 - Preserve user work, never guess hardware facts or commit secrets, retain durable sanitized evidence, and perform physical writes only within authorization.
 
 ## Validation and evidence
@@ -38,3 +46,5 @@ Hardware teams own facts/BSPs/Targets/assets/device evidence; capability maintai
 Device knowledge, generated indexes, discovery/context, native adapters and reproducible project generation are required software boundaries. Simulation, imagery and physical evidence require their own sourced acceptance. Long-term HIL resources/retest cadence, large-asset storage and support for partial boards remain open decisions.
 
 Design target: [CodeCraft hardware architecture](https://seeedstudio.feishu.cn/docx/QgNjdqDbwotGQcxDKHmcxYMvn6b), V0.2, 2026-11-18, revision 1430. This document describes the implemented boundaries above; it does not declare the entire V0.2 target complete. See the [implementation ledger](v0.2-todo.md) for remaining MQTT/local/edge Providers, simulator ownership, asset links and physical acceptance. The user clarified V02-05 as direct adoption of the external SenseCraft CLI; it does not assert replacement of the separate CodeCraft inference APIs.
+
+[device-documents]: device-documents.md

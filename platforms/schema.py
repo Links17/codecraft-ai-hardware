@@ -23,7 +23,7 @@ def target(root, entry, devices, platforms):
     require(entry.get('schema_version') == 3, f'{tid}: unsupported Target schema')
     require(isinstance(entry.get('variants'), dict), f'{tid}: Target schema_version 3 requires variants object')
     require(entry.get('platform') in platforms and entry.get('device') in devices, f'{tid}: unknown platform/device')
-    require(tid == f'{entry["platform"]}/{entry["device"]}' and entry.get('path') == f'platforms/{entry["platform"]}/targets/{entry["device"]}', f'{tid}: identity/path mismatch')
+    require(tid == f'{entry["platform"]}/{entry["device"]}' and entry.get('path') == f'devices/{entry["device"]}/targets', f'{tid}: identity/path mismatch')
     examples = entry.get('examples')
     require(isinstance(examples, list) and examples and len(set(examples)) == len(examples), f'{tid}: examples required and unique')
     require(all(re.fullmatch(r'[a-zA-Z0-9_-]+', name) for name in examples), f'{tid}: invalid example id')

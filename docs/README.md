@@ -13,6 +13,7 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 - [Private project workspaces and briefs](development/project-workspaces.md)
 - [Repository maintenance entry](../CONTRIBUTION.md)
 - [External SenseCraft CLI setup and routing](development/sensecraft-cli.md)
+- [Device documents and shared references](development/device-documents.md)
 - [AI development guide](development/ai-guide.md)
 - [Standalone Skill release workflow](development/skill-releases.md)
 - [Host test ownership and focused execution](development/testing.md)
@@ -30,4 +31,4 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 - [Architecture requirements](development/codecraft-hardware-distilled.md) — requirements for all four owners.
 - [Optimization plan and TODOs](development/optimization-plan.md) — remaining external acceptance and governance work.
 
-Hardware facts and original source records live under devices/<device>/reference/.
+Start from the [device directory](../devices/AGENTS.md). The [Device document guide](development/device-documents.md) defines the single maintained source, Markdown fields, shared references and export checks. Native layout is described in [architecture](architecture/overview.md).

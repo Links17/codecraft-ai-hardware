@@ -4,7 +4,7 @@
 
 A development reference for Seeed devices: device knowledge, native BSPs and examples, cloud Skill contracts, and standalone Agent workflows. The four cloud API client Skills are maintained under [skills/](skills/README.md); the cloud service and account infrastructure remain external.
 
-Start with [AGENTS.md](AGENTS.md). [Devices](devices/AGENTS.md) and the [native interface matrix](docs/inventory.md) are generated from their source manifests.
+Start with [AGENTS.md](AGENTS.md). [Devices](devices/AGENTS.md) and the [native interface matrix](docs/inventory.md) are generated from authored Device Markdown and Target manifests.
 
 ## Quick start
 
@@ -26,7 +26,7 @@ python3 codecraft.py new --target esp-idf/reterminal-e1001 --example epd_hello -
 python3 codecraft.py build-project projects/my-e1001-project
 ```
 
-The output directory must not already exist. `project.yaml` records selections; `codecraft.lock` records imported file hashes, the repository revision and toolchain. Generated projects and build logs are not committed. `projects/` is ignored; explicit external paths remain supported. Use codecraft-ideate and `new --brief <file.json>` to capture purpose, target users, scenarios and BOM in project.yaml and the generated application AGENTS region. See [project workspaces](docs/development/project-workspaces.md).
+The output directory must not already exist. `project.yaml` records selections; `codecraft.lock` records imported file hashes, the repository revision and toolchain. Generated projects and transient build output stay untracked; deliberately retained, sanitized evidence is stored under tests/devices/<device>/. `projects/` is ignored; explicit external paths remain supported. Use codecraft-ideate and `new --brief <file.json>` to capture purpose, target users, scenarios and BOM in project.yaml and the generated application AGENTS region. See [project workspaces](docs/development/project-workspaces.md).
 
 The public entry is also included in new exports; from an application directory use `python3 codecraft.py build-project .`. No global CLI installation is needed. Standalone cloud Skills remain independent; maintain package releases through the [candidate workflow](docs/development/skill-releases.md).
 
@@ -43,7 +43,7 @@ See [installation, Skill discovery and task routing](docs/development/sensecraft
 
 ## Structure and contribution
 
-`devices/` owns facts and sources; `platforms/` owns native implementations; `capabilities/` owns contracts consumed by cloud Skills; `skills/` owns orchestration, scripts and contract tests. Read [architecture](docs/architecture/overview.md) and [contribution rules](.github/CONTRIBUTING.md).
+`devices/AGENTS.md` is the device directory index. Each `devices/<device>/` owns device knowledge, references, assets and `targets/` with its BSP, examples and board configuration; `platforms/` owns shared software-stack/runtime adapters, build helpers and reusable components; `capabilities/` owns contracts consumed by cloud Skills; `skills/` owns orchestration, workflows and standalone clients. All tests, fixtures and mocks live under `tests/`, grouped by source owner; see [test ownership](docs/development/testing.md). Board-specific tests use `tests/devices/<device>/targets/`; retained observations, records and logs live alongside that subtree. Read [architecture](docs/architecture/overview.md) and [contribution rules](.github/CONTRIBUTING.md).
 
 After source metadata changes, run `python3 codecraft.py generate`, then `python3 codecraft.py generate --check`. CI and discovery use the same Target records. The complete software gate is `python3 codecraft.py validate`; physical verification is separate and remains unperformed until real evidence is recorded.
 

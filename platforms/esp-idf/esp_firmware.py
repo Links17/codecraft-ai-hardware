@@ -15,6 +15,7 @@ import sys
 
 from io_utils import (ContractError, OperationUnavailable, digest, object_digest,
                       read_json, require, safe_path)
+from device_entry import read_contract
 
 
 def native_tools():
@@ -89,7 +90,7 @@ def partition_entries(module, data, offset, capacity):
 def physical_capacity(root, target, capacity):
     # Device.facts.flash owns the sourced physical limit. A compiled Flash size
     # is configuration, not a measurement; unresolved Device facts remain unknown.
-    fact = read_json(root/'devices'/target['device']/'device.json')['facts'].get('flash', {})
+    fact = read_contract(root/'devices'/target['device']/'AGENTS.md')['facts'].get('flash', {})
     if fact.get('status') == 'unknown' or fact.get('value') is None:
         return {'status': 'unknown', 'reason': 'Physical Flash capacity is unresolved in Device facts.'}
     require(fact.get('unit') == 'MB' and type(fact['value']) is int, 'Unsupported Device Flash capacity unit')

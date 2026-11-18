@@ -34,7 +34,7 @@ Unsupported operations must return `not_supported`; missing tools return
   references and Skills, and retain no compatibility forwarding entry.
 - [x] Cover stale/failed builds, input/configuration drift, wrong selections,
   invalid layouts, unsupported profiles, missing tools and partial outputs
-  with owner-local host tests.
+  with host tests under tests/ grouped by source owner.
 - [x] Run the complete software gate and real merge/verify checks for every
   ESP-IDF Target, including Indicator DX/GX and clean exported applications.
 
@@ -113,16 +113,16 @@ clean exported projects. Target links point to retained build evidence.
 
 | Target | Native cases | Clean exports | Factory BIN cases |
 | --- | ---: | ---: | ---: |
-| [arduino/grove-beginner-kit](../../devices/grove-beginner-kit/tests/records/build-b6d185de42254228.json) | 11 | 1 | not_supported |
-| [arduino/wio-terminal](../../devices/wio-terminal/tests/records/build-f08aae3381a622b3.json) | 10 | 1 | not_supported |
-| [esp-idf/respeaker-lite](../../devices/respeaker-lite/tests/records/build-78941920b04c3845.json) | 3 | 1 | 3 |
-| [esp-idf/reterminal-e1001](../../devices/reterminal-e1001/tests/records/build-965dea5578207f5c.json) | 4 | 1 | 4 |
-| [esp-idf/reterminal-e1002](../../devices/reterminal-e1002/tests/records/build-b37c471ec80bb4cc.json) | 4 | 1 | 4 |
-| [esp-idf/reterminal-sticky](../../devices/reterminal-sticky/tests/records/build-f689d09532522b37.json) | 3 | 1 | 3 |
-| [esp-idf/sensecap-indicator](../../devices/sensecap-indicator/tests/records/build-75fc3647a8875c80.json) | 6 | 2 | 6 |
-| [esp-idf/sensecap-watcher](../../devices/sensecap-watcher/tests/records/build-657556827f4f7b8a.json) | 8 | 1 | 8 |
-| [esp-idf/xiao-s3-147](../../devices/xiao-s3-147/tests/records/build-af2c2542a26cae9d.json) | 3 | 1 | 3 |
-| [linux/reterminal](../../devices/reterminal/tests/records/build-9cd1e59a31fa9df2.json) | 5 | 1 | not_supported |
+| [arduino/grove-beginner-kit](../../tests/devices/grove-beginner-kit/records/build-f9b9a7031b82a688.json) | 11 | 1 | not_supported |
+| [arduino/wio-terminal](../../tests/devices/wio-terminal/records/build-01791e9c19dd2c5a.json) | 10 | 1 | not_supported |
+| [esp-idf/respeaker-lite](../../tests/devices/respeaker-lite/records/build-687e0fd905fc8b05.json) | 3 | 1 | 3 |
+| [esp-idf/reterminal-e1001](../../tests/devices/reterminal-e1001/records/build-5a5c3548fba61876.json) | 4 | 1 | 4 |
+| [esp-idf/reterminal-e1002](../../tests/devices/reterminal-e1002/records/build-d10dc4fc831572a3.json) | 4 | 1 | 4 |
+| [esp-idf/reterminal-sticky](../../tests/devices/reterminal-sticky/records/build-4fa0d690fda2e025.json) | 3 | 1 | 3 |
+| [esp-idf/sensecap-indicator](../../tests/devices/sensecap-indicator/records/build-98faf4538b384dd1.json) | 6 | 2 | 6 |
+| [esp-idf/sensecap-watcher](../../tests/devices/sensecap-watcher/records/build-40a3d71c14c7e739.json) | 8 | 1 | 8 |
+| [esp-idf/xiao-s3-147](../../tests/devices/xiao-s3-147/records/build-7cef4814981d0b9e.json) | 3 | 1 | 3 |
+| [linux/reterminal](../../tests/devices/reterminal/records/build-1d9b38c8b391a8f5.json) | 5 | 1 | not_supported |
 
 Every factory BIN case passed plan, merge and offline verification. Repeating
 the merge with the same inputs and recorded tools produced identical image

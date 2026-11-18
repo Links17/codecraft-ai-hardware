@@ -14,7 +14,7 @@ retain their copyright and license declarations.
   https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32
   Used for: SenseCAP Indicator pin map, TCA9535 expander assignments, and
   the ST7701S register init sequence (transcribed as a data table in
-  platforms/esp-idf/targets/sensecap-indicator/bsp/src/bsp_display.c).
+  devices/sensecap-indicator/targets/bsp/src/bsp_display.c).
 
 - Seeed Studio vendor repositories (see docs/vendor-sources.md for the
   per-board authoritative source and its license).
@@ -22,13 +22,13 @@ retain their copyright and license declarations.
 - SSD1677 reference driver, epd_ssd1677.c (MIT License,
   Copyright (c) 2026 JoJang2u, limengdu)
   Used for: the reTerminal Sticky SSD1677 panel driver ported as
-  platforms/esp-idf/targets/reterminal-sticky/bsp/src/bsp_epd.c (protocol, refresh
+  devices/reterminal-sticky/targets/bsp/src/bsp_epd.c (protocol, refresh
   sequences, portrait transpose). The file retains its MIT header.
 
 - Seeed-Studio/Seeed_GFX2 (MIT License)
   https://github.com/Seeed-Studio/Seeed_GFX2
   Used for: the JD9853A register initialization sequence in
-  platforms/esp-idf/targets/xiao-s3-147/bsp/src/bsp_display.c and the AXS5106L touch
+  devices/xiao-s3-147/targets/bsp/src/bsp_display.c and the AXS5106L touch
   facts in the board's bsp_pins.h.
 
 All derived files retain their original copyright headers.

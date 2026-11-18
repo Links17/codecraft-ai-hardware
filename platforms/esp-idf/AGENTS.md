@@ -2,7 +2,7 @@
 
 The [root contract](../../AGENTS.md) governs. Device facts belong in devices/<device>/AGENTS.md and its reference files.
 
-Keep BSP and sdkconfig under targets/<device>. Use the exact version in target.json and verify the activated SDK. Preserve LVGL locking and non-blocking callbacks. Shared components belong in components/.
+These rules also apply to devices/<device>/targets/. Keep each board's BSP, examples and sdkconfig in that Target. Use the exact version in target.json and verify the activated SDK. Preserve LVGL locking and non-blocking callbacks. Shared components belong in platforms/esp-idf/components/; shared CMake helpers remain in platforms/esp-idf/cmake/. Board-specific tests and fixtures belong in tests/devices/<device>/targets/.
 
 Every Target must declare examples, toolchain provenance, native interface references, and dependencies in target.json. Supported operations and their limits are in platform.json. Run `python3 codecraft.py validate --target esp-idf/<device>`. Never infer device verification from a build.
 

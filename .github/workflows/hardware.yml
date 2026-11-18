@@ -23,7 +23,9 @@ jobs:
       arduino_count: ${{ steps.matrix.outputs.arduino_count }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - name: Discover owner-local host tests
+      - name: Install host test dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential device-tree-compiler
+      - name: Discover centralized host tests
         run: python3 codecraft.py test --list > "$RUNNER_TEMP/codecraft-host-tests.json"
       - run: python3 codecraft.py validate --static
       - id: matrix
@@ -87,7 +89,7 @@ jobs:
           import json, os, subprocess
           from pathlib import Path
           stack, device = os.environ['TARGET'].split('/')
-          toolchain = json.loads(Path(f'platforms/{stack}/targets/{device}/target.json').read_text())['toolchain']
+          toolchain = json.loads(Path(f'devices/{device}/targets/target.json').read_text())['toolchain']
           urls = toolchain['board_manager_urls']
           extra = ['--additional-urls', ','.join(urls)] if urls else []
           subprocess.run(['arduino-cli', 'core', 'update-index', *extra], check=True)

@@ -13,6 +13,7 @@
 - [私有项目工作区与项目说明](development/project-workspaces.md)
 - [仓库维护入口](../CONTRIBUTION.md)
 - [外部 SenseCraft CLI 安装与路由](development/sensecraft-cli.md)
+- [设备文档格式与统一引用](development/device-documents.md)
 - [AI 开发指南](development/ai-guide.md)
 - [独立 Skill 打包与版本工作流](development/skill-releases.md)
 - [主机测试归属与定向执行](development/testing.md)
@@ -30,4 +31,4 @@
 - [架构要求](development/codecraft-hardware-distilled.md) — 定义四个内容所有者的范围与验收要求。
 - [优化方案与 TODO](development/optimization-plan.md) — 尚未完成的外部验收与治理事项。
 
-硬件事实与原始来源记录位于 devices/<device>/reference/。
+从[设备目录](../devices/AGENTS.md)进入各设备。[设备文档指南](development/device-documents.md)统一定义唯一维护来源、Markdown 字段、公共引用与导出检查；原生目录布局见[架构](architecture/overview.md)。

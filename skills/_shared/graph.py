@@ -52,7 +52,8 @@ class SourceGraph:
         return sorted(self.files)
 
     def snapshot(self):
-        return {'schema_version': 1, 'files': {name: digest(safe_path(self.root, name)) for name in sorted(self.files)},
+        return {'schema_version': 3,
+                'files': {name: digest(safe_path(self.root, name)) for name in sorted(self.files)},
                 'edges': {name: self.edges[name] for name in sorted(self.edges)}}
 
     def fingerprint(self):
