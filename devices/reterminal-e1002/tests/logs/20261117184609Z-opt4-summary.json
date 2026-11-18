@@ -1,0 +1,138 @@
+{
+  "api_execution": "not_run",
+  "cases": [
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/reterminal-e1002/examples/board_health",
+        "-B",
+        "<repository>/.codecraft/builds/reterminal-e1002/board_health",
+        "build"
+      ],
+      "elapsed_seconds": 8.15,
+      "exit_code": 0,
+      "log": "devices/reterminal-e1002/tests/logs/20261117184609Z-opt4-esp-idf_reterminal-e1002_board_health.log",
+      "log_sha256": "ba9549a7770268782dba2c7398eecffe6f7ea491ea69d682b0fcf68eb48a8185",
+      "name": "esp-idf/reterminal-e1002/board_health",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/reterminal-e1002/examples/epd_hello",
+        "-B",
+        "<repository>/.codecraft/builds/reterminal-e1002/epd_hello",
+        "build"
+      ],
+      "elapsed_seconds": 8.16,
+      "exit_code": 0,
+      "log": "devices/reterminal-e1002/tests/logs/20261117184609Z-opt4-esp-idf_reterminal-e1002_epd_hello.log",
+      "log_sha256": "b71a03446b235bf2870d7e49802eba26f5238454ed46659d18529e71000f87c6",
+      "name": "esp-idf/reterminal-e1002/epd_hello",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/reterminal-e1002/examples/sdcard_test",
+        "-B",
+        "<repository>/.codecraft/builds/reterminal-e1002/sdcard_test",
+        "build"
+      ],
+      "elapsed_seconds": 8.16,
+      "exit_code": 0,
+      "log": "devices/reterminal-e1002/tests/logs/20261117184609Z-opt4-esp-idf_reterminal-e1002_sdcard_test.log",
+      "log_sha256": "49c91dc5e24feb54c98a0db12e56085059ae03c4658e700d08ecb2ee2fde454e",
+      "name": "esp-idf/reterminal-e1002/sdcard_test",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/reterminal-e1002/examples/sht4x_battery",
+        "-B",
+        "<repository>/.codecraft/builds/reterminal-e1002/sht4x_battery",
+        "build"
+      ],
+      "elapsed_seconds": 8.02,
+      "exit_code": 0,
+      "log": "devices/reterminal-e1002/tests/logs/20261117184609Z-opt4-esp-idf_reterminal-e1002_sht4x_battery.log",
+      "log_sha256": "e12c89ac88acf604758f7f38307a51a7b241d9f6e4726df7861eacefd0865704",
+      "name": "esp-idf/reterminal-e1002/sht4x_battery",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    }
+  ],
+  "device_verification": "not_run",
+  "generated_project": {
+    "build_results": [
+      {
+        "command": [
+          "idf.py",
+          "-C",
+          "<temporary-path>",
+          "-B",
+          "<temporary-path>",
+          "build"
+        ],
+        "elapsed_seconds": 37.15,
+        "exit_code": 0,
+        "log": "devices/reterminal-e1002/tests/logs/20261117184609Z-opt4-generated-project.log",
+        "log_sha256": "d9c84c489e593af9f7691b1d0619e8456c89d47542ff5989dec4a03ae42bea3e",
+        "name": "esp-idf/reterminal-e1002/board_health",
+        "reason": "",
+        "status": "passed",
+        "toolchain": "ESP-IDF v6.0.2-dirty"
+      }
+    ],
+    "example": "board_health",
+    "log": "devices/reterminal-e1002/tests/logs/20261117184609Z-opt4-generated-project.log",
+    "log_sha256": "d9c84c489e593af9f7691b1d0619e8456c89d47542ff5989dec4a03ae42bea3e",
+    "name": "esp-idf/reterminal-e1002/generated-project",
+    "origin_source_digest": "92158118d91d5690e77a0cddebf7e80bc29c8bf4288e51aaf5d64122e5a5be2a",
+    "provenance": "passed",
+    "reason": "Clean external import, locked environment, native build and provenance check.",
+    "source_digest": "e38a7a0852c08b791e2afdf84ecdd9bdfa93f89059e7972828369671940ae6a3",
+    "status": "passed",
+    "toolchain": {
+      "compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-15.2.0_20251204) 15.2.0",
+      "python": "3.14.6",
+      "sdk_changes_sha256": "e41f48fb348f5fb3c0629461979a2c46b1195ddef6030c758026a955a92068fc",
+      "sdk_commit": "7101770dc6db2667b3c477cc31365dd1acd6db4e",
+      "sdk_submodules": "24c60e243580c7868f4334a1ba3123481fe1aa48 components/bootloader/subproject/components/micro-ecc/micro-ecc (v1.1)\n b4b7c54b1eab6a844789b69e56322ef5736eddc8 components/bt/controller/lib_esp32 (b4b7c54)\n 6a5c0b8bfca1a2e984e89431b8ebf9b521dad5ea components/bt/controller/lib_esp32c2/esp32c2-bt-lib (heads/main)\n 0a08c4b32f3666003080b662a1a61794da24ff0f components/bt/controller/lib_esp32c3_family (heads/master)\n c328228f53fe167cc9fbd05b5bef37158f64956d components/bt/controller/lib_esp32c5/esp32c5-bt-lib (c328228)\n e7be018522c85e67c298effc8ffa7f5b84887a7b components/bt/controller/lib_esp32c6/esp32c6-bt-lib (e7be018)\n b2b8fd009c31816497d55726af297761147beb07 components/bt/controller/lib_esp32h2/esp32h2-bt-lib (b2b8fd0)\n e44762384ed104a0ebc78f134eeba5f3ab648ddc components/bt/esp_ble_mesh/lib/lib (e447623)\n 5d8b70207a6324f45d9f548ff57ec3b154afccdd components/bt/host/nimble/nimble (nimble_1_6_0_tag-428-g5d8b7020)\n eeecc49ce8af123cf8ad40efdb9673e37b56230f components/cmock/CMock (v2.5.2-2-geeecc49)\n 71b47be7c950f1bf5f7e5303779fa99a16224bb6 components/cmock/CMock/vendor/c_exception (71b47be)\n cf949f45ca6d172a177b00da21310607b97bc7a7 components/cmock/CMock/vendor/unity (cf949f4)\n 79e618f033e926d134decc6d95bb1b1850bd032c components/esp_coex/lib (79e618f)\n 59c1234e929212aec0fdda75769b759951235536 components/esp_phy/lib (59c1234)\n bb69e7e609c9a9a909ddd1ed175f36df2bd13801 components/esp_wifi/lib (bb69e7e)\n 2867f6883a12920b1969ff9624c0ab0e4185c2ce components/heap/tlsf (2867f68)\n fd432e4ee2cfb7f7f1c7eb7227e0173412e7b84e components/lwip/lwip (fd432e4)\n 6cc42afad309e861f4c07e6f106e2ab14a9cb8e5 components/mbedtls/mbedtls (6cc42af)\n 9467fb320782855dff84add294039bfa0bcbbf4b components/openthread/lib (9467fb3)\n a98813b30ae58f9a95ece680b9cc46c3874de6ea components/openthread/openthread (a98813b)\n e185d7fd85499c8ce5ca2a54f5cf8fe7dbe3f8df components/openthread/openthread/third_party/mbedtls/repo (e185d7f)\n 457996474728cb8e968ed21953b72f74d2f536b2 components/openthread/openthread/third_party/mbedtls/repo/framework (4579964)\n abc67a11c6db271bedbb9f58be85d6f4e2ea8389 components/protobuf-c/protobuf-c (abc67a1)\n ad902cadceb39d0825a97e25ecb5867641f606ba components/spiffs/spiffs (ad902ca)\n bf560290f6020737eafaa8b5cbd2177c3956c03f components/unity/unity (bf56029)",
+      "status": "passed",
+      "version": "ESP-IDF v6.0.2-dirty"
+    }
+  },
+  "receipt": {
+    "expected_cases": [
+      "esp-idf/reterminal-e1002/board_health",
+      "esp-idf/reterminal-e1002/epd_hello",
+      "esp-idf/reterminal-e1002/sdcard_test",
+      "esp-idf/reterminal-e1002/sht4x_battery"
+    ],
+    "source_digest": "92158118d91d5690e77a0cddebf7e80bc29c8bf4288e51aaf5d64122e5a5be2a",
+    "toolchain": {
+      "compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-15.2.0_20251204) 15.2.0",
+      "python": "3.14.6",
+      "sdk_changes_sha256": "e41f48fb348f5fb3c0629461979a2c46b1195ddef6030c758026a955a92068fc",
+      "sdk_commit": "7101770dc6db2667b3c477cc31365dd1acd6db4e",
+      "sdk_submodules": "24c60e243580c7868f4334a1ba3123481fe1aa48 components/bootloader/subproject/components/micro-ecc/micro-ecc (v1.1)\n b4b7c54b1eab6a844789b69e56322ef5736eddc8 components/bt/controller/lib_esp32 (b4b7c54)\n 6a5c0b8bfca1a2e984e89431b8ebf9b521dad5ea components/bt/controller/lib_esp32c2/esp32c2-bt-lib (heads/main)\n 0a08c4b32f3666003080b662a1a61794da24ff0f components/bt/controller/lib_esp32c3_family (heads/master)\n c328228f53fe167cc9fbd05b5bef37158f64956d components/bt/controller/lib_esp32c5/esp32c5-bt-lib (c328228)\n e7be018522c85e67c298effc8ffa7f5b84887a7b components/bt/controller/lib_esp32c6/esp32c6-bt-lib (e7be018)\n b2b8fd009c31816497d55726af297761147beb07 components/bt/controller/lib_esp32h2/esp32h2-bt-lib (b2b8fd0)\n e44762384ed104a0ebc78f134eeba5f3ab648ddc components/bt/esp_ble_mesh/lib/lib (e447623)\n 5d8b70207a6324f45d9f548ff57ec3b154afccdd components/bt/host/nimble/nimble (nimble_1_6_0_tag-428-g5d8b7020)\n eeecc49ce8af123cf8ad40efdb9673e37b56230f components/cmock/CMock (v2.5.2-2-geeecc49)\n 71b47be7c950f1bf5f7e5303779fa99a16224bb6 components/cmock/CMock/vendor/c_exception (71b47be)\n cf949f45ca6d172a177b00da21310607b97bc7a7 components/cmock/CMock/vendor/unity (cf949f4)\n 79e618f033e926d134decc6d95bb1b1850bd032c components/esp_coex/lib (79e618f)\n 59c1234e929212aec0fdda75769b759951235536 components/esp_phy/lib (59c1234)\n bb69e7e609c9a9a909ddd1ed175f36df2bd13801 components/esp_wifi/lib (bb69e7e)\n 2867f6883a12920b1969ff9624c0ab0e4185c2ce components/heap/tlsf (2867f68)\n fd432e4ee2cfb7f7f1c7eb7227e0173412e7b84e components/lwip/lwip (fd432e4)\n 6cc42afad309e861f4c07e6f106e2ab14a9cb8e5 components/mbedtls/mbedtls (6cc42af)\n 9467fb320782855dff84add294039bfa0bcbbf4b components/openthread/lib (9467fb3)\n a98813b30ae58f9a95ece680b9cc46c3874de6ea components/openthread/openthread (a98813b)\n e185d7fd85499c8ce5ca2a54f5cf8fe7dbe3f8df components/openthread/openthread/third_party/mbedtls/repo (e185d7f)\n 457996474728cb8e968ed21953b72f74d2f536b2 components/openthread/openthread/third_party/mbedtls/repo/framework (4579964)\n abc67a11c6db271bedbb9f58be85d6f4e2ea8389 components/protobuf-c/protobuf-c (abc67a1)\n ad902cadceb39d0825a97e25ecb5867641f606ba components/spiffs/spiffs (ad902ca)\n bf560290f6020737eafaa8b5cbd2177c3956c03f components/unity/unity (bf56029)",
+      "status": "passed",
+      "version": "ESP-IDF v6.0.2-dirty"
+    }
+  },
+  "scope": "software only",
+  "target": "esp-idf/reterminal-e1002"
+}

@@ -5,8 +5,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please search existing issues first. Check the board README and docs/README.md before asking.
-        请先搜索已有 issue，并查看板卡 README 和 docs/README.md。
+        Please search existing issues first. Check the device AGENTS.md and docs/README.md before asking.
+        请先搜索已有 issue，并查看设备 AGENTS.md 和 docs/README.md。
 
   - type: textarea
     id: question

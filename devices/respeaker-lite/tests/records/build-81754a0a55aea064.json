@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "target": "esp-idf/respeaker-lite",
+  "kind": "build",
+  "repository_commit": "5928372c43a01491bbe8d590940d5b0b9b65265d",
+  "repository_dirty": true,
+  "source_digest": "9f3555d545c5c94a05186c7aca4df9b97399f28ca5f69c30cf275c489de4abfd",
+  "revision": "unknown",
+  "toolchain": {
+    "declared": {
+      "name": "esp-idf",
+      "version": "6.0.2",
+      "target": "esp32s3",
+      "source": "devices/respeaker-lite/reference/hardware.md"
+    },
+    "observed": [
+      "\"ESP-IDF v6.0.2-dirty\""
+    ],
+    "sdk_commit": "7101770dc6db2667b3c477cc31365dd1acd6db4e"
+  },
+  "command": [
+    "python3",
+    "skills/_shared/codecraft.py",
+    "validate",
+    "--report",
+    ".codecraft/validation/complete.json"
+  ],
+  "environment": {
+    "system": "Darwin",
+    "release": "25.5.0",
+    "machine": "arm64",
+    "python": "3.14.6"
+  },
+  "result": "passed",
+  "limitations": [
+    "No physical device was flashed or tested. Hardware revision remains unknown.",
+    "The retained log contains structured command/results; verbose compiler logs remain local in .codecraft/logs.",
+    "Observed SDK is ESP-IDF v6.0.2-dirty; this is not evidence of an unmodified upstream SDK."
+  ],
+  "operator": "Codex local execution",
+  "log": "devices/respeaker-lite/tests/logs/migration-2026-11-17.json",
+  "log_sha256": "d50ccc327f8f5b09196ed41139452c0da3599397c1479c598bf9d7e2d571ec67",
+  "executed_at": "2026-11-17T13:40:21.537675+00:00",
+  "cases": [
+    "esp-idf/respeaker-lite/audio_meter",
+    "esp-idf/respeaker-lite/button_led",
+    "esp-idf/respeaker-lite/wifi_scan",
+    "esp-idf/respeaker-lite/generated-project"
+  ],
+  "examples": [
+    "audio_meter",
+    "button_led",
+    "wifi_scan"
+  ],
+  "generated_project": {
+    "status": "passed",
+    "example": "audio_meter",
+    "provenance": "passed",
+    "source_digest": "80b3dcc529bfa5aeaf1941f1100d727786fa6af4f56618937bbbb08d45482d84"
+  }
+}

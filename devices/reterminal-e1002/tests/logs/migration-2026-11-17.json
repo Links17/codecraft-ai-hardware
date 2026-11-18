@@ -1,0 +1,101 @@
+{
+  "scope": "native builds and clean external project validation",
+  "results": [
+    {
+      "name": "esp-idf/reterminal-e1002/board_health",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/reterminal-e1002/examples/board_health",
+        "-B",
+        "<repository>/.codecraft/builds/reterminal-e1002/board_health",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.94,
+      "log": ".codecraft/logs/esp-idf_reterminal-e1002_board_health.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/reterminal-e1002/epd_hello",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/reterminal-e1002/examples/epd_hello",
+        "-B",
+        "<repository>/.codecraft/builds/reterminal-e1002/epd_hello",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.94,
+      "log": ".codecraft/logs/esp-idf_reterminal-e1002_epd_hello.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/reterminal-e1002/sdcard_test",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/reterminal-e1002/examples/sdcard_test",
+        "-B",
+        "<repository>/.codecraft/builds/reterminal-e1002/sdcard_test",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.94,
+      "log": ".codecraft/logs/esp-idf_reterminal-e1002_sdcard_test.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/reterminal-e1002/sht4x_battery",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/reterminal-e1002/examples/sht4x_battery",
+        "-B",
+        "<repository>/.codecraft/builds/reterminal-e1002/sht4x_battery",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.94,
+      "log": ".codecraft/logs/esp-idf_reterminal-e1002_sht4x_battery.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/reterminal-e1002/generated-project",
+      "status": "passed",
+      "reason": "Clean external project generation, import integrity and native build.",
+      "example": "board_health",
+      "source_digest": "5daeb5f31fe30edb05ba2b8f747cd8e976aed84cd60c4b018fb32ebc53b7150e",
+      "log": ".codecraft/logs/generated_esp-idf_reterminal-e1002.log",
+      "build_results": [
+        {
+          "name": "esp-idf/reterminal-e1002/board_health",
+          "status": "passed",
+          "reason": "",
+          "command": [
+            "idf.py",
+            "-C",
+            "<generated-project>/platforms/esp-idf/targets/reterminal-e1002/examples/board_health",
+            "-B",
+            "<generated-project>/.codecraft/builds/reterminal-e1002/board_health",
+            "build"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 29.56,
+          "log": ".codecraft/logs/esp-idf_reterminal-e1002_board_health.log",
+          "toolchain": "ESP-IDF v6.0.2-dirty"
+        }
+      ],
+      "provenance": "passed"
+    }
+  ]
+}

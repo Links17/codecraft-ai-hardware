@@ -1,0 +1,49 @@
+{
+  "api_execution": "not_run",
+  "contract_source_digest": "08618e0bc04a79184e460d9e02bc0d4e39da388cf185db14bebca1269a306fd8",
+  "device_verification": "not_run",
+  "import_provenance": "skills/_cloud/import.json",
+  "kind": "repository-skill-contract",
+  "limitations": [
+    "Offline contract and local package execution only; no live cloud service or device integration claim.",
+    "Original import included uncommitted files; source hashes are recorded."
+  ],
+  "offline_cli_check": {
+    "api_execution": "not_run",
+    "name": "tts/codecraft-cloud",
+    "reason": "Pinned package and offline CLI argument contract checked.",
+    "source_digest": "d96decb98bbb6dd50c6d2df8985c63faf924486cd1fd88c6063a2c4cac9c33be",
+    "status": "passed"
+  },
+  "offline_tests": {
+    "cases": 9,
+    "log": "capabilities/tts/tests/evidence/repository-offline-337d215c21b0c812.log",
+    "log_sha256": "9e3b7c93a9a7e7fa686ef80dabe9bd8b095f91166515594449c08b6e75cdd74c",
+    "scope": "Four standalone packages installed independently against a loopback mock service",
+    "source": "skills/_cloud/test_skills.py",
+    "source_sha256": "39eabb3ff603d24e777b2f8f4192db50adc73b50448dcd32994d37466c5b1f1d",
+    "status": "passed"
+  },
+  "package_path": "skills/codecraft-tts",
+  "package_source_digest": "d96decb98bbb6dd50c6d2df8985c63faf924486cd1fd88c6063a2c4cac9c33be",
+  "provider": "tts/codecraft-cloud",
+  "recorded_at": "2026-11-17T15:29:37.294566+00:00",
+  "schema_version": 2,
+  "skill_format_check": {
+    "output": "Skill is valid!",
+    "passed": true,
+    "skill": "codecraft-tts"
+  },
+  "source": {
+    "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",
+    "dirty": true,
+    "import_manifest": "skills/_cloud/import.json",
+    "paths": [
+      "skills/codecraft-tts/SKILL.md",
+      "skills/codecraft-tts/references/api.md",
+      "skills/codecraft-tts/scripts/speak.py"
+    ],
+    "repository": "codecraft-gadgets-cloud",
+    "snapshot_date": "2026-11-17"
+  }
+}

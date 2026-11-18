@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "target": "esp-idf/reterminal-sticky",
+  "kind": "build",
+  "repository_commit": "5928372c43a01491bbe8d590940d5b0b9b65265d",
+  "repository_dirty": true,
+  "source_digest": "2be759b02939b05394cfcb13384f92b297bd9a9bcc290cc59f64018ca1e6b1dd",
+  "revision": "unknown",
+  "toolchain": {
+    "declared": {
+      "name": "esp-idf",
+      "version": "6.0.2",
+      "target": "esp32s3",
+      "source": "devices/reterminal-sticky/reference/hardware.md"
+    },
+    "observed": [
+      "\"ESP-IDF v6.0.2-dirty\""
+    ],
+    "sdk_commit": "7101770dc6db2667b3c477cc31365dd1acd6db4e"
+  },
+  "command": [
+    "python3",
+    "skills/_shared/codecraft.py",
+    "validate",
+    "--report",
+    ".codecraft/validation/complete.json"
+  ],
+  "environment": {
+    "system": "Darwin",
+    "release": "25.5.0",
+    "machine": "arm64",
+    "python": "3.14.6"
+  },
+  "result": "passed",
+  "limitations": [
+    "No physical device was flashed or tested. Hardware revision remains unknown.",
+    "The retained log contains structured command/results; verbose compiler logs remain local in .codecraft/logs.",
+    "Observed SDK is ESP-IDF v6.0.2-dirty; this is not evidence of an unmodified upstream SDK."
+  ],
+  "operator": "Codex local execution",
+  "log": "devices/reterminal-sticky/tests/logs/migration-2026-11-17.json",
+  "log_sha256": "223ebad51ce88a7f862a93e7e3459594b7172e7b9b6f2373f14b1feb1baaf989",
+  "executed_at": "2026-11-17T13:40:21.537675+00:00",
+  "cases": [
+    "esp-idf/reterminal-sticky/button_hello",
+    "esp-idf/reterminal-sticky/epd_hello",
+    "esp-idf/reterminal-sticky/sht4x",
+    "esp-idf/reterminal-sticky/generated-project"
+  ],
+  "examples": [
+    "button_hello",
+    "epd_hello",
+    "sht4x"
+  ],
+  "generated_project": {
+    "status": "passed",
+    "example": "button_hello",
+    "provenance": "passed",
+    "source_digest": "b83984790728e7a5d66bef6ae17c81cf8822d1f65d89642bb38af3c458609676"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "api": {
+    "authorization": "Device",
+    "implementation_owner": "Standalone Skill package in this repository; cloud service remains external",
+    "method": "POST",
+    "model": "qwen-plus",
+    "path": "/deviceapi/ai-services/v1/chat/completions"
+  },
+  "capability": "llm",
+  "contract_version": "2.0.0",
+  "dependencies": [
+    "skills/codecraft-llm",
+    "skills/_cloud/import.json"
+  ],
+  "id": "llm/codecraft-cloud",
+  "kind": "repository-skill",
+  "limitations": [
+    "Text only; no vision, tool execution or model listing.",
+    "Incomplete streams are not successful results.",
+    "Source package currently includes uncommitted files; file checksums, not the Git commit alone, identify the reviewed version.",
+    "Host workflow compatibility does not imply device firmware/network/audio integration."
+  ],
+  "models": [],
+  "operations": {
+    "complete": {
+      "arguments": {
+        "messages_file": "--messages-file",
+        "prompt_file": "--prompt-file"
+      },
+      "fixed_arguments": [],
+      "options": {
+        "max_tokens": "--max-tokens"
+      }
+    },
+    "stream": {
+      "arguments": {
+        "messages_file": "--messages-file",
+        "prompt_file": "--prompt-file"
+      },
+      "fixed_arguments": [
+        "--stream"
+      ],
+      "options": {
+        "max_tokens": "--max-tokens"
+      }
+    }
+  },
+  "policy": {
+    "billing": {
+      "amount": null,
+      "basis": "tokens",
+      "status": "declared",
+      "unit": "platform_quota"
+    },
+    "configuration": {},
+    "defaults": {
+      "max_tokens": 256
+    },
+    "limits": {
+      "stream_requires_done": true
+    },
+    "operations": {
+      "complete": {
+        "input": {},
+        "output": {}
+      },
+      "stream": {
+        "input": {},
+        "output": {}
+      }
+    },
+    "schema_version": 1,
+    "sources": [
+      "references/api.md",
+      "scripts/llm.py"
+    ],
+    "version": "1.0.0"
+  },
+  "prerequisites": {
+    "environment_refs": [
+      "CODECRAFT_API_ORIGIN"
+    ],
+    "loopback_http": true,
+    "network": true,
+    "privacy": "User input is sent to the configured cloud origin; explicit operation authorization is required.",
+    "secret_refs": [
+      "CODECRAFT_DEVICE_FILE"
+    ],
+    "tls": true
+  },
+  "resources": {
+    "memory_bytes": null,
+    "storage_bytes": null
+  },
+  "schema_version": 2,
+  "skill": {
+    "api_version": "v1",
+    "entrypoint": "scripts/llm.py",
+    "files": {
+      "SKILL.md": "4aaf09f3a1dd9697b0c99b751893c9658c324e3cd91f9353a8aa35152697d485",
+      "agents/openai.yaml": "8af71d716cfdc2708423c6680245e719a22729240f9a274a34c4652ffb1f9fec",
+      "references/api.md": "4573054a62cceab94d0662b55cab7fd5f6fa8afb5e57345e8ac7d9a4974a7233",
+      "scripts/device_api.py": "d6d89608601d447950954d6cba37d5aaf215ea1b0eaf0ad2221d3039bf8cd8c0",
+      "scripts/llm.py": "467b1ba79277fa21d18d43f7e0f518d69f7c53525f8e4d0a72cc0fa1b356f45c"
+    },
+    "id": "codecraft-llm",
+    "path": "skills/codecraft-llm",
+    "python_minimum": "3.10",
+    "version": "1.0.1"
+  },
+  "source": {
+    "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",
+    "dirty": true,
+    "import_manifest": "skills/_cloud/import.json",
+    "paths": [
+      "skills/codecraft-llm/SKILL.md",
+      "skills/codecraft-llm/references/api.md",
+      "skills/codecraft-llm/scripts/llm.py"
+    ],
+    "repository": "codecraft-gadgets-cloud",
+    "snapshot_date": "2026-11-17"
+  },
+  "target_policy": {
+    "device_integration": "unknown",
+    "execution": "agent-host"
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "cases": [
+    {
+      "name": "linux/reterminal/buttons_evdev",
+      "reason": "Python syntax checked; device behavior not executed.",
+      "status": "passed",
+      "toolchain": "3.14.6"
+    },
+    {
+      "name": "linux/reterminal/header_gpio_blink",
+      "reason": "Python syntax checked; device behavior not executed.",
+      "status": "passed",
+      "toolchain": "3.14.6"
+    },
+    {
+      "name": "linux/reterminal/leds_buzzer_sysfs",
+      "reason": "Python syntax checked; device behavior not executed.",
+      "status": "passed",
+      "toolchain": "3.14.6"
+    },
+    {
+      "name": "linux/reterminal/sensors_sysfs",
+      "reason": "Python syntax checked; device behavior not executed.",
+      "status": "passed",
+      "toolchain": "3.14.6"
+    },
+    {
+      "command": [
+        "dtc",
+        "-@",
+        "-I",
+        "dts",
+        "-O",
+        "dtb",
+        "-o",
+        "<repository>/.codecraft/builds/reterminal/reterminal-peripherals-overlay.dtbo",
+        "<repository>/platforms/linux/targets/reterminal/overlays/reterminal-peripherals-overlay.dts"
+      ],
+      "elapsed_seconds": 0.01,
+      "exit_code": 0,
+      "log": "devices/reterminal/tests/logs/20261117170109Z-opt1-linux_reterminal_overlay_reterminal-peripherals-overlay.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "linux/reterminal/overlay/reterminal-peripherals-overlay",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "Version: DTC 1.8.1"
+    }
+  ],
+  "command": [
+    "python3",
+    "skills/_shared/codecraft.py",
+    "validate",
+    "--report",
+    "<local-report>"
+  ],
+  "environment": {
+    "host": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.6"
+  },
+  "executed_at": "2026-11-17T17:01:09.552691+00:00",
+  "generated_project": {
+    "build_results": [
+      {
+        "name": "linux/reterminal/buttons_evdev",
+        "reason": "Python syntax checked; device behavior not executed.",
+        "status": "passed",
+        "toolchain": "3.14.6"
+      },
+      {
+        "command": [
+          "dtc",
+          "-@",
+          "-I",
+          "dts",
+          "-O",
+          "dtb",
+          "-o",
+          "<temporary-path>",
+          "<temporary-path>"
+        ],
+        "elapsed_seconds": 0.01,
+        "exit_code": 0,
+        "log": "devices/reterminal/tests/logs/20261117170109Z-opt1-generated-project.log",
+        "log_sha256": "a706353035fc62f66e05422d2f1a22078774d2f9d5334806be1f33ff53bb7c73",
+        "name": "linux/reterminal/overlay/reterminal-peripherals-overlay",
+        "reason": "",
+        "status": "passed",
+        "toolchain": "Version: DTC 1.8.1"
+      }
+    ],
+    "example": "buttons_evdev",
+    "log": "devices/reterminal/tests/logs/20261117170109Z-opt1-generated-project.log",
+    "log_sha256": "a706353035fc62f66e05422d2f1a22078774d2f9d5334806be1f33ff53bb7c73",
+    "name": "linux/reterminal/generated-project",
+    "origin_source_digest": "ec78059fdd4caa0ee1eb11113f69889dc6add72c79cd3cefc81524092040a49a",
+    "provenance": "passed",
+    "reason": "Clean external import, locked environment, native build and provenance check.",
+    "source_digest": "9e220e72e7679912e5210cf5dbbc779e47896155db473f6bb7df17969baa00fc",
+    "status": "passed",
+    "toolchain": {
+      "dtc": "Version: DTC 1.8.1",
+      "python": "3.14.6",
+      "scope": "host syntax and overlay compilation; device OS/kernel not verified",
+      "status": "passed"
+    }
+  },
+  "kind": "build",
+  "limitations": [
+    "Software build and generated-project checks only; no hardware writes or observations.",
+    "The working tree is uncommitted; the source digest identifies the tested files.",
+    "Actual toolchain provenance is recorded, including pre-existing SDK modifications."
+  ],
+  "log": "devices/reterminal/tests/logs/20261117170109Z-opt1-summary.json",
+  "log_sha256": "58372e72df5a8a3d3d2a6f687aac6838ebf371d2ad865666e4cd43fc64624cc7",
+  "operator": "Codex: local software validation",
+  "repository_commit": "5928372c43a01491bbe8d590940d5b0b9b65265d",
+  "repository_dirty": true,
+  "result": "passed",
+  "revision": "unknown",
+  "schema_version": 2,
+  "source_digest": "ec78059fdd4caa0ee1eb11113f69889dc6add72c79cd3cefc81524092040a49a",
+  "target": "linux/reterminal",
+  "toolchain": {
+    "dtc": "Version: DTC 1.8.1",
+    "python": "3.14.6",
+    "scope": "host syntax and overlay compilation; device OS/kernel not verified",
+    "status": "passed"
+  }
+}

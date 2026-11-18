@@ -1,0 +1,4 @@
+interface:
+  display_name: "CodeCraft 语音合成"
+  short_description: "Generate device WAV speech with CodeCraft"
+  default_prompt: "使用 $codecraft-tts 生成指定文本的语音文件。"

@@ -1,0 +1,202 @@
+{
+  "assets": "devices/xiao-s3-147/assets/manifest.json",
+  "conflicts": [],
+  "facts": {
+    "accessories_details": {
+      "kind": "string",
+      "label": {
+        "en": "Accessories",
+        "zh_CN": "配件"
+      },
+      "reason": {
+        "en": "No independently confirmed value is retained; consult the original reference for limitations.",
+        "zh_CN": "未保留独立确认的值；具体限制见原始来源。"
+      },
+      "section": "Accessories",
+      "status": "unknown",
+      "value": null
+    },
+    "battery": {
+      "kind": "string",
+      "label": {
+        "en": "Battery",
+        "zh_CN": "电池"
+      },
+      "section": "Power",
+      "source": {
+        "path": "devices/xiao-s3-147/reference/hardware.md",
+        "template": "LSM6DS3 IMU; {value}."
+      },
+      "status": "documented",
+      "value": "battery input"
+    },
+    "console": {
+      "kind": "string",
+      "label": {
+        "en": "Console connection",
+        "zh_CN": "控制台连接"
+      },
+      "section": "Connectivity",
+      "source": {
+        "path": "devices/xiao-s3-147/reference/hardware.md",
+        "template": "Console: {value}"
+      },
+      "status": "documented",
+      "value": "native USB Serial/JTAG"
+    },
+    "display": {
+      "kind": "string",
+      "label": {
+        "en": "Display",
+        "zh_CN": "显示屏"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/xiao-s3-147/reference/hardware.md",
+        "template": "172x320 IPS LCD, {value} on SPI2"
+      },
+      "status": "documented",
+      "value": "JD9853A"
+    },
+    "display_height": {
+      "kind": "integer",
+      "label": {
+        "en": "Native panel height",
+        "zh_CN": "原生面板高度"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/xiao-s3-147/reference/hardware.md",
+        "template": "172x{value}"
+      },
+      "status": "documented",
+      "unit": "px",
+      "value": 320
+    },
+    "display_width": {
+      "kind": "integer",
+      "label": {
+        "en": "Native panel width",
+        "zh_CN": "原生面板宽度"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/xiao-s3-147/reference/hardware.md",
+        "template": "{value}x320"
+      },
+      "status": "documented",
+      "unit": "px",
+      "value": 172
+    },
+    "flash": {
+      "kind": "integer",
+      "label": {
+        "en": "Flash capacity",
+        "zh_CN": "Flash 容量"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/xiao-s3-147/reference/hardware.md",
+        "template": "{value} MB flash"
+      },
+      "status": "documented",
+      "unit": "MB",
+      "value": 16
+    },
+    "keys": {
+      "kind": "string",
+      "label": {
+        "en": "Keys",
+        "zh_CN": "按键"
+      },
+      "section": "Inputs",
+      "source": {
+        "path": "devices/xiao-s3-147/reference/hardware.md",
+        "template": "| bsp_button.h | {value} keys"
+      },
+      "status": "documented",
+      "value": "USR1/USR2"
+    },
+    "mcu": {
+      "kind": "string",
+      "label": {
+        "en": "Controller",
+        "zh_CN": "主控"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/xiao-s3-147/reference/hardware.md",
+        "template": "Controller: {value}"
+      },
+      "status": "documented",
+      "value": "XIAO ESP32-S3 Plus"
+    },
+    "mic": {
+      "kind": "string",
+      "label": {
+        "en": "Microphone",
+        "zh_CN": "麦克风"
+      },
+      "section": "Inputs",
+      "source": {
+        "path": "devices/xiao-s3-147/reference/hardware.md",
+        "template": "- {value} on I2S0:"
+      },
+      "status": "documented",
+      "value": "PDM microphone"
+    },
+    "psram": {
+      "kind": "integer",
+      "label": {
+        "en": "PSRAM capacity",
+        "zh_CN": "PSRAM 容量"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/xiao-s3-147/reference/hardware.md",
+        "template": "{value} MB octal PSRAM"
+      },
+      "status": "documented",
+      "unit": "MB",
+      "value": 8
+    }
+  },
+  "id": "xiao-s3-147",
+  "maintenance": "unassigned",
+  "maturity": "experimental",
+  "name": "XIAO ESP32-S3 1.47-inch Touch Display",
+  "overview": {
+    "en": "Small LCD, two buttons and PDM microphone; touch and storage drivers remain pending.",
+    "zh_CN": "小型 LCD、双按键与 PDM 麦克风；触摸和存储驱动仍待移植。"
+  },
+  "physical_description": {
+    "en": "unknown; revision-specific orientation and imagery have not been verified.",
+    "zh_CN": "unknown；尚未核实对应硬件修订的朝向和图片。"
+  },
+  "references": [
+    "devices/xiao-s3-147/reference/hardware.md",
+    "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_pins.h",
+    "devices/xiao-s3-147/reference/vendor-notes.md",
+    "devices/xiao-s3-147/reference/inventory.md"
+  ],
+  "revision": "unknown",
+  "scenarios": {
+    "en": "Use the listed standalone examples as the supported development entry points.",
+    "zh_CN": "以列出的独立示例作为受支持的开发入口。"
+  },
+  "schema_version": 2,
+  "unknowns": [
+    {
+      "en": "Physical board revision and fresh on-device verification are not recorded.",
+      "zh_CN": "尚未记录实际硬件修订和本次真机验证。"
+    },
+    {
+      "en": "Read the original hardware reference for unsupported drivers, prerequisites and known limitations.",
+      "zh_CN": "须阅读原始硬件来源中的待移植驱动、前置条件和已知限制。"
+    }
+  ],
+  "vendor_sources": [
+    "https://wiki.seeedstudio.com/getting_started_1.47_inch_touch_display_esp32s3/",
+    "https://github.com/Seeed-Studio/Seeed_GFX2"
+  ]
+}

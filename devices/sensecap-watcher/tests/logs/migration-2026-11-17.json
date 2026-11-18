@@ -1,0 +1,169 @@
+{
+  "scope": "native builds and clean external project validation",
+  "results": [
+    {
+      "name": "esp-idf/sensecap-watcher/audio_tone",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/audio_tone",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/audio_tone",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.88,
+      "log": ".codecraft/logs/esp-idf_sensecap-watcher_audio_tone.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/sensecap-watcher/battery_status",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/battery_status",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/battery_status",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.89,
+      "log": ".codecraft/logs/esp-idf_sensecap-watcher_battery_status.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/sensecap-watcher/camera_capture",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/camera_capture",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/camera_capture",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.89,
+      "log": ".codecraft/logs/esp-idf_sensecap-watcher_camera_capture.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/sensecap-watcher/display_color_bars",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/display_color_bars",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/display_color_bars",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.94,
+      "log": ".codecraft/logs/esp-idf_sensecap-watcher_display_color_bars.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/sensecap-watcher/knob_input",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/knob_input",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/knob_input",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.88,
+      "log": ".codecraft/logs/esp-idf_sensecap-watcher_knob_input.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/sensecap-watcher/mic_level",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/mic_level",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/mic_level",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.89,
+      "log": ".codecraft/logs/esp-idf_sensecap-watcher_mic_level.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/sensecap-watcher/sdcard_test",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/sdcard_test",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/sdcard_test",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.88,
+      "log": ".codecraft/logs/esp-idf_sensecap-watcher_sdcard_test.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/sensecap-watcher/touch_read",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/touch_read",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/touch_read",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.89,
+      "log": ".codecraft/logs/esp-idf_sensecap-watcher_touch_read.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/sensecap-watcher/generated-project",
+      "status": "passed",
+      "reason": "Clean external project generation, import integrity and native build.",
+      "example": "audio_tone",
+      "source_digest": "976ee94647aee11dd70fbdc7fb8d4f99a2c0c82c4e29a1053b6e1d5d338ea3ed",
+      "log": ".codecraft/logs/generated_esp-idf_sensecap-watcher.log",
+      "build_results": [
+        {
+          "name": "esp-idf/sensecap-watcher/audio_tone",
+          "status": "passed",
+          "reason": "",
+          "command": [
+            "idf.py",
+            "-C",
+            "<generated-project>/platforms/esp-idf/targets/sensecap-watcher/examples/audio_tone",
+            "-B",
+            "<generated-project>/.codecraft/builds/sensecap-watcher/audio_tone",
+            "build"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 33.69,
+          "log": ".codecraft/logs/esp-idf_sensecap-watcher_audio_tone.log",
+          "toolchain": "ESP-IDF v6.0.2-dirty"
+        }
+      ],
+      "provenance": "passed"
+    }
+  ]
+}

@@ -1,20 +1,16 @@
 ---
 name: codecraft-build
-description: Build and validate firmware/examples for a board in codecraft-ai-hardware, including static checks and per-board ESP-IDF or arduino-cli builds via tools/validate.sh. Use for build and test requests; does not flash, commit, or publish.
+description: Build native firmware and run checks without flashing or publishing.
 ---
 
 # Build
 
-1. Run `git status --short --branch`; never clean unrelated files.
-2. Activate the ESP-IDF version the board declares in its README. Do not
-   infer a developer-specific IDF path; ask if none is activated.
-3. Run the smallest relevant check first, then the gate:
+Run `validate --static`, then `validate --target <id>` for each affected Target. The complete software gate is `validate`. A missing prerequisite is not_run, never passed. No build command flashes or publishes. Diagnose failures before retrying.
 
-   ```bash
-   ./tools/validate.sh --static
-   ./tools/validate.sh --esp32 <board>
-   ./tools/validate.sh --arduino <board>
-   ```
+All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.
 
-4. A clean build is not hardware validation — say so in the report.
-5. On failure, switch to `codecraft-debug` rather than retrying blindly.
+In a generated application, use `python3 codecraft.py build-project .`; explicitly accept reviewed application/toolchain changes with `python3 codecraft.py lock-project .`. The bundled `python3 build.py [--lock]` commands remain compatible. Do not use reference-Target validation to bypass an application's lock.
+
+ESP-IDF examples use explicit BSP compositions. Read docs/development/native-compositions.md when changing native source selection, BSP layout or dependencies. Keep the profile, native manifests, Target example scope and lock aligned; settle native lock updates before final source-fingerprint validation. A successful compiler command must also pass the actual BSP-source/requirement check.
+
+For sourced hardware variants, use context/new/validate --variant as described in docs/development/hardware-variants.md. Keep the Device facts, Target/native profile, export selection and lock aligned. The full Target gate covers all variants. A build default is not physical identification; physical evidence must identify its variant and an observed compatible revision. Unknown compatibility remains unresolved.

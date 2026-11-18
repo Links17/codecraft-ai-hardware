@@ -1,0 +1,15 @@
+{
+  "dependencies": [],
+  "inputs": [
+    "platforms/esp-idf/components/sscma_client/CMakeLists.txt",
+    "platforms/esp-idf/components/sscma_client/camera.c",
+    "platforms/esp-idf/components/sscma_client/camera.h",
+    "platforms/esp-idf/components/sscma_client/camera_sscma.c",
+    "platforms/esp-idf/components/sscma_client/camera_sscma.h",
+    "platforms/esp-idf/components/sscma_client/idf_component.yml",
+    "platforms/esp-idf/components/sscma_client/sscma_proto.c",
+    "platforms/esp-idf/components/sscma_client/sscma_proto.h"
+  ],
+  "kind": "resource",
+  "schema_version": 1
+}

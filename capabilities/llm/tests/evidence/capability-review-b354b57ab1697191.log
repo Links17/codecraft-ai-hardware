@@ -1,0 +1,77 @@
+{
+  "capability_contracts": [
+    {
+      "name": "capabilities/llm/tests/test_contract.py::test_handoff_uses_pinned_repository_skill_and_never_runs_it",
+      "status": "passed",
+      "reason": ""
+    },
+    {
+      "name": "capabilities/llm/tests/test_contract.py::test_input_configuration_version_and_secret_values_are_rejected",
+      "status": "passed",
+      "reason": ""
+    },
+    {
+      "name": "capabilities/llm/tests/test_contract.py::test_prepared_prompt_and_messages_match_actual_client_contract",
+      "status": "passed",
+      "reason": ""
+    },
+    {
+      "name": "capabilities/llm/tests/test_contract.py::test_prepared_stream_requires_done_and_preserves_failure_status",
+      "status": "passed",
+      "reason": ""
+    },
+    {
+      "name": "capabilities/llm/tests/test_contract.py::test_unknown_environment_resources_and_negative_network_constraints",
+      "status": "passed",
+      "reason": ""
+    }
+  ],
+  "cross_layer_regressions": [
+    {
+      "name": "skills/codecraft-validate/tests/test_architecture.py::test_cloud_cli_needs_no_hardware_catalog_but_checks_explicit_targets",
+      "status": "passed",
+      "reason": ""
+    },
+    {
+      "name": "skills/codecraft-validate/tests/test_architecture.py::test_malformed_cloud_selections_are_not_silently_dropped",
+      "status": "passed",
+      "reason": ""
+    },
+    {
+      "name": "skills/codecraft-validate/tests/test_architecture.py::test_pinned_skill_binary_assets_survive_context_export_lock_and_package",
+      "status": "passed",
+      "reason": ""
+    },
+    {
+      "name": "skills/codecraft-validate/tests/test_architecture.py::test_provider_rejects_ambiguous_or_malformed_cli_mappings",
+      "status": "passed",
+      "reason": ""
+    },
+    {
+      "name": "skills/codecraft-validate/tests/test_cloud_skills.py::test_cli_check_ignores_unpinned_installed_bytecode",
+      "status": "passed",
+      "reason": ""
+    },
+    {
+      "name": "skills/codecraft-validate/tests/test_cloud_skills.py::test_installed_skill_inventory_rejects_extra_missing_and_symlink_files",
+      "status": "passed",
+      "reason": ""
+    }
+  ]
+}
+
+
+test_archive_failure_retains_generated_file (__main__.SkillTests.test_archive_failure_retains_generated_file) ... ok
+test_image_generation_and_stable_download (__main__.SkillTests.test_image_generation_and_stable_download) ... ok
+test_incomplete_sse_is_not_retried (__main__.SkillTests.test_incomplete_sse_is_not_retried) ... ok
+test_llm_json_and_sse (__main__.SkillTests.test_llm_json_and_sse) ... ok
+test_redirect_and_error_body_do_not_leak_credentials (__main__.SkillTests.test_redirect_and_error_body_do_not_leak_credentials) ... ok
+test_text_limits_reject_before_network (__main__.SkillTests.test_text_limits_reject_before_network) ... ok
+test_transcription_and_local_duration_validation (__main__.SkillTests.test_transcription_and_local_duration_validation) ... ok
+test_tts_archive_and_existing_output (__main__.SkillTests.test_tts_archive_and_existing_output) ... ok
+test_unsafe_origins_reject_before_network (__main__.SkillTests.test_unsafe_origins_reject_before_network) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 5.562s
+
+OK

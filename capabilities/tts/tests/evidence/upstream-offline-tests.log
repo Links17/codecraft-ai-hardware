@@ -1,0 +1,14 @@
+test_archive_failure_retains_generated_file (__main__.SkillTests.test_archive_failure_retains_generated_file) ... ok
+test_image_generation_and_stable_download (__main__.SkillTests.test_image_generation_and_stable_download) ... ok
+test_incomplete_sse_is_not_retried (__main__.SkillTests.test_incomplete_sse_is_not_retried) ... ok
+test_llm_json_and_sse (__main__.SkillTests.test_llm_json_and_sse) ... ok
+test_redirect_and_error_body_do_not_leak_credentials (__main__.SkillTests.test_redirect_and_error_body_do_not_leak_credentials) ... ok
+test_text_limits_reject_before_network (__main__.SkillTests.test_text_limits_reject_before_network) ... ok
+test_transcription_and_local_duration_validation (__main__.SkillTests.test_transcription_and_local_duration_validation) ... ok
+test_tts_archive_and_existing_output (__main__.SkillTests.test_tts_archive_and_existing_output) ... ok
+test_unsafe_origins_reject_before_network (__main__.SkillTests.test_unsafe_origins_reject_before_network) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 5.470s
+
+OK

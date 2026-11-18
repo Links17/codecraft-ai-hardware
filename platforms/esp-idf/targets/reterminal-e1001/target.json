@@ -1,0 +1,584 @@
+{
+  "dependencies": [],
+  "device": "reterminal-e1001",
+  "example_dependencies": {
+    "board_health": [
+      "platforms/esp-idf/targets/reterminal-e1001/examples/board_health/dependencies.lock",
+      "platforms/esp-idf/targets/reterminal-e1001/examples/board_health/main/idf_component.yml",
+      "platforms/esp-idf/components/codecraft_pcf8563",
+      "platforms/esp-idf/components/codecraft_sht4x"
+    ],
+    "epd_hello": [
+      "platforms/esp-idf/targets/reterminal-e1001/examples/epd_hello/dependencies.lock",
+      "platforms/esp-idf/targets/reterminal-e1001/examples/epd_hello/main/idf_component.yml"
+    ],
+    "sdcard_test": [
+      "platforms/esp-idf/targets/reterminal-e1001/examples/sdcard_test/dependencies.lock",
+      "platforms/esp-idf/targets/reterminal-e1001/examples/sdcard_test/main/idf_component.yml"
+    ],
+    "sht4x_battery": [
+      "platforms/esp-idf/targets/reterminal-e1001/examples/sht4x_battery/dependencies.lock",
+      "platforms/esp-idf/targets/reterminal-e1001/examples/sht4x_battery/main/idf_component.yml",
+      "platforms/esp-idf/components/codecraft_sht4x"
+    ]
+  },
+  "example_inputs": {
+    "board_health": [
+      "platforms/esp-idf/targets/reterminal-e1001/examples/board_health",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_battery.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_buzzer.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_charger.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_mic.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_rtc.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_sht4x.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_battery.c",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_buzzer.c",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_charger.c",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_i2c0_internal.c",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_i2c0_internal.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_mic.c",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_rtc.c",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_sht4x.c"
+    ],
+    "epd_hello": [
+      "platforms/esp-idf/targets/reterminal-e1001/examples/epd_hello",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_epd.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_led.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_epd.c",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_led.c"
+    ],
+    "sdcard_test": [
+      "platforms/esp-idf/targets/reterminal-e1001/examples/sdcard_test",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_sdcard.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_sdcard.c"
+    ],
+    "sht4x_battery": [
+      "platforms/esp-idf/targets/reterminal-e1001/examples/sht4x_battery",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_battery.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_button.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_led.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_sht4x.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_battery.c",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_button.c",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_i2c0_internal.c",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_i2c0_internal.h",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_led.c",
+      "platforms/esp-idf/targets/reterminal-e1001/bsp/src/bsp_sht4x.c"
+    ]
+  },
+  "examples": [
+    "board_health",
+    "epd_hello",
+    "sdcard_test",
+    "sht4x_battery"
+  ],
+  "id": "esp-idf/reterminal-e1001",
+  "inputs": [
+    "platforms/esp-idf/targets/reterminal-e1001/bsp/CMakeLists.txt",
+    "platforms/esp-idf/targets/reterminal-e1001/bsp/idf_component.yml",
+    "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_pins.h"
+  ],
+  "interfaces": [
+    {
+      "configuration": {
+        "channels": {
+          "description": "PCM channels",
+          "maximum": 32,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "channel",
+          "value": null
+        },
+        "sample_bits": {
+          "description": "PCM container width",
+          "maximum": 64,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "bit",
+          "value": null
+        },
+        "sample_rate_hz": {
+          "description": "PCM sample rate",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "Hz",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "board_health": [
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_buzzer.h",
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_mic.h"
+        ]
+      },
+      "id": "audio",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+      ],
+      "operations": {
+        "capture": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_mic.h",
+          "supported": true,
+          "symbol": "bsp_mic_read"
+        },
+        "playback": {
+          "reason": "No native implementation for this semantic operation is registered.",
+          "supported": false
+        },
+        "tone": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_buzzer.h",
+          "supported": true,
+          "symbol": "bsp_buzzer_tone"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "bits_per_pixel": {
+          "description": "Native framebuffer packing",
+          "maximum": 64,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "bit",
+          "value": null
+        },
+        "height": {
+          "description": "Logical height",
+          "maximum": 16384,
+          "minimum": 0,
+          "source": {
+            "assertion": "#define BSP_EPD_HEIGHT      480",
+            "path": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_epd.h"
+          },
+          "status": "known",
+          "type": "integer",
+          "unit": "px",
+          "value": 480
+        },
+        "width": {
+          "description": "Logical width",
+          "maximum": 16384,
+          "minimum": 0,
+          "source": {
+            "assertion": "#define BSP_EPD_WIDTH       800",
+            "path": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_epd.h"
+          },
+          "status": "known",
+          "type": "integer",
+          "unit": "px",
+          "value": 800
+        }
+      },
+      "example_implementation": {
+        "epd_hello": [
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_epd.h"
+        ]
+      },
+      "id": "display",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+      ],
+      "operations": {
+        "present": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_epd.h",
+          "supported": true,
+          "symbol": "bsp_epd_update"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "sample_interval_ms": {
+          "description": "Supported acquisition interval",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "ms",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "board_health": [
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_sht4x.h"
+        ],
+        "sht4x_battery": [
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_sht4x.h"
+        ]
+      },
+      "id": "environment",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_sht4x.h",
+          "supported": true,
+          "symbol": "bsp_sht4x_read"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "debounce_ms": {
+          "description": "Native debounce interval",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "ms",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "sht4x_battery": [
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_button.h"
+        ]
+      },
+      "id": "input",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_button.h",
+          "supported": true,
+          "symbol": "bsp_button_pressed"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "channels": {
+          "description": "Independently controlled color channels",
+          "maximum": 4,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "channel",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "epd_hello": [
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_led.h"
+        ],
+        "sht4x_battery": [
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_led.h"
+        ]
+      },
+      "id": "led",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+      ],
+      "operations": {
+        "write": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_led.h",
+          "supported": true,
+          "symbol": "bsp_led_set"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "voltage_scale": {
+          "description": "Native voltage output scale",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "mV",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "board_health": [
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_battery.h",
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_charger.h"
+        ],
+        "sht4x_battery": [
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_battery.h"
+        ]
+      },
+      "id": "power",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_battery.h",
+          "supported": true,
+          "symbol": "bsp_battery_read_mv"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "year_max": {
+          "description": "Maximum accepted calendar year",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "year",
+          "value": null
+        },
+        "year_min": {
+          "description": "Minimum accepted calendar year",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "year",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "board_health": [
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_rtc.h"
+        ]
+      },
+      "id": "rtc",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_rtc.h",
+          "supported": true,
+          "symbol": "bsp_rtc_get_time"
+        },
+        "write": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_rtc.h",
+          "supported": true,
+          "symbol": "bsp_rtc_set_time"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "max_open_files": {
+          "description": "Maximum simultaneous file descriptors",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "count",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "sdcard_test": [
+          "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_sdcard.h"
+        ]
+      },
+      "id": "storage",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for pending drivers and prerequisites."
+      ],
+      "operations": {
+        "mount": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_sdcard.h",
+          "supported": true,
+          "symbol": "bsp_sdcard_init"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    }
+  ],
+  "path": "platforms/esp-idf/targets/reterminal-e1001",
+  "platform": "esp-idf",
+  "schema_version": 2,
+  "toolchain": {
+    "name": "esp-idf",
+    "source": "devices/reterminal-e1001/reference/hardware.md",
+    "target": "esp32s3",
+    "version": "6.0.2"
+  }
+}

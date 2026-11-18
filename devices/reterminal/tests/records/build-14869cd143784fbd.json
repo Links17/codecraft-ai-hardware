@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "target": "linux/reterminal",
+  "kind": "build",
+  "repository_commit": "5928372c43a01491bbe8d590940d5b0b9b65265d",
+  "repository_dirty": true,
+  "source_digest": "4ff90d98343418f4d1fe8a674920e2088f17263b20e643ab35eb32c96e01a8e7",
+  "revision": "unknown",
+  "toolchain": {
+    "declared": {
+      "name": "python3+dtc",
+      "version": "unknown",
+      "os": "Raspberry Pi OS bookworm or newer",
+      "kernel": "unknown",
+      "source": "devices/reterminal/reference/hardware.md"
+    },
+    "observed": [
+      "\"3.14.6\"",
+      "\"Version: DTC 1.8.1\""
+    ]
+  },
+  "command": [
+    "python3",
+    "skills/_shared/codecraft.py",
+    "validate",
+    "--report",
+    ".codecraft/validation/complete.json"
+  ],
+  "environment": {
+    "system": "Darwin",
+    "release": "25.5.0",
+    "machine": "arm64",
+    "python": "3.14.6"
+  },
+  "result": "passed",
+  "limitations": [
+    "No physical device was flashed or tested. Hardware revision remains unknown.",
+    "The retained log contains structured command/results; verbose compiler logs remain local in .codecraft/logs.",
+    "Python syntax and DTS compilation only; Raspberry Pi OS, kernel and device I/O were not exercised."
+  ],
+  "operator": "Codex local execution",
+  "log": "devices/reterminal/tests/logs/migration-2026-11-17.json",
+  "log_sha256": "9c412c7c4217a2d2e6ae6d18ffbfe79dacd7fc77a34723158da2c8e324661b68",
+  "executed_at": "2026-11-17T13:40:21.537675+00:00",
+  "cases": [
+    "linux/reterminal/buttons_evdev",
+    "linux/reterminal/header_gpio_blink",
+    "linux/reterminal/leds_buzzer_sysfs",
+    "linux/reterminal/sensors_sysfs",
+    "linux/reterminal/overlay",
+    "linux/reterminal/generated-project"
+  ],
+  "examples": [
+    "buttons_evdev",
+    "header_gpio_blink",
+    "leds_buzzer_sysfs",
+    "sensors_sysfs"
+  ],
+  "generated_project": {
+    "status": "passed",
+    "example": "buttons_evdev",
+    "provenance": "passed",
+    "source_digest": "1c158264955858527006da5b486826c8ec501b27e8584cb28fe2e52902139eae"
+  }
+}

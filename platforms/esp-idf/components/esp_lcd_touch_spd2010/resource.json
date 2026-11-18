@@ -1,0 +1,14 @@
+{
+  "dependencies": [],
+  "inputs": [
+    "platforms/esp-idf/components/esp_lcd_touch_spd2010/CHANGELOG.md",
+    "platforms/esp-idf/components/esp_lcd_touch_spd2010/CMakeLists.txt",
+    "platforms/esp-idf/components/esp_lcd_touch_spd2010/README.md",
+    "platforms/esp-idf/components/esp_lcd_touch_spd2010/esp_lcd_touch_spd2010.c",
+    "platforms/esp-idf/components/esp_lcd_touch_spd2010/idf_component.yml",
+    "platforms/esp-idf/components/esp_lcd_touch_spd2010/include/esp_lcd_touch_spd2010.h",
+    "platforms/esp-idf/components/esp_lcd_touch_spd2010/license.txt"
+  ],
+  "kind": "resource",
+  "schema_version": 1
+}

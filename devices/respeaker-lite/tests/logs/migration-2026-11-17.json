@@ -1,0 +1,84 @@
+{
+  "scope": "native builds and clean external project validation",
+  "results": [
+    {
+      "name": "esp-idf/respeaker-lite/audio_meter",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/respeaker-lite/examples/audio_meter",
+        "-B",
+        "<repository>/.codecraft/builds/respeaker-lite/audio_meter",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.94,
+      "log": ".codecraft/logs/esp-idf_respeaker-lite_audio_meter.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/respeaker-lite/button_led",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/respeaker-lite/examples/button_led",
+        "-B",
+        "<repository>/.codecraft/builds/respeaker-lite/button_led",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.93,
+      "log": ".codecraft/logs/esp-idf_respeaker-lite_button_led.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/respeaker-lite/wifi_scan",
+      "status": "passed",
+      "reason": "",
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/respeaker-lite/examples/wifi_scan",
+        "-B",
+        "<repository>/.codecraft/builds/respeaker-lite/wifi_scan",
+        "build"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.94,
+      "log": ".codecraft/logs/esp-idf_respeaker-lite_wifi_scan.log",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "name": "esp-idf/respeaker-lite/generated-project",
+      "status": "passed",
+      "reason": "Clean external project generation, import integrity and native build.",
+      "example": "audio_meter",
+      "source_digest": "80b3dcc529bfa5aeaf1941f1100d727786fa6af4f56618937bbbb08d45482d84",
+      "log": ".codecraft/logs/generated_esp-idf_respeaker-lite.log",
+      "build_results": [
+        {
+          "name": "esp-idf/respeaker-lite/audio_meter",
+          "status": "passed",
+          "reason": "",
+          "command": [
+            "idf.py",
+            "-C",
+            "<generated-project>/platforms/esp-idf/targets/respeaker-lite/examples/audio_meter",
+            "-B",
+            "<generated-project>/.codecraft/builds/respeaker-lite/audio_meter",
+            "build"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 31.72,
+          "log": ".codecraft/logs/esp-idf_respeaker-lite_audio_meter.log",
+          "toolchain": "ESP-IDF v6.0.2-dirty"
+        }
+      ],
+      "provenance": "passed"
+    }
+  ]
+}

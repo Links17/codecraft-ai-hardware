@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "target": "esp-idf/sensecap-watcher",
+  "kind": "build",
+  "repository_commit": "5928372c43a01491bbe8d590940d5b0b9b65265d",
+  "repository_dirty": true,
+  "source_digest": "adc21fb899443701d7d6b75d6ca56a21c2fb9b6f02bf27c50832fe12939e6d8a",
+  "revision": "unknown",
+  "toolchain": {
+    "declared": {
+      "name": "esp-idf",
+      "version": "6.0.2",
+      "target": "esp32s3",
+      "source": "devices/sensecap-watcher/reference/hardware.md"
+    },
+    "observed": [
+      "\"ESP-IDF v6.0.2-dirty\""
+    ],
+    "sdk_commit": "7101770dc6db2667b3c477cc31365dd1acd6db4e"
+  },
+  "command": [
+    "python3",
+    "skills/_shared/codecraft.py",
+    "validate",
+    "--report",
+    ".codecraft/validation/complete.json"
+  ],
+  "environment": {
+    "system": "Darwin",
+    "release": "25.5.0",
+    "machine": "arm64",
+    "python": "3.14.6"
+  },
+  "result": "passed",
+  "limitations": [
+    "No physical device was flashed or tested. Hardware revision remains unknown.",
+    "The retained log contains structured command/results; verbose compiler logs remain local in .codecraft/logs.",
+    "Observed SDK is ESP-IDF v6.0.2-dirty; this is not evidence of an unmodified upstream SDK."
+  ],
+  "operator": "Codex local execution",
+  "log": "devices/sensecap-watcher/tests/logs/migration-2026-11-17.json",
+  "log_sha256": "8da3c5845dd609644ec287f6d5a591c665f54a446fd9decc3cbe930bdf1b6295",
+  "executed_at": "2026-11-17T13:40:21.537675+00:00",
+  "cases": [
+    "esp-idf/sensecap-watcher/audio_tone",
+    "esp-idf/sensecap-watcher/battery_status",
+    "esp-idf/sensecap-watcher/camera_capture",
+    "esp-idf/sensecap-watcher/display_color_bars",
+    "esp-idf/sensecap-watcher/knob_input",
+    "esp-idf/sensecap-watcher/mic_level",
+    "esp-idf/sensecap-watcher/sdcard_test",
+    "esp-idf/sensecap-watcher/touch_read",
+    "esp-idf/sensecap-watcher/generated-project"
+  ],
+  "examples": [
+    "audio_tone",
+    "battery_status",
+    "camera_capture",
+    "display_color_bars",
+    "knob_input",
+    "mic_level",
+    "sdcard_test",
+    "touch_read"
+  ],
+  "generated_project": {
+    "status": "passed",
+    "example": "audio_tone",
+    "provenance": "passed",
+    "source_digest": "976ee94647aee11dd70fbdc7fb8d4f99a2c0c82c4e29a1053b6e1d5d338ea3ed"
+  }
+}

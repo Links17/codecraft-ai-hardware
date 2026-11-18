@@ -1,0 +1,435 @@
+{
+  "baseline_gate": "docs/reviews/optimization-skill-delivery-2026-11-18.md",
+  "baseline_host_entries": 133,
+  "mapping": {
+    "capabilities/_tests/test_policy.py::test_defaults_and_configuration_constraints_reach_prepared_arguments": [
+      "capabilities/_tests/test_policy.py::test_defaults_and_configuration_constraints_reach_prepared_arguments"
+    ],
+    "capabilities/_tests/test_policy.py::test_missing_malformed_and_legacy_policy_contracts_fail_closed": [
+      "capabilities/_tests/test_policy.py::test_missing_malformed_and_legacy_policy_contracts_fail_closed"
+    ],
+    "capabilities/_tests/test_policy.py::test_policy_change_updates_cloud_identity_without_changing_capability": [
+      "capabilities/_tests/test_policy.py::test_policy_change_updates_cloud_identity_without_changing_capability"
+    ],
+    "capabilities/_tests/test_policy.py::test_provider_output_constraints_preserve_current_archival_contract": [
+      "capabilities/_tests/test_policy.py::test_provider_output_constraints_preserve_current_archival_contract"
+    ],
+    "capabilities/_tests/test_policy.py::test_schema_constraints_cannot_weaken_or_contradict_the_base": [
+      "capabilities/_tests/test_policy.py::test_schema_constraints_cannot_weaken_or_contradict_the_base"
+    ],
+    "capabilities/_tests/test_policy.py::test_selected_policy_is_exported_and_any_drift_invalidates_the_project_lock": [
+      "capabilities/_tests/test_policy.py::test_selected_policy_is_exported_and_any_drift_invalidates_the_project_lock"
+    ],
+    "capabilities/_tests/test_policy.py::test_semantic_contracts_and_service_policy_have_separate_versions": [
+      "capabilities/_tests/test_policy.py::test_semantic_contracts_and_service_policy_have_separate_versions"
+    ],
+    "capabilities/asr/tests/test_contract.py::test_handoff_uses_pinned_repository_skill_and_never_runs_it": [
+      "capabilities/asr/tests/test_contract.py::test_handoff_uses_pinned_repository_skill_and_never_runs_it"
+    ],
+    "capabilities/asr/tests/test_contract.py::test_input_configuration_version_and_secret_values_are_rejected": [
+      "capabilities/asr/tests/test_contract.py::test_input_configuration_version_and_secret_values_are_rejected"
+    ],
+    "capabilities/asr/tests/test_contract.py::test_prepared_invalid_audio_fails_before_api_execution": [
+      "capabilities/asr/tests/test_contract.py::test_prepared_invalid_audio_fails_before_api_execution"
+    ],
+    "capabilities/asr/tests/test_contract.py::test_prepared_transcription_matches_actual_client_contract": [
+      "capabilities/asr/tests/test_contract.py::test_prepared_transcription_matches_actual_client_contract"
+    ],
+    "capabilities/asr/tests/test_contract.py::test_provider_audio_boundaries_are_enforced_by_the_isolated_client": [
+      "capabilities/asr/tests/test_contract.py::test_provider_audio_boundaries_are_enforced_by_the_isolated_client"
+    ],
+    "capabilities/asr/tests/test_contract.py::test_unknown_environment_resources_and_negative_network_constraints": [
+      "capabilities/asr/tests/test_contract.py::test_unknown_environment_resources_and_negative_network_constraints"
+    ],
+    "capabilities/image-generation/tests/test_contract.py::test_handoff_uses_pinned_repository_skill_and_never_runs_it": [
+      "capabilities/image-generation/tests/test_contract.py::test_handoff_uses_pinned_repository_skill_and_never_runs_it"
+    ],
+    "capabilities/image-generation/tests/test_contract.py::test_input_configuration_version_and_secret_values_are_rejected": [
+      "capabilities/image-generation/tests/test_contract.py::test_input_configuration_version_and_secret_values_are_rejected"
+    ],
+    "capabilities/image-generation/tests/test_contract.py::test_prepared_image_rejects_existing_output_before_api_execution": [
+      "capabilities/image-generation/tests/test_contract.py::test_prepared_image_rejects_existing_output_before_api_execution"
+    ],
+    "capabilities/image-generation/tests/test_contract.py::test_prepared_local_and_archived_image_match_actual_output_contract": [
+      "capabilities/image-generation/tests/test_contract.py::test_prepared_local_and_archived_image_match_actual_output_contract"
+    ],
+    "capabilities/image-generation/tests/test_contract.py::test_provider_prompt_bound_and_request_size_reach_the_isolated_client": [
+      "capabilities/image-generation/tests/test_contract.py::test_provider_prompt_bound_and_request_size_reach_the_isolated_client"
+    ],
+    "capabilities/image-generation/tests/test_contract.py::test_unknown_environment_resources_and_negative_network_constraints": [
+      "capabilities/image-generation/tests/test_contract.py::test_unknown_environment_resources_and_negative_network_constraints"
+    ],
+    "capabilities/llm/tests/test_contract.py::test_handoff_uses_pinned_repository_skill_and_never_runs_it": [
+      "capabilities/llm/tests/test_contract.py::test_handoff_uses_pinned_repository_skill_and_never_runs_it"
+    ],
+    "capabilities/llm/tests/test_contract.py::test_input_configuration_version_and_secret_values_are_rejected": [
+      "capabilities/llm/tests/test_contract.py::test_input_configuration_version_and_secret_values_are_rejected"
+    ],
+    "capabilities/llm/tests/test_contract.py::test_prepared_prompt_and_messages_match_actual_client_contract": [
+      "capabilities/llm/tests/test_contract.py::test_prepared_prompt_and_messages_match_actual_client_contract"
+    ],
+    "capabilities/llm/tests/test_contract.py::test_prepared_stream_requires_done_and_preserves_failure_status": [
+      "capabilities/llm/tests/test_contract.py::test_prepared_stream_requires_done_and_preserves_failure_status"
+    ],
+    "capabilities/llm/tests/test_contract.py::test_provider_token_default_and_caller_override_reach_the_isolated_client": [
+      "capabilities/llm/tests/test_contract.py::test_provider_token_default_and_caller_override_reach_the_isolated_client"
+    ],
+    "capabilities/llm/tests/test_contract.py::test_unknown_environment_resources_and_negative_network_constraints": [
+      "capabilities/llm/tests/test_contract.py::test_unknown_environment_resources_and_negative_network_constraints"
+    ],
+    "capabilities/tts/tests/test_contract.py::test_handoff_uses_pinned_repository_skill_and_never_runs_it": [
+      "capabilities/tts/tests/test_contract.py::test_handoff_uses_pinned_repository_skill_and_never_runs_it"
+    ],
+    "capabilities/tts/tests/test_contract.py::test_input_configuration_version_and_secret_values_are_rejected": [
+      "capabilities/tts/tests/test_contract.py::test_input_configuration_version_and_secret_values_are_rejected"
+    ],
+    "capabilities/tts/tests/test_contract.py::test_prepared_archive_failure_keeps_file_and_nonzero_exit": [
+      "capabilities/tts/tests/test_contract.py::test_prepared_archive_failure_keeps_file_and_nonzero_exit"
+    ],
+    "capabilities/tts/tests/test_contract.py::test_prepared_local_and_archived_speech_match_actual_output_contract": [
+      "capabilities/tts/tests/test_contract.py::test_prepared_local_and_archived_speech_match_actual_output_contract"
+    ],
+    "capabilities/tts/tests/test_contract.py::test_provider_text_bound_and_default_voice_reach_the_isolated_client": [
+      "capabilities/tts/tests/test_contract.py::test_provider_text_bound_and_default_voice_reach_the_isolated_client"
+    ],
+    "capabilities/tts/tests/test_contract.py::test_unknown_environment_resources_and_negative_network_constraints": [
+      "capabilities/tts/tests/test_contract.py::test_unknown_environment_resources_and_negative_network_constraints"
+    ],
+    "platforms/arduino/tests/test_adapter.py::test_installed_core_version_uses_cli_schema_and_native_compile": [
+      "platforms/arduino/tests/test_adapter.py::test_installed_core_version_uses_cli_schema_and_native_compile"
+    ],
+    "platforms/arduino/tests/test_adapter.py::test_wrong_core_does_not_compile_or_claim_unsupported_hardware": [
+      "platforms/arduino/tests/test_adapter.py::test_wrong_core_does_not_compile_or_claim_unsupported_hardware"
+    ],
+    "platforms/esp-idf/tests/test_bsp_contract.py::test_every_native_target_has_a_manifest": [
+      "platforms/esp-idf/tests/test_bsp_contract.py::test_every_native_target_has_a_manifest"
+    ],
+    "platforms/esp-idf/tests/test_bsp_contract.py::test_every_pin_header_preserves_license_and_unique_defines": [
+      "platforms/esp-idf/tests/test_bsp_contract.py::test_every_pin_header_preserves_license_and_unique_defines"
+    ],
+    "platforms/esp-idf/tests/test_bsp_contract.py::test_manifest_examples_match_native_projects_and_bsp_bindings": [
+      "platforms/esp-idf/tests/test_bsp_contract.py::test_manifest_examples_match_native_projects_and_bsp_bindings"
+    ],
+    "platforms/esp-idf/tests/test_camera_failures.py::test_camera_frame_ownership_and_control_failures": [
+      "platforms/esp-idf/components/sscma_client/tests/test_camera_failures.py::test_camera_frame_ownership_and_control_failures"
+    ],
+    "platforms/esp-idf/tests/test_camera_failures.py::test_sscma_lifecycle_without_power_management": [
+      "platforms/esp-idf/components/sscma_client/tests/test_camera_failures.py::test_sscma_lifecycle_without_power_management"
+    ],
+    "platforms/esp-idf/tests/test_camera_failures.py::test_sscma_resource_power_and_stream_failures": [
+      "platforms/esp-idf/components/sscma_client/tests/test_camera_failures.py::test_sscma_resource_power_and_stream_failures"
+    ],
+    "platforms/esp-idf/tests/test_driver_failures.py::test_watcher_audio_initialization_failure_and_retry": [
+      "platforms/esp-idf/targets/sensecap-watcher/tests/test_driver_failures.py::test_watcher_audio_initialization_failure_and_retry"
+    ],
+    "platforms/esp-idf/tests/test_driver_failures.py::test_watcher_battery_initialization_failure_and_retry": [
+      "platforms/esp-idf/targets/sensecap-watcher/tests/test_driver_failures.py::test_watcher_battery_initialization_failure_and_retry"
+    ],
+    "platforms/esp-idf/tests/test_driver_failures.py::test_watcher_camera_board_initialization_failure_and_retry": [
+      "platforms/esp-idf/targets/sensecap-watcher/tests/test_driver_failures.py::test_watcher_camera_board_initialization_failure_and_retry"
+    ],
+    "platforms/esp-idf/tests/test_driver_failures.py::test_watcher_display_initialization_failure_and_retry": [
+      "platforms/esp-idf/targets/sensecap-watcher/tests/test_driver_failures.py::test_watcher_display_initialization_failure_and_retry"
+    ],
+    "platforms/esp-idf/tests/test_driver_failures.py::test_watcher_expander_concurrent_operations_and_mutex_failure": [
+      "platforms/esp-idf/targets/sensecap-watcher/tests/test_driver_failures.py::test_watcher_expander_concurrent_operations_and_mutex_failure"
+    ],
+    "platforms/esp-idf/tests/test_driver_failures.py::test_watcher_expander_initialization_failure_and_retry": [
+      "platforms/esp-idf/targets/sensecap-watcher/tests/test_driver_failures.py::test_watcher_expander_initialization_failure_and_retry"
+    ],
+    "platforms/esp-idf/tests/test_driver_failures.py::test_watcher_expander_write_error_resynchronizes_shadows": [
+      "platforms/esp-idf/targets/sensecap-watcher/tests/test_driver_failures.py::test_watcher_expander_write_error_resynchronizes_shadows"
+    ],
+    "platforms/esp-idf/tests/test_driver_failures.py::test_watcher_knob_initialization_failure_and_retry": [
+      "platforms/esp-idf/targets/sensecap-watcher/tests/test_driver_failures.py::test_watcher_knob_initialization_failure_and_retry"
+    ],
+    "platforms/esp-idf/tests/test_driver_failures.py::test_watcher_storage_path_ownership_and_failure": [
+      "platforms/esp-idf/targets/sensecap-watcher/tests/test_driver_failures.py::test_watcher_storage_path_ownership_and_failure"
+    ],
+    "platforms/esp-idf/tests/test_driver_failures.py::test_watcher_touch_allocation_boot_timeout_and_retry": [
+      "platforms/esp-idf/targets/sensecap-watcher/tests/test_driver_failures.py::test_watcher_touch_allocation_boot_timeout_and_retry"
+    ],
+    "platforms/esp-idf/tests/test_io_contracts.py::test_e100x_epaper_ownership_busy_errors_and_retry": [
+      "platforms/esp-idf/targets/reterminal-e1001/tests/test_io_contracts.py::test_e100x_epaper_ownership_busy_errors_and_retry",
+      "platforms/esp-idf/targets/reterminal-e1002/tests/test_io_contracts.py::test_e100x_epaper_ownership_busy_errors_and_retry"
+    ],
+    "platforms/esp-idf/tests/test_io_contracts.py::test_e100x_microphone_lifetime_timeout_and_partial_reads": [
+      "platforms/esp-idf/targets/reterminal-e1001/tests/test_io_contracts.py::test_e100x_microphone_lifetime_timeout_and_partial_reads",
+      "platforms/esp-idf/targets/reterminal-e1002/tests/test_io_contracts.py::test_e100x_microphone_lifetime_timeout_and_partial_reads"
+    ],
+    "platforms/esp-idf/tests/test_io_contracts.py::test_indicator_display_readiness_bitbang_errors_and_ownership": [
+      "platforms/esp-idf/targets/sensecap-indicator/tests/test_io_contracts.py::test_indicator_display_readiness_bitbang_errors_and_ownership"
+    ],
+    "platforms/esp-idf/tests/test_io_contracts.py::test_indicator_expander_rollback_shadow_recovery_and_concurrent_pins": [
+      "platforms/esp-idf/targets/sensecap-indicator/tests/test_io_contracts.py::test_indicator_expander_rollback_shadow_recovery_and_concurrent_pins"
+    ],
+    "platforms/esp-idf/tests/test_io_contracts.py::test_respeaker_audio_lifetime_duplex_controls_and_timeouts": [
+      "platforms/esp-idf/targets/respeaker-lite/tests/test_io_contracts.py::test_respeaker_audio_lifetime_duplex_controls_and_timeouts"
+    ],
+    "platforms/esp-idf/tests/test_io_contracts.py::test_sticky_epaper_ownership_gray4_and_full_recovery": [
+      "platforms/esp-idf/targets/reterminal-sticky/tests/test_io_contracts.py::test_sticky_epaper_ownership_gray4_and_full_recovery"
+    ],
+    "platforms/esp-idf/tests/test_io_contracts.py::test_xiao_display_readiness_rollback_and_dma_buffer_lifetime": [
+      "platforms/esp-idf/targets/xiao-s3-147/tests/test_io_contracts.py::test_xiao_display_readiness_rollback_and_dma_buffer_lifetime"
+    ],
+    "platforms/esp-idf/tests/test_io_contracts.py::test_xiao_microphone_lifetime_timeout_and_partial_reads": [
+      "platforms/esp-idf/targets/xiao-s3-147/tests/test_io_contracts.py::test_xiao_microphone_lifetime_timeout_and_partial_reads"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_buttons_single_task_callback_lifetime_and_debounce": [
+      "platforms/esp-idf/targets/reterminal-e1001/tests/test_peripheral_contracts.py::test_buttons_single_task_callback_lifetime_and_debounce",
+      "platforms/esp-idf/targets/reterminal-e1002/tests/test_peripheral_contracts.py::test_buttons_single_task_callback_lifetime_and_debounce",
+      "platforms/esp-idf/targets/reterminal-sticky/tests/test_peripheral_contracts.py::test_buttons_single_task_callback_lifetime_and_debounce",
+      "platforms/esp-idf/targets/xiao-s3-147/tests/test_peripheral_contracts.py::test_buttons_single_task_callback_lifetime_and_debounce",
+      "platforms/esp-idf/targets/respeaker-lite/tests/test_peripheral_contracts.py::test_buttons_single_task_callback_lifetime_and_debounce",
+      "platforms/esp-idf/targets/sensecap-indicator/tests/test_peripheral_contracts.py::test_buttons_single_task_callback_lifetime_and_debounce"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_e100x_battery_readiness_calibration_and_power_recovery": [
+      "platforms/esp-idf/targets/reterminal-e1001/tests/test_peripheral_contracts.py::test_e100x_battery_readiness_calibration_and_power_recovery",
+      "platforms/esp-idf/targets/reterminal-e1002/tests/test_peripheral_contracts.py::test_e100x_battery_readiness_calibration_and_power_recovery"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_e100x_buzzer_readiness_timing_and_errors": [
+      "platforms/esp-idf/targets/reterminal-e1001/tests/test_peripheral_contracts.py::test_e100x_buzzer_readiness_timing_and_errors",
+      "platforms/esp-idf/targets/reterminal-e1002/tests/test_peripheral_contracts.py::test_e100x_buzzer_readiness_timing_and_errors"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_e100x_charger_lifetime_outputs_and_transaction_serialization": [
+      "platforms/esp-idf/targets/reterminal-e1001/tests/test_peripheral_contracts.py::test_e100x_charger_lifetime_outputs_and_transaction_serialization",
+      "platforms/esp-idf/targets/reterminal-e1002/tests/test_peripheral_contracts.py::test_e100x_charger_lifetime_outputs_and_transaction_serialization"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_e100x_example_keeps_sampling_in_one_owner_task": [
+      "platforms/esp-idf/targets/reterminal-e1001/tests/test_peripheral_contracts.py::test_e100x_example_keeps_sampling_in_one_owner_task",
+      "platforms/esp-idf/targets/reterminal-e1002/tests/test_peripheral_contracts.py::test_e100x_example_keeps_sampling_in_one_owner_task"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_e100x_led_readiness_and_idempotence": [
+      "platforms/esp-idf/targets/reterminal-e1001/tests/test_peripheral_contracts.py::test_e100x_led_readiness_and_idempotence",
+      "platforms/esp-idf/targets/reterminal-e1002/tests/test_peripheral_contracts.py::test_e100x_led_readiness_and_idempotence"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_e100x_storage_owns_paths_and_invalidates_uncertain_unmounts": [
+      "platforms/esp-idf/targets/reterminal-e1001/tests/test_peripheral_contracts.py::test_e100x_storage_owns_paths_and_invalidates_uncertain_unmounts",
+      "platforms/esp-idf/targets/reterminal-e1002/tests/test_peripheral_contracts.py::test_e100x_storage_owns_paths_and_invalidates_uncertain_unmounts"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_indicator_example_notifies_display_owner": [
+      "platforms/esp-idf/targets/sensecap-indicator/tests/test_peripheral_contracts.py::test_indicator_example_notifies_display_owner"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_indicator_touch_readiness_candidates_and_io_ownership": [
+      "platforms/esp-idf/targets/sensecap-indicator/tests/test_peripheral_contracts.py::test_indicator_touch_readiness_candidates_and_io_ownership"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_respeaker_example_keeps_rmt_out_of_callback": [
+      "platforms/esp-idf/targets/respeaker-lite/tests/test_peripheral_contracts.py::test_respeaker_example_keeps_rmt_out_of_callback"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_respeaker_led_owns_one_strip_and_propagates_errors": [
+      "platforms/esp-idf/targets/respeaker-lite/tests/test_peripheral_contracts.py::test_respeaker_led_owns_one_strip_and_propagates_errors"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_touch_examples_do_not_publish_failed_samples": [
+      "platforms/esp-idf/targets/sensecap-indicator/tests/test_peripheral_contracts.py::test_touch_examples_do_not_publish_failed_samples",
+      "platforms/esp-idf/targets/sensecap-watcher/tests/test_peripheral_contracts.py::test_touch_examples_do_not_publish_failed_samples"
+    ],
+    "platforms/esp-idf/tests/test_peripheral_contracts.py::test_xiao_example_queues_backlight_operations": [
+      "platforms/esp-idf/targets/xiao-s3-147/tests/test_peripheral_contracts.py::test_xiao_example_queues_backlight_operations"
+    ],
+    "platforms/esp-idf/tests/test_sensor_drivers.py::test_e100x_sensor_bindings_preserve_configuration_and_lifetime": [
+      "platforms/esp-idf/targets/reterminal-e1001/tests/test_sensor_drivers.py::test_e100x_sensor_bindings_preserve_configuration_and_lifetime",
+      "platforms/esp-idf/targets/reterminal-e1002/tests/test_sensor_drivers.py::test_e100x_sensor_bindings_preserve_configuration_and_lifetime"
+    ],
+    "platforms/esp-idf/tests/test_sensor_drivers.py::test_pcf8563_protocol_failures_and_calendar_contract": [
+      "platforms/esp-idf/components/codecraft_pcf8563/tests/test_sensor_drivers.py::test_pcf8563_protocol_failures_and_calendar_contract"
+    ],
+    "platforms/esp-idf/tests/test_sensor_drivers.py::test_sht4x_protocol_failures_and_concurrent_reads": [
+      "platforms/esp-idf/components/codecraft_sht4x/tests/test_sensor_drivers.py::test_sht4x_protocol_failures_and_concurrent_reads"
+    ],
+    "platforms/esp-idf/tests/test_sensor_drivers.py::test_sticky_sensor_binding_preserves_i2c1_and_serializes_reads": [
+      "platforms/esp-idf/targets/reterminal-sticky/tests/test_sensor_drivers.py::test_sticky_sensor_binding_preserves_i2c1_and_serializes_reads"
+    ],
+    "skills/_cloud/tests/test_release.py::test_failed_backup_restoration_retains_the_original_package_for_recovery": [
+      "skills/_cloud/tests/test_release.py::test_failed_backup_restoration_retains_the_original_package_for_recovery"
+    ],
+    "skills/_cloud/tests/test_release.py::test_failed_candidate_cli_prevents_any_apply_changes": [
+      "skills/_cloud/tests/test_release.py::test_failed_candidate_cli_prevents_any_apply_changes"
+    ],
+    "skills/_cloud/tests/test_release.py::test_identical_inputs_produce_identical_complete_candidates_without_writes": [
+      "skills/_cloud/tests/test_release.py::test_identical_inputs_produce_identical_complete_candidates_without_writes"
+    ],
+    "skills/_cloud/tests/test_release.py::test_invalid_or_tampered_version_plans_cannot_bypass_release_validation": [
+      "skills/_cloud/tests/test_release.py::test_invalid_or_tampered_version_plans_cannot_bypass_release_validation"
+    ],
+    "skills/_cloud/tests/test_release.py::test_mid_apply_failure_restores_all_packages_and_provider_metadata": [
+      "skills/_cloud/tests/test_release.py::test_mid_apply_failure_restores_all_packages_and_provider_metadata"
+    ],
+    "skills/_cloud/tests/test_release.py::test_reviewed_documentation_release_executes_isolated_clients_and_preserves_provenance": [
+      "skills/_cloud/tests/test_release.py::test_reviewed_documentation_release_executes_isolated_clients_and_preserves_provenance"
+    ],
+    "skills/_cloud/tests/test_release.py::test_shared_helper_candidates_classify_runtime_and_do_not_rewrite_distributions": [
+      "skills/_cloud/tests/test_release.py::test_shared_helper_candidates_classify_runtime_and_do_not_rewrite_distributions"
+    ],
+    "skills/_cloud/tests/test_release.py::test_wrong_review_digest_candidate_drift_and_source_drift_fail_before_execution": [
+      "skills/_cloud/tests/test_release.py::test_wrong_review_digest_candidate_drift_and_source_drift_fail_before_execution"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_adapter_or_contract_changes_invalidate_evidence_but_log_additions_do_not": [
+      "skills/_shared/tests/test_architecture.py::test_adapter_or_contract_changes_invalidate_evidence_but_log_additions_do_not"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_an_additional_provider_does_not_modify_core_resolver": [
+      "skills/_shared/tests/test_architecture.py::test_an_additional_provider_does_not_modify_core_resolver"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_cloud_cli_needs_no_hardware_catalog_but_checks_explicit_targets": [
+      "skills/_shared/tests/test_architecture.py::test_cloud_cli_needs_no_hardware_catalog_but_checks_explicit_targets"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_cloud_provider_projection_exports_selected_standalone_skill": [
+      "skills/_shared/tests/test_architecture.py::test_cloud_provider_projection_exports_selected_standalone_skill"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_context_and_import_choose_declared_example_scope": [
+      "skills/_shared/tests/test_architecture.py::test_context_and_import_choose_declared_example_scope"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_cycle_and_external_symlink_dependencies_are_rejected": [
+      "skills/_shared/tests/test_architecture.py::test_cycle_and_external_symlink_dependencies_are_rejected"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_device_target_backlinks_cannot_be_registered_twice": [
+      "skills/_shared/tests/test_architecture.py::test_device_target_backlinks_cannot_be_registered_twice"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_evidence_requires_all_native_cases_and_export_from_identical_sources": [
+      "skills/_shared/tests/test_architecture.py::test_evidence_requires_all_native_cases_and_export_from_identical_sources"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_llm_requires_exactly_one_input_and_stream_handoff_keeps_done_semantics": [
+      "skills/_shared/tests/test_architecture.py::test_llm_requires_exactly_one_input_and_stream_handoff_keeps_done_semantics"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_lock_checks_actual_toolchain_before_any_build": [
+      "skills/_shared/tests/test_architecture.py::test_lock_checks_actual_toolchain_before_any_build"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_malformed_cloud_selections_are_not_silently_dropped": [
+      "skills/_shared/tests/test_architecture.py::test_malformed_cloud_selections_are_not_silently_dropped"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_native_adapter_is_part_of_context_export_and_evidence_identity": [
+      "skills/_shared/tests/test_architecture.py::test_native_adapter_is_part_of_context_export_and_evidence_identity"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_native_parameter_types_and_resource_limits_remain_explicit": [
+      "skills/_shared/tests/test_architecture.py::test_native_parameter_types_and_resource_limits_remain_explicit"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_numeric_facts_cannot_contradict_their_source_or_localization": [
+      "skills/_shared/tests/test_architecture.py::test_numeric_facts_cannot_contradict_their_source_or_localization"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_peripherals_are_target_interfaces_never_cloud_capabilities": [
+      "skills/_shared/tests/test_architecture.py::test_peripherals_are_target_interfaces_never_cloud_capabilities"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_physical_verification_requires_revision_and_complete_named_cases": [
+      "skills/_shared/tests/test_architecture.py::test_physical_verification_requires_revision_and_complete_named_cases"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_pinned_skill_binary_assets_survive_context_export_lock_and_package": [
+      "skills/_shared/tests/test_architecture.py::test_pinned_skill_binary_assets_survive_context_export_lock_and_package"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_private_environment_files_are_not_locked_or_packaged": [
+      "skills/_shared/tests/test_architecture.py::test_private_environment_files_are_not_locked_or_packaged"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_project_edits_have_explicit_relocking_without_losing_origin": [
+      "skills/_shared/tests/test_architecture.py::test_project_edits_have_explicit_relocking_without_losing_origin"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_protocol_rejects_wrong_source_identity_partial_or_duplicate_cases": [
+      "skills/_shared/tests/test_architecture.py::test_protocol_rejects_wrong_source_identity_partial_or_duplicate_cases"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_provider_rejects_ambiguous_or_malformed_cli_mappings": [
+      "skills/_shared/tests/test_architecture.py::test_provider_rejects_ambiguous_or_malformed_cli_mappings"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_repository_skill_mutations_and_missing_export_dependencies_are_rejected": [
+      "skills/_shared/tests/test_architecture.py::test_repository_skill_mutations_and_missing_export_dependencies_are_rejected"
+    ],
+    "skills/codecraft-validate/tests/test_architecture.py::test_transitive_cross_layer_dependency_is_exported_never_filtered": [
+      "skills/_shared/tests/test_architecture.py::test_transitive_cross_layer_dependency_is_exported_never_filtered"
+    ],
+    "skills/codecraft-validate/tests/test_cloud_skills.py::test_cli_check_ignores_unpinned_installed_bytecode": [
+      "skills/_cloud/tests/test_installation.py::test_cli_check_ignores_unpinned_installed_bytecode"
+    ],
+    "skills/codecraft-validate/tests/test_cloud_skills.py::test_cloud_helpers_match_the_maintained_source": [
+      "skills/_cloud/tests/test_installation.py::test_cloud_helpers_match_the_maintained_source"
+    ],
+    "skills/codecraft-validate/tests/test_cloud_skills.py::test_installed_skill_inventory_rejects_extra_missing_and_symlink_files": [
+      "skills/_cloud/tests/test_installation.py::test_installed_skill_inventory_rejects_extra_missing_and_symlink_files"
+    ],
+    "skills/codecraft-validate/tests/test_cloud_skills.py::test_standalone_cloud_skills_against_loopback_services": [
+      "skills/_cloud/tests/test_protocol.py::SkillTests.test_archive_failure_retains_generated_file",
+      "skills/_cloud/tests/test_protocol.py::SkillTests.test_image_generation_and_stable_download",
+      "skills/_cloud/tests/test_protocol.py::SkillTests.test_incomplete_sse_is_not_retried",
+      "skills/_cloud/tests/test_protocol.py::SkillTests.test_llm_json_and_sse",
+      "skills/_cloud/tests/test_protocol.py::SkillTests.test_redirect_and_error_body_do_not_leak_credentials",
+      "skills/_cloud/tests/test_protocol.py::SkillTests.test_text_limits_reject_before_network",
+      "skills/_cloud/tests/test_protocol.py::SkillTests.test_transcription_and_local_duration_validation",
+      "skills/_cloud/tests/test_protocol.py::SkillTests.test_tts_archive_and_existing_output",
+      "skills/_cloud/tests/test_protocol.py::SkillTests.test_unsafe_origins_reject_before_network"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_adapter_exit_and_result_must_agree": [
+      "skills/_shared/tests/test_contracts.py::test_adapter_exit_and_result_must_agree"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_asset_manifest_cannot_claim_false_dimensions_or_alpha": [
+      "skills/_shared/tests/test_contracts.py::test_asset_manifest_cannot_claim_false_dimensions_or_alpha"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_context_contains_native_sources_and_only_selected_workflow": [
+      "skills/_shared/tests/test_contracts.py::test_context_contains_native_sources_and_only_selected_workflow"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_discovery_keeps_unknowns_and_rejects_unavailable_combinations": [
+      "skills/_shared/tests/test_contracts.py::test_discovery_keeps_unknowns_and_rejects_unavailable_combinations"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_documentation_policy_requires_readme_pairs_and_rejects_engineering_translations": [
+      "skills/codecraft-validate/tests/test_documentation.py::test_documentation_policy_requires_readme_pairs_and_rejects_engineering_translations"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_duplicate_json_keys_and_unknown_schema_versions_are_rejected": [
+      "skills/_shared/tests/test_contracts.py::test_duplicate_json_keys_and_unknown_schema_versions_are_rejected"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_generation_cannot_reintroduce_translated_engineering_documents": [
+      "skills/_shared/tests/test_contracts.py::test_generation_cannot_reintroduce_translated_engineering_documents"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_generation_is_stable_and_detects_metadata_changes": [
+      "skills/_shared/tests/test_contracts.py::test_generation_is_stable_and_detects_metadata_changes"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_incomplete_physical_evidence_is_rejected": [
+      "skills/_shared/tests/test_contracts.py::test_incomplete_physical_evidence_is_rejected"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_missing_executable_is_not_a_success_or_unsupported_hardware": [
+      "skills/_shared/tests/test_contracts.py::test_missing_executable_is_not_a_success_or_unsupported_hardware"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_missing_reference_and_nonreciprocal_binding_fail": [
+      "skills/_shared/tests/test_contracts.py::test_missing_reference_and_nonreciprocal_binding_fail"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_orphan_native_targets_are_not_silently_omitted": [
+      "skills/_shared/tests/test_contracts.py::test_orphan_native_targets_are_not_silently_omitted"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_package_refuses_unlocked_source_files": [
+      "skills/_shared/tests/test_contracts.py::test_package_refuses_unlocked_source_files"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_project_is_portable_reproducible_and_refuses_overwrite": [
+      "skills/_shared/tests/test_contracts.py::test_project_is_portable_reproducible_and_refuses_overwrite"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_source_paths_cannot_escape_the_repository": [
+      "skills/_shared/tests/test_contracts.py::test_source_paths_cannot_escape_the_repository"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_unsupported_operation_returns_typed_status_and_no_device_write": [
+      "skills/_shared/tests/test_contracts.py::test_unsupported_operation_returns_typed_status_and_no_device_write"
+    ],
+    "skills/codecraft-validate/tests/test_contracts.py::test_verified_claim_cannot_be_inserted_into_capability_manifest": [
+      "skills/_shared/tests/test_contracts.py::test_verified_claim_cannot_be_inserted_into_capability_manifest"
+    ],
+    "skills/codecraft-validate/tests/test_domain_dependencies.py::test_cloud_domain_import_and_discovery_do_not_import_hardware_catalog": [
+      "skills/_shared/tests/test_domain_dependencies.py::test_cloud_domain_import_and_discovery_do_not_import_hardware_catalog"
+    ],
+    "skills/codecraft-validate/tests/test_domain_dependencies.py::test_registry_is_in_cloud_native_and_export_source_closures": [
+      "skills/_shared/tests/test_domain_dependencies.py::test_registry_is_in_cloud_native_and_export_source_closures"
+    ],
+    "skills/codecraft-validate/tests/test_domain_dependencies.py::test_target_lookup_is_injected_and_public_composition_stays_lazy": [
+      "skills/_shared/tests/test_domain_dependencies.py::test_target_lookup_is_injected_and_public_composition_stays_lazy"
+    ],
+    "skills/codecraft-validate/tests/test_public_cli.py::test_exported_public_entry_builds_with_the_same_lock_and_keeps_legacy_build_entry": [
+      "skills/codecraft-validate/tests/test_public_cli.py::test_exported_public_entry_builds_with_the_same_lock_and_keeps_legacy_build_entry"
+    ],
+    "skills/codecraft-validate/tests/test_public_cli.py::test_exported_public_entry_preserves_not_run_and_not_supported_exit_statuses": [
+      "skills/codecraft-validate/tests/test_public_cli.py::test_exported_public_entry_preserves_not_run_and_not_supported_exit_statuses"
+    ],
+    "skills/codecraft-validate/tests/test_public_cli.py::test_public_and_legacy_cli_preserve_json_errors_help_and_working_directory_independence": [
+      "skills/codecraft-validate/tests/test_public_cli.py::test_public_and_legacy_cli_preserve_json_errors_help_and_working_directory_independence"
+    ],
+    "skills/codecraft-validate/tests/test_public_cli.py::test_public_entry_routes_candidate_preparation_without_loading_a_hardware_catalog": [
+      "skills/codecraft-validate/tests/test_public_cli.py::test_public_entry_routes_candidate_preparation_without_loading_a_hardware_catalog"
+    ]
+  },
+  "notes": [
+    "One wrapper previously aggregated nine unittest methods; all nine are now direct cases.",
+    "Cross-Target native functions are split by board; all 772 scenario invocations are preserved."
+  ],
+  "preserved_host_cases": 156,
+  "schema_version": 1,
+  "scope": "OPT-13 ownership migration; historical IDs map to current test IDs"
+}

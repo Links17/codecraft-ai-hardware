@@ -1,0 +1,108 @@
+{
+  "api_execution": "not_run",
+  "capability_contract_checks": [
+    {
+      "name": "capabilities/llm/tests/test_contract.py::test_handoff_uses_pinned_repository_skill_and_never_runs_it",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "name": "capabilities/llm/tests/test_contract.py::test_input_configuration_version_and_secret_values_are_rejected",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "name": "capabilities/llm/tests/test_contract.py::test_prepared_prompt_and_messages_match_actual_client_contract",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "name": "capabilities/llm/tests/test_contract.py::test_prepared_stream_requires_done_and_preserves_failure_status",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "name": "capabilities/llm/tests/test_contract.py::test_unknown_environment_resources_and_negative_network_constraints",
+      "reason": "",
+      "status": "passed"
+    }
+  ],
+  "contract_source_digest": "f161651cedb5d9a4f56f2b2899b221da72a0617820dfa6b834e5de419367f406",
+  "contract_version": "1.0.0",
+  "cross_layer_regressions": [
+    {
+      "name": "skills/codecraft-validate/tests/test_architecture.py::test_cloud_cli_needs_no_hardware_catalog_but_checks_explicit_targets",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "name": "skills/codecraft-validate/tests/test_architecture.py::test_malformed_cloud_selections_are_not_silently_dropped",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "name": "skills/codecraft-validate/tests/test_architecture.py::test_pinned_skill_binary_assets_survive_context_export_lock_and_package",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "name": "skills/codecraft-validate/tests/test_architecture.py::test_provider_rejects_ambiguous_or_malformed_cli_mappings",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "name": "skills/codecraft-validate/tests/test_cloud_skills.py::test_cli_check_ignores_unpinned_installed_bytecode",
+      "reason": "",
+      "status": "passed"
+    },
+    {
+      "name": "skills/codecraft-validate/tests/test_cloud_skills.py::test_installed_skill_inventory_rejects_extra_missing_and_symlink_files",
+      "reason": "",
+      "status": "passed"
+    }
+  ],
+  "device_verification": "not_run",
+  "kind": "repository-skill-contract",
+  "limitations": [
+    "Actual standalone clients exercised through prepared mappings against loopback fixtures only.",
+    "No real credentials, billing, live service or device integration verification.",
+    "Existing uncommitted import provenance is retained; package checksums identify the source."
+  ],
+  "log": "capabilities/llm/tests/evidence/capability-review-b354b57ab1697191.log",
+  "log_sha256": "83bc4668169fa9fc74b61eb01caac7425090fc3f2b2b275277a52166caeab7f3",
+  "offline_cli_check": {
+    "api_execution": "not_run",
+    "name": "llm/codecraft-cloud",
+    "reason": "Pinned package and offline CLI argument contract checked.",
+    "source_digest": "4732d11d4fb6164a1976c6ecda2933ea5a7320377cd793f8ab8aa29a83d11099",
+    "status": "passed"
+  },
+  "offline_protocol_cases": 9,
+  "package_path": "skills/codecraft-llm",
+  "package_source_digest": "4732d11d4fb6164a1976c6ecda2933ea5a7320377cd793f8ab8aa29a83d11099",
+  "provider": "llm/codecraft-cloud",
+  "recorded_at": "2026-11-17T15:58:03.171514+00:00",
+  "schema_version": 2,
+  "source": {
+    "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",
+    "dirty": true,
+    "import_manifest": "skills/_cloud/import.json",
+    "paths": [
+      "skills/codecraft-llm/SKILL.md",
+      "skills/codecraft-llm/references/api.md",
+      "skills/codecraft-llm/scripts/llm.py"
+    ],
+    "repository": "codecraft-gadgets-cloud",
+    "snapshot_date": "2026-11-17"
+  },
+  "test_sources": {
+    "capabilities/_tests/skill_harness.py": "5019d8687851d6e666d1751f4b77599d8ea1769c65a0f47bba1d160c81986bdf",
+    "capabilities/llm/tests/test_contract.py": "7ef3b5db11e4637bd5767c5630487c19dac61b3cfe24057c2486c110bc295f98",
+    "skills/_cloud/test_skills.py": "39eabb3ff603d24e777b2f8f4192db50adc73b50448dcd32994d37466c5b1f1d",
+    "skills/_shared/codecraft.py": "1960ebfc0f32847a4505bfc61b87efb3cda028ec3fed24a5fd659e14eacee9ce",
+    "skills/_shared/model.py": "fd2fb660166e7de5a1cd61b353ab870edbd458a34ef17de26089f35a3c54a33c",
+    "skills/_shared/project.py": "a9e56769b6ced9fa122569b1498229aed1fd36c3f8d2710a9016184ddcc29a4d",
+    "skills/codecraft-validate/tests/test_architecture.py": "b0b82ba018d33e4bb8c06bef918b05cb11e6695fd55df1e69196d8b9d88475cb",
+    "skills/codecraft-validate/tests/test_cloud_skills.py": "ef4ebd069b7c050620345a752acfb06e579f69f9ae0af73bf4ab7bcace09f3d0"
+  }
+}

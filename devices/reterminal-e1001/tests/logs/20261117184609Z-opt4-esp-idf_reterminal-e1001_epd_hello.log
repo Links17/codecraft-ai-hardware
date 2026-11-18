@@ -1,0 +1,32 @@
+Executing action: all (aliases: build)
+Running ninja in directory <repository>/.codecraft/builds/reterminal-e1001/epd_hello
+Executing "ninja all"...
+[1/12] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/bsp_mic.c.obj
+[2/12] Building C object esp-idf/main/CMakeFiles/__idf_main.dir/main.c.obj
+[3/12] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/bsp_epd.c.obj
+[4/12] Performing build step for 'bootloader'
+[1/1] cd <repository>/.codecraft/builds/reterminal-e1001/epd_hello/bootloader && <home>/.espressif/python_env/idf6.0_py3.14_env/bin/python <home>/esp/esp-idf-v6.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 <repository>/.codecraft/builds/reterminal-e1001/epd_hello/bootloader/bootloader.bin
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[5/12] No install step for 'bootloader'
+[6/12] Completed 'bootloader'
+[7/12] Linking C static library esp-idf/bsp/libbsp.a
+[8/12] Linking C static library esp-idf/main/libmain.a
+[9/12] Generating esp-idf/esp_system/ld/sections.ld
+[10/12] Linking CXX executable epd_hello.elf
+[11/12] Generating binary image from built executable
+esptool v5.3.1
+Creating ESP32-S3 image...
+Merged 3 ELF sections.
+Successfully created ESP32-S3 image.
+Generated <repository>/.codecraft/builds/reterminal-e1001/epd_hello/epd_hello.bin
+[12/12] cd <repository>/.codecraft/builds/reterminal-e1001/epd_hello && <home>/.espressif/python_env/idf6.0_py3.14_env/bin/python <home>/esp/esp-idf-v6.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app <repository>/.codecraft/builds/reterminal-e1001/epd_hello/partition_table/partition-table.bin <repository>/.codecraft/builds/reterminal-e1001/epd_hello/epd_hello.bin
+epd_hello.bin binary size 0x35790 bytes. Smallest app partition is 0x100000 bytes. 0xca870 bytes (79%) free.
+
+Project build complete. To flash, run:
+ idf.py flash
+or
+ idf.py -p PORT flash
+or
+ python -m esptool --chip esp32s3 -b 460800 --before default-reset --after hard-reset write-flash --flash-mode dio --flash-size 32MB --flash-freq 80m 0x0 .codecraft/builds/reterminal-e1001/epd_hello/bootloader/bootloader.bin 0x8000 .codecraft/builds/reterminal-e1001/epd_hello/partition_table/partition-table.bin 0x10000 .codecraft/builds/reterminal-e1001/epd_hello/epd_hello.bin
+or from the "<repository>/.codecraft/builds/reterminal-e1001/epd_hello" directory
+ python -m esptool --chip esp32s3 -b 460800 --before default-reset --after hard-reset write-flash "@flash_args"

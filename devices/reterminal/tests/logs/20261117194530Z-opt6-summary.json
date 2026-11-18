@@ -1,0 +1,115 @@
+{
+  "api_execution": "not_run",
+  "cases": [
+    {
+      "name": "linux/reterminal/buttons_evdev",
+      "reason": "Python syntax checked; device behavior not executed.",
+      "status": "passed",
+      "toolchain": "3.14.6"
+    },
+    {
+      "name": "linux/reterminal/header_gpio_blink",
+      "reason": "Python syntax checked; device behavior not executed.",
+      "status": "passed",
+      "toolchain": "3.14.6"
+    },
+    {
+      "name": "linux/reterminal/leds_buzzer_sysfs",
+      "reason": "Python syntax checked; device behavior not executed.",
+      "status": "passed",
+      "toolchain": "3.14.6"
+    },
+    {
+      "name": "linux/reterminal/sensors_sysfs",
+      "reason": "Python syntax checked; device behavior not executed.",
+      "status": "passed",
+      "toolchain": "3.14.6"
+    },
+    {
+      "command": [
+        "dtc",
+        "-@",
+        "-I",
+        "dts",
+        "-O",
+        "dtb",
+        "-o",
+        "<repository>/.codecraft/builds/reterminal/reterminal-peripherals-overlay.dtbo",
+        "<repository>/platforms/linux/targets/reterminal/overlays/reterminal-peripherals-overlay.dts"
+      ],
+      "elapsed_seconds": 0.01,
+      "exit_code": 0,
+      "log": "devices/reterminal/tests/logs/20261117194530Z-opt6-linux_reterminal_overlay_reterminal-peripherals-overlay.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "linux/reterminal/overlay/reterminal-peripherals-overlay",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "Version: DTC 1.8.1"
+    }
+  ],
+  "device_verification": "not_run",
+  "generated_project": {
+    "build_results": [
+      {
+        "name": "linux/reterminal/buttons_evdev",
+        "reason": "Python syntax checked; device behavior not executed.",
+        "status": "passed",
+        "toolchain": "3.14.6"
+      },
+      {
+        "command": [
+          "dtc",
+          "-@",
+          "-I",
+          "dts",
+          "-O",
+          "dtb",
+          "-o",
+          "<temporary-path>",
+          "<temporary-path>"
+        ],
+        "elapsed_seconds": 0.01,
+        "exit_code": 0,
+        "log": "devices/reterminal/tests/logs/20261117194530Z-opt6-generated-project.log",
+        "log_sha256": "7ee7fdd381c05fc4bdb26a78ae1efd872c1b9028cbb53b7f203d80156f768642",
+        "name": "linux/reterminal/overlay/reterminal-peripherals-overlay",
+        "reason": "",
+        "status": "passed",
+        "toolchain": "Version: DTC 1.8.1"
+      }
+    ],
+    "example": "buttons_evdev",
+    "log": "devices/reterminal/tests/logs/20261117194530Z-opt6-generated-project.log",
+    "log_sha256": "7ee7fdd381c05fc4bdb26a78ae1efd872c1b9028cbb53b7f203d80156f768642",
+    "name": "linux/reterminal/generated-project",
+    "origin_source_digest": "a7eee6389acd20e3000f5fe17c12a06d40a5b71c8a48b163f6175540d59fddfd",
+    "provenance": "passed",
+    "reason": "Clean external import, locked environment, native build and provenance check.",
+    "source_digest": "f6e558e1d9d28e930a0b4b01f8e39fd329d4b9e0451688904e528c2217bdf700",
+    "status": "passed",
+    "toolchain": {
+      "dtc": "Version: DTC 1.8.1",
+      "python": "3.14.6",
+      "scope": "host syntax and overlay compilation; device OS/kernel not verified",
+      "status": "passed"
+    }
+  },
+  "receipt": {
+    "expected_cases": [
+      "linux/reterminal/buttons_evdev",
+      "linux/reterminal/header_gpio_blink",
+      "linux/reterminal/leds_buzzer_sysfs",
+      "linux/reterminal/sensors_sysfs",
+      "linux/reterminal/overlay/reterminal-peripherals-overlay"
+    ],
+    "source_digest": "a7eee6389acd20e3000f5fe17c12a06d40a5b71c8a48b163f6175540d59fddfd",
+    "toolchain": {
+      "dtc": "Version: DTC 1.8.1",
+      "python": "3.14.6",
+      "scope": "host syntax and overlay compilation; device OS/kernel not verified",
+      "status": "passed"
+    }
+  },
+  "scope": "software only",
+  "target": "linux/reterminal"
+}

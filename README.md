@@ -1,89 +1,39 @@
-<p align="right">
-  <strong>English</strong> · <a href="README.zh_CN.md">简体中文</a>
-</p>
+<p align="right"><strong>English</strong> · <a href="README.zh_CN.md">简体中文</a></p>
 
 # CodeCraft AI Hardware
 
-An open hardware capability reference repository built for AI-agent-driven
-development on Seeed devices.
+A development reference for Seeed devices: device knowledge, native BSPs and examples, cloud Skill contracts, and standalone Agent workflows. The four cloud API client Skills are maintained under [skills/](skills/README.md); the cloud service and account infrastructure remain external.
 
-This is a **pure hardware** repository: board support packages (BSPs),
-standalone demos, verified hardware facts, and agent-facing development
-guidance. It contains no cloud runtime, device pairing, or account
-system — firmware built from this repository runs entirely on the device.
+Start with [AGENTS.md](AGENTS.md). [Devices](devices/AGENTS.md) and the [native interface matrix](docs/inventory.md) are generated from their source manifests.
 
-## Who this is for
+## Quick start
 
-- **AI coding agents** (Codex, Muse Code, Claude Code, ...): the repository
-  is structured so an agent can find authoritative hardware facts, follow a
-  task routing table, and pass a validation gate without human hand-holding.
-  Start at [AGENTS.md](AGENTS.md).
-- **Human developers**: use the per-board examples as a starting point for
-  your own firmware. Start at [docs/README.md](docs/README.md).
-
-## CodeCraft Hub
-
-[CodeCraft Hub](https://test-sensecraft.seeed.cc/wiki/en/sensecraft-cli/)
-is a cloud platform for sharing firmware. It lives outside this
-repository.
-
-To upload firmware for online flashing or sharing, use
-[`@seeed-studio/sensecraft-cli`](https://test-sensecraft.seeed.cc/wiki/en/sensecraft-cli/)
-to generate and upload it. Install and usage are documented on that
-page, including the agent skill that ships with the CLI. AI agents
-follow the CodeCraft Hub section in [AGENTS.md](AGENTS.md) and do this
-only when asked to upload, flash online, or share firmware.
-
-## Repository layout
-
-| Path | Contents |
-|---|---|
-| `esp32/boards/<board>/` | Per-board sdkconfig, board-level BSP, and standalone examples for ESP32 targets |
-| `esp32/components/` | Components shared across ESP32 boards |
-| `linux/boards/<board>/` | Linux-based devices (device tree overlays, GPIO maps, Python/C demos) |
-| `arduino/boards/<board>/` | Arduino-framework boards (arduino-cli sketches); see `arduino/AGENTS.md` |
-| `skills/` | Agent skills governing develop / setup / build / device-test / debug workflows |
-| `docs/` | Hardware guides, vendor-source citations, development conventions |
-| `tools/validate.sh` | The validation gate every delivery must pass |
-| `tests/` | Host-side unit tests for board-independent logic |
-
-## Supported boards
-
-| Board | Platform | BSP scope |
-|---|---|---|
-| SenseCAP Watcher | <code>ESP32&#8209;S3</code> | camera, display, touch, audio, knob, battery, microSD |
-| SenseCAP Indicator | <code>ESP32&#8209;S3</code> | RGB display, IO expander, button, touch |
-| reTerminal E1001 | <code>ESP32&#8209;S3</code> | EPD, keys, LED, SHT4x, battery, RTC, charger, buzzer, PDM mic, microSD |
-| reTerminal E1002 | <code>ESP32&#8209;S3</code> | E1001 BSP with the Spectra 6 color panel |
-| reSpeaker Lite (XIAO ESP32-S3) | <code>ESP32&#8209;S3</code> | XMOS I2S audio, BOOT button, WS2812 LED |
-| reTerminal Sticky | <code>ESP32&#8209;S3</code> | SSD1677 EPD, keys, SHT4x |
-| XIAO ESP32-S3 1.47" Touch Display | <code>ESP32&#8209;S3</code> | JD9853A LCD, buttons, PDM mic |
-| reTerminal (CM4) | <code>Linux</code> | peripherals overlay + demos: buttons, LEDs, buzzer, sensors, RTC |
-
-All ESP32-S3 boards are build-verified on ESP-IDF v6.0.2; on-device
-validation is pending for every board.
-
-See [docs/inventory.md](docs/inventory.md) for the capability matrix and
-extraction sources, [docs/on-device-validation.md](docs/on-device-validation.md)
-for the field-test checklist, and
-[docs/vendor-sources.md](docs/vendor-sources.md) for
-the authoritative upstream reference for every board.
-
-## Validation gate
-
-```bash
-./tools/validate.sh --static           # repository checks + host tests
-./tools/validate.sh --esp32 <board>    # ESP-IDF build for one board
-./tools/validate.sh --linux <board>    # Linux board checks
-./tools/validate.sh                    # complete gate
+```sh
+python3 codecraft.py catalog
+python3 codecraft.py discover --interface display
+python3 codecraft.py cloud-catalog
+python3 codecraft.py check-cloud-skills
+python3 codecraft.py resolve-capability --capability asr
+python3 codecraft.py context --target esp-idf/reterminal-e1001
+python3 codecraft.py validate --static
+python3 codecraft.py validate --target esp-idf/reterminal-e1001
 ```
 
-## Contributing
+Activate the Target's declared toolchain before building. To create a portable project outside this repository:
 
-See [`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md) for commit, pull
-request, and issue conventions. AI agents start at [AGENTS.md](AGENTS.md).
+```sh
+python3 codecraft.py new --target esp-idf/reterminal-e1001 --example epd_hello --output /tmp/my-e1001-project
+python3 codecraft.py build-project /tmp/my-e1001-project
+```
 
-## License and attribution
+The output directory must not already exist. `project.yaml` records selections; `codecraft.lock` records imported file hashes, the repository revision and toolchain. Generated projects and build logs are not committed.
 
-Apache License 2.0, see [LICENSE](LICENSE). Third-party attributions are in
-[NOTICE](NOTICE).
+The public entry is also included in new exports; from an application directory use `python3 codecraft.py build-project .`. The previous `python3 skills/_shared/codecraft.py` entry and bundled `python3 build.py [--lock]` remain compatible. No global CLI installation is needed. Standalone cloud Skills remain independent; maintain package releases through the [candidate workflow](docs/development/skill-releases.md).
+
+## Structure and contribution
+
+`devices/` owns facts and sources; `platforms/` owns native implementations; `capabilities/` owns contracts consumed by cloud Skills; `skills/` owns orchestration, scripts and contract tests. Read [architecture and migration](docs/architecture/overview.md) and [contribution rules](.github/CONTRIBUTING.md).
+
+After source metadata changes, run `python3 codecraft.py generate`, then `python3 codecraft.py generate --check`. CI and discovery use the same Target records. The complete software gate is `python3 codecraft.py validate`; physical verification is separate and remains unperformed until real evidence is recorded.
+
+Apache License 2.0. Retained third-party attributions: [NOTICE](NOTICE).

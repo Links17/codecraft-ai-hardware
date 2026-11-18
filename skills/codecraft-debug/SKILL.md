@@ -1,16 +1,10 @@
 ---
 name: codecraft-debug
-description: Diagnose build, flash, and on-device failures in codecraft-ai-hardware. Use when a build fails, a flash fails, or hardware behavior contradicts the code.
+description: Diagnose hardware build, configuration and on-device failures.
 ---
 
 # Debug
 
-1. Reproduce with the smallest command; capture the complete error text.
-2. Classify: environment (wrong IDF version), configuration (sdkconfig,
-   partition table), code, wiring/hardware, or a hardware-fact error.
-3. For suspected hardware-fact errors, check the fact priority chain from
-   the root `AGENTS.md` — vendor spec and measured results outrank README
-   and demo code. Record any correction in the board README.
-4. Change one variable at a time; re-run the failing check after each change.
-5. Do not flash experimental fixes to a device without the authorization
-   required by `codecraft-device-test`.
+Reproduce the smallest failing check and classify environment, configuration, code, hardware, or source conflict. Read the declared Target and device context. Change one variable at a time and rerun the failed check. Missing tools are not unsupported hardware. Do not flash experimental fixes without the current session authorization.
+
+All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.

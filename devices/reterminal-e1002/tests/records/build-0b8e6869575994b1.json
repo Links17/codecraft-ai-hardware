@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "target": "esp-idf/reterminal-e1002",
+  "kind": "build",
+  "repository_commit": "5928372c43a01491bbe8d590940d5b0b9b65265d",
+  "repository_dirty": true,
+  "source_digest": "354f753dc4d0bd540fd5cb86bd45ba549579c1b773d402fc997e8b33c1fa334b",
+  "revision": "unknown",
+  "toolchain": {
+    "declared": {
+      "name": "esp-idf",
+      "version": "6.0.2",
+      "target": "esp32s3",
+      "source": "devices/reterminal-e1002/reference/hardware.md"
+    },
+    "observed": [
+      "\"ESP-IDF v6.0.2-dirty\""
+    ],
+    "sdk_commit": "7101770dc6db2667b3c477cc31365dd1acd6db4e"
+  },
+  "command": [
+    "python3",
+    "skills/_shared/codecraft.py",
+    "validate",
+    "--report",
+    ".codecraft/validation/complete.json"
+  ],
+  "environment": {
+    "system": "Darwin",
+    "release": "25.5.0",
+    "machine": "arm64",
+    "python": "3.14.6"
+  },
+  "result": "passed",
+  "limitations": [
+    "No physical device was flashed or tested. Hardware revision remains unknown.",
+    "The retained log contains structured command/results; verbose compiler logs remain local in .codecraft/logs.",
+    "Observed SDK is ESP-IDF v6.0.2-dirty; this is not evidence of an unmodified upstream SDK."
+  ],
+  "operator": "Codex local execution",
+  "log": "devices/reterminal-e1002/tests/logs/migration-2026-11-17.json",
+  "log_sha256": "e2ef8d99799c63adda934d5b4a051416b477e2e5d82a3faa62156e6a2011b02b",
+  "executed_at": "2026-11-17T13:40:21.537675+00:00",
+  "cases": [
+    "esp-idf/reterminal-e1002/board_health",
+    "esp-idf/reterminal-e1002/epd_hello",
+    "esp-idf/reterminal-e1002/sdcard_test",
+    "esp-idf/reterminal-e1002/sht4x_battery",
+    "esp-idf/reterminal-e1002/generated-project"
+  ],
+  "examples": [
+    "board_health",
+    "epd_hello",
+    "sdcard_test",
+    "sht4x_battery"
+  ],
+  "generated_project": {
+    "status": "passed",
+    "example": "board_health",
+    "provenance": "passed",
+    "source_digest": "5daeb5f31fe30edb05ba2b8f747cd8e976aed84cd60c4b018fb32ebc53b7150e"
+  }
+}

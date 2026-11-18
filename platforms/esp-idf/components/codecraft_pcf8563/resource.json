@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "inputs": [
+    "platforms/esp-idf/components/codecraft_pcf8563/CMakeLists.txt",
+    "platforms/esp-idf/components/codecraft_pcf8563/include/codecraft_pcf8563.h",
+    "platforms/esp-idf/components/codecraft_pcf8563/src/codecraft_pcf8563.c"
+  ],
+  "kind": "resource",
+  "schema_version": 1
+}

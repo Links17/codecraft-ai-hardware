@@ -1,0 +1,53 @@
+{
+  "adapter": "platforms/linux/adapter.py",
+  "ci": {
+    "runner": "ubuntu-latest"
+  },
+  "id": "linux",
+  "operations": {
+    "build": {
+      "reason": "Implemented by the repository CLI and this platform adapter.",
+      "supported": true
+    },
+    "configure": {
+      "reason": "Configuration remains native to the software stack; project generation preserves its configuration files.",
+      "supported": false
+    },
+    "device-test": {
+      "reason": "Physical observations require an operator; record evidence with the repository evidence command.",
+      "supported": false
+    },
+    "flash": {
+      "reason": "Deployment is an explicitly authorized workflow in codecraft-device-test, not an automatic validation operation.",
+      "supported": false
+    },
+    "generate": {
+      "reason": "Implemented by the repository CLI and this platform adapter.",
+      "supported": true
+    },
+    "host-test": {
+      "reason": "Implemented by the repository CLI and this platform adapter.",
+      "supported": true
+    },
+    "inspect": {
+      "reason": "Implemented by the repository CLI and this platform adapter.",
+      "supported": true
+    },
+    "logs": {
+      "reason": "Use the platform native monitor after selecting the actual device; no generic device connection is configured.",
+      "supported": false
+    },
+    "package": {
+      "reason": "Implemented by the repository CLI and this platform adapter.",
+      "supported": true
+    },
+    "simulate": {
+      "reason": "No simulator is registered for this platform. Simulation cannot substitute for physical evidence.",
+      "supported": false
+    }
+  },
+  "runtime": [
+    "skills/_shared/resource.json"
+  ],
+  "schema_version": 2
+}

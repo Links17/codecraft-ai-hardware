@@ -1,7 +1,3 @@
-<p align="right">
-  <strong>English</strong> · <a href="CONTRIBUTING.zh_CN.md">简体中文</a>
-</p>
-
 # Contributing to CodeCraft AI Hardware
 
 This is a pure hardware capability reference repository: board support
@@ -12,7 +8,7 @@ telemetry — contributions must not introduce any of these.
 ## Before you start
 
 - **Human developers**: start at [docs/README.md](../docs/README.md) and your
-  board's README under `esp32/boards/` or `linux/boards/`.
+  device's knowledge entry under `devices/<device>/AGENTS.md` and its native Target.
 - **AI coding agents**: start at [AGENTS.md](../AGENTS.md); it is the
   mandatory entry point with the task routing table.
 - Hardware facts follow a strict source priority: vendor specifications and
@@ -39,16 +35,19 @@ telemetry — contributions must not introduce any of these.
 3. Run the validation gate before opening the PR:
 
    ```bash
-   ./tools/validate.sh --static           # repository checks + host tests
-   ./tools/validate.sh --esp32 <board>    # ESP-IDF build for the affected board
-   ./tools/validate.sh --linux <board>    # Linux board checks
+   python3 codecraft.py validate --static           # repository checks + host tests
+   python3 codecraft.py validate --target esp-idf/<board>    # ESP-IDF build for the affected board
+   python3 codecraft.py validate --target <platform>/<device> --projects
+   python3 codecraft.py validate                       # complete gate
    ```
 
 4. A successful build is not hardware validation. Pin, display, bus, and
    power changes need the board revision and observed hardware results
    before the PR is ready to merge; attach photos for display changes.
-5. Keep bilingual documentation pairs (`.md` / `.zh_CN.md`) in sync for
-   maintained documents.
+5. Keep maintained `README.md` / `README.zh_CN.md` pairs aligned. Maintain
+   all other engineering documents in English only, including Agent rules,
+   Skills, API references, plans and reports. Preserve original source evidence
+   and third-party documentation in their original language.
 
 ## Issues
 

@@ -1,0 +1,41 @@
+{
+  "api_execution": "not_run",
+  "contract_source_digest": "6b447ae32c4ad64b958da07a9fa147371dd0296fb9c67e792814c08e0d8f4837",
+  "device_verification": "not_run",
+  "external_package_digest": "59656dea8ca837fee479dfb1cd155765979b716562ad5b3e1464d332a60fa9db",
+  "kind": "external-skill-contract",
+  "limitations": [
+    "No billable cloud API was invoked.",
+    "Package source contained uncommitted files; pinned file hashes identify the reviewed contents."
+  ],
+  "offline_cli_check": {
+    "api_execution": "not_run",
+    "name": "llm/codecraft-cloud",
+    "reason": "Pinned package and offline CLI argument contract checked.",
+    "source_digest": "59656dea8ca837fee479dfb1cd155765979b716562ad5b3e1464d332a60fa9db",
+    "status": "passed"
+  },
+  "provider": "llm/codecraft-cloud",
+  "recorded_at": "2026-11-17T14:50:47.753647+00:00",
+  "schema_version": 2,
+  "source": {
+    "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",
+    "dirty": true,
+    "paths": [
+      "skills/codecraft-llm/SKILL.md",
+      "skills/codecraft-llm/references/api.md",
+      "skills/codecraft-llm/scripts/llm.py"
+    ],
+    "repository": "codecraft-gadgets-cloud",
+    "snapshot_date": "2026-11-17"
+  },
+  "upstream_tests": {
+    "cases": 9,
+    "log": "capabilities/llm/tests/evidence/upstream-offline-tests.log",
+    "log_sha256": "debff11cad3498c6f0d0d75df8431f04d0acb222c4e4caccfcc716101f06ebf4",
+    "scope": "All four independently installed external Skills against a loopback mock server",
+    "source": "tools/skills/test_skills.py",
+    "source_sha256": "39eabb3ff603d24e777b2f8f4192db50adc73b50448dcd32994d37466c5b1f1d",
+    "status": "passed"
+  }
+}

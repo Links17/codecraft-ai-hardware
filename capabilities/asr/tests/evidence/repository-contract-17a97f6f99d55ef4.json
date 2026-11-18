@@ -1,0 +1,49 @@
+{
+  "api_execution": "not_run",
+  "contract_source_digest": "8f9557ea130b655891d223ccc6773c5e4ac434392ef053f01b2626653110106e",
+  "device_verification": "not_run",
+  "import_provenance": "skills/_cloud/import.json",
+  "kind": "repository-skill-contract",
+  "limitations": [
+    "Offline contract and local package execution only; no live cloud service or device integration claim.",
+    "Original import included uncommitted files; source hashes are recorded."
+  ],
+  "offline_cli_check": {
+    "api_execution": "not_run",
+    "name": "asr/codecraft-cloud",
+    "reason": "Pinned package and offline CLI argument contract checked.",
+    "source_digest": "b018da1eea5cc9204aaba7e3e7de743a0167c08b48ce5f5373ce974dbe73de31",
+    "status": "passed"
+  },
+  "offline_tests": {
+    "cases": 9,
+    "log": "capabilities/asr/tests/evidence/repository-offline-17a97f6f99d55ef4.log",
+    "log_sha256": "9e3b7c93a9a7e7fa686ef80dabe9bd8b095f91166515594449c08b6e75cdd74c",
+    "scope": "Four standalone packages installed independently against a loopback mock service",
+    "source": "skills/_cloud/test_skills.py",
+    "source_sha256": "39eabb3ff603d24e777b2f8f4192db50adc73b50448dcd32994d37466c5b1f1d",
+    "status": "passed"
+  },
+  "package_path": "skills/codecraft-asr",
+  "package_source_digest": "b018da1eea5cc9204aaba7e3e7de743a0167c08b48ce5f5373ce974dbe73de31",
+  "provider": "asr/codecraft-cloud",
+  "recorded_at": "2026-11-17T15:29:37.294566+00:00",
+  "schema_version": 2,
+  "skill_format_check": {
+    "output": "Skill is valid!",
+    "passed": true,
+    "skill": "codecraft-asr"
+  },
+  "source": {
+    "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",
+    "dirty": true,
+    "import_manifest": "skills/_cloud/import.json",
+    "paths": [
+      "skills/codecraft-asr/SKILL.md",
+      "skills/codecraft-asr/references/api.md",
+      "skills/codecraft-asr/scripts/transcribe.py"
+    ],
+    "repository": "codecraft-gadgets-cloud",
+    "snapshot_date": "2026-11-17"
+  }
+}

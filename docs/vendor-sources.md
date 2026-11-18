@@ -1,38 +1,54 @@
-# Vendor Sources
+# Vendor source index
 
-Before adding a feature to a board (its display, codec, power chip, camera,
-sensors and so on) or porting a board, read the vendor's own code first.
-Clone the repo rather than reading it on the web, and search it. Cite the
-source of every hardware fact in a comment at the top of the file that uses
-it. Do not guess pins.
+Generated references. Read primary sources before relying on facts.
 
-This table's citation discipline is derived from the device-porting recipe in
-the imported hardware reference (`esp32/devices/AGENTS.md`, Apache 2.0).
+## reSpeaker Lite (XIAO ESP32-S3)
 
-| Board | Vendor source | Where to look |
-|---|---|---|
-| SenseCAP Watcher | [Seeed-Studio/SenseCAP-Watcher-Firmware](https://github.com/Seeed-Studio/SenseCAP-Watcher-Firmware) | `components/sensecap-watcher/` is the vendor BSP. `include/sensecap-watcher.h` has the pins for the LCD, touch, knob, IO expander, audio, battery, SD card and the Himax camera chip (driven through `components/sscma_client/`). `examples/factory_firmware/` is the firmware it ships with. xiaozhi-esp32's [sensecap-watcher board](https://github.com/78/xiaozhi-esp32/tree/main/main/boards/sensecap-watcher) is a second reference. |
-| SenseCAP Indicator | [Seeed-Solution/SenseCAP_Indicator_ESP32](https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32) (Apache 2.0, ESP-IDF 5.1.1) | `components/bsp/src/boards/sensecap_indicator_board.c` has the full pin map and TCA9535 expander map; `lcd_panel_config.c` has the ST7701S register init and bit-bang SPI channel; `Kconfig.projbuild` has PCLK/timing defaults and the GX/DX screen variants. |
-| reTerminal E1001 / E1002 | [Zephyr board definitions](https://github.com/zephyrproject-rtos/zephyr/tree/main/boards/seeed/reterminal_e1001) (`reterminal_e1001` / `reterminal_e1002`, Apache 2.0, vendor-contributed) + [E1001 V1.2 schematic](https://files.seeedstudio.com/wiki/reterminal_e10xx/res/202004307_reTerminal_E1001_V1_2_SCH_251120.pdf) (CC BY-SA 4.0) | The dts + pinctrl dtsi are the cleanest facts: key/LED GPIOs and active levels, battery ADC divider + enable, I2C addresses (SHT4x 0x44, PCF8563 0x51, SY6974B 0x6B), buzzer PWM, 32 MB flash. The schematic confirms flash size and power topology. UC8179 (E1001) and Spectra 6 (E1002) refresh sequences came from reference `esp32/main/epd_uc8179.c` / `epd_spectra6.c`. PCF8563 RTC register handling follows `zephyr:drivers/rtc/rtc_pcf8563.c`; the SY6974B charger driver follows `zephyr:drivers/charger/charger_sy6974b.c` (register map, part-ID check, reset/watchdog init) with board defaults from the dts (1000 mA / 4208 mV). |
-| reSpeaker Lite | [respeaker/reSpeaker_Lite](https://github.com/respeaker/reSpeaker_Lite) | `doc/images/pinout.png`, the I2C examples, `xmos_firmwares/`. See also Seeed wiki pages for the XIAO ESP32-S3 combination. |
-| reTerminal (CM4) | [Seeed-Studio/seeed-linux-dtoverlays](https://github.com/Seeed-Studio/seeed-linux-dtoverlays), pinned at commit `1d53c3cf2c96` | `overlays/rpi/reTerminal-overlay.dts` (file header MIT) has every peripheral fact: MCP23008 @I2C1 0x38 pin map (buttons 0/2/1/3, LEDs 4-6 active low, buzzer 7 active high), expander IRQ GPIO6, power key GPIO13, LTR-303 @0x29, LIS331DLH @0x19, PCF8563 @I2C3 0x51, I2C1 300 kHz. Display/touch need Seeed's out-of-tree modules (`modules/ili9881d`); the repo-level COPYING is GPLv2, so link rather than vendor it. |
-| reTerminal Sticky | [Sticky hardware overview](https://www.seeedstudio.com/sticky/docs/en/device-guide/hardware-overview/) + the imported hardware reference (Apache 2.0, field-verified) | reference's `reference:boards/board_reterminal_sticky.c` has the button/I2C/touch/mic/SD facts; `esp32/main/reterminal_sht4x.c` puts SHT4x on I2C1; `esp32/main/epd_ssd1677.c` (MIT) carries the SSD1677 panel pins and refresh sequence. reference's headers credit `Seeed-reTerminal-E10xx-Firmware` `factory_fw` (`main/boards/reterminal_e1005/`, `components/seeed_epaper/driver/ssd1677.c`, MIT, JoJang2u) as the original source, but that repo could not be located publicly at the time of writing, so reference's field-verified files are the citable source. |
-| XIAO ESP32-S3 1.47" Touch Display | [Seeed wiki](https://wiki.seeedstudio.com/getting_started_1.47_inch_touch_display_esp32s3/) + [Seeed-Studio/Seeed_GFX2](https://github.com/Seeed-Studio/Seeed_GFX2) (MIT) | Seeed_GFX2 has the JD9853A register sequence (`Driver_JD9853A.cpp`), the AXS5106L touch reports, and the `0519_DashBoard_147_ESP32` PDM example. reference's field-verified `reference:boards/board_seeed_xiao_s3_147.c` + `esp32/devices/seeed-xiao-s3-147.md` have the complete pin table and the USB-console constraint (UART0 pins taken by SD CS and touch INT). |
-| XIAO ESP32-S3 (module-level) | [Seeed-Studio/esp-idf or wiki](https://wiki.seeedstudio.com/xiao_esp32s3_getting_started/) | Module pinout, PSRAM mode, antenna notes. |
+[References](../devices/respeaker-lite/reference/README.md)
 
-## Reference firmware worth reading
+- [Source 1](https://github.com/respeaker/reSpeaker_Lite)
 
-- [78/xiaozhi-esp32](https://github.com/78/xiaozhi-esp32) — community AI
-  firmware with per-board drivers for several Seeed targets; a useful second
-  opinion when vendor docs and measured behavior disagree.
-- the imported hardware reference `esp32/devices/` — sdkconfig overlays and board
-  docs with field-tested facts (e.g. flash modes, PSRAM modes, button GPIOs)
-  already verified on hardware. Apache 2.0.
+## reTerminal (CM4)
 
-## Conflict resolution
+[References](../devices/reterminal/reference/README.md)
 
-When sources disagree, apply the priority from the root `AGENTS.md`:
-vendor specifications and measured results first, then the board's pins
-header, then BSP implementation, then guides, then demo code. Record the
-conflict and its resolution in the board README so the next agent does not
-re-litigate it.
+- [Source 1](https://github.com/Seeed-Studio/seeed-linux-dtoverlays/tree/1d53c3cf2c96)
+
+## reTerminal E1001
+
+[References](../devices/reterminal-e1001/reference/README.md)
+
+- [Source 1](https://github.com/zephyrproject-rtos/zephyr/tree/main/boards/seeed/reterminal_e1001)
+- [Source 2](https://files.seeedstudio.com/wiki/reterminal_e10xx/res/202004307_reTerminal_E1001_V1_2_SCH_251120.pdf)
+
+## reTerminal E1002
+
+[References](../devices/reterminal-e1002/reference/README.md)
+
+- [Source 1](https://github.com/zephyrproject-rtos/zephyr/tree/main/boards/seeed/reterminal_e1001)
+- [Source 2](https://files.seeedstudio.com/wiki/reterminal_e10xx/res/202004307_reTerminal_E1001_V1_2_SCH_251120.pdf)
+
+## reTerminal Sticky
+
+[References](../devices/reterminal-sticky/reference/README.md)
+
+- [Source 1](https://www.seeedstudio.com/sticky/docs/en/device-guide/hardware-overview/)
+
+## SenseCAP Indicator
+
+[References](../devices/sensecap-indicator/reference/README.md)
+
+- [Source 1](https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32)
+
+## SenseCAP Watcher
+
+[References](../devices/sensecap-watcher/reference/README.md)
+
+- [Source 1](https://github.com/Seeed-Studio/SenseCAP-Watcher-Firmware)
+
+## XIAO ESP32-S3 1.47-inch Touch Display
+
+[References](../devices/xiao-s3-147/reference/README.md)
+
+- [Source 1](https://wiki.seeedstudio.com/getting_started_1.47_inch_touch_display_esp32s3/)
+- [Source 2](https://github.com/Seeed-Studio/Seeed_GFX2)

@@ -1,0 +1,36 @@
+Executing action: all (aliases: build)
+Running ninja in directory <repository>/.codecraft/builds/sensecap-watcher/display_color_bars
+Executing "ninja all"...
+[1/16] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/bsp_knob.c.obj
+[2/16] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/bsp_battery.c.obj
+[3/16] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/bsp_io_expander.c.obj
+[4/16] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/bsp_camera.c.obj
+[5/16] Performing build step for 'bootloader'
+[1/1] cd <repository>/.codecraft/builds/sensecap-watcher/display_color_bars/bootloader && <home>/.espressif/python_env/idf6.0_py3.14_env/bin/python <home>/esp/esp-idf-v6.0.2/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 <repository>/.codecraft/builds/sensecap-watcher/display_color_bars/bootloader/bootloader.bin
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[6/16] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/bsp_sdcard.c.obj
+[7/16] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/bsp_audio.c.obj
+[8/16] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/bsp_touch.c.obj
+[9/16] Building C object esp-idf/bsp/CMakeFiles/__idf_bsp.dir/bsp_display.c.obj
+[10/16] No install step for 'bootloader'
+[11/16] Completed 'bootloader'
+[12/16] Linking C static library esp-idf/bsp/libbsp.a
+[13/16] Generating esp-idf/esp_system/ld/sections.ld
+[14/16] Linking CXX executable display_color_bars.elf
+[15/16] Generating binary image from built executable
+esptool v5.3.1
+Creating ESP32-S3 image...
+Merged 3 ELF sections.
+Successfully created ESP32-S3 image.
+Generated <repository>/.codecraft/builds/sensecap-watcher/display_color_bars/display_color_bars.bin
+[16/16] cd <repository>/.codecraft/builds/sensecap-watcher/display_color_bars && <home>/.espressif/python_env/idf6.0_py3.14_env/bin/python <home>/esp/esp-idf-v6.0.2/components/partition_table/check_sizes.py --offset 0x8000 partition --type app <repository>/.codecraft/builds/sensecap-watcher/display_color_bars/partition_table/partition-table.bin <repository>/.codecraft/builds/sensecap-watcher/display_color_bars/display_color_bars.bin
+display_color_bars.bin binary size 0x41710 bytes. Smallest app partition is 0x100000 bytes. 0xbe8f0 bytes (74%) free.
+
+Project build complete. To flash, run:
+ idf.py flash
+or
+ idf.py -p PORT flash
+or
+ python -m esptool --chip esp32s3 -b 460800 --before default-reset --after hard-reset write-flash --flash-mode dio --flash-size 32MB --flash-freq 80m 0x0 .codecraft/builds/sensecap-watcher/display_color_bars/bootloader/bootloader.bin 0x8000 .codecraft/builds/sensecap-watcher/display_color_bars/partition_table/partition-table.bin 0x10000 .codecraft/builds/sensecap-watcher/display_color_bars/display_color_bars.bin
+or from the "<repository>/.codecraft/builds/sensecap-watcher/display_color_bars" directory
+ python -m esptool --chip esp32s3 -b 460800 --before default-reset --after hard-reset write-flash "@flash_args"

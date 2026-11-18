@@ -1,0 +1,225 @@
+{
+  "cases": [
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/audio_tone",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/audio_tone",
+        "build"
+      ],
+      "elapsed_seconds": 0.95,
+      "exit_code": 0,
+      "log": "devices/sensecap-watcher/tests/logs/20261117T145332Z-v2-esp-idf_sensecap-watcher_audio_tone.log",
+      "log_sha256": "34cf105833f7cdf27bb9b771e121174ff6f161d2b278405d1ea40e0b4f029c78",
+      "name": "esp-idf/sensecap-watcher/audio_tone",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/battery_status",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/battery_status",
+        "build"
+      ],
+      "elapsed_seconds": 0.94,
+      "exit_code": 0,
+      "log": "devices/sensecap-watcher/tests/logs/20261117T145332Z-v2-esp-idf_sensecap-watcher_battery_status.log",
+      "log_sha256": "556eac56c3c00406a37ad0d1296f7c7c0a4d1394de0a142321bb9e14d5de1006",
+      "name": "esp-idf/sensecap-watcher/battery_status",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/camera_capture",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/camera_capture",
+        "build"
+      ],
+      "elapsed_seconds": 0.99,
+      "exit_code": 0,
+      "log": "devices/sensecap-watcher/tests/logs/20261117T145332Z-v2-esp-idf_sensecap-watcher_camera_capture.log",
+      "log_sha256": "75510927b253a7b8cefbb11af6d2d9cb7526cba434d303371d5dc2465d740325",
+      "name": "esp-idf/sensecap-watcher/camera_capture",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/display_color_bars",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/display_color_bars",
+        "build"
+      ],
+      "elapsed_seconds": 0.94,
+      "exit_code": 0,
+      "log": "devices/sensecap-watcher/tests/logs/20261117T145332Z-v2-esp-idf_sensecap-watcher_display_color_bars.log",
+      "log_sha256": "8a57b4d220e84ed531d1986cf887585c4380e27fd772910c35bdffb8c27e49e9",
+      "name": "esp-idf/sensecap-watcher/display_color_bars",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/knob_input",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/knob_input",
+        "build"
+      ],
+      "elapsed_seconds": 0.93,
+      "exit_code": 0,
+      "log": "devices/sensecap-watcher/tests/logs/20261117T145332Z-v2-esp-idf_sensecap-watcher_knob_input.log",
+      "log_sha256": "7cd8f77bf4fbdb0e181593b4c129f34b4ca0ff8fbe7345a4725f48eb158b29f2",
+      "name": "esp-idf/sensecap-watcher/knob_input",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/mic_level",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/mic_level",
+        "build"
+      ],
+      "elapsed_seconds": 0.94,
+      "exit_code": 0,
+      "log": "devices/sensecap-watcher/tests/logs/20261117T145332Z-v2-esp-idf_sensecap-watcher_mic_level.log",
+      "log_sha256": "d73c0331159a15706d1829a4993bded6c4502ab37b5bba2f700f9ad83d0dd022",
+      "name": "esp-idf/sensecap-watcher/mic_level",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/sdcard_test",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/sdcard_test",
+        "build"
+      ],
+      "elapsed_seconds": 0.94,
+      "exit_code": 0,
+      "log": "devices/sensecap-watcher/tests/logs/20261117T145332Z-v2-esp-idf_sensecap-watcher_sdcard_test.log",
+      "log_sha256": "a05d083f984bc9c0847f9836b824f648216a869920678564afb7b2f69f6c5773",
+      "name": "esp-idf/sensecap-watcher/sdcard_test",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    },
+    {
+      "command": [
+        "idf.py",
+        "-C",
+        "<repository>/platforms/esp-idf/targets/sensecap-watcher/examples/touch_read",
+        "-B",
+        "<repository>/.codecraft/builds/sensecap-watcher/touch_read",
+        "build"
+      ],
+      "elapsed_seconds": 0.93,
+      "exit_code": 0,
+      "log": "devices/sensecap-watcher/tests/logs/20261117T145332Z-v2-esp-idf_sensecap-watcher_touch_read.log",
+      "log_sha256": "ac0c7fff55c29d71d3a91491367aadfbdb30324ddb6f31f2d640673f240d2574",
+      "name": "esp-idf/sensecap-watcher/touch_read",
+      "reason": "",
+      "status": "passed",
+      "toolchain": "ESP-IDF v6.0.2-dirty"
+    }
+  ],
+  "command": [
+    "python3",
+    "skills/_shared/codecraft.py",
+    "validate",
+    "--report",
+    "<local-report>"
+  ],
+  "environment": {
+    "host": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.6"
+  },
+  "executed_at": "2026-11-17T14:53:15.858167+00:00",
+  "generated_project": {
+    "build_results": [
+      {
+        "command": [
+          "idf.py",
+          "-C",
+          "<temporary-path>",
+          "-B",
+          "<temporary-path>",
+          "build"
+        ],
+        "elapsed_seconds": 37.06,
+        "exit_code": 0,
+        "log": ".codecraft/logs/esp-idf_sensecap-watcher_audio_tone.log",
+        "log_sha256": "709493f8d327adeff2664650785c0ba7745919b1081fa48079941bf2ec199c37",
+        "name": "esp-idf/sensecap-watcher/audio_tone",
+        "reason": "",
+        "status": "passed",
+        "toolchain": "ESP-IDF v6.0.2-dirty"
+      }
+    ],
+    "example": "audio_tone",
+    "log": "devices/sensecap-watcher/tests/logs/20261117T145332Z-v2-esp-idf_sensecap-watcher_generated-project.log",
+    "log_sha256": "8d593923919861d8af39b31ad6d98bea3b5b489999f4338cbaa5de549e2346a5",
+    "name": "esp-idf/sensecap-watcher/generated-project",
+    "origin_source_digest": "c1813110b8144b549bbd550989686c38d465416dd084cc3a6ee42e78a370ae95",
+    "provenance": "passed",
+    "reason": "Clean external import, locked environment, native build and provenance check.",
+    "source_digest": "f29458b464f660e6c81f037678c1150d5378a94c7fcf851a8df23aca2035b762",
+    "status": "passed",
+    "toolchain": {
+      "compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-15.2.0_20251204) 15.2.0",
+      "python": "3.14.6",
+      "sdk_changes_sha256": "e41f48fb348f5fb3c0629461979a2c46b1195ddef6030c758026a955a92068fc",
+      "sdk_commit": "7101770dc6db2667b3c477cc31365dd1acd6db4e",
+      "sdk_submodules": "24c60e243580c7868f4334a1ba3123481fe1aa48 components/bootloader/subproject/components/micro-ecc/micro-ecc (v1.1)\n b4b7c54b1eab6a844789b69e56322ef5736eddc8 components/bt/controller/lib_esp32 (b4b7c54)\n 6a5c0b8bfca1a2e984e89431b8ebf9b521dad5ea components/bt/controller/lib_esp32c2/esp32c2-bt-lib (heads/main)\n 0a08c4b32f3666003080b662a1a61794da24ff0f components/bt/controller/lib_esp32c3_family (heads/master)\n c328228f53fe167cc9fbd05b5bef37158f64956d components/bt/controller/lib_esp32c5/esp32c5-bt-lib (c328228)\n e7be018522c85e67c298effc8ffa7f5b84887a7b components/bt/controller/lib_esp32c6/esp32c6-bt-lib (e7be018)\n b2b8fd009c31816497d55726af297761147beb07 components/bt/controller/lib_esp32h2/esp32h2-bt-lib (b2b8fd0)\n e44762384ed104a0ebc78f134eeba5f3ab648ddc components/bt/esp_ble_mesh/lib/lib (e447623)\n 5d8b70207a6324f45d9f548ff57ec3b154afccdd components/bt/host/nimble/nimble (nimble_1_6_0_tag-428-g5d8b7020)\n eeecc49ce8af123cf8ad40efdb9673e37b56230f components/cmock/CMock (v2.5.2-2-geeecc49)\n 71b47be7c950f1bf5f7e5303779fa99a16224bb6 components/cmock/CMock/vendor/c_exception (71b47be)\n cf949f45ca6d172a177b00da21310607b97bc7a7 components/cmock/CMock/vendor/unity (cf949f4)\n 79e618f033e926d134decc6d95bb1b1850bd032c components/esp_coex/lib (79e618f)\n 59c1234e929212aec0fdda75769b759951235536 components/esp_phy/lib (59c1234)\n bb69e7e609c9a9a909ddd1ed175f36df2bd13801 components/esp_wifi/lib (bb69e7e)\n 2867f6883a12920b1969ff9624c0ab0e4185c2ce components/heap/tlsf (2867f68)\n fd432e4ee2cfb7f7f1c7eb7227e0173412e7b84e components/lwip/lwip (fd432e4)\n 6cc42afad309e861f4c07e6f106e2ab14a9cb8e5 components/mbedtls/mbedtls (6cc42af)\n 9467fb320782855dff84add294039bfa0bcbbf4b components/openthread/lib (9467fb3)\n a98813b30ae58f9a95ece680b9cc46c3874de6ea components/openthread/openthread (a98813b)\n e185d7fd85499c8ce5ca2a54f5cf8fe7dbe3f8df components/openthread/openthread/third_party/mbedtls/repo (e185d7f)\n 457996474728cb8e968ed21953b72f74d2f536b2 components/openthread/openthread/third_party/mbedtls/repo/framework (4579964)\n abc67a11c6db271bedbb9f58be85d6f4e2ea8389 components/protobuf-c/protobuf-c (abc67a1)\n ad902cadceb39d0825a97e25ecb5867641f606ba components/spiffs/spiffs (ad902ca)\n bf560290f6020737eafaa8b5cbd2177c3956c03f components/unity/unity (bf56029)",
+      "status": "passed",
+      "version": "ESP-IDF v6.0.2-dirty"
+    }
+  },
+  "kind": "build",
+  "limitations": [
+    "Software build and generated-project checks only; no hardware writes or observations.",
+    "The working tree is uncommitted; the source digest identifies the tested files.",
+    "Actual toolchain provenance is recorded, including SDK modifications where present."
+  ],
+  "log": "devices/sensecap-watcher/tests/logs/20261117T145332Z-v2-summary.json",
+  "log_sha256": "1e7827f367bf349452f40d6b599e55fc7316068a8441a30e1ab56d1038171b73",
+  "operator": "Codex: local software validation",
+  "repository_commit": "5928372c43a01491bbe8d590940d5b0b9b65265d",
+  "repository_dirty": true,
+  "result": "passed",
+  "revision": "unknown",
+  "schema_version": 2,
+  "source_digest": "c1813110b8144b549bbd550989686c38d465416dd084cc3a6ee42e78a370ae95",
+  "target": "esp-idf/sensecap-watcher",
+  "toolchain": {
+    "compiler": "xtensa-esp-elf-gcc (crosstool-NG esp-15.2.0_20251204) 15.2.0",
+    "python": "3.14.6",
+    "sdk_changes_sha256": "e41f48fb348f5fb3c0629461979a2c46b1195ddef6030c758026a955a92068fc",
+    "sdk_commit": "7101770dc6db2667b3c477cc31365dd1acd6db4e",
+    "sdk_submodules": "24c60e243580c7868f4334a1ba3123481fe1aa48 components/bootloader/subproject/components/micro-ecc/micro-ecc (v1.1)\n b4b7c54b1eab6a844789b69e56322ef5736eddc8 components/bt/controller/lib_esp32 (b4b7c54)\n 6a5c0b8bfca1a2e984e89431b8ebf9b521dad5ea components/bt/controller/lib_esp32c2/esp32c2-bt-lib (heads/main)\n 0a08c4b32f3666003080b662a1a61794da24ff0f components/bt/controller/lib_esp32c3_family (heads/master)\n c328228f53fe167cc9fbd05b5bef37158f64956d components/bt/controller/lib_esp32c5/esp32c5-bt-lib (c328228)\n e7be018522c85e67c298effc8ffa7f5b84887a7b components/bt/controller/lib_esp32c6/esp32c6-bt-lib (e7be018)\n b2b8fd009c31816497d55726af297761147beb07 components/bt/controller/lib_esp32h2/esp32h2-bt-lib (b2b8fd0)\n e44762384ed104a0ebc78f134eeba5f3ab648ddc components/bt/esp_ble_mesh/lib/lib (e447623)\n 5d8b70207a6324f45d9f548ff57ec3b154afccdd components/bt/host/nimble/nimble (nimble_1_6_0_tag-428-g5d8b7020)\n eeecc49ce8af123cf8ad40efdb9673e37b56230f components/cmock/CMock (v2.5.2-2-geeecc49)\n 71b47be7c950f1bf5f7e5303779fa99a16224bb6 components/cmock/CMock/vendor/c_exception (71b47be)\n cf949f45ca6d172a177b00da21310607b97bc7a7 components/cmock/CMock/vendor/unity (cf949f4)\n 79e618f033e926d134decc6d95bb1b1850bd032c components/esp_coex/lib (79e618f)\n 59c1234e929212aec0fdda75769b759951235536 components/esp_phy/lib (59c1234)\n bb69e7e609c9a9a909ddd1ed175f36df2bd13801 components/esp_wifi/lib (bb69e7e)\n 2867f6883a12920b1969ff9624c0ab0e4185c2ce components/heap/tlsf (2867f68)\n fd432e4ee2cfb7f7f1c7eb7227e0173412e7b84e components/lwip/lwip (fd432e4)\n 6cc42afad309e861f4c07e6f106e2ab14a9cb8e5 components/mbedtls/mbedtls (6cc42af)\n 9467fb320782855dff84add294039bfa0bcbbf4b components/openthread/lib (9467fb3)\n a98813b30ae58f9a95ece680b9cc46c3874de6ea components/openthread/openthread (a98813b)\n e185d7fd85499c8ce5ca2a54f5cf8fe7dbe3f8df components/openthread/openthread/third_party/mbedtls/repo (e185d7f)\n 457996474728cb8e968ed21953b72f74d2f536b2 components/openthread/openthread/third_party/mbedtls/repo/framework (4579964)\n abc67a11c6db271bedbb9f58be85d6f4e2ea8389 components/protobuf-c/protobuf-c (abc67a1)\n ad902cadceb39d0825a97e25ecb5867641f606ba components/spiffs/spiffs (ad902ca)\n bf560290f6020737eafaa8b5cbd2177c3956c03f components/unity/unity (bf56029)",
+    "status": "passed",
+    "version": "ESP-IDF v6.0.2-dirty"
+  }
+}
