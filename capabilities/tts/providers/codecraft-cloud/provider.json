@@ -101,13 +101,13 @@
       "SKILL.md": "e0ac2fae89e40db2fc2c964b20ba3b26194a191c001a9f76fd3c754efb409756",
       "agents/openai.yaml": "09c8c5eec270464812eb7341103767d130237191b99cb6ce869614f2bdb4974c",
       "references/api.md": "21f02b05cff569ffffb86c42570c70dfdd8ad6240f8ed30980f742f4f8d0401e",
-      "scripts/device_api.py": "d6d89608601d447950954d6cba37d5aaf215ea1b0eaf0ad2221d3039bf8cd8c0",
+      "scripts/device_api.py": "8237ecfd38c7662c8d4d6987e31c1fabb53f867900b9057704de007edea1d80b",
       "scripts/speak.py": "889a28a42c8d9fa780ee0cdf820682b75228a617bb510e154677dbc025049664"
     },
     "id": "codecraft-tts",
     "path": "skills/codecraft-tts",
     "python_minimum": "3.10",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   "source": {
     "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",

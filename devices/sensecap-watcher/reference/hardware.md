@@ -1,35 +1,26 @@
-> Imported pre-migration reference. Build claims here are historical, not current evidence. Relative code paths refer to the Target; follow the device AGENTS.md for current usage.
-
 # SenseCAP Watcher
 
-Status: **feature-complete (build-verified)** — camera, display, touch,
-audio, battery, knob and SD card all landed. Remaining: on-hardware
-verification (builds pass; electrical behavior unverified).
 
-Audio note: esp_codec_dev is pinned at 1.6.2 (needs the IDF v6
-`i2c_master` bus_handle support); the vendor-pinned 1.2.0 only drives the
-legacy I2C driver. The touch component (esp_lcd_touch_spd2010 0.0.1, kept
-at the vendor-pinned version) still `#include`s the legacy `driver/i2c.h`,
-so builds print IDF's EOL warning; it never calls the legacy API — every
-transfer goes through the esp_lcd io handle on the new bus driver.
+The audio BSP uses esp_codec_dev 1.6.2 with native IDF I2C device handles.
+The polling SPD2010 touch driver also uses raw native I2C transactions; the BSP
+owns the bus, device handle, shared display rail and reset routing.
 
-## Verified facts
+## Hardware facts
 
 - SoC: ESP32-S3, 32 MB flash, 8 MB octal PSRAM (80 MHz) with XIP
   (`SPIRAM_XIP_FROM_PSRAM`, fetch instructions + rodata).
   Source: reference `esp32/devices/sdkconfig.sensecap-watcher`.
 - Camera: Himax WiseEye2 vision coprocessor, Seeed SSCMA protocol over SPI2
   (12 MHz, mode 0), power/sync/reset on a PCA9535 IO expander (I2C0 @0x21).
-  Driver: `esp32/components/sscma_client/` (from reference `components/camera/`,
-  Apache 2.0, Meta headers retained). Board glue: `bsp/bsp_camera.c`.
+  Driver: `platforms/esp-idf/components/sscma_client/` (from reference `components/camera/`,
+  Apache 2.0, Meta headers retained). Board glue: `bsp/src/bsp_camera.c`.
   The chip is reset by power-cycling its rail (reference-verified); the vendor's
   expander reset pin stays an input.
 - LCD, touch, knob, IO expander, audio, battery and SD card pins live in the
   vendor BSP: `SenseCAP-Watcher-Firmware/components/sensecap-watcher/include/sensecap-watcher.h`
   and are transcribed with sources into `bsp/include/bsp_pins.h`.
-- Power: USB-free power-sweep methodology and on-device findings exist in
-  reference `esp32/docs/power/sensecap-watcher*.md` and `ppk2.md`; carry these
-  documents over when the power examples land.
+- Power measurements require the actual board revision, supply and workload;
+  no current source-bound power characterization is recorded.
 
 ## Vendor source
 
@@ -39,7 +30,7 @@ sensecap-watcher board is a second reference.
 
 ## BSP
 
-| Header | Capability |
+| Header | Native interface |
 |---|---|
 | `bsp_camera.h` | Himax WiseEye2 over SSCMA/SPI2: rail power, boot, JPEG capture |
 | `bsp_display.h` | SPD2010 QSPI panel (esp_lcd), backlight |
@@ -50,7 +41,7 @@ sensecap-watcher board is a second reference.
 | `bsp_sdcard.h` | microSD over SDSPI, shared SPI2 (CS=46, detect/rail on expander) |
 | `bsp_io_expander.h` | PCA9535 IO expander |
 
-Pin facts with sources: `bsp/include/bsp_pins.h`.
+Pin facts with sources: [bsp_pins.h](../../../platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_pins.h).
 
 ## Examples
 
@@ -73,31 +64,7 @@ Pin facts with sources: `bsp/include/bsp_pins.h`.
   shared SPI2 bus next to the camera; CS=GPIO46, detect on expander pin 4,
   rail on pin 8), writes and reads back a file, unmounts.
 
-Build (ESP-IDF v6.0.2):
 
-```sh
-source ~/esp/esp-idf-v6.0.2/export.sh
-cd esp32/boards/sensecap-watcher/examples/camera_capture
-idf.py build flash monitor
-```
+## Current commands and verification
 
-> **Note** — flashing erases the vendor firmware. Back it up first if you
-> want to restore it later. Measured on a retail unit (2026-10): the vendor
-> partition table sits at **0x10000** (not the usual 0x8000) with
-> `ota_0`@0x20000 (4 MB), `ota_1`@0x420000 (4 MB), plus `prod_data`/`prod_bak`
-> near 0x820000; the bootloader is at 0x1000. A full-image backup is the
-> safest option:
->
-> ```sh
-> esptool --port PORT --baud 230400 read-flash 0x0 0x2000000 watcher-factory-full-32mb.bin
-> # restore later with:
-> esptool --port PORT --baud 230400 write-flash 0x0 watcher-factory-full-32mb.bin
-> ```
->
-> This unit's backup is stored at `~/watcher-backup/watcher-factory-full-32mb.bin`.
-> High baud rates are unreliable on this USB link — stay at 230400 or below.
-
-## Remaining work
-
-1. On-hardware verification of every peripheral above (builds pass;
-   electrical behavior unverified).
+Run `python3 codecraft.py validate --target esp-idf/sensecap-watcher --projects` from the repository root. The [Target manifest](../../../platforms/esp-idf/targets/sensecap-watcher/target.json) declares exact toolchain, examples and native interface scope. The [Device acceptance plan](../tests/acceptance.json) defines physical checks. Build receipts and physical observations are separate; an exported project carries no hardware-verification claim. Hardware writes require a selected unit and explicit authorization.

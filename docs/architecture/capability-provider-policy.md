@@ -11,8 +11,7 @@ The cloud catalog imports neutral loading primitives from
 `skills/_shared/registry.py`, graph primitives from `skills/_shared/graph.py`,
 and its own schema. It never imports or constructs the hardware Catalog.
 Hardware discovery consumes the same registry primitives. The composition
-entry `model.load_cloud(root, target_lookup=None)` preserves existing callers:
-it injects a lazy hardware lookup, used only for an explicit Target. A direct
+entry `model.load_cloud(root, target_lookup=None)` injects a lazy hardware lookup, used only for an explicit Target. A direct
 `CapabilityCatalog` consumer must inject its own lookup when supplying a Target;
 an unchecked Target is rejected. No Target is needed for cloud-only work.
 
@@ -25,8 +24,8 @@ and locks therefore include the implementation that actually loads the domains.
 All four current semantic contracts and their Providers' `contract_version`
 are **2.0.0**. Their metadata container remains `schema_version: 2`. Each
 Provider's `policy` has its own `schema_version: 1` and `version: 1.0.0`.
-The standalone Skill packages remain **1.0.1**, with unchanged pinned files and
-API **v1**. These version numbers describe different boundaries.
+Standalone Skill versions and complete file inventories are pinned in each
+Provider. The current API is **v1**. These version numbers describe different boundaries.
 
 | Owner | Fields and responsibility |
 | --- | --- |
@@ -43,26 +42,10 @@ caller decision; a Provider cannot introduce an archive default.
 
 The current CodeCraft policy is derived from the pinned API reference and client
 entrypoint listed in `policy.sources`. Service declarations are not observed
-billing, measured resource bounds or live-service acceptance. No second real
-Provider has been validated by this migration.
+billing, measured resource bounds or live-service acceptance. A second real
+Provider has not been validated.
 
-## Migrating the previous contracts
-
-The 2.0.0 version identifies the metadata ownership change. Consumers must stop
-reading service-specific values from Capability `limits` and use the selected
-Provider policy or the effective schemas returned by preparation.
-
-| Previous Capability field or rule | Current owner |
-| --- | --- |
-| ASR quota per call; TTS quota per call; image quota per image; LLM token quota | `policy.billing` with status, unit, basis and amount |
-| ASR WAV/PCM/channel/sample/rate/duration/file-size limits | `policy.limits` |
-| LLM default maximum tokens | `policy.defaults.max_tokens` |
-| LLM concrete SSE `[DONE]` marker | `policy.limits.stream_requires_done`; Capability retains generic complete-stream semantics |
-| TTS WAV, text bound and normal-speed restriction | `policy.limits` |
-| TTS default voice and voice-name bound | `policy.defaults.voice` and `policy.configuration.properties.voice.maxLength` |
-| Image format, requested dimensions, prompt and file-size limits | `policy.limits` |
-| TTS/image archived-output authentication value | `policy.operations.<operation>.output` constraint on the semantic authentication field |
-| Historical image-service HTTP 502 observation | Provider limitations; it remains historical, not a current live result |
+## Policy contracts
 
 `policy.billing.status` is `declared` or `unknown`. Declared amounts are
 nonnegative accounting units, not currency; a null amount allows usage-dependent
@@ -99,8 +82,8 @@ limit keys. Capability definitions are not mutated while applying constraints.
 
 Preparation validates effective configuration and input schemas, returns effective
 input/configuration/output schemas, and maps the effective values to an argument
-array. LLM now explicitly receives `--max-tokens 256` when omitted; TTS receives
-`--voice Cherry`. These match the unchanged clients' previous defaults. Explicit
+array. LLM explicitly receives `--max-tokens 256` when omitted; TTS receives
+`--voice Cherry`. These are the approved Provider defaults. Explicit
 caller values take precedence. Execution remains `not_run`.
 
 Preparation does not open user input files, read credentials, call an API or
@@ -112,13 +95,12 @@ authorized client execution. Partial text or retained media on a failed request
 does not turn it into success. Image dimensions describe the requested size;
 offline signature checks do not verify decoded output pixel dimensions.
 
-## Existing projects and acceptance
+## Project locks and acceptance
 
-Existing exported projects retain their locked runtime, metadata and package
-bytes. They are not silently upgraded. Create a new export to adopt the 2.0.0
-contracts, or review the complete runtime/metadata migration before explicitly
-updating an application's lock. Mixing a current Provider with an older
-Capability version fails. Do not relock drift merely to make verification pass.
+Exports contain the selected runtime, metadata and complete pinned Skill package.
+Verify the lock before building or packaging. A new source or environment requires
+review and an explicit lock-project operation; a lock refresh is not a substitute
+for reviewing changes. Provider and Capability versions must match.
 
 Offline acceptance covers cloud loading with hardware imports prohibited,
 explicit Target rejection, native discovery/export, unchanged semantic-contract

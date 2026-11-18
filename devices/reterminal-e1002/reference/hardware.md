@@ -1,8 +1,5 @@
-> Imported pre-migration reference. Build claims here are historical, not current evidence. Relative code paths refer to the Target; follow the device AGENTS.md for current usage.
-
 # reTerminal E1002 (7.3" Spectra 6 color e-ink)
 
-Status: **extracted, build-verified on ESP-IDF v6.0.2** — not yet flashed to hardware.
 
 Battery-powered 800x480 six-color (black/white/yellow/red/blue/green)
 e-paper terminal: ESP32-S3R8 (8 MB octal PSRAM), 32 MB flash, SHT4x
@@ -12,7 +9,7 @@ mainboard as the E1001; only the panel differs.
 
 ## BSP
 
-| Header | Capability |
+| Header | Native interface |
 |---|---|
 | `bsp_epd.h` | Spectra 6 panel (GDEP073E01): 4 bpp framebuffer (2 px/byte, left pixel high nibble), `bsp_epd_ink_t` ink codes, `bsp_epd_set_pixel()` helper, full refreshes only (~30 s) |
 | `bsp_button.h` | green / Left / Right keys (GPIO 3/4/5, active low, debounced) |
@@ -25,7 +22,7 @@ mainboard as the E1001; only the panel differs.
 | `bsp_mic.h` | PDM microphone capture (CLK 42 / DATA 41 / EN 38) |
 | `bsp_sdcard.h` | microSD over SDSPI on SPI2 (shared with the panel), rail + card-detect |
 
-Pin facts with sources: `bsp/include/bsp_pins.h`.
+Pin facts with sources: [bsp_pins.h](../../../platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_pins.h).
 
 ## Examples
 
@@ -36,11 +33,6 @@ Pin facts with sources: `bsp/include/bsp_pins.h`.
 - `sdcard_test` — mounts the microSD slot, writes and reads back a file;
   insert a FAT-formatted card first.
 
-Build (ESP-IDF v6.0.2):
-
-```sh
-cd examples/epd_hello && idf.py build flash monitor
-```
 
 ## Notes for agents
 
@@ -52,3 +44,7 @@ cd examples/epd_hello && idf.py build flash monitor
   0 black, 1 white, 2 yellow, 3 red, 4 blue, 5 green (reference + Zephyr
   color-palette agree).
 - Board heat warms the onboard SHT4x; apply an offset in the application.
+
+## Current commands and verification
+
+Run `python3 codecraft.py validate --target esp-idf/reterminal-e1002 --projects` from the repository root. The [Target manifest](../../../platforms/esp-idf/targets/reterminal-e1002/target.json) declares exact toolchain, examples and native interface scope. The [Device acceptance plan](../tests/acceptance.json) defines physical checks. Build receipts and physical observations are separate; an exported project carries no hardware-verification claim. Hardware writes require a selected unit and explicit authorization.

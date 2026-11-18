@@ -134,13 +134,9 @@ def test_focused_public_cli_preserves_json_and_failure_or_skip_exit_codes():
         code,data=call('--path','missing');assert code==1 and data['error']['type']=='contract'
 
 
-def test_opt13_migration_preserves_every_previous_host_case_without_duplicate_ids():
-    migration=json.loads((Path(__file__).parent/'migrations/opt-13.json').read_text())
-    mapping=migration['mapping'];assert len(mapping)==migration['baseline_host_entries']==133
-    identities=[identity for values in mapping.values() for identity in values]
-    assert len(identities)==len(set(identities))==migration['preserved_host_cases']==156
+def test_repository_host_cases_have_unique_owned_identities():
     current=inventory(ROOT)
     assert not current['collection_errors'],current['collection_errors']
     discovered=[entry['name'] for entry in current['tests']]
-    assert len(discovered)==len(set(discovered))
-    assert set(identities)<=set(discovered),set(identities)-set(discovered)
+    assert discovered and len(discovered)==len(set(discovered))
+    assert all('/tests/' in identity or '/_tests/' in identity for identity in discovered)

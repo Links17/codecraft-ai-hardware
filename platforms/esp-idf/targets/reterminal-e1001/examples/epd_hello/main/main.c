@@ -23,7 +23,7 @@ static void set_pixel(uint8_t *fb, int x, int y, bool white)
 void app_main(void)
 {
     ESP_ERROR_CHECK(bsp_led_init());
-    bsp_led_set(true);
+    ESP_ERROR_CHECK(bsp_led_set(true));
 
     uint8_t *fb = heap_caps_malloc(BSP_EPD_FRAME_BYTES, MALLOC_CAP_SPIRAM);
     if (!fb) fb = malloc(BSP_EPD_FRAME_BYTES);
@@ -58,6 +58,6 @@ void app_main(void)
     ESP_LOGI(TAG, "refreshing (%u bytes)...", BSP_EPD_FRAME_BYTES);
     ESP_ERROR_CHECK(bsp_epd_update(fb, NULL, true));
     free(fb);
-    bsp_led_set(false);
+    ESP_ERROR_CHECK(bsp_led_set(false));
     ESP_LOGI(TAG, "done; the image persists with no power");
 }

@@ -166,8 +166,8 @@
   "maturity": "experimental",
   "name": "SenseCAP Indicator",
   "overview": {
-    "en": "RGB display, touch and a case button; sensor co-processor integration remains pending.",
-    "zh_CN": "RGB 显示、触摸与机身按键；传感器协处理器集成仍待实现。"
+    "en": "RGB display, touch and a case button through native examples; sensor co-processor interfaces are outside the registered Target scope.",
+    "zh_CN": "原生示例支持 RGB 显示、触摸与机身按键；传感器协处理器接口不在已登记的 Target 支持范围内。"
   },
   "physical_description": {
     "en": "unknown; revision-specific orientation and imagery have not been verified.",
@@ -177,7 +177,6 @@
     "devices/sensecap-indicator/reference/hardware.md",
     "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_pins.h",
     "devices/sensecap-indicator/reference/vendor-notes.md",
-    "devices/sensecap-indicator/reference/inventory.md",
     "devices/sensecap-indicator/tests/hardware-checklist.md",
     "devices/sensecap-indicator/reference/display-variants.md"
   ],

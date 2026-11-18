@@ -228,11 +228,12 @@
   ],
   "path": "platforms/esp-idf/targets/reterminal-sticky",
   "platform": "esp-idf",
-  "schema_version": 2,
+  "schema_version": 3,
   "toolchain": {
     "name": "esp-idf",
     "source": "devices/reterminal-sticky/reference/hardware.md",
     "target": "esp32s3",
     "version": "6.0.2"
-  }
+  },
+  "variants": {}
 }

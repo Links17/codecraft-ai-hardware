@@ -1,5 +1,5 @@
 <p align="right"><strong>English</strong> · <a href="README.zh_CN.md">简体中文</a></p>
 
-# reSpeaker Lite (XIAO ESP32-S3) sources
+# Hardware references
 
-[Imported hardware notes](hardware.md) preserve pre-migration citations and limitations. Source evidence remains in its original language when no translation existed. Use [device knowledge](../AGENTS.md) for current support. Native headers/overlays remain the source of implemented pin values.
+[Hardware facts](hardware.md) and [vendor provenance](vendor-notes.md) define source-backed knowledge. Read the [Device entry](../AGENTS.md) for current native support and verification. Native pins headers and overlays retain inline source citations.

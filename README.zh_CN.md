@@ -28,11 +28,11 @@ python3 codecraft.py build-project /tmp/my-e1001-project
 
 输出目录必须尚不存在。`project.yaml` 记录选择，`codecraft.lock` 记录导入文件摘要、仓库版本与工具链。生成项目和构建日志不提交。
 
-新导出项目也包含公共入口；在应用目录运行 `python3 codecraft.py build-project .`。旧入口 `python3 skills/_shared/codecraft.py` 与随项目提供的 `python3 build.py [--lock]` 保持兼容，无需全局安装 CLI。独立云端 Skill 仍可单独运行；包版本维护使用[候选包工作流](docs/development/skill-releases.md)。
+新导出项目也包含公共入口；在应用目录运行 `python3 codecraft.py build-project .`。无需全局安装 CLI。独立云端 Skill 仍可单独运行；包版本维护使用[候选包工作流](docs/development/skill-releases.md)。
 
 ## 结构与贡献
 
-`devices/` 负责事实和来源，`platforms/` 负责原生实现，`capabilities/` 负责云端 Skill 消费合同，`skills/` 负责流程、脚本与合同测试。阅读[架构与迁移](docs/architecture/overview.md)和[贡献规则](.github/CONTRIBUTING.md)。
+`devices/` 负责事实和来源，`platforms/` 负责原生实现，`capabilities/` 负责云端 Skill 消费合同，`skills/` 负责流程、脚本与合同测试。阅读[架构](docs/architecture/overview.md)和[贡献规则](.github/CONTRIBUTING.md)。
 
 元数据修改后执行 `python3 codecraft.py generate`，再执行 `python3 codecraft.py generate --check`。CI 与发现使用同一份 Target 记录。完整软件门禁为 `python3 codecraft.py validate`，物理验证单独记录，在获得真实证据前仍属于未执行。
 

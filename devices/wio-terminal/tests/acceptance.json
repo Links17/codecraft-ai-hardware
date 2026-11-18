@@ -1,0 +1,93 @@
+{
+  "cases": [
+    {
+      "expected": "The observed assembly matches the documented pin map and supported sensors.",
+      "id": "identity",
+      "interfaces": [],
+      "procedure": "Record board identity, observed revision, selected port and authorized write scope.",
+      "source": "devices/wio-terminal/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-motion",
+      "interfaces": [
+        "motion"
+      ],
+      "procedure": "Run accelerometer separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/wio-terminal/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-display",
+      "interfaces": [
+        "display"
+      ],
+      "procedure": "Run display_buttons separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/wio-terminal/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-input",
+      "interfaces": [
+        "input"
+      ],
+      "procedure": "Run display_buttons, light_sensor separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/wio-terminal/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-audio",
+      "interfaces": [
+        "audio"
+      ],
+      "procedure": "Run buzzer_tones, microphone_level separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/wio-terminal/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-storage",
+      "interfaces": [
+        "storage"
+      ],
+      "procedure": "Run sd_card_log separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/wio-terminal/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-ir",
+      "interfaces": [
+        "ir"
+      ],
+      "procedure": "Run ir_nec_sender separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/wio-terminal/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-gpio",
+      "interfaces": [
+        "gpio"
+      ],
+      "procedure": "Run grove_i2c_scan separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/wio-terminal/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-wireless",
+      "interfaces": [
+        "wireless"
+      ],
+      "procedure": "Run wifi_scan, ble_scan separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/wio-terminal/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "The unit returns to the documented working state.",
+      "id": "recovery",
+      "interfaces": [],
+      "procedure": "Power-cycle and rerun the selected sketch; record the startup state and any required peripherals.",
+      "source": "devices/wio-terminal/tests/hardware-checklist.md"
+    }
+  ],
+  "device": "wio-terminal",
+  "schema_version": 2,
+  "status": "not_run"
+}

@@ -16,7 +16,7 @@ def validate_log(catalog, target, path, expected):
 def validate_evidence(catalog, record, current=False):
     required = {'schema_version','target','kind','repository_commit','repository_dirty','source_digest','revision','toolchain','command','environment','result','limitations','operator','log','log_sha256','executed_at','cases'}
     require(isinstance(record, dict) and required <= record.keys(), 'Incomplete evidence record')
-    require(record['schema_version'] in (1, 2) and record['kind'] in ('build','device','simulator'), 'Unsupported evidence schema/kind')
+    require(record['schema_version'] == 2 and record['kind'] in ('build','device','simulator'), 'Unsupported evidence schema/kind')
     target = catalog.target(record['target'])
     require(record['result'] in STATUSES, 'Invalid evidence result')
     require(re.fullmatch(r'[0-9a-f]{40}', record['repository_commit']) and type(record['repository_dirty']) is bool, 'Invalid repository provenance')
@@ -26,9 +26,6 @@ def validate_evidence(catalog, record, current=False):
     for key in ('toolchain','command','environment','operator'):
         require(record[key], f'Evidence requires {key}')
     validate_log(catalog, target, record['log'], record['log_sha256'])
-    if record['schema_version'] == 1:
-        require(not current, 'Historical v1 evidence cannot certify the v2 architecture')
-        return target
     if current:
         require(record['source_digest'] == catalog.graph(target['id']).fingerprint(), 'Evidence source is stale')
     names = [case.get('name') for case in record['cases']]
@@ -37,7 +34,7 @@ def validate_evidence(catalog, record, current=False):
     require((record['result'] == 'passed') == all(case['status'] == 'passed' for case in record['cases']), 'Evidence result/cases mismatch')
     if record['kind'] == 'build':
         expected = load_adapter(catalog.root, catalog.platforms[target['platform']]).cases(catalog.root, target)
-        # Historical cases stay interpretable after a Target adds/removes examples.
+        # Source-scoped observations retain their recorded case set when the Target changes.
         if current or record['source_digest'] == catalog.graph(target['id']).fingerprint():
             require(set(names) == set(expected), 'Build evidence must cover every native case, including overlays')
         for case in record['cases']:
@@ -93,7 +90,7 @@ def support(catalog, tid):
     physical = {variant: {} for variant in (variants or {None: None})}
     for _, path, record in sorted(records):
         relative = str(path.relative_to(catalog.root))
-        if record['schema_version'] != 2 or record['source_digest'] != current_digest:
+        if record['source_digest'] != current_digest:
             state['stale_records'].append(relative)
             continue
         state['records'].append(relative)

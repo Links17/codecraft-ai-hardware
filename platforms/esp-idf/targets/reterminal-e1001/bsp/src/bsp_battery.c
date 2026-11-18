@@ -18,7 +18,6 @@
 
 static adc_oneshot_unit_handle_t s_adc;
 static adc_cali_handle_t s_cali;
-static bool s_cali_ok;
 static bool s_ready;
 static bool s_divider_fault;
 
@@ -54,10 +53,9 @@ esp_err_t bsp_battery_init(void)
         .bitwidth = ADC_BITWIDTH_12,
     };
     err = adc_cali_create_scheme_curve_fitting(&cali, &s_cali);
-    /* IDF reports NOT_SUPPORTED for missing calibration eFuse data. Preserve
-     * the existing estimate only for that case, not allocation/API errors. */
-    if (err != ESP_OK && err != ESP_ERR_NOT_SUPPORTED) goto fail;
-    s_cali_ok = err == ESP_OK;
+    /* Millivolts require the IDF calibration result; do not estimate a
+     * transfer function when calibration eFuse data is unavailable. */
+    if (err != ESP_OK) goto fail;
     s_ready = true;
     return ESP_OK;
 
@@ -89,14 +87,9 @@ esp_err_t bsp_battery_read_mv(int *mv)
     if (s_divider_fault) ESP_LOGE("bsp_battery", "divider off failed; retry read to recover");
     if (err != ESP_OK) return err;
     if (off != ESP_OK) return off;
-    int sensed = raw;
-    if (s_cali_ok) {
-        err = adc_cali_raw_to_voltage(s_cali, raw, &sensed);
-        if (err != ESP_OK) return err;
-    } else {
-        /* Uncalibrated fallback: 12-bit, 12 dB attenuation ~3.1 V full scale. */
-        sensed = raw * 3100 / 4095;
-    }
+    int sensed;
+    err = adc_cali_raw_to_voltage(s_cali, raw, &sensed);
+    if (err != ESP_OK) return err;
     *mv = sensed * VBAT_DIVIDER_NUM;
     return ESP_OK;
 }

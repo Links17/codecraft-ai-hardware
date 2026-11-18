@@ -147,7 +147,6 @@
     "devices/sensecap-watcher/reference/hardware.md",
     "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_pins.h",
     "devices/sensecap-watcher/reference/vendor-notes.md",
-    "devices/sensecap-watcher/reference/inventory.md",
     "devices/sensecap-watcher/tests/hardware-checklist.md"
   ],
   "revision": "unknown",
@@ -155,7 +154,7 @@
     "en": "Use the listed standalone examples as the supported development entry points.",
     "zh_CN": "以列出的独立示例作为受支持的开发入口。"
   },
-  "schema_version": 2,
+  "schema_version": 3,
   "unknowns": [
     {
       "en": "Physical board revision and fresh on-device verification are not recorded.",
@@ -166,6 +165,7 @@
       "zh_CN": "须阅读原始硬件来源中的待移植驱动、前置条件和已知限制。"
     }
   ],
+  "variants": {},
   "vendor_sources": [
     "https://github.com/Seeed-Studio/SenseCAP-Watcher-Firmware"
   ]

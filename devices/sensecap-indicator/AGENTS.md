@@ -4,7 +4,7 @@ Generated from device.json. Edit typed facts and regenerate; never edit this vie
 
 ## Overview
 
-RGB display, touch and a case button; sensor co-processor integration remains pending.
+RGB display, touch and a case button through native examples; sensor co-processor interfaces are outside the registered Target scope.
 
 Use the listed standalone examples as the supported development entry points.
 
@@ -92,10 +92,9 @@ No verified redistributable image is registered.
 - [hardware.md](../../devices/sensecap-indicator/reference/hardware.md)
 - [bsp_pins.h](../../platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/sensecap-indicator/reference/vendor-notes.md)
-- [inventory.md](../../devices/sensecap-indicator/reference/inventory.md)
 - [hardware-checklist.md](../../devices/sensecap-indicator/tests/hardware-checklist.md)
 - [display-variants.md](../../devices/sensecap-indicator/reference/display-variants.md)
-- [build-36b2023b9f85606d.json](../../devices/sensecap-indicator/tests/records/build-36b2023b9f85606d.json)
+- [build-4fa2274e2e872ff2.json](../../devices/sensecap-indicator/tests/records/build-4fa2274e2e872ff2.json)
 
 ## Vendor links
 

@@ -10,16 +10,18 @@ import tempfile
 import struct
 import zlib
 from unittest.mock import patch
+from types import SimpleNamespace
 
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'skills/_shared'))
-from model import Catalog, ContractError, read_json, safe_path, source_files
+from model import Catalog
+from io_utils import ContractError, read_json, safe_path, source_files
 from project import generate_project, verify_project, package_project
 from render import generate, paired, views
-from codecraft import run_target, record_evidence, check_documentation
-from runtime import command
+from cli import record_evidence, check_documentation
+from runtime import command, run_target, load_adapter
 from evidence import validate_evidence
-from model import digest, target_digest
+from io_utils import digest
 
 
 @contextmanager
@@ -125,9 +127,23 @@ def test_project_is_portable_reproducible_and_refuses_overwrite():
         assert (a/'project.yaml').is_file() and (a/'codecraft.lock').is_file()
         assert (a/'README.zh_CN.md').is_file() and (a/'AGENTS.md').is_file()
         assert not [p for p in a.rglob('*.zh_CN.md') if p.name!='README.zh_CN.md']
-        (a/'build.py').write_text('# deliberately modified\n')
-        assert verify_project(a)['drift']==['build.py']
+        (a/'codecraft.py').write_text('# deliberately modified\n')
+        assert verify_project(a)['drift']==['codecraft.py']
         rejected(lambda:package_project(a,Path(folder)/'bad.zip'),'differs from its current lock')
+
+
+def test_exported_documentation_resolves_without_the_reference_checkout():
+    catalog=Catalog(ROOT)
+    with tempfile.TemporaryDirectory(prefix='codecraft-export-docs-') as folder:
+        for tid,target in catalog.targets.items():
+            native=load_adapter(ROOT,catalog.platforms[target['platform']])
+            adapter=SimpleNamespace(validate_target=native.validate_target,
+                                    probe=lambda root,target: {'status':'not_run','reason':'Documentation test only'})
+            output=Path(folder)/target['device']
+            with patch('project.load_adapter',return_value=adapter):
+                generate_project(catalog,tid,target['examples'][0],output)
+            check_documentation(output)
+            assert verify_project(output)['status']=='passed'
 
 
 def test_missing_executable_is_not_a_success_or_unsupported_hardware():

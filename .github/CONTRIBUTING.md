@@ -1,9 +1,10 @@
 # Contributing to CodeCraft AI Hardware
 
-This is a pure hardware capability reference repository: board support
-packages, standalone examples, and verified hardware facts for Seeed devices.
-There is deliberately no cloud runtime, device pairing, account system, or
-telemetry — contributions must not introduce any of these.
+This repository owns Seeed device knowledge, native Targets and board support,
+cloud Skill contracts, and development workflows. Standalone cloud clients live
+in their Skill packages; cloud servers, pairing, account management and telemetry
+infrastructure remain external. Each change belongs to its Device, Platform,
+Capability or Skill owner.
 
 ## Before you start
 
@@ -28,7 +29,8 @@ telemetry — contributions must not introduce any of these.
 
 ## Pull requests
 
-1. Fork the repository and create your branch from `main`.
+1. Create a contribution branch named `feat/<version>/<goal>`, for example
+   `feat/v0.1/hardware-architecture-refactor`, from the agreed base.
 2. Fill in [`.github/PULL_REQUEST_TEMPLATE.md`](PULL_REQUEST_TEMPLATE.md).
    Report static checks, per-board builds, and on-device verification
    separately; list unperformed hardware work under `Unverified`.

@@ -15,7 +15,7 @@ def run_cases(source, suite_name, cases):
     assert compiler, 'Native BSP host tests require a C compiler (cc)'
     with tempfile.TemporaryDirectory(prefix='codecraft-display-host-') as folder:
         executable = str(Path(folder)/'display-test')
-        flags = ['-Dcalloc=test_calloc','-Dfree=test_free','-Wno-unused-parameter'] if source=='bsp_touch.c' else []
+        flags = []
         if source=='bsp_io_expander.c': flags += ['-pthread']
         if source=='bsp_sdcard.c': flags += ['-Dmalloc=test_malloc','-Dfree=test_free']
         run = subprocess.run([compiler,'-std=c11','-Wall','-Wextra','-Werror',*flags,
@@ -50,9 +50,9 @@ def test_watcher_expander_concurrent_operations_and_mutex_failure():
     run_cases('bsp_io_expander.c','expander',[['concurrent'],['lock-timeout'],['10']])
 
 
-def test_watcher_touch_allocation_boot_timeout_and_retry():
-    cases=[['timeout'],['late-ready'],['0']]+[[str(step)] for step in range(1,10)]
-    cases += [['9',str(step)] for step in (10,11,12)]
+def test_watcher_touch_device_ownership_boot_timeout_and_retry():
+    cases=[['timeout'],['late-ready'],['0']]+[[str(step)] for step in range(1,9)]
+    cases += [['8',str(step)] for step in (9,10,11)]
     run_cases('bsp_touch.c','touch',cases)
 
 

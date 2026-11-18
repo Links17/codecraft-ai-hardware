@@ -111,7 +111,8 @@
   "inputs": [
     "platforms/esp-idf/targets/sensecap-watcher/bsp/CMakeLists.txt",
     "platforms/esp-idf/targets/sensecap-watcher/bsp/idf_component.yml",
-    "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_pins.h"
+    "platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_pins.h",
+    "platforms/esp-idf/targets/sensecap-watcher/tools/merge_image.py"
   ],
   "interfaces": [
     {
@@ -649,11 +650,12 @@
   ],
   "path": "platforms/esp-idf/targets/sensecap-watcher",
   "platform": "esp-idf",
-  "schema_version": 2,
+  "schema_version": 3,
   "toolchain": {
     "name": "esp-idf",
     "source": "devices/sensecap-watcher/reference/hardware.md",
     "target": "esp32s3",
     "version": "6.0.2"
-  }
+  },
+  "variants": {}
 }

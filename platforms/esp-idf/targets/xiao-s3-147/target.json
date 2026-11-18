@@ -254,11 +254,12 @@
   ],
   "path": "platforms/esp-idf/targets/xiao-s3-147",
   "platform": "esp-idf",
-  "schema_version": 2,
+  "schema_version": 3,
   "toolchain": {
     "name": "esp-idf",
     "source": "devices/xiao-s3-147/reference/hardware.md",
     "target": "esp32s3",
     "version": "6.0.2"
-  }
+  },
+  "variants": {}
 }

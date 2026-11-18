@@ -6,7 +6,7 @@ ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'skills/_shared'))
 from io_utils import ContractError
 from render import paired
-from codecraft import check_documentation
+from cli import check_documentation
 
 
 def rejected(fn, contains):

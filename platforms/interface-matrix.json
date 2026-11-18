@@ -1,6 +1,130 @@
 {
   "bindings": [
     {
+      "configuration": {},
+      "interface": "motion",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "accelerometer": "platforms/arduino/targets/grove-beginner-kit/examples/accelerometer/accelerometer.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/grove-beginner-kit",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "environment",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "air_pressure_spa06": "platforms/arduino/targets/grove-beginner-kit/examples/air_pressure_spa06/air_pressure_spa06.ino",
+            "light_sensor": "platforms/arduino/targets/grove-beginner-kit/examples/light_sensor/light_sensor.ino",
+            "temperature_humidity_dht20": "platforms/arduino/targets/grove-beginner-kit/examples/temperature_humidity_dht20/temperature_humidity_dht20.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/grove-beginner-kit",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "gpio",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "i2c_scan": "platforms/arduino/targets/grove-beginner-kit/examples/i2c_scan/i2c_scan.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/grove-beginner-kit",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "input",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "button_led": "platforms/arduino/targets/grove-beginner-kit/examples/button_led/button_led.ino",
+            "potentiometer": "platforms/arduino/targets/grove-beginner-kit/examples/potentiometer/potentiometer.ino",
+            "sound_sensor": "platforms/arduino/targets/grove-beginner-kit/examples/sound_sensor/sound_sensor.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/grove-beginner-kit",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "led",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "button_led": "platforms/arduino/targets/grove-beginner-kit/examples/button_led/button_led.ino",
+            "led_blink": "platforms/arduino/targets/grove-beginner-kit/examples/led_blink/led_blink.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/grove-beginner-kit",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "audio",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "buzzer_tones": "platforms/arduino/targets/grove-beginner-kit/examples/buzzer_tones/buzzer_tones.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/grove-beginner-kit",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "display",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "oled_status": "platforms/arduino/targets/grove-beginner-kit/examples/oled_status/oled_status.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/grove-beginner-kit",
+      "verification": "unknown"
+    },
+    {
       "configuration": {
         "channels": {
           "description": "PCM channels",
@@ -2094,6 +2218,145 @@
         }
       },
       "target": "esp-idf/sensecap-watcher",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "motion",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "accelerometer": "platforms/arduino/targets/wio-terminal/examples/accelerometer/accelerometer.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/wio-terminal",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "display",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "display_buttons": "platforms/arduino/targets/wio-terminal/examples/display_buttons/display_buttons.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/wio-terminal",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "input",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "display_buttons": "platforms/arduino/targets/wio-terminal/examples/display_buttons/display_buttons.ino",
+            "light_sensor": "platforms/arduino/targets/wio-terminal/examples/light_sensor/light_sensor.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/wio-terminal",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "audio",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "buzzer_tones": "platforms/arduino/targets/wio-terminal/examples/buzzer_tones/buzzer_tones.ino",
+            "microphone_level": "platforms/arduino/targets/wio-terminal/examples/microphone_level/microphone_level.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/wio-terminal",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "storage",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "sd_card_log": "platforms/arduino/targets/wio-terminal/examples/sd_card_log/sd_card_log.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/wio-terminal",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "ir",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "ir_nec_sender": "platforms/arduino/targets/wio-terminal/examples/ir_nec_sender/ir_nec_sender.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/wio-terminal",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "gpio",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "grove_i2c_scan": "platforms/arduino/targets/wio-terminal/examples/grove_i2c_scan/grove_i2c_scan.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/wio-terminal",
+      "verification": "unknown"
+    },
+    {
+      "configuration": {},
+      "interface": "wireless",
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "ble_scan": "platforms/arduino/targets/wio-terminal/examples/ble_scan/ble_scan.ino",
+            "wifi_scan": "platforms/arduino/targets/wio-terminal/examples/wifi_scan/wifi_scan.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {},
+      "target": "arduino/wio-terminal",
       "verification": "unknown"
     },
     {

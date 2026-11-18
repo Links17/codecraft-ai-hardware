@@ -149,13 +149,13 @@
           "SKILL.md": "258c613209cdb47e996493227768f99a8875608480c4673893b12ed6aa280f6e",
           "agents/openai.yaml": "ffcfa558981bdccf6b2c58bf5e4fe047ff303f4ae2ca4cab0057a75edfb642fc",
           "references/api.md": "881d7b658230d4be7d8b35313f47106f2621a8d7bcf46f046512f895b8d5b56e",
-          "scripts/device_api.py": "d6d89608601d447950954d6cba37d5aaf215ea1b0eaf0ad2221d3039bf8cd8c0",
+          "scripts/device_api.py": "8237ecfd38c7662c8d4d6987e31c1fabb53f867900b9057704de007edea1d80b",
           "scripts/transcribe.py": "c441fdf38607d4b48564c2bc77c8e1cf569509b70a5cfacf0b83ae17a639a36b"
         },
         "id": "codecraft-asr",
         "path": "skills/codecraft-asr",
         "python_minimum": "3.10",
-        "version": "1.0.1"
+        "version": "1.0.2"
       },
       "source": {
         "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",
@@ -276,13 +276,13 @@
           "SKILL.md": "0dec80e852ba7b24114ed46010bd74e3795aa2d13b1a49b47701cdf748cb50e5",
           "agents/openai.yaml": "31edf6fcf6fdca5ebf5596e5b3773d1c04215cf46a7b90fd5ea0b569cfb9dbc7",
           "references/api.md": "69e96bf6a9f37d5dbee4a6cba9606016cc21f8d358a5801953c4c016a2b048d7",
-          "scripts/device_api.py": "d6d89608601d447950954d6cba37d5aaf215ea1b0eaf0ad2221d3039bf8cd8c0",
+          "scripts/device_api.py": "8237ecfd38c7662c8d4d6987e31c1fabb53f867900b9057704de007edea1d80b",
           "scripts/generate.py": "02545b723f9d45e60b628814f72588b348dc7e1969c58dfd7ea47f5978846ae7"
         },
         "id": "codecraft-image-generation",
         "path": "skills/codecraft-image-generation",
         "python_minimum": "3.10",
-        "version": "1.0.1"
+        "version": "1.0.2"
       },
       "source": {
         "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",
@@ -403,13 +403,13 @@
           "SKILL.md": "4aaf09f3a1dd9697b0c99b751893c9658c324e3cd91f9353a8aa35152697d485",
           "agents/openai.yaml": "8af71d716cfdc2708423c6680245e719a22729240f9a274a34c4652ffb1f9fec",
           "references/api.md": "4573054a62cceab94d0662b55cab7fd5f6fa8afb5e57345e8ac7d9a4974a7233",
-          "scripts/device_api.py": "d6d89608601d447950954d6cba37d5aaf215ea1b0eaf0ad2221d3039bf8cd8c0",
+          "scripts/device_api.py": "8237ecfd38c7662c8d4d6987e31c1fabb53f867900b9057704de007edea1d80b",
           "scripts/llm.py": "467b1ba79277fa21d18d43f7e0f518d69f7c53525f8e4d0a72cc0fa1b356f45c"
         },
         "id": "codecraft-llm",
         "path": "skills/codecraft-llm",
         "python_minimum": "3.10",
-        "version": "1.0.1"
+        "version": "1.0.2"
       },
       "source": {
         "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",
@@ -531,13 +531,13 @@
           "SKILL.md": "e0ac2fae89e40db2fc2c964b20ba3b26194a191c001a9f76fd3c754efb409756",
           "agents/openai.yaml": "09c8c5eec270464812eb7341103767d130237191b99cb6ce869614f2bdb4974c",
           "references/api.md": "21f02b05cff569ffffb86c42570c70dfdd8ad6240f8ed30980f742f4f8d0401e",
-          "scripts/device_api.py": "d6d89608601d447950954d6cba37d5aaf215ea1b0eaf0ad2221d3039bf8cd8c0",
+          "scripts/device_api.py": "8237ecfd38c7662c8d4d6987e31c1fabb53f867900b9057704de007edea1d80b",
           "scripts/speak.py": "889a28a42c8d9fa780ee0cdf820682b75228a617bb510e154677dbc025049664"
         },
         "id": "codecraft-tts",
         "path": "skills/codecraft-tts",
         "python_minimum": "3.10",
-        "version": "1.0.1"
+        "version": "1.0.2"
       },
       "source": {
         "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",

@@ -184,15 +184,14 @@
   "references": [
     "devices/reterminal-sticky/reference/hardware.md",
     "platforms/esp-idf/targets/reterminal-sticky/bsp/include/bsp_pins.h",
-    "devices/reterminal-sticky/reference/vendor-notes.md",
-    "devices/reterminal-sticky/reference/inventory.md"
+    "devices/reterminal-sticky/reference/vendor-notes.md"
   ],
   "revision": "unknown",
   "scenarios": {
     "en": "Use the listed standalone examples as the supported development entry points.",
     "zh_CN": "以列出的独立示例作为受支持的开发入口。"
   },
-  "schema_version": 2,
+  "schema_version": 3,
   "unknowns": [
     {
       "en": "Physical board revision and fresh on-device verification are not recorded.",
@@ -203,6 +202,7 @@
       "zh_CN": "须阅读原始硬件来源中的待移植驱动、前置条件和已知限制。"
     }
   ],
+  "variants": {},
   "vendor_sources": [
     "https://www.seeedstudio.com/sticky/docs/en/device-guide/hardware-overview/"
   ]

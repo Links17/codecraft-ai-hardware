@@ -89,7 +89,7 @@ def test_variant_metadata_and_native_profiles_reject_unowned_or_conflicting_inpu
         for record in (root/'devices/sensecap-indicator/device.json',root/c.target(TID)['path']/'target.json'):
             original_record=read_json(record)
             assert original_record['schema_version']==3
-            for version,variant_state,fragment in ((2,'keep','variant'),(3,'absent','requires variants'),(3,'empty','requires variants'),(999,'keep','unsupported')):
+            for version,variant_state,fragment in ((2,'keep','unsupported'),(3,'absent','requires variants'),(3,'empty','variant'),(999,'keep','unsupported')):
                 changed=copy.deepcopy(original_record);changed['schema_version']=version
                 if variant_state=='absent':changed.pop('variants')
                 elif variant_state=='empty':changed['variants']={}
@@ -97,7 +97,8 @@ def test_variant_metadata_and_native_profiles_reject_unowned_or_conflicting_inpu
                 rejected(lambda:Catalog(root),fragment)
             write_json(record,original_record)
         current=Catalog(ROOT)
-        assert current.devices['reterminal']['schema_version']==current.target('linux/reterminal')['schema_version']==2
+        assert current.devices['reterminal']['schema_version']==current.target('linux/reterminal')['schema_version']==3
+        assert current.devices['reterminal']['variants']==current.target('linux/reterminal')['variants']=={}
         target=c.target(TID);path=root/target['path']/'target.json'
         for mutation in ('device','default','selection'):
             changed=copy.deepcopy(target)

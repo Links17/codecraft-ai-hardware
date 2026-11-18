@@ -14,7 +14,7 @@ static TickType_t ticks;
 void app_main(void);
 const char *esp_err_to_name(esp_err_t err){(void)err;return "stub";}
 esp_err_t bsp_led_init(void){led=1;return ESP_OK;}
-void bsp_led_set(bool on){(void)on;assert(led&&!in_callback);}
+esp_err_t bsp_led_set(bool on){(void)on;assert(led&&!in_callback);return ESP_OK;}
 esp_err_t bsp_battery_init(void){battery=1;return ESP_OK;}
 esp_err_t bsp_battery_read_mv(int *out){assert(battery&&!in_callback);samples++;*out=4000;return ESP_OK;}
 esp_err_t bsp_sht4x_init(void){sensor=1;return absent?ESP_ERR_NOT_FOUND:ESP_OK;}

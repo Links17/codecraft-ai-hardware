@@ -12,7 +12,6 @@ Edit common client behavior in skills/_cloud/device_api.py. Other package files
 remain maintained under their own skills/codecraft-* directories. The candidate
 builder copies the common helper into every distribution; it does not rewrite
 working package copies or their Provider manifests while preparing a candidate.
-The old sync_helpers.py only copies helpers and cannot approve their hashes.
 
 If a distribution helper differs from both its previously pinned bytes and the
 maintained helper, preparation fails and preserves the local edit. Reconcile
@@ -111,7 +110,7 @@ tests. No command here flashes, publishes or establishes live service acceptance
 Copy an approved complete Skill directory for independent installation; runtime
 imports remain inside it. An installed Skill does not require the repository CLI
 or a sibling Skill. Existing exported applications keep their locked versions
-until an explicitly reviewed application migration or a new export.
+until an explicitly reviewed application update or a new export.
 
 The full workflow is repository maintenance. Plain exported applications carry
 the public codecraft.py entry and native build support, but do not carry the

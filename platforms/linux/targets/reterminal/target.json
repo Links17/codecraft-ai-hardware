@@ -325,7 +325,7 @@
   ],
   "path": "platforms/linux/targets/reterminal",
   "platform": "linux",
-  "schema_version": 2,
+  "schema_version": 3,
   "toolchain": {
     "kernel": "unknown",
     "name": "python3+dtc",
@@ -338,5 +338,6 @@
     },
     "source": "devices/reterminal/reference/hardware.md",
     "version": "unknown"
-  }
+  },
+  "variants": {}
 }

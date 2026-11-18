@@ -7,7 +7,7 @@ from host_peripheral import run_cases, run_example_cases
 
 def test_e100x_battery_readiness_calibration_and_power_recovery():
     cases = [[str(n)] for n in range(6)]
-    cases += [[name] for name in ('repeat', 'unready', 'null', 'fallback', 'cleanup')]
+    cases += [[name] for name in ('repeat', 'unready', 'null', 'uncalibrated', 'cleanup')]
     cases += [['read', str(n)] for n in range(1, 5)] + [['off-recovery']]
     for board in ('reterminal-e1001',):
         run_cases(board, 'battery', cases)

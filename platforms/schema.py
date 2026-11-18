@@ -20,11 +20,8 @@ def validate(root, platform):
 
 def target(root, entry, devices, platforms):
     tid = entry['id']
-    require(entry.get('schema_version') in (2, 3), f'{tid}: unsupported Target schema')
-    if entry['schema_version'] == 2:
-        require('variants' not in entry, f'{tid}: variant declarations require Target schema_version 3')
-    else:
-        require(isinstance(entry.get('variants'), dict) and entry['variants'], f'{tid}: Target schema_version 3 requires variants')
+    require(entry.get('schema_version') == 3, f'{tid}: unsupported Target schema')
+    require(isinstance(entry.get('variants'), dict), f'{tid}: Target schema_version 3 requires variants object')
     require(entry.get('platform') in platforms and entry.get('device') in devices, f'{tid}: unknown platform/device')
     require(tid == f'{entry["platform"]}/{entry["device"]}' and entry.get('path') == f'platforms/{entry["platform"]}/targets/{entry["device"]}', f'{tid}: identity/path mismatch')
     examples = entry.get('examples')

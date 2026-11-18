@@ -38,7 +38,7 @@ The implementation separates device facts, software stacks, cloud Skill contract
 | `platforms/esp-idf/targets/<board>/` | ESP-IDF BSP, board configuration, and standalone examples |
 | `platforms/esp-idf/components/` | Components shared by ESP-IDF boards |
 | `platforms/linux/targets/<board>/` | Linux device support, overlays, and demos |
-| `platforms/arduino/targets/<board>/` | Arduino board profiles and sketches, when present; rules in `platforms/arduino/AGENTS.md` |
+| `platforms/arduino/targets/<board>/` | Arduino board profiles and sketches, rules in `platforms/arduino/AGENTS.md` |
 | `skills/` | Hardware development workflows and independently installable cloud API Skills |
 | `skills/_cloud/` | Cloud client maintenance source, import provenance and offline protocol tests |
 | `skills/_shared/` | Shared orchestration and its core integration tests |
@@ -155,10 +155,11 @@ platform success must not change the hardware verification status.
 ### Generated discovery index
 
 <!-- CODECRAFT_INDEX_START -->
-<!-- source_sha256: 6e68cff89d9b7b717dc9242256ebe6235f545b86fb40a6b54983cb281dae6e03 -->
+<!-- source_sha256: 4f7a19a323ff5dc9354810e46d466c3c98fe0dc4439a12a8d9d59ce3940d2bd2 -->
 
 | Device | Target | Implementations | Build + project | Device |
 | --- | --- | --- | --- | --- |
+| [Grove Beginner Kit for Arduino](devices/grove-beginner-kit/AGENTS.md) | arduino/grove-beginner-kit | audio, display, environment, gpio, input, led, motion | build-verified | not_run |
 | [reSpeaker Lite (XIAO ESP32-S3)](devices/respeaker-lite/AGENTS.md) | esp-idf/respeaker-lite | audio, input, led | build-verified | not_run |
 | [reTerminal (CM4)](devices/reterminal/AGENTS.md) | linux/reterminal | audio, environment, gpio, input, led | build-verified | not_run |
 | [reTerminal E1001](devices/reterminal-e1001/AGENTS.md) | esp-idf/reterminal-e1001 | audio, display, environment, input, led, power, rtc, storage | build-verified | not_run |
@@ -166,6 +167,7 @@ platform success must not change the hardware verification status.
 | [reTerminal Sticky](devices/reterminal-sticky/AGENTS.md) | esp-idf/reterminal-sticky | display, environment, input | build-verified | not_run |
 | [SenseCAP Indicator](devices/sensecap-indicator/AGENTS.md) | esp-idf/sensecap-indicator | display, gpio, input, touch | build-verified | not_run |
 | [SenseCAP Watcher](devices/sensecap-watcher/AGENTS.md) | esp-idf/sensecap-watcher | audio, camera, display, gpio, input, power, storage, touch | build-verified | not_run |
+| [Wio Terminal](devices/wio-terminal/AGENTS.md) | arduino/wio-terminal | audio, display, gpio, input, ir, motion, storage, wireless | build-verified | not_run |
 | [XIAO ESP32-S3 1.47-inch Touch Display](devices/xiao-s3-147/AGENTS.md) | esp-idf/xiao-s3-147 | audio, display, input | build-verified | not_run |
 
 Platforms: [arduino](platforms/arduino/AGENTS.md), [esp-idf](platforms/esp-idf/AGENTS.md), [linux](platforms/linux/AGENTS.md)
@@ -201,7 +203,7 @@ the owning layer and preserve unrelated behavior.
   compatibility and recovery implications. A directory move must not silently
   change a toolchain, hardware value, or firmware behavior.
 
-### Documentation, rule changes, and migration
+### Documentation and rule changes
 
 - Maintained `README.md` files MUST have a Simplified Chinese
   `README.zh_CN.md` counterpart with reciprocal links and equivalent commands,
@@ -214,7 +216,7 @@ the owning layer and preserve unrelated behavior.
   Generated engineering views and exported application rules use English;
   generated application README files retain both languages.
 - State current behavior and proposed architecture separately. An architecture
-  plan does not authorize a directory migration. Only document a generated
+  proposal does not establish implementation. Only document a generated
   index or automatic check as implemented when its producer/check exists.
 - Maintain a fact at its owning source and reference or generate other views.
   MUST NOT hand-edit files or regions explicitly marked as generated; change
@@ -228,27 +230,26 @@ the owning layer and preserve unrelated behavior.
   validation behavior for contradictions. MUST NOT remove a requirement merely
   to make a failing check appear successful. Report documentation/implementation
   gaps explicitly rather than claiming new enforcement exists.
-- Each migration slice MUST update affected references, entry commands, tests,
-  CI, English engineering documentation and paired README files together. State compatibility/rollback
-  behavior; keep one authoritative implementation, and verify remaining
-  consumers before removing an old entry point.
+- A structural change MUST update references, commands, tests, CI and affected
+  documentation together. Remove superseded implementations and entry points;
+  MUST NOT retain forwarding modules, mixed schema readers or transition-only tests.
 
 ### Enforced ownership and source closure
 
-- Device metadata MUST hold one typed value per fact. Localized views MUST render that value; translated numeric specifications MUST NOT be stored separately. Known facts MUST match their cited source assertions. Devices without variants use schema v2; variant declarations MUST use schema v3 so older consumers reject them explicitly.
-- Target metadata MUST declare native interfaces, common inputs, per-example inputs and dependencies. The Device-to-Target index MUST be derived from Target.device; duplicate backlinks are forbidden. Targets without variants use schema v2; variant declarations MUST use schema v3. Platform and adapter protocol versions remain independent.
+- Device metadata MUST hold one typed value per fact. Localized views MUST render that value; translated numeric specifications MUST NOT be stored separately. Known facts MUST match their cited source assertions. All Device records MUST use schema v3 and declare variants, using an empty object when none exist.
+- Target metadata MUST declare native interfaces, common inputs, per-example inputs and dependencies. The Device-to-Target index MUST be derived from Target.device; duplicate backlinks are forbidden. All Target records MUST use schema v3 with an explicit variants object. Platform and adapter protocol versions remain independent.
 - Native build/configuration logic MUST live in platforms/<stack>. Shared Skill code MUST NOT branch on stack IDs to implement native operations.
 - Context, project export and evidence MUST use the same transitive dependency graph. Never filter out missing dependencies to make export pass. The graph MUST include the actual adapter and all pipeline code.
 - A project lock MUST preserve initial import provenance separately from explicitly reviewed application updates. Builds MUST check the actual toolchain against the current lock.
 - Evidence MUST name complete expected cases and the source digest. Changed source/adapter/contracts invalidate prior verification. Physical promotion additionally requires matching revision and named acceptance observations.
 - Capability contracts are consumed by cloud Skills. Device peripherals and native interfaces MUST NOT be registered as Capabilities. This repository MUST NOT implement the consuming cloud service.
-- Cloud domain code MUST NOT import or construct the hardware Catalog. Use neutral registry primitives and caller-injected Target lookup. Stable semantics belong to Capability; service policy belongs to a separately versioned Provider policy. Provider constraints MUST NOT weaken the Capability schema, and defaults require explicit Capability permission. See `docs/architecture/capability-provider-policy.md` for migration and enforcement boundaries.
+- Cloud domain code MUST NOT import or construct the hardware Catalog. Use neutral registry primitives and caller-injected Target lookup. Stable semantics belong to Capability; service policy belongs to a separately versioned Provider policy. Provider constraints MUST NOT weaken the Capability schema, and defaults require explicit Capability permission. See `docs/architecture/capability-provider-policy.md` for ownership and enforcement boundaries.
 - Cloud Skill packages MUST run independently after copying one directory. Runtime imports MUST remain inside the package. A repository-skill Provider MUST pin all package files and declare the package as an export dependency. Source changes require reviewed hash updates and offline client tests; validation MUST NOT call real cloud APIs or use real credentials.
 - Bundle changes MUST use the candidate/check/review/apply workflow in `docs/development/skill-releases.md`. Apply MUST name the reviewed candidate digest, rerun isolated conformance and reject source drift. Package, API, Capability and policy versions MUST remain separately reviewed; original import provenance MUST NOT be rewritten. Packaging MUST NOT imply installation or publication.
 - ESP-IDF examples MUST keep native BSP composition, Target example scope and managed dependency locks aligned. Public headers stay in include/ and private implementation in src/. Validate actual build-source selection and portable exports; changing source layout MUST NOT silently change hardware configuration or dependency versions. See `docs/development/native-compositions.md`.
-- Hardware variants MUST come from sourced Device facts and explicit Target/native bindings. Carry the selected variant through context, export, locks, native build cases and physical evidence. A legacy build default MUST NOT imply panel detection or revision compatibility; one variant's observations MUST NOT promote another. Unknown revision mappings remain unresolved. See `docs/development/hardware-variants.md`.
-- Host tests MUST live with their owning core, cloud, Capability, platform, component or Target. Use the recursive public test runner and retain a before/after ID mapping when moving suites. Gate/entry tests remain with codecraft-validate; physical acceptance is not part of automatic host discovery. See `docs/development/testing.md`.
-- Document and invoke repository tools through `python3 codecraft.py`. Keep the internal `skills/_shared/codecraft.py` entry and exported `build.py` compatible. The public entry is a thin bootstrap; implementation remains under skills/ and native commands remain in platform adapters. New exports MUST carry the public entry in their graph and lock.
+- Hardware variants MUST come from sourced Device facts and explicit Target/native bindings. Carry the selected variant through context, export, locks, native build cases and physical evidence. A declared build default MUST NOT imply panel detection or revision compatibility; one variant's observations MUST NOT promote another. Unknown revision mappings remain unresolved. See `docs/development/hardware-variants.md`.
+- Host tests MUST live with their owning core, cloud, Capability, platform, component or Target. Use the recursive public test runner; each current test MUST be discovered once at its owning layer. Gate/entry tests remain with codecraft-validate; physical acceptance is not part of automatic host discovery. See `docs/development/testing.md`.
+- Document and invoke repository tools through `python3 codecraft.py`. The public entry is the only repository/application CLI. It loads skills/_shared/cli.py; native commands remain in platform adapters. New exports MUST carry the public entry in their graph and lock.
 
 ### Required validation and delivery
 
@@ -260,7 +261,7 @@ complete gate before delivery. Select the board checks by the actual platform:
 | `python3 codecraft.py validate --static` | Repository checks and host tests |
 | `python3 codecraft.py validate --target esp-idf/<board>` | ESP-IDF example builds with an activated, board-appropriate IDF |
 | `python3 codecraft.py validate --target linux/<board>` | Linux source checks; inspect whether overlay compilation ran |
-| `python3 codecraft.py validate --target arduino/<board>` | Arduino sketches compiled with the declared core/libraries; currently no hardware Target is registered |
+| `python3 codecraft.py validate --target arduino/<board>` | Arduino sketches compiled with the declared core/libraries |
 | `python3 codecraft.py validate` | Complete current gate; inspect substeps and skips before summarizing |
 
 Documentation/rule changes additionally require checking referenced paths,

@@ -34,6 +34,11 @@ def rejects(fn):
     raise AssertionError('Invalid release was accepted')
 
 
+def next_version(root, pid):
+    major, minor, patch_version=release.versions(release.registrations(root)[pid]['skill']['version'])
+    return f'{major}.{minor}.{patch_version+1}'
+
+
 def file_bytes(root):
     return {p.relative_to(root).as_posix():p.read_bytes() for p in root.rglob('*')
             if p.is_file() and '.codecraft' not in p.relative_to(root).parts and '__pycache__' not in p.parts}
@@ -57,14 +62,15 @@ def test_reviewed_documentation_release_executes_isolated_clients_and_preserves_
         before=file_bytes(root);provenance=(root/'skills/_cloud/import.json').read_bytes()
         rejects(lambda:release.prepare(root,base/'unversioned'))
         assert not (base/'unversioned').exists() and file_bytes(root)==before
-        candidate=release.prepare(root,base/'candidate',{'asr/codecraft-cloud':{'skill_version':'1.0.2'}})
+        version=next_version(root,'asr/codecraft-cloud')
+        candidate=release.prepare(root,base/'candidate',{'asr/codecraft-cloud':{'skill_version':version}})
         assert candidate['packages']['asr/codecraft-cloud']['classification']=='documentation'
         outcome=release.apply(root,base/'candidate',candidate['review_sha256'])
         assert outcome['repository_changed'] and len(outcome['checks'])==17
         assert all(x['status']=='passed' for x in outcome['checks'])
         assert next(x for x in outcome['checks'] if x['name']=='standalone-protocol-suite')['cases']==9
         provider=load_cloud(root).providers['asr/codecraft-cloud']
-        assert provider['skill']['version']=='1.0.2'
+        assert provider['skill']['version']==version
         assert provider['skill']['files']['references/api.md']==digest(source)
         assert (root/'skills/_cloud/import.json').read_bytes()==provenance
         assert not (root/'.codecraft/skill-release.lock').exists()
@@ -82,7 +88,7 @@ def test_shared_helper_candidates_classify_runtime_and_do_not_rewrite_distributi
         maintained=root/'skills/_cloud/device_api.py'
         maintained.write_text(maintained.read_text()+'\n# Release fixture runtime source.\n')
         before=file_bytes(root)
-        versions={pid:{'skill_version':'1.0.2'} for pid in release.registrations(root)}
+        versions={pid:{'skill_version':next_version(root,pid)} for pid in release.registrations(root)}
         rejects(lambda:release.prepare(root,base/'no-versions'))
         candidate=release.prepare(root,base/'candidate',versions)
         assert all(p['classification']=='runtime' for p in candidate['packages'].values())
@@ -150,7 +156,7 @@ def test_failed_candidate_cli_prevents_any_apply_changes():
     with workspace() as (root,base):
         source=root/'skills/codecraft-asr/scripts/transcribe.py'
         source.write_text('raise SystemExit(7)\n')
-        prepared=release.prepare(root,base/'candidate',{'asr/codecraft-cloud':{'skill_version':'1.0.2'}})
+        prepared=release.prepare(root,base/'candidate',{'asr/codecraft-cloud':{'skill_version':next_version(root,'asr/codecraft-cloud')}})
         before=file_bytes(root)
         rejects(lambda:release.apply(root,base/'candidate',prepared['review_sha256']))
         assert file_bytes(root)==before and not (root/'.codecraft/skill-release.lock').exists()
@@ -160,7 +166,7 @@ def test_mid_apply_failure_restores_all_packages_and_provider_metadata():
     with workspace() as (root,base):
         maintained=root/'skills/_cloud/device_api.py'
         maintained.write_text(maintained.read_text()+'\n# Transaction fixture.\n')
-        versions={pid:{'skill_version':'1.0.2'} for pid in release.registrations(root)}
+        versions={pid:{'skill_version':next_version(root,pid)} for pid in release.registrations(root)}
         prepared=release.prepare(root,base/'candidate',versions);before=file_bytes(root)
         replace=release.os.replace;calls=[]
         def fail_second_provider(source,destination):
@@ -179,7 +185,7 @@ def test_failed_backup_restoration_retains_the_original_package_for_recovery():
     with workspace() as (root,base):
         maintained=root/'skills/_cloud/device_api.py'
         maintained.write_text(maintained.read_text()+'\n# Recovery fixture.\n')
-        versions={pid:{'skill_version':'1.0.2'} for pid in release.registrations(root)}
+        versions={pid:{'skill_version':next_version(root,pid)} for pid in release.registrations(root)}
         prepared=release.prepare(root,base/'candidate',versions)
         original=(root/'skills/codecraft-asr/scripts/device_api.py').read_bytes()
         rename=Path.rename

@@ -1,0 +1,84 @@
+{
+  "cases": [
+    {
+      "expected": "The observed assembly matches the documented pin map and supported sensors.",
+      "id": "identity",
+      "interfaces": [],
+      "procedure": "Record board identity, observed revision, selected port and authorized write scope.",
+      "source": "devices/grove-beginner-kit/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-motion",
+      "interfaces": [
+        "motion"
+      ],
+      "procedure": "Run accelerometer separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/grove-beginner-kit/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-environment",
+      "interfaces": [
+        "environment"
+      ],
+      "procedure": "Run air_pressure_spa06, temperature_humidity_dht20, light_sensor separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/grove-beginner-kit/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-gpio",
+      "interfaces": [
+        "gpio"
+      ],
+      "procedure": "Run i2c_scan separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/grove-beginner-kit/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-input",
+      "interfaces": [
+        "input"
+      ],
+      "procedure": "Run button_led, potentiometer, sound_sensor separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/grove-beginner-kit/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-led",
+      "interfaces": [
+        "led"
+      ],
+      "procedure": "Run led_blink, button_led separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/grove-beginner-kit/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-audio",
+      "interfaces": [
+        "audio"
+      ],
+      "procedure": "Run buzzer_tones separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/grove-beginner-kit/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "All physical checks in the cited example procedures pass; report partial results explicitly.",
+      "id": "interface-display",
+      "interfaces": [
+        "display"
+      ],
+      "procedure": "Run oled_status separately and retain the actual stimuli, outputs and recovery result.",
+      "source": "devices/grove-beginner-kit/tests/hardware-checklist.md"
+    },
+    {
+      "expected": "The unit returns to the documented working state.",
+      "id": "recovery",
+      "interfaces": [],
+      "procedure": "Power-cycle and rerun the selected sketch; record the startup state and any required peripherals.",
+      "source": "devices/grove-beginner-kit/tests/hardware-checklist.md"
+    }
+  ],
+  "device": "grove-beginner-kit",
+  "schema_version": 2,
+  "status": "not_run"
+}

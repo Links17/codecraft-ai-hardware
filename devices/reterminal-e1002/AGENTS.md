@@ -70,9 +70,8 @@ No verified redistributable image is registered.
 - [hardware.md](../../devices/reterminal-e1002/reference/hardware.md)
 - [bsp_pins.h](../../platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/reterminal-e1002/reference/vendor-notes.md)
-- [inventory.md](../../devices/reterminal-e1002/reference/inventory.md)
 - [hardware-checklist.md](../../devices/reterminal-e1002/tests/hardware-checklist.md)
-- [build-3fb3843809301b06.json](../../devices/reterminal-e1002/tests/records/build-3fb3843809301b06.json)
+- [build-e46e3288ca35aa43.json](../../devices/reterminal-e1002/tests/records/build-e46e3288ca35aa43.json)
 
 ## Vendor links
 

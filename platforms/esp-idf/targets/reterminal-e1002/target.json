@@ -574,11 +574,12 @@
   ],
   "path": "platforms/esp-idf/targets/reterminal-e1002",
   "platform": "esp-idf",
-  "schema_version": 2,
+  "schema_version": 3,
   "toolchain": {
     "name": "esp-idf",
     "source": "devices/reterminal-e1002/reference/hardware.md",
     "target": "esp32s3",
     "version": "6.0.2"
-  }
+  },
+  "variants": {}
 }

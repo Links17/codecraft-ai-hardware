@@ -8,7 +8,7 @@ import sys
 def main(argv=None):
     shared=Path(__file__).resolve().parent/'skills/_shared'
     sys.path.insert(0,str(shared))
-    implementation=runpy.run_path(str(shared/'codecraft.py'),run_name='codecraft_cli')
+    implementation=runpy.run_path(str(shared/'cli.py'),run_name='codecraft_cli')
     return implementation['main'](argv)
 
 

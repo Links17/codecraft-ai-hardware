@@ -1,6 +1,6 @@
 # Hardware acceptance checklist
 
-Imported from the pre-migration on-device checklist. These are procedures and expectations, not completed observations. Device writes require session authorization and verified physical identity. Use record-evidence for results; no automatic support promotion.
+These procedures define expected physical observations. Device writes require session authorization and verified physical identity. Use record-evidence for results; no automatic support promotion.
 
 ## reTerminal E1001 / E1002 (ESP32-S3)
 

@@ -31,7 +31,8 @@ def test_handoff_uses_pinned_repository_skill_and_never_runs_it():
     c=Catalog(ROOT).cloud()
     prepared=c.prepare(selection(),'linux/reterminal',OP,INPUT)
     assert prepared['execution']=='not_run' and prepared['entrypoint']['skill'].startswith('codecraft-')
-    assert prepared['skill']['files'] and prepared['skill']['version']=='1.0.1'
+    assert prepared['skill']['files']==c.providers[CID+'/codecraft-cloud']['skill']['files']
+    assert prepared['skill']['version']==c.providers[CID+'/codecraft-cloud']['skill']['version']
     assert 'CODECRAFT_DEVICE_FILE' in prepared['required_environment']
     assert '--archive' not in prepared['arguments']
     assert 'Authorization' not in prepared and 'deviceKey' not in prepared

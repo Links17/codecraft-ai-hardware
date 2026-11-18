@@ -9,11 +9,11 @@ Read the root two-part contract and obtain context for the selected Target. Hard
 
 All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.
 
-For cloud functionality, select a Capability/Provider from cloud-catalog. Use new --capabilities with reviewed selections; the export contains the selected pinned standalone Skill package and its API client. Run python3 build.py --lock after deliberate application or environment updates; the initial import provenance remains intact.
+For cloud functionality, select a Capability/Provider from cloud-catalog. Use new --capabilities with reviewed selections; the export contains the selected pinned standalone Skill package and its API client. Run python3 codecraft.py lock-project . after deliberate application or environment updates; the initial import provenance remains intact.
 
-Maintain README.md and README.zh_CN.md together. All other engineering documents, including AGENTS.md, SKILL.md, API references, plans and reports, use one English source. Update generators and local references with any document migration; never generate translated Agent rules or duplicate hardware facts.
+Maintain README.md and README.zh_CN.md together. All other engineering documents, including AGENTS.md, SKILL.md, API references, plans and reports, use one English source. Update generators and local references with documentation changes; never generate translated Agent rules or duplicate hardware facts.
 
-Use skill-release prepare/check/apply for standalone package changes, following docs/development/skill-releases.md. Keep helper maintenance under skills/_cloud and runtime imports package-local. Review candidate bytes, separate versions and the exact digest before applying; never automatically accept hash drift or rewrite original provenance. Existing exported applications retain their locks and compatible build.py entry.
+Use skill-release prepare/check/apply for standalone package changes, following docs/development/skill-releases.md. Keep helper maintenance under skills/_cloud and runtime imports package-local. Review candidate bytes, separate versions and the exact digest before applying; never automatically accept hash drift or rewrite original provenance. Exported applications use the same public CLI and source lock.
 
 ESP-IDF examples use explicit BSP compositions. Read docs/development/native-compositions.md when changing native source selection, BSP layout or dependencies. Keep the profile, native manifests, Target example scope and lock aligned; settle native lock updates before final source-fingerprint validation. A successful compiler command must also pass the actual BSP-source/requirement check.
 

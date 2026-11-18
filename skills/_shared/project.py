@@ -4,23 +4,11 @@ from __future__ import annotations
 from pathlib import Path
 import shutil
 import subprocess
-import sys
 import zipfile
 
 from io_utils import digest, object_digest, read_json, require, result, safe_path, source_files, write_json
 from model import Catalog
-from runtime import envelope, exit_code, load_adapter, run_target
-
-BUILD_ENTRY = '''#!/usr/bin/env python3
-"""Build the native application; --lock accepts reviewed application/toolchain changes."""
-from pathlib import Path
-import sys
-root = Path(__file__).resolve().parent
-sys.path.insert(0, str(root/'skills/_shared'))
-from project import project_main
-raise SystemExit(project_main(root))
-'''
-
+from runtime import envelope, load_adapter, run_target
 
 def inventory(path, explicit=()):
     files = {str(file.relative_to(path)): digest(file) for file in source_files(path) if file.name != 'codecraft.lock'}
@@ -68,9 +56,8 @@ def generate_project(catalog, tid, example, output, capabilities=None, variant=N
             data['variant'] = selected['selected_variant']
             data['physical_compatibility'] = 'unknown'
         write_json(output/'project.yaml', data)
-        (output/'build.py').write_text(BUILD_ENTRY)
         from render import paired
-        for relative, text in paired('README.md', f'# {selected["device"]}: {example}\n\nActivate the declared toolchain, run `python3 codecraft.py lock-project .` to record the actual environment, then `python3 codecraft.py build-project .`. `python3 codecraft.py verify-project .` checks source integrity. The compatibility commands `python3 build.py --lock` and `python3 build.py` remain available. Builds never flash. After deliberate application edits, review the changes and run `python3 build.py --lock` again. `codecraft.lock` retains the original import provenance and a separate current application snapshot.\n\nproject.yaml uses JSON-compatible YAML 1.2. The native application lives under `{selected["path"]}`. Edit native configuration there; unknown hardware facts remain unknown. A successful build does not verify hardware.\n', f'# {selected["device"]}: {example}\n\n激活声明的工具链，运行 `python3 codecraft.py lock-project .` 记录实际环境，再运行 `python3 codecraft.py build-project .`。`python3 codecraft.py verify-project .` 检查源码完整性。兼容命令 `python3 build.py --lock` 与 `python3 build.py` 仍可使用。构建不会烧录。修改应用后，审查变更并重新运行 `python3 build.py --lock`。`codecraft.lock` 分别保留最初导入来源和当前应用快照。\n\nproject.yaml 使用兼容 JSON 的 YAML 1.2。原生应用位于 `{selected["path"]}`，配置直接在原生文件中修改，未知硬件事实保持 unknown。构建成功不代表硬件验证。\n').items():
+        for relative, text in paired('README.md', f'# {selected["device"]}: {example}\n\nActivate the declared toolchain, run `python3 codecraft.py lock-project .` to record the actual environment, then `python3 codecraft.py build-project .`. `python3 codecraft.py verify-project .` checks source integrity. Builds never flash. After deliberate application edits, review the changes and run `python3 codecraft.py lock-project .` again. `codecraft.lock` retains the original import provenance and a separate current application snapshot.\n\nproject.yaml uses JSON-compatible YAML 1.2. The native application lives under `{selected["path"]}`. Edit native configuration there; unknown hardware facts remain unknown. A successful build does not verify hardware.\n', f'# {selected["device"]}: {example}\n\n激活声明的工具链，运行 `python3 codecraft.py lock-project .` 记录实际环境，再运行 `python3 codecraft.py build-project .`。`python3 codecraft.py verify-project .` 检查源码完整性。构建不会烧录。修改应用后，审查变更并重新运行 `python3 codecraft.py lock-project .`。`codecraft.lock` 分别保留最初导入来源和当前应用快照。\n\nproject.yaml 使用兼容 JSON 的 YAML 1.2。原生应用位于 `{selected["path"]}`，配置直接在原生文件中修改，未知硬件事实保持 unknown。构建成功不代表硬件验证。\n').items():
             (output/relative).write_text(text)
         if 'variant' in data:
             name=data['variant']
@@ -145,7 +132,7 @@ def verify_project(path):
 def build_project(path):
     path = Path(path).resolve()
     outcome = verify_project(path)
-    require(outcome['status'] == 'passed', 'Source changed: review application changes and run python3 build.py --lock.')
+    require(outcome['status'] == 'passed', 'Source changed: review application changes and run python3 codecraft.py lock-project ..')
     data = profile(path)
     c = Catalog(path)
     target = c.target(data['target'])
@@ -174,20 +161,3 @@ def package_project(path, output):
         for relative in sorted([*read_json(path/'codecraft.lock')['files'], 'codecraft.lock']):
             archive.write(safe_path(path, relative), relative)
     return {'path': str(output), 'sha256': digest(output), 'kind': 'source-package', 'firmware_included': False, 'device_verification': 'not_run'}
-
-
-def project_main(path):
-    import json
-    from io_utils import ContractError
-    try:
-        require(sys.argv[1:] in ([], ['--lock']), 'Usage: python3 build.py [--lock]')
-        if '--lock' in sys.argv:
-            lock = lock_project(path)
-            payload = {'schema_version': 2, 'ok': True, 'operation': 'lock', 'source_digest': lock['source_digest'], 'toolchain': lock['resolved_toolchain']}
-        else:
-            payload = build_project(path)
-        print(json.dumps(payload, ensure_ascii=False))
-        return 0 if payload['ok'] else exit_code(payload['results'])
-    except (ContractError, OSError, ValueError, KeyError, TypeError) as exc:
-        print(json.dumps({'schema_version': 2, 'ok': False, 'error': str(exc)}))
-        return 1

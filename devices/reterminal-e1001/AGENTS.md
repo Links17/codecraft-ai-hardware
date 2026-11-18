@@ -57,7 +57,7 @@ Build/project: build-verified. Device: not_run. Maintenance: unassigned. Maturit
 
 ## Source conflicts
 
-- Use vendor-supported physical facts; the native flash configuration is not a measurement. Sticky physical capacity remains unknown pending chip identification. [Source](../../devices/reterminal-e1001/reference/hardware.md)
+- E1001 uses the sourced 32 MB W25Q256JV capacity; the native configuration and partition table must remain within it. [Source](../../devices/reterminal-e1001/reference/hardware.md)
 
 ## Assets
 
@@ -70,9 +70,8 @@ No verified redistributable image is registered.
 - [hardware.md](../../devices/reterminal-e1001/reference/hardware.md)
 - [bsp_pins.h](../../platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/reterminal-e1001/reference/vendor-notes.md)
-- [inventory.md](../../devices/reterminal-e1001/reference/inventory.md)
 - [hardware-checklist.md](../../devices/reterminal-e1001/tests/hardware-checklist.md)
-- [build-bcabcda785295a7e.json](../../devices/reterminal-e1001/tests/records/build-bcabcda785295a7e.json)
+- [build-cda391b4eba41c64.json](../../devices/reterminal-e1001/tests/records/build-cda391b4eba41c64.json)
 
 ## Vendor links
 

@@ -1,6 +1,22 @@
 {
   "include": [
     {
+      "id": "arduino/grove-beginner-kit",
+      "device": "grove-beginner-kit",
+      "platform": "arduino",
+      "toolchain": "1.5.0",
+      "chip": "",
+      "runner": "ubuntu-latest"
+    },
+    {
+      "id": "arduino/wio-terminal",
+      "device": "wio-terminal",
+      "platform": "arduino",
+      "toolchain": "1.5.0",
+      "chip": "",
+      "runner": "ubuntu-latest"
+    },
+    {
       "id": "esp-idf/respeaker-lite",
       "device": "respeaker-lite",
       "platform": "esp-idf",

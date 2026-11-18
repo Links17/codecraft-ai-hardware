@@ -47,8 +47,8 @@ These choices follow the [ESP-IDF v6.0.2 build-system contract](https://docs.esp
 
 Optional managed packages belong to the example's `main/idf_component.yml`.
 Version constraints and dependency locks are reviewed independently of directory
-layout. During this migration, direct package versions are fixed to the prior
-verified lock versions; unused packages leave the selected dependency graph.
+layout. Direct package versions and the resolved lock must agree; the selected
+dependency graph must include only packages required by the example.
 Use ESP-IDF Component Manager to update `dependencies.lock`; do not hand-edit
 its resolution or hashes. A native configure step can change the lock, so
 complete that step before freezing sources for final validation/evidence.
@@ -95,15 +95,9 @@ python3 codecraft.py validate --target esp-idf/<board> --projects
 python3 codecraft.py validate
 ```
 
-## Compatibility and limits
+## Verification limits
 
-The migration preserves public header names and signatures, driver/private-header
-bytes, pins, SDK defaults and selected managed package versions. Implementation
-paths move from `bsp/*.c` to `bsp/src/*.c`; scripts that compile source files
-directly must use the new paths. Existing external projects retain their old
-locked source and build behavior. A new export adopts the selected composition;
-it does not automatically acquire every peripheral on the board.
-
-Build success and host fault tests do not establish revision compatibility,
-combined-peripheral resource budgets or on-device recovery. Those acceptance
-items remain separately tracked in the optimization ledger.
+An exported example includes its selected native composition. It does not acquire
+all peripherals on the board. Build success and host fault tests do not establish
+revision compatibility, combined-peripheral resource budgets or on-device
+recovery. These acceptance items remain in the [open TODOs](optimization-plan.md).

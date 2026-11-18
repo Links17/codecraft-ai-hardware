@@ -1,5 +1,5 @@
 <p align="right"><a href="README.md">English</a> · <strong>简体中文</strong></p>
 
-# reTerminal Sticky 来源
+# 硬件参考
 
-[迁移前硬件记录](hardware.md)保留原有引用与限制；原先没有译文的来源资料保留原语言。当前支持以[设备知识](../AGENTS.md)为准，实现中的引脚数值继续以原生头文件/overlay 为来源。
+[硬件事实](hardware.md)和[厂商来源](vendor-notes.md)提供可追溯的硬件知识。当前原生支持范围及验证状态见[设备入口](../AGENTS.md)。原生引脚头文件和 overlay 保留内联来源引用。

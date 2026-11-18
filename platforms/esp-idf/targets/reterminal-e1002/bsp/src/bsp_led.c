@@ -6,7 +6,6 @@
 #include "bsp_pins.h"
 
 #include "driver/gpio.h"
-#include "esp_log.h"
 
 static bool s_ready;
 
@@ -23,9 +22,8 @@ esp_err_t bsp_led_init(void)
     return err;
 }
 
-void bsp_led_set(bool on)
+esp_err_t bsp_led_set(bool on)
 {
-    if (!s_ready) return;
-    esp_err_t err = gpio_set_level(BSP_PIN_LED, on ? 0 : 1); /* active low */
-    if (err != ESP_OK) ESP_LOGE("bsp_led", "LED write failed; physical state uncertain");
+    if (!s_ready) return ESP_ERR_INVALID_STATE;
+    return gpio_set_level(BSP_PIN_LED, on ? 0 : 1); /* active low */
 }

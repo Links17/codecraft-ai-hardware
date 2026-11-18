@@ -25,7 +25,7 @@ remain separate, explicitly scoped workflows.
 | --- | --- |
 | `skills/_shared/tests/` | Catalogs, source graph, generation, project exports/locks, evidence and cross-layer orchestration |
 | `skills/_cloud/tests/` | Standalone installation/inventory, loopback protocols and reviewed release transactions |
-| `skills/codecraft-validate/tests/` | Validation entry, public CLI, test discovery, language/link policy and migration inventory |
+| `skills/codecraft-validate/tests/` | Validation entry, public CLI, test discovery, language/link policy and unique test identities |
 | `capabilities/<capability>/tests/`, `capabilities/_tests/` | Semantic contracts, Provider policy and actual prepared-client conformance |
 | `platforms/<stack>/tests/` | Platform-wide adapter/registration contracts and shared native test support |
 | `platforms/<stack>/components/<component>/tests/` | Shared native implementation and its C fixtures |
@@ -46,26 +46,10 @@ passing results. The JSON envelope and exit codes remain 0 for all passed,
 and does not silently discard neighboring suites. Asynchronous/pytest-style
 fixtures are not an implicit supported test format.
 
-## OPT-13 migration
+## Coverage
 
-The [ID mapping](../../skills/codecraft-validate/tests/migrations/opt-13.json)
-preserves all 133 entries from the previous complete gate as 156 explicit
-cases. One entry previously wrapped nine unittest methods; those methods now
-run directly. Multi-board native functions are split into their owning Target
-paths. The same 772 C scenario invocations are retained, with 53 board/component
-test functions instead of 38 combined functions. Shared compiler helpers do
-not independently execute those scenarios.
-
-Use the new owner path for focused invocation. The former
-`python3 skills/_cloud/test_skills.py -v` command is replaced by
-`python3 codecraft.py test --path skills/_cloud/tests/test_protocol.py`.
-Historical result IDs and retained source hashes remain attributable to their
-original snapshots; migration does not rewrite old evidence. The mapping
-regression rejects missing or duplicate current IDs. New tests may be added
-without deleting preserved cases or registering the same function twice.
-
-Candidate release checks intentionally run their own isolated conformance
-workflow. They use the same maintained protocol fixture at its new path; this
-is distinct from duplicate discovery within a single host gate. No Skill
-package bytes, API versions or native firmware behavior change in this layout
-migration.
+Every discovered case has one owner-qualified ID. Collection rejects duplicate
+aliases and reports import/fixture failures. Adding or moving tests must retain
+behavioral coverage without forwarding wrappers or duplicate execution.
+Release candidates run isolated client conformance in their own workflow; those
+checks do not turn offline protocol results into live service acceptance.

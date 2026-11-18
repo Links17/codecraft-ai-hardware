@@ -28,11 +28,11 @@ python3 codecraft.py build-project /tmp/my-e1001-project
 
 The output directory must not already exist. `project.yaml` records selections; `codecraft.lock` records imported file hashes, the repository revision and toolchain. Generated projects and build logs are not committed.
 
-The public entry is also included in new exports; from an application directory use `python3 codecraft.py build-project .`. The previous `python3 skills/_shared/codecraft.py` entry and bundled `python3 build.py [--lock]` remain compatible. No global CLI installation is needed. Standalone cloud Skills remain independent; maintain package releases through the [candidate workflow](docs/development/skill-releases.md).
+The public entry is also included in new exports; from an application directory use `python3 codecraft.py build-project .`. No global CLI installation is needed. Standalone cloud Skills remain independent; maintain package releases through the [candidate workflow](docs/development/skill-releases.md).
 
 ## Structure and contribution
 
-`devices/` owns facts and sources; `platforms/` owns native implementations; `capabilities/` owns contracts consumed by cloud Skills; `skills/` owns orchestration, scripts and contract tests. Read [architecture and migration](docs/architecture/overview.md) and [contribution rules](.github/CONTRIBUTING.md).
+`devices/` owns facts and sources; `platforms/` owns native implementations; `capabilities/` owns contracts consumed by cloud Skills; `skills/` owns orchestration, scripts and contract tests. Read [architecture](docs/architecture/overview.md) and [contribution rules](.github/CONTRIBUTING.md).
 
 After source metadata changes, run `python3 codecraft.py generate`, then `python3 codecraft.py generate --check`. CI and discovery use the same Target records. The complete software gate is `python3 codecraft.py validate`; physical verification is separate and remains unperformed until real evidence is recorded.
 

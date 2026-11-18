@@ -1,12 +1,7 @@
-> Imported pre-migration reference. Build claims here are historical, not current evidence. Relative code paths refer to the Target; follow the device AGENTS.md for current usage.
-
 # Seeed XIAO ESP32-S3 1.47" Touch Display
 
-Status: **BSP landed** — `bsp/` (display, buttons, PDM mic) and three
-examples build clean on ESP-IDF v6.0.2 (reference's doc pins v6.0.1 as its
-reference version). On-device verification not yet performed.
 
-## Verified facts
+## Hardware facts
 
 - Controller: XIAO ESP32-S3 Plus (ESP32-S3, dual-core 240 MHz), 16 MB
   flash (DIO 80 MHz), 8 MB octal PSRAM (80 MHz).
@@ -27,14 +22,14 @@ reference version). On-device verification not yet performed.
   the SD chip-select and the touch interrupt.
   Source: reference `devices/seeed-xiao-s3-147.md`.
 
-## Extracted, driver not yet ported
+## Hardware outside registered native interfaces
 
 - AXS5106L capacitive touch @0x63 (SDA=5, SCL=6, INT=44); the reset line
   is shared with the LCD and pulsed once at boot. Touch X is mirrored to
   match the panel orientation. Protocol reference: reference
   `reference:boards/xiao_147_touch.h`.
 - microSD slot (CS=43, held high when unused); LSM6DS3 IMU; battery
-  input. All present on the board, unused so far.
+  input. All present on the board, outside the registered interfaces.
 
 ## Vendor source
 
@@ -44,13 +39,13 @@ JD9853A register sequence, AXS5106L reports, PDM example.
 
 ## BSP
 
-| Header | Capability |
+| Header | Native interface |
 |---|---|
 | `bsp_display.h` | JD9853A panel via esp_lcd ST7789 + vendor sequence, backlight |
 | `bsp_button.h` | USR1/USR2 keys with debounce task |
 | `bsp_mic.h` | PDM microphone, mono 16-bit PCM |
 
-Pin facts with sources: `bsp/include/bsp_pins.h`.
+Pin facts with sources: [bsp_pins.h](../../../platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_pins.h).
 
 ## Examples
 
@@ -59,11 +54,15 @@ Pin facts with sources: `bsp/include/bsp_pins.h`.
 - `mic_level` — PDM mic RMS level bar on the console.
 
 Each is a standalone IDF project sharing the board `sdkconfig.defaults`
-via symlink.
+via symlink. Native code paths below are relative to the Target directory.
 
 Build (ESP-IDF v6.0.2):
 
 ```bash
 source ~/esp/esp-idf-v6.0.2/export.sh
-./tools/validate.sh --esp32 xiao-s3-147
+python3 codecraft.py validate --target esp-idf/xiao-s3-147
 ```
+
+## Current commands and verification
+
+Run `python3 codecraft.py validate --target esp-idf/xiao-s3-147 --projects` from the repository root. The [Target manifest](../../../platforms/esp-idf/targets/xiao-s3-147/target.json) declares exact toolchain, examples and native interface scope. The [Device acceptance plan](../tests/acceptance.json) defines physical checks. Build receipts and physical observations are separate; an exported project carries no hardware-verification claim. Hardware writes require a selected unit and explicit authorization.

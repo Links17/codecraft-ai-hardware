@@ -21,7 +21,7 @@ extern "C" {
  * reconfigure/delete them through SDK calls. Repeated successful init is a
  * no-op. Failed setup releases the ADC; complete cleanup allows retry,
  * failed deletion blocks init until reset. Missing calibration eFuse data
- * preserves the legacy uncalibrated estimate; other calibration errors fail.
+ * returns ESP_ERR_NOT_SUPPORTED; no voltage estimate is substituted.
  * Native allocation/ADC/cleanup has no BSP-imposed total deadline. */
 esp_err_t bsp_battery_init(void);
 
@@ -30,9 +30,8 @@ esp_err_t bsp_battery_init(void);
  * No hard whole-call deadline; scheduling/native waits are additional.
  * Always attempts disable even after enable/read failure. A failed disable
  * leaves physical state uncertain; the next read must first turn it off
- * successfully before sampling again. Returns calibrated millivolts when
- * available; otherwise the existing raw*3100/4095*2 estimate is approximate,
- * not a measured accuracy guarantee. Caller owns output through the call. */
+ * successfully before sampling again. Returns calibrated millivolts. Calibration availability does not itself
+ * establish measurement accuracy. Caller owns output through the call. */
 esp_err_t bsp_battery_read_mv(int *mv);
 
 #ifdef __cplusplus

@@ -13,7 +13,7 @@ The documentation gate requires paired README files and rejects Chinese copies o
 
 For changed standalone packages, follow docs/development/skill-releases.md. Check the exact candidate, review its digest and versions, then explicitly apply it; application reruns isolated client conformance. A passing candidate does not publish, authorize a live API task or replace the complete repository gate.
 
-For focused host checks, use `python3 codecraft.py test --path <owner>`; use `test --list` to inspect collected IDs. Read docs/development/testing.md before moving tests. Preserve the recorded ID mapping and full scenario coverage; do not keep old forwarding wrappers that execute the same suite twice. Skips and fixture/collection failures must remain visible.
+For focused host checks, use `python3 codecraft.py test --path <owner>`; use `test --list` to inspect collected IDs. Read docs/development/testing.md before moving tests. Preserve full scenario coverage; do not keep old forwarding wrappers that execute the same suite twice. Skips and fixture/collection failures must remain visible.
 
 ESP-IDF examples use explicit BSP compositions. Read docs/development/native-compositions.md when changing native source selection, BSP layout or dependencies. Keep the profile, native manifests, Target example scope and lock aligned; settle native lock updates before final source-fingerprint validation. A successful compiler command must also pass the actual BSP-source/requirement check.
 

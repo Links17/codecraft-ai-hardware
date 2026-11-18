@@ -1,6 +1,6 @@
-# Imported vendor provenance
+# Vendor provenance
 
-Source rows preserved from the pre-migration vendor index; primary links and source locations remain applicable.
+Primary links identify vendor sources; inspect the stated files and revisions before changing hardware facts.
 
 | Board | Vendor source | Where to look |
 | --- | --- | --- |

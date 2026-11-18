@@ -1,6 +1,6 @@
 """Shared standard-library client, copied into each independently installable skill.
 
-Edit this source and run skills/_cloud/sync_helpers.py; never import across skills.
+Maintain this source through the skill-release candidate workflow; runtime imports stay package-local.
 """
 import argparse
 import base64

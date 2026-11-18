@@ -10,6 +10,7 @@
  *    trusted read_len/next_packet_len blindly, which overflows the on-stack
  *    sample buffers (10-finger HDP frame, 32-byte remain buffer) and can
  *    loop forever on the HDP remain-data path.
+ *  - Use native IDF I2C device transactions; the BSP owns bus and board pins.
  */
 
 #include <inttypes.h>
@@ -20,12 +21,13 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
-#include "driver/i2c.h"
+#include "driver/i2c_master.h"
+#include "esp_rom_sys.h"
 #include "esp_system.h"
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp_check.h"
-#include "esp_lcd_panel_io.h"
+#include "esp_lcd_touch_spd2010.h"
 #include "esp_lcd_touch.h"
 
 static const char *TAG = "SPD2010";
@@ -96,7 +98,6 @@ typedef struct {
 static esp_err_t read_data(esp_lcd_touch_handle_t tp);
 static bool get_xy(esp_lcd_touch_handle_t tp, uint16_t *x, uint16_t *y, uint16_t *strength, uint8_t *point_num, uint8_t max_point_num);
 static esp_err_t del(esp_lcd_touch_handle_t tp);
-static esp_err_t reset(esp_lcd_touch_handle_t tp);
 
 static esp_err_t write_tp_point_mode_cmd(esp_lcd_touch_handle_t tp);
 static esp_err_t write_tp_start_cmd(esp_lcd_touch_handle_t tp);
@@ -108,66 +109,39 @@ static esp_err_t read_tp_hdp_status(esp_lcd_touch_handle_t tp, tp_hdp_status_t *
 static esp_err_t read_fw_version(esp_lcd_touch_handle_t tp);
 static esp_err_t tp_read_data(esp_lcd_touch_handle_t tp, tp_touch_t *touch);
 
-esp_err_t esp_lcd_touch_new_i2c_spd2010(const esp_lcd_panel_io_handle_t io, const esp_lcd_touch_config_t *config, esp_lcd_touch_handle_t *tp)
+typedef struct {
+    esp_lcd_touch_t base;
+    i2c_master_dev_handle_t device;
+} spd2010_t;
+
+/* Preserve the vendor protocol's separate raw write/read transactions and
+ * 200 us inter-command delays. IDF's device API adds no LCD framing bytes. */
+#define TOUCH_I2C_TIMEOUT_MS 100
+
+esp_err_t esp_lcd_touch_new_i2c_spd2010(i2c_master_dev_handle_t device,
+    const esp_lcd_touch_config_t *config, esp_lcd_touch_handle_t *tp)
 {
-    ESP_RETURN_ON_FALSE(io, ESP_ERR_INVALID_ARG, TAG, "Invalid io");
-    ESP_RETURN_ON_FALSE(config, ESP_ERR_INVALID_ARG, TAG, "Invalid config");
-    ESP_RETURN_ON_FALSE(tp, ESP_ERR_INVALID_ARG, TAG, "Invalid touch handle");
-
-    /* Prepare main structure */
-    esp_err_t ret = ESP_OK;
-    esp_lcd_touch_handle_t spd2010 = calloc(1, sizeof(esp_lcd_touch_t));
-    ESP_GOTO_ON_FALSE(spd2010, ESP_ERR_NO_MEM, err, TAG, "Touch handle malloc failed");
-
-    /* Communication interface */
-    spd2010->io = io;
-    /* Only supported callbacks are set */
-    spd2010->read_data = read_data;
-    spd2010->get_xy = get_xy;
-    spd2010->del = del;
-    /* Mutex */
-    spd2010->data.lock.owner = portMUX_FREE_VAL;
-    /* Save config */
-    memcpy(&spd2010->config, config, sizeof(esp_lcd_touch_config_t));
-
-    /* Prepare pin for touch interrupt */
-    if (config->int_gpio_num != GPIO_NUM_NC) {
-        const gpio_config_t int_gpio_config = {
-            .mode = GPIO_MODE_INPUT,
-            .intr_type = (config->levels.interrupt) ? GPIO_INTR_POSEDGE : GPIO_INTR_NEGEDGE,
-            .pin_bit_mask = BIT64(config->int_gpio_num)
-        };
-        ESP_GOTO_ON_ERROR(gpio_config(&int_gpio_config), err, TAG, "GPIO intr config failed");
-
-        /* Register interrupt callback */
-        if (config->interrupt_callback) {
-            esp_lcd_touch_register_interrupt_callback(spd2010, config->interrupt_callback);
-        }
+    ESP_RETURN_ON_FALSE(tp, ESP_ERR_INVALID_ARG, TAG, "Invalid output");
+    *tp = NULL;
+    ESP_RETURN_ON_FALSE(device && config, ESP_ERR_INVALID_ARG, TAG, "Invalid device/config");
+    ESP_RETURN_ON_FALSE(config->rst_gpio_num == GPIO_NUM_NC && config->int_gpio_num == GPIO_NUM_NC &&
+                        !config->interrupt_callback, ESP_ERR_NOT_SUPPORTED, TAG, "BSP must own reset and interrupt routing");
+    spd2010_t *driver = calloc(1, sizeof(*driver));
+    ESP_RETURN_ON_FALSE(driver, ESP_ERR_NO_MEM, TAG, "Touch allocation failed");
+    driver->device = device;
+    esp_lcd_touch_handle_t touch = &driver->base;
+    touch->read_data = read_data;
+    touch->get_xy = get_xy;
+    touch->del = del;
+    touch->data.lock.owner = portMUX_FREE_VAL;
+    memcpy(&touch->config, config, sizeof(*config));
+    esp_err_t ret = read_fw_version(touch);
+    if (ret != ESP_OK) {
+        free(driver);
+        return ret;
     }
-    /* Prepare pin for touch controller reset */
-    if (config->rst_gpio_num != GPIO_NUM_NC) {
-        const gpio_config_t rst_gpio_config = {
-            .mode = GPIO_MODE_OUTPUT,
-            .pin_bit_mask = BIT64(config->rst_gpio_num)
-        };
-        ESP_GOTO_ON_ERROR(gpio_config(&rst_gpio_config), err, TAG, "GPIO reset config failed");
-    }
-    /* Reset controller */
-    ESP_GOTO_ON_ERROR(reset(spd2010), err, TAG, "Reset failed");
-    ESP_GOTO_ON_ERROR(read_fw_version(spd2010), err, TAG, "Read version failed");
-
-    ESP_LOGI(TAG, "Touch panel create success, version: %d.%d.%d", ESP_LCD_TOUCH_SPD2010_VER_MAJOR,
-             ESP_LCD_TOUCH_SPD2010_VER_MINOR, ESP_LCD_TOUCH_SPD2010_VER_PATCH);
-
-    *tp = spd2010;
-
+    *tp = touch;
     return ESP_OK;
-err:
-    if (spd2010) {
-        del(spd2010);
-    }
-    ESP_LOGE(TAG, "Initialization failed!");
-    return ret;
 }
 
 static esp_err_t read_data(esp_lcd_touch_handle_t tp)
@@ -215,40 +189,19 @@ static bool get_xy(esp_lcd_touch_handle_t tp, uint16_t *x, uint16_t *y, uint16_t
 
 static esp_err_t del(esp_lcd_touch_handle_t tp)
 {
-    /* Reset GPIO pin settings */
-    if (tp->config.int_gpio_num != GPIO_NUM_NC) {
-        gpio_reset_pin(tp->config.int_gpio_num);
-    }
-    if (tp->config.rst_gpio_num != GPIO_NUM_NC) {
-        gpio_reset_pin(tp->config.rst_gpio_num);
-        if (tp->config.interrupt_callback) {
-            gpio_isr_handler_remove(tp->config.int_gpio_num);
-        }
-    }
-    /* Release memory */
-    free(tp);
-
+    free(tp); /* base is the first field; the BSP retains the I2C device. */
     return ESP_OK;
 }
 
-static esp_err_t reset(esp_lcd_touch_handle_t tp)
+static esp_err_t receive(esp_lcd_touch_handle_t tp, void *buffer, size_t size)
 {
-    TickType_t delay_tick = 0;
-
-    if (tp->config.rst_gpio_num != GPIO_NUM_NC) {
-        ESP_RETURN_ON_ERROR(gpio_set_level(tp->config.rst_gpio_num, tp->config.levels.reset), TAG, "GPIO set level failed");
-        delay_tick = pdMS_TO_TICKS(2);
-        vTaskDelay((delay_tick > 0) ? delay_tick : 1);
-        ESP_RETURN_ON_ERROR(gpio_set_level(tp->config.rst_gpio_num, !tp->config.levels.reset), TAG, "GPIO set level failed");
-        delay_tick = pdMS_TO_TICKS(22);
-        vTaskDelay((delay_tick > 0) ? delay_tick : 1);
-    }
-
-    return ESP_OK;
+    ESP_RETURN_ON_FALSE(size > 0 && size <= TP_HDP_MAX_FRAME,
+                        ESP_ERR_INVALID_SIZE, TAG, "Invalid frame length");
+    return i2c_master_receive(((spd2010_t *)tp)->device, buffer, size, TOUCH_I2C_TIMEOUT_MS);
 }
 
-#define i2c_write(data_p, len)      ESP_RETURN_ON_ERROR(esp_lcd_panel_io_tx_param(tp->io, 0, data_p, len), TAG, "Tx failed");
-#define i2c_read(data_p, len)       ESP_RETURN_ON_ERROR(esp_lcd_panel_io_rx_param(tp->io, 0, data_p, len), TAG, "Rx failed");
+#define i2c_write(data_p, len) ESP_RETURN_ON_ERROR(i2c_master_transmit(((spd2010_t *)tp)->device, data_p, len, TOUCH_I2C_TIMEOUT_MS), TAG, "Tx failed");
+#define i2c_read(data_p, len) ESP_RETURN_ON_ERROR(receive(tp, data_p, len), TAG, "Rx failed");
 
 static esp_err_t write_tp_point_mode_cmd(esp_lcd_touch_handle_t tp)
 {
@@ -339,8 +292,8 @@ static esp_err_t read_tp_hdp(esp_lcd_touch_handle_t tp, tp_status_t *tp_status, 
     sample_data[0] = 0x00;
     sample_data[1] = 0x03;
 
-    if (tp_status->read_len > sizeof(sample_data)) {
-        ESP_LOGW(TAG, "hdp read_len %u over buffer, dropping frame", tp_status->read_len);
+    if (tp_status->read_len < 5 || tp_status->read_len > sizeof(sample_data)) {
+        ESP_LOGW(TAG, "Invalid hdp read_len %u", tp_status->read_len);
         return ESP_ERR_INVALID_SIZE;
     }
 
@@ -352,6 +305,8 @@ static esp_err_t read_tp_hdp(esp_lcd_touch_handle_t tp, tp_status_t *tp_status, 
     check_id = sample_data[4];
 
     if ((check_id <= 0x0A) && tp_status->status_low.pt_exist) {
+        ESP_RETURN_ON_FALSE(tp_status->read_len >= 10 && (tp_status->read_len - 4) % 6 == 0,
+                            ESP_ERR_INVALID_SIZE, TAG, "Incomplete touch point frame");
         touch->touch_num = ((tp_status->read_len - 4)/6);
         if (touch->touch_num > TP_HDP_MAX_FINGERS) {
             touch->touch_num = TP_HDP_MAX_FINGERS;
@@ -388,6 +343,8 @@ static esp_err_t read_tp_hdp(esp_lcd_touch_handle_t tp, tp_status_t *tp_status, 
                          touch->rpt[finger_num].weight);
         }
     } else if ((check_id == 0xF6) && tp_status->status_low.gesture) {
+        ESP_RETURN_ON_FALSE(tp_status->read_len >= 7,
+                            ESP_ERR_INVALID_SIZE, TAG, "Incomplete gesture frame");
         touch->touch_num = 0x00;
         touch->up = 0;
         touch->down = 0;
@@ -421,7 +378,7 @@ static esp_err_t Read_HDP_REMAIN_DATA(esp_lcd_touch_handle_t tp, tp_hdp_status_t
 {
     uint8_t sample_data[32];
 
-    if (tp_hdp_status->next_packet_len > TP_HDP_REMAIN_MAX) {
+    if (tp_hdp_status->next_packet_len == 0 || tp_hdp_status->next_packet_len > TP_HDP_REMAIN_MAX) {
         ESP_LOGW(TAG, "next_packet_len %u over buffer, dropping frame", tp_hdp_status->next_packet_len);
         return ESP_ERR_INVALID_SIZE;
     }
@@ -506,15 +463,16 @@ static esp_err_t tp_read_data(esp_lcd_touch_handle_t tp, tp_touch_t *touch)
             if (tp_hdp_status.status == 0x82) {
                 /* Clear INT */
                 ESP_RETURN_ON_ERROR(write_tp_clear_int_cmd(tp), TAG, "Write clear int cmd failed");
-                break;
+                return ESP_OK;
             }
             else if (tp_hdp_status.status == 0x00) {
                 /* Read HDP Remain Data */
                 ESP_RETURN_ON_ERROR(Read_HDP_REMAIN_DATA(tp, &tp_hdp_status), TAG, "Read hdp remain data failed");
             } else {
-                break;
+                return ESP_ERR_INVALID_RESPONSE;
             }
         }
+        return ESP_ERR_TIMEOUT;
     } else if (tp_status.status_high.cpu_run && tp_status.status_low.aux) {
         ESP_RETURN_ON_ERROR(write_tp_clear_int_cmd(tp), TAG, "Write clear int cmd failed");
     }

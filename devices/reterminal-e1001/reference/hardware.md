@@ -1,8 +1,5 @@
-> Imported pre-migration reference. Build claims here are historical, not current evidence. Relative code paths refer to the Target; follow the device AGENTS.md for current usage.
-
 # reTerminal E1001 (7.5" mono e-ink)
 
-Status: **extracted, build-verified on ESP-IDF v6.0.2** — not yet flashed to hardware.
 
 Battery-powered 800x480 monochrome e-paper terminal: ESP32-S3R8
 (8 MB octal PSRAM), 32 MB flash, SHT4x temperature/humidity, PCF8563 RTC,
@@ -11,7 +8,7 @@ keys and a green status LED.
 
 ## BSP
 
-| Header | Capability |
+| Header | Native interface |
 |---|---|
 | `bsp_epd.h` | UC8179 panel: 1 bpp framebuffer (MSB leftmost, 1 = white), full/fast refresh, panel deep-sleeps after each update |
 | `bsp_button.h` | green / Left / Right keys (GPIO 3/4/5, active low, debounced) |
@@ -24,7 +21,7 @@ keys and a green status LED.
 | `bsp_mic.h` | PDM microphone capture (CLK 42 / DATA 41 / EN 38) |
 | `bsp_sdcard.h` | microSD over SDSPI on SPI2 (shared with the panel), rail + card-detect |
 
-Pin facts with sources: `bsp/include/bsp_pins.h`.
+Pin facts with sources: [bsp_pins.h](../../../platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_pins.h).
 
 ## Examples
 
@@ -36,19 +33,17 @@ Pin facts with sources: `bsp/include/bsp_pins.h`.
 - `sdcard_test` — mounts the microSD slot, writes and reads back a file;
   insert a FAT-formatted card first.
 
-Build (ESP-IDF v6.0.2):
-
-```sh
-cd examples/epd_hello && idf.py build flash monitor
-```
 
 ## Notes for agents
 
-- Flash: 32 MB W25Q256JV (vendor schematic + Zephyr dts). the imported hardware reference
-  configures 16 MB; both build, 32 MB matches hardware.
+- Flash: 32 MB W25Q256JV (vendor schematic + Zephyr dts). the Target configuration uses the sourced capacity.
 - The 48 KB framebuffer belongs in octal PSRAM (`MALLOC_CAP_SPIRAM`); the
   examples fall back to internal RAM.
 - The UC8179 has no partial-refresh waveform here: "fast" refresh is the
   reference/GxEPD2 GDEY075T7 sequence. Do not invent a partial refresh.
 - Board heat warms the onboard SHT4x; apply an offset in the application
-  (reference used a Kconfig offset in tenths of a degree).
+  only after measurements support it.
+
+## Current commands and verification
+
+Run `python3 codecraft.py validate --target esp-idf/reterminal-e1001 --projects` from the repository root. The [Target manifest](../../../platforms/esp-idf/targets/reterminal-e1001/target.json) declares exact toolchain, examples and native interface scope. The [Device acceptance plan](../tests/acceptance.json) defines physical checks. Build receipts and physical observations are separate; an exported project carries no hardware-verification claim. Hardware writes require a selected unit and explicit authorization.

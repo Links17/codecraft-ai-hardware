@@ -192,7 +192,6 @@
     "devices/reterminal-e1002/reference/hardware.md",
     "platforms/esp-idf/targets/reterminal-e1002/bsp/include/bsp_pins.h",
     "devices/reterminal-e1002/reference/vendor-notes.md",
-    "devices/reterminal-e1002/reference/inventory.md",
     "devices/reterminal-e1002/tests/hardware-checklist.md"
   ],
   "revision": "unknown",
@@ -200,7 +199,7 @@
     "en": "Use the listed standalone examples as the supported development entry points.",
     "zh_CN": "以列出的独立示例作为受支持的开发入口。"
   },
-  "schema_version": 2,
+  "schema_version": 3,
   "unknowns": [
     {
       "en": "Physical board revision and fresh on-device verification are not recorded.",
@@ -211,6 +210,7 @@
       "zh_CN": "须阅读原始硬件来源中的待移植驱动、前置条件和已知限制。"
     }
   ],
+  "variants": {},
   "vendor_sources": [
     "https://github.com/zephyrproject-rtos/zephyr/tree/main/boards/seeed/reterminal_e1001",
     "https://files.seeedstudio.com/wiki/reterminal_e10xx/res/202004307_reTerminal_E1001_V1_2_SCH_251120.pdf"

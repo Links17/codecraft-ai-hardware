@@ -1,10 +1,7 @@
-> Imported pre-migration reference. Build claims here are historical, not current evidence. Relative code paths refer to the Target; follow the device AGENTS.md for current usage.
-
 # Seeed reSpeaker Lite (XIAO ESP32-S3)
 
-Status: **BSP landed** — `bsp/` (audio/LED/button) and three examples build clean on ESP-IDF v6.0.2 (reference doc pins v6.0.1 as the reference version). On-device verification not yet performed.
 
-## Verified facts
+## Hardware facts
 
 - Module: XIAO ESP32-S3, 8 MB flash (DIO 80 MHz), 8 MB octal PSRAM (80 MHz).
   Source: reference `esp32/devices/sdkconfig.seeed-respeaker-lite`.
@@ -27,13 +24,13 @@ Status: **BSP landed** — `bsp/` (audio/LED/button) and three examples build cl
 
 ## BSP
 
-| Header | Capability |
+| Header | Native interface |
 |---|---|
 | `bsp_audio.h` | XMOS + AIC3204 over I2C, 16 kHz I2S slave capture/playback |
 | `bsp_led.h` | WS2812 RGB LED |
 | `bsp_button.h` | BOOT button with debounce task |
 
-Pin facts with sources: `bsp/include/bsp_pins.h`.
+Pin facts with sources: [bsp_pins.h](../../../platforms/esp-idf/targets/respeaker-lite/bsp/include/bsp_pins.h).
 
 ## Layout
 
@@ -41,7 +38,7 @@ Pin facts with sources: `bsp/include/bsp_pins.h`.
 - `bsp/` — `bsp_audio` (XMOS + AIC3204 over I2C, 16 kHz I2S slave),
   `bsp_led` (WS2812), `bsp_button` (BOOT with debounce task).
 - `examples/` — `audio_meter`, `button_led`, `wifi_scan`. Each is a
-  standalone IDF project sharing the board `sdkconfig.defaults` via symlink.
+  standalone IDF project sharing the board `sdkconfig.defaults` via symlink. Native code paths below are relative to the Target directory.
 
 ## Examples
 
@@ -52,7 +49,7 @@ Pin facts with sources: `bsp/include/bsp_pins.h`.
   the external antenna).
 
 Each is a standalone IDF project sharing the board `sdkconfig.defaults`
-via symlink.
+via symlink. Native code paths below are relative to the Target directory.
 
 ## Pin map (verified, see `bsp/include/bsp_pins.h` for citations)
 
@@ -69,3 +66,7 @@ via symlink.
 | BOOT button (active low) | 0 | — |
 
 I2C devices: XMOS `0x42`, AIC3204 codec `0x18`.
+
+## Current commands and verification
+
+Run `python3 codecraft.py validate --target esp-idf/respeaker-lite --projects` from the repository root. The [Target manifest](../../../platforms/esp-idf/targets/respeaker-lite/target.json) declares exact toolchain, examples and native interface scope. The [Device acceptance plan](../tests/acceptance.json) defines physical checks. Build receipts and physical observations are separate; an exported project carries no hardware-verification claim. Hardware writes require a selected unit and explicit authorization.

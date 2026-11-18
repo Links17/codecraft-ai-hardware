@@ -6,45 +6,23 @@
 #pragma once
 
 #include "esp_lcd_touch.h"
+#include "driver/i2c_master.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/**
- * @brief Create a new SPD2010 touch driver
- *
- * @note  The I2C communication should be initialized before use this function.
- *
- * @param io LCD panel IO handle, it should be created by `esp_lcd_new_panel_io_i2c()`
- * @param config Touch panel configuration
- * @param tp Touch panel handle
- * @return
- *      - ESP_OK: on success
- */
-esp_err_t esp_lcd_touch_new_i2c_spd2010(const esp_lcd_panel_io_handle_t io, const esp_lcd_touch_config_t *config, esp_lcd_touch_handle_t *tp);
+/* Native IDF I2C device, borrowed for the lifetime of the touch handle.
+ * The BSP owns power, reset and interrupt routing. This driver polls; both
+ * GPIO numbers must be GPIO_NUM_NC and interrupt_callback must be NULL.
+ * Returns a handle only after initialization succeeds. Delete the handle
+ * before removing the I2C device. Calls must be serialized by the owner.
+ * Transactions use raw payloads with no LCD command/control prefix. */
+esp_err_t esp_lcd_touch_new_i2c_spd2010(i2c_master_dev_handle_t device,
+    const esp_lcd_touch_config_t *config, esp_lcd_touch_handle_t *tp);
 
-/**
- * @brief I2C address of the SPD2010 controller
- *
- */
-#define ESP_LCD_TOUCH_IO_I2C_SPD2010_ADDRESS     (0x53)
-
-/**
- * @brief Touch IO configuration structure
- *
- */
-#define ESP_LCD_TOUCH_IO_I2C_SPD2010_CONFIG()               \
-    {                                                       \
-        .dev_addr = ESP_LCD_TOUCH_IO_I2C_SPD2010_ADDRESS,   \
-        .control_phase_bytes = 1,                           \
-        .dc_bit_offset = 0,                                 \
-        .lcd_cmd_bits = 0,                                  \
-        .flags =                                            \
-        {                                                   \
-            .disable_control_phase = 1,                     \
-        }                                                   \
-    }
+/* Vendor SPD2010 0.0.1 touch protocol: 7-bit I2C address. */
+#define ESP_LCD_TOUCH_SPD2010_ADDRESS 0x53
 
 #ifdef __cplusplus
 }

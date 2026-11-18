@@ -1,17 +1,12 @@
-> Imported pre-migration reference. Build claims here are historical, not current evidence. Relative code paths refer to the Target; follow the device AGENTS.md for current usage.
-
 # Seeed reTerminal Sticky
 
-Status: **BSP landed** — `bsp/` (SSD1677 e-paper, keys, SHT4x) and three
-examples build clean on ESP-IDF v6.0.2. On-device verification not yet
-performed.
 
-## Verified facts
+## Hardware facts
 
 - SoC/memory: ESP32-S3, 8 MB octal PSRAM (80 MHz). Flash: the vendor
   factory firmware and reference's board header say 32 MB; reference's sdkconfig
-  configures 16 MB conservatively. This board keeps 16 MB (works on
-  either chip) until the flash chip is confirmed on hardware.
+  configures 16 MB. This Target uses a 16 MB address range until the flash chip is confirmed on hardware. This is a configured
+  address range, not proof of the installed capacity.
   Sources: reference `reference:boards/board_reterminal_sticky.c`
   header, `esp32/devices/sdkconfig.reterminal-sticky`.
 - Display: 3.97" SSD1677 e-paper, native 800x480, used portrait 480x800;
@@ -29,7 +24,7 @@ performed.
 - PDM microphone on I2S0: CLK=19, DATA=20, power EN=38 (active high).
   Source: reference `board_reterminal_sticky.c`.
 
-## Extracted, driver not yet ported
+## Hardware outside registered native interfaces
 
 - GT911 capacitive touch on I2C0 (SDA=3, SCL=2), address 0x5D (fallback
   0x14), power EN=42, RST=41, INT=21; the digitizer counts Y from the
@@ -52,13 +47,13 @@ Board-level reference:
 
 ## BSP
 
-| Header | Capability |
+| Header | Native interface |
 |---|---|
 | `bsp_epd.h` | SSD1677 panel, 480x800 portrait: mono full/fast refresh + 4-gray mode |
 | `bsp_button.h` | AI/Up/Down keys with debounce task |
 | `bsp_sht4x.h` | SHT4x temperature/humidity on I2C1 |
 
-Pin facts with sources: `bsp/include/bsp_pins.h`.
+Pin facts with sources: [bsp_pins.h](../../../platforms/esp-idf/targets/reterminal-sticky/bsp/include/bsp_pins.h).
 
 ## Examples
 
@@ -67,11 +62,15 @@ Pin facts with sources: `bsp/include/bsp_pins.h`.
 - `button_hello` — log AI/Up/Down presses.
 
 Each is a standalone IDF project sharing the board `sdkconfig.defaults`
-via symlink.
+via symlink. Native code paths below are relative to the Target directory.
 
 Build (ESP-IDF v6.0.2):
 
 ```bash
 source ~/esp/esp-idf-v6.0.2/export.sh
-./tools/validate.sh --esp32 reterminal-sticky
+python3 codecraft.py validate --target esp-idf/reterminal-sticky
 ```
+
+## Current commands and verification
+
+Run `python3 codecraft.py validate --target esp-idf/reterminal-sticky --projects` from the repository root. The [Target manifest](../../../platforms/esp-idf/targets/reterminal-sticky/target.json) declares exact toolchain, examples and native interface scope. The [Device acceptance plan](../tests/acceptance.json) defines physical checks. Build receipts and physical observations are separate; an exported project carries no hardware-verification claim. Hardware writes require a selected unit and explicit authorization.

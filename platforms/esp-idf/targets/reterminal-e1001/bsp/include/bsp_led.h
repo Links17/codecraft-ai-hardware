@@ -21,9 +21,9 @@ extern "C" {
  * allow retry. Repeated successful init preserves the requested LED state.
  * Native GPIO calls add no BSP delay and have no hard total deadline. */
 esp_err_t bsp_led_init(void);
-/* No-op before readiness. The legacy void API logs a native write error;
- * physical state is then uncertain. The owner may retry the desired value. */
-void bsp_led_set(bool on);
+/* Returns INVALID_STATE before readiness and propagates GPIO write errors.
+ * Physical state is uncertain after a failed write; the owner may retry. */
+esp_err_t bsp_led_set(bool on);
 
 #ifdef __cplusplus
 }

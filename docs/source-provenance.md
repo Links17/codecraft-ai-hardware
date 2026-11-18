@@ -12,14 +12,8 @@ the files available at this audit; it does not establish the original import
 revision. Copyright headers, licenses and recorded modifications remain intact.
 Primary vendor URLs continue to identify vendor hardware documentation.
 
-Changing a source label does not establish a new hardware observation or change
-a pin, protocol, timing, toolchain or dependency. Historical evidence retains its
-original source fingerprints and observations. A historical summary with a
-normalized source label explicitly records that redaction and its original
-artifact hash; any checksum referencing that artifact must match the retained
-bytes. Fresh validation is required before changed sources regain verified
-status.
-
-History maintenance changes commit IDs. Old IDs in historical evidence describe
-the original run and must not be relabelled as tests of rewritten source. New
-validation records use current source fingerprints.
+Hardware assertions require a cited specification or actual observation.
+Software validation records bind the tested source bytes, toolchain, command and
+retained output by checksum. Physical observations additionally identify the
+unit, revision, stimuli and results. A build does not establish physical behavior,
+and changed source bytes require fresh validation before regaining verified status.

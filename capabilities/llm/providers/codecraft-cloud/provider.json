@@ -100,13 +100,13 @@
       "SKILL.md": "4aaf09f3a1dd9697b0c99b751893c9658c324e3cd91f9353a8aa35152697d485",
       "agents/openai.yaml": "8af71d716cfdc2708423c6680245e719a22729240f9a274a34c4652ffb1f9fec",
       "references/api.md": "4573054a62cceab94d0662b55cab7fd5f6fa8afb5e57345e8ac7d9a4974a7233",
-      "scripts/device_api.py": "d6d89608601d447950954d6cba37d5aaf215ea1b0eaf0ad2221d3039bf8cd8c0",
+      "scripts/device_api.py": "8237ecfd38c7662c8d4d6987e31c1fabb53f867900b9057704de007edea1d80b",
       "scripts/llm.py": "467b1ba79277fa21d18d43f7e0f518d69f7c53525f8e4d0a72cc0fa1b356f45c"
     },
     "id": "codecraft-llm",
     "path": "skills/codecraft-llm",
     "python_minimum": "3.10",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   "source": {
     "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",

@@ -27,11 +27,14 @@ int main(int argc,char **argv){
     assert(argc>1);const char *mode=argv[1];int out=777;
     if(!strcmp(mode,"unready")){assert(bsp_battery_read_mv(&out)==ESP_ERR_INVALID_STATE);assert(out==777&&!calls);return 0;}
     if(!strcmp(mode,"null")){assert(bsp_battery_read_mv(NULL)==ESP_ERR_INVALID_ARG);assert(!calls);return 0;}
-    if(!strcmp(mode,"fallback"))unsupported=true;
+    if(!strcmp(mode,"uncalibrated"))unsupported=true;
     if(!strcmp(mode,"cleanup")){fail_at=4;cleanup_fail=true;}
     else fail_at=atoi(mode);
     esp_err_t result=bsp_battery_init();
-    if(fail_at){assert(result==ESP_FAIL);assert(!power);assert(bsp_battery_read_mv(&out)==ESP_ERR_INVALID_STATE&&out==777);
+    if(unsupported){assert(result==ESP_ERR_NOT_SUPPORTED);assert(!alive&&!power&&!calibrated);
+        assert(bsp_battery_read_mv(&out)==ESP_ERR_INVALID_STATE&&out==777);
+        unsupported=false;assert(bsp_battery_init()==ESP_OK);
+    }else if(fail_at){assert(result==ESP_FAIL);assert(!power);assert(bsp_battery_read_mv(&out)==ESP_ERR_INVALID_STATE&&out==777);
         if(cleanup_fail){assert(alive&&deletes==1);int before=calls;assert(bsp_battery_init()==ESP_ERR_INVALID_STATE&&calls==before);return 0;}
         assert(!alive&&!calibrated);fail_at=0;calls=0;assert(bsp_battery_init()==ESP_OK);
     }else assert(result==ESP_OK);
@@ -43,6 +46,6 @@ int main(int argc,char **argv){
         calls=0;fail_at=1;int sampled=reads;assert(bsp_battery_read_mv(&out)==ESP_FAIL&&out==777&&reads==sampled);
         fail_at=0;
     }
-    assert(bsp_battery_read_mv(&out)==ESP_OK);assert(out==(unsupported?(2048*3100/4095)*2:3600));
+    assert(bsp_battery_read_mv(&out)==ESP_OK);assert(out==3600);
     assert(!power&&alive&&delay>=pdMS_TO_TICKS(10)+1);return 0;
 }

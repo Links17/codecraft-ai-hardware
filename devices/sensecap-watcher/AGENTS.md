@@ -67,9 +67,8 @@ No verified redistributable image is registered.
 - [hardware.md](../../devices/sensecap-watcher/reference/hardware.md)
 - [bsp_pins.h](../../platforms/esp-idf/targets/sensecap-watcher/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/sensecap-watcher/reference/vendor-notes.md)
-- [inventory.md](../../devices/sensecap-watcher/reference/inventory.md)
 - [hardware-checklist.md](../../devices/sensecap-watcher/tests/hardware-checklist.md)
-- [build-e159d5a5c4307ddb.json](../../devices/sensecap-watcher/tests/records/build-e159d5a5c4307ddb.json)
+- [build-beba0fea1ee6c72f.json](../../devices/sensecap-watcher/tests/records/build-beba0fea1ee6c72f.json)
 
 ## Vendor links
 

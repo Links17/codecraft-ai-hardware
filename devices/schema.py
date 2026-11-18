@@ -56,11 +56,8 @@ def render_text(device, text, locale):
 
 def validate(root, device):
     did = device['id']
-    require(device.get('schema_version') in (2, 3), f'{did}: unsupported device schema_version')
-    if device['schema_version'] == 2:
-        require('variants' not in device, f'{did}: variant declarations require device schema_version 3')
-    else:
-        require(isinstance(device.get('variants'), dict) and device['variants'], f'{did}: device schema_version 3 requires variants')
+    require(device.get('schema_version') == 3, f'{did}: unsupported device schema_version')
+    require(isinstance(device.get('variants'), dict), f'{did}: device schema_version 3 requires variants object')
     require('targets' not in device and 'specs' not in device, f'{did}: Target indexes and translated facts must be derived')
     require(isinstance(device.get('name'), str) and device['name'], f'{did}: name required')
     require(device.get('maintenance') and device.get('maturity') in ('experimental', 'stable', 'deprecated'), f'{did}: separate owner/maturity required')

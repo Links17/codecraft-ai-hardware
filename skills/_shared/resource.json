@@ -13,7 +13,7 @@
     "skills/_shared/model.py",
     "skills/_shared/project.py",
     "skills/_shared/evidence.py",
-    "skills/_shared/codecraft.py",
+    "skills/_shared/cli.py",
     "skills/_shared/render.py",
     "devices/schema.py",
     "platforms/schema.py",

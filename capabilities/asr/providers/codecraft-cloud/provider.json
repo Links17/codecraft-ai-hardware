@@ -88,13 +88,13 @@
       "SKILL.md": "258c613209cdb47e996493227768f99a8875608480c4673893b12ed6aa280f6e",
       "agents/openai.yaml": "ffcfa558981bdccf6b2c58bf5e4fe047ff303f4ae2ca4cab0057a75edfb642fc",
       "references/api.md": "881d7b658230d4be7d8b35313f47106f2621a8d7bcf46f046512f895b8d5b56e",
-      "scripts/device_api.py": "d6d89608601d447950954d6cba37d5aaf215ea1b0eaf0ad2221d3039bf8cd8c0",
+      "scripts/device_api.py": "8237ecfd38c7662c8d4d6987e31c1fabb53f867900b9057704de007edea1d80b",
       "scripts/transcribe.py": "c441fdf38607d4b48564c2bc77c8e1cf569509b70a5cfacf0b83ae17a639a36b"
     },
     "id": "codecraft-asr",
     "path": "skills/codecraft-asr",
     "python_minimum": "3.10",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   "source": {
     "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",

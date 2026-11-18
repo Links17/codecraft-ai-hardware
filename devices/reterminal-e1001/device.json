@@ -3,8 +3,8 @@
   "conflicts": [
     {
       "resolution": {
-        "en": "Use vendor-supported physical facts; the native flash configuration is not a measurement. Sticky physical capacity remains unknown pending chip identification.",
-        "zh_CN": "物理事实以厂商来源为准，原生 Flash 配置不属于实测值。Sticky 容量在识别芯片前保持 unknown。"
+        "en": "E1001 uses the sourced 32 MB W25Q256JV capacity; the native configuration and partition table must remain within it.",
+        "zh_CN": "E1001 使用有来源的 32 MB W25Q256JV 容量；原生配置与分区表必须处于该容量范围内。"
       },
       "source": "devices/reterminal-e1001/reference/hardware.md"
     }
@@ -200,7 +200,6 @@
     "devices/reterminal-e1001/reference/hardware.md",
     "platforms/esp-idf/targets/reterminal-e1001/bsp/include/bsp_pins.h",
     "devices/reterminal-e1001/reference/vendor-notes.md",
-    "devices/reterminal-e1001/reference/inventory.md",
     "devices/reterminal-e1001/tests/hardware-checklist.md"
   ],
   "revision": "unknown",
@@ -208,7 +207,7 @@
     "en": "Use the listed standalone examples as the supported development entry points.",
     "zh_CN": "以列出的独立示例作为受支持的开发入口。"
   },
-  "schema_version": 2,
+  "schema_version": 3,
   "unknowns": [
     {
       "en": "Physical board revision and fresh on-device verification are not recorded.",
@@ -219,6 +218,7 @@
       "zh_CN": "须阅读原始硬件来源中的待移植驱动、前置条件和已知限制。"
     }
   ],
+  "variants": {},
   "vendor_sources": [
     "https://github.com/zephyrproject-rtos/zephyr/tree/main/boards/seeed/reterminal_e1001",
     "https://files.seeedstudio.com/wiki/reterminal_e10xx/res/202004307_reTerminal_E1001_V1_2_SCH_251120.pdf"

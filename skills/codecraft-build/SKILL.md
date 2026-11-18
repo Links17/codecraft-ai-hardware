@@ -9,7 +9,7 @@ Run `validate --static`, then `validate --target <id>` for each affected Target.
 
 All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.
 
-In a generated application, use `python3 codecraft.py build-project .`; explicitly accept reviewed application/toolchain changes with `python3 codecraft.py lock-project .`. The bundled `python3 build.py [--lock]` commands remain compatible. Do not use reference-Target validation to bypass an application's lock.
+In a generated application, use `python3 codecraft.py build-project .`; explicitly accept reviewed application/toolchain changes with `python3 codecraft.py lock-project .`. Do not use reference-Target validation to bypass an application's lock.
 
 ESP-IDF examples use explicit BSP compositions. Read docs/development/native-compositions.md when changing native source selection, BSP layout or dependencies. Keep the profile, native manifests, Target example scope and lock aligned; settle native lock updates before final source-fingerprint validation. A successful compiler command must also pass the actual BSP-source/requirement check.
 

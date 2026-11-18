@@ -100,13 +100,13 @@
       "SKILL.md": "0dec80e852ba7b24114ed46010bd74e3795aa2d13b1a49b47701cdf748cb50e5",
       "agents/openai.yaml": "31edf6fcf6fdca5ebf5596e5b3773d1c04215cf46a7b90fd5ea0b569cfb9dbc7",
       "references/api.md": "69e96bf6a9f37d5dbee4a6cba9606016cc21f8d358a5801953c4c016a2b048d7",
-      "scripts/device_api.py": "d6d89608601d447950954d6cba37d5aaf215ea1b0eaf0ad2221d3039bf8cd8c0",
+      "scripts/device_api.py": "8237ecfd38c7662c8d4d6987e31c1fabb53f867900b9057704de007edea1d80b",
       "scripts/generate.py": "02545b723f9d45e60b628814f72588b348dc7e1969c58dfd7ea47f5978846ae7"
     },
     "id": "codecraft-image-generation",
     "path": "skills/codecraft-image-generation",
     "python_minimum": "3.10",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   "source": {
     "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",

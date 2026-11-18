@@ -1,4 +1,4 @@
-"""Adversarial regressions for the five architecture review findings."""
+"""Source closure, native contracts, project integrity and evidence boundaries."""
 from contextlib import contextmanager
 import copy
 import json
@@ -22,7 +22,7 @@ from render import generate
 
 @contextmanager
 def fixture():
-    with tempfile.TemporaryDirectory(prefix='codecraft-v2-test-') as folder:
+    with tempfile.TemporaryDirectory(prefix='codecraft-architecture-test-') as folder:
         root = Path(folder)/'repo'
         root.mkdir()
         for source in source_files(ROOT):
@@ -183,15 +183,16 @@ def test_lock_checks_actual_toolchain_before_any_build():
         output = Path(folder)/'app'
         generate_project(Catalog(ROOT),'linux/reterminal','buttons_evdev',output)
         edit(output,'codecraft.lock',lambda lock:lock.update(resolved_toolchain={'status':'passed','python':'different'}))
-        run = subprocess.run([sys.executable,str(output/'build.py')],capture_output=True,text=True)
-        payload = json.loads(run.stdout)
+        run = subprocess.run([sys.executable,str(output/'codecraft.py'),'build-project',str(output)],capture_output=True,text=True)
+        payload = json.loads(run.stdout)['data']
         assert run.returncode == 2 and all(item['status']=='not_run' for item in payload['results'])
         assert not (output/'.codecraft/builds').exists()
 
 
 def make_build_evidence(c, tid):
     target = c.target(tid)
-    path = f'devices/{target["device"]}/tests/logs/synthetic-v2.log'
+    path = f'devices/{target["device"]}/tests/logs/synthetic.log'
+    (c.root/path).parent.mkdir(parents=True, exist_ok=True)
     (c.root/path).write_text('Synthetic unit-test observation; no real device or build claim.\n')
     cases = [{'name':name,'status':'passed','toolchain':'synthetic fixture'} for name in load_adapter(c.root,c.platforms[target['platform']]).cases(c.root,target)]
     source = c.graph(tid).fingerprint()
@@ -215,12 +216,22 @@ def test_evidence_requires_all_native_cases_and_export_from_identical_sources():
         rejected(lambda:validate_evidence(c,record,current=True),'same sources')
 
 
+def test_evidence_rejects_unsupported_versions_before_interpreting_observations():
+    with fixture() as root:
+        c = Catalog(root)
+        record = make_build_evidence(c, 'linux/reterminal')
+        for version in (1, 3, None):
+            record['schema_version'] = version
+            rejected(lambda: validate_evidence(c, record), 'Unsupported evidence schema')
+
+
 def test_adapter_or_contract_changes_invalidate_evidence_but_log_additions_do_not():
     with fixture() as root:
         c = Catalog(root);tid = 'linux/reterminal'
         record = make_build_evidence(c,tid)
         directory = root/'devices/reterminal/tests/records'
-        shutil.rmtree(directory);directory.mkdir()
+        if directory.exists():shutil.rmtree(directory)
+        directory.mkdir(parents=True)
         write_json(directory/'fixture.json',record)
         assert Catalog(root).support(tid)['level'] == 'build-verified'
         (root/'devices/reterminal/tests/logs/unrelated.log').write_text('another observation')
@@ -237,7 +248,8 @@ def test_physical_verification_requires_revision_and_complete_named_cases():
         edit(root,'devices/reterminal/device.json',lambda device:device.update(revision='synthetic-revision'))
         c=Catalog(root);record=make_build_evidence(c,tid)
         directory=root/'devices/reterminal/tests/records'
-        shutil.rmtree(directory);directory.mkdir()
+        if directory.exists():shutil.rmtree(directory)
+        directory.mkdir(parents=True)
         write_json(directory/'build.json',record)
         record.update(kind='device',revision='synthetic-revision',cases=[{'name':'identity','status':'passed','observation':'synthetic identity only','procedure':'test fixture'}])
         write_json(directory/'physical.json',record)
@@ -352,7 +364,7 @@ def test_cloud_cli_needs_no_hardware_catalog_but_checks_explicit_targets():
             ['resolve-capability', '--capability', 'asr', '--requirements', str(requirements)],
             ['prepare-capability', '--selection', str(selections), '--operation', 'transcribe', '--input', str(inputs)],
         ]:
-            run = subprocess.run([sys.executable, str(ROOT/'skills/_shared/codecraft.py'), '--root', str(root), *args],
+            run = subprocess.run([sys.executable, str(ROOT/'codecraft.py'), '--root', str(root), *args],
                                  cwd=folder, capture_output=True, text=True, timeout=30)
             assert run.returncode == 0, run.stdout+run.stderr
             result = json.loads(run.stdout)
@@ -372,7 +384,7 @@ def test_malformed_cloud_selections_are_not_silently_dropped():
             assert not output.exists()
         selections = Path(folder)/'null-selection.json'
         write_json(selections, None)
-        run = subprocess.run([sys.executable, str(ROOT/'skills/_shared/codecraft.py'), 'new',
+        run = subprocess.run([sys.executable, str(ROOT/'codecraft.py'), 'new',
                               '--target', 'linux/reterminal', '--example', 'buttons_evdev',
                               '--output', str(output), '--capabilities', str(selections)],
                              capture_output=True, text=True, timeout=30)

@@ -23,9 +23,9 @@ static void sample(const char *why)
              why,
              se == ESP_OK ? (double)t : 0.0, se == ESP_OK ? (double)rh : 0.0,
              esp_err_to_name(se), be == ESP_OK ? mv : 0, esp_err_to_name(be));
-    bsp_led_set(true);
+    ESP_ERROR_CHECK(bsp_led_set(true));
     vTaskDelay(pdMS_TO_TICKS(50));
-    bsp_led_set(false);
+    ESP_ERROR_CHECK(bsp_led_set(false));
 }
 
 static void on_key(bsp_key_t key, bool pressed, void *arg)

@@ -107,8 +107,8 @@ def main(stack):
         elif args.operation == 'inspect':
             checks = [result(args.operation, 'passed', context=c.context(t['id'], args.example, variant=args.variant) if t else p)]
         elif args.operation == 'host-test':
-            from codecraft import host_tests
-            checks = host_tests(c.root, stack)
+            from testing import run_tests
+            checks = run_tests(c.root, stack)
         elif args.operation == 'generate':
             from project import generate_project
             require(t and args.example and args.output, 'generate needs --target, --example, --output')

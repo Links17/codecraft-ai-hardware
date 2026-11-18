@@ -5,14 +5,9 @@ import copy
 import importlib.util
 from pathlib import Path
 
-from io_utils import ContractError, OPERATIONS, STATUSES, digest, read_json, require, safe_path, source_files
+from io_utils import read_json, require, safe_path
 from graph import SourceGraph
-# Re-export these names for existing callers of this orchestration module.
 from registry import domain, load_group
-
-
-def target_digest(root, target):
-    return Catalog(root).graph(target['id']).fingerprint()
 
 
 def load_cloud(root, target_lookup=None):
@@ -117,6 +112,8 @@ class Catalog:
                  *target['inputs'], *target['dependencies'], target['toolchain']['source']]
         for asset in read_json(self.root/device['assets'])['assets']:
             roots.append(asset['path'])
+        for case in read_json(self.root/f'devices/{device["id"]}/tests/acceptance.json')['cases']:
+            roots.append(case['source'])
         for name in target['examples']:
             roots += target['example_inputs'][name] + target['example_dependencies'][name]
         for choice in target.get('variants', {}).values():

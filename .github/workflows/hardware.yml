@@ -88,13 +88,13 @@ jobs:
           from pathlib import Path
           stack, device = os.environ['TARGET'].split('/')
           toolchain = json.loads(Path(f'platforms/{stack}/targets/{device}/target.json').read_text())['toolchain']
-          urls = toolchain.get('additional_urls', [])
+          urls = toolchain['board_manager_urls']
           extra = ['--additional-urls', ','.join(urls)] if urls else []
           subprocess.run(['arduino-cli', 'core', 'update-index', *extra], check=True)
           core = ':'.join(toolchain['fqbn'].split(':')[:2])
           subprocess.run(['arduino-cli', 'core', 'install', core + '@' + toolchain['core_version'], *extra], check=True)
           for name, version in toolchain.get('libraries', {}).items():
-              subprocess.run(['arduino-cli', 'lib', 'install', name + '@' + version], check=True)
+              subprocess.run(['arduino-cli', 'lib', 'install', '--no-deps', name + '@' + version], check=True)
           PY
       - run: python3 codecraft.py validate --target "$TARGET" --projects
         env:

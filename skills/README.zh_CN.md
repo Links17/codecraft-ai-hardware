@@ -23,7 +23,7 @@
 
 repository-skill Provider 固定本地包文件并声明依赖。new --capabilities <selection.json> 将所选包导出到仓库外项目并纳入 codecraft.lock；纯原生项目不包含云客户端。prepare-capability 只返回调用参数信封，不执行 API。云端发现、解析和准备无需硬件 Target；--target 增加可选且经过校验的上下文，设备集成仍保持 unknown。
 
-Capability 合同版本为 2.0.0，当前各 Provider 的策略版本为 1.0.0。稳定语义保留在 Capability；服务边界、计费声明和获准的默认值归所选 Provider。准备阶段返回原始与有效配置以及有效输入/输出 schema，并通过显式参数把默认值交给未改动的客户端。上表描述当前 CodeCraft Provider，不代表通用 Capability 限制或实测计费。参见[策略职责与迁移](../docs/architecture/capability-provider-policy.md)。已有锁定项目保留原来的元数据与运行代码；采用本次迁移时生成新项目。
+Capability 合同版本为 2.0.0，当前各 Provider 的策略版本为 1.0.0。稳定语义保留在 Capability；服务边界、计费声明和获准的默认值归所选 Provider。准备阶段返回原始与有效配置以及有效输入/输出 schema，并通过显式参数把默认值交给客户端。上表描述当前 CodeCraft Provider，不代表通用 Capability 限制或实测计费。参见[策略职责](../docs/architecture/capability-provider-policy.md)。
 
 ## 仓库调用链
 
@@ -55,11 +55,9 @@ python3 codecraft.py prepare-capability --selection /work/selection.json --opera
 
 ## 维护与验证
 
-导入来源和文件哈希在 [_cloud/import.json](_cloud/import.json)，原云端仓库保持不变。保留运行逻辑；仅 README 维护英文与简体中文，其余工程文档统一英文。共用客户端维护源码为 _cloud/device_api.py。请使用[候选包工作流](../docs/development/skill-releases.md)：通过 `python3 codecraft.py skill-release prepare` 生成候选包，再检查候选、审查文件与版本差异，并指定已审查的确切摘要进行应用。应用会重跑隔离客户端一致性测试并拒绝源码漂移。旧 sync_helpers.py 仅复制辅助模块，不批准新的指纹。运行时始终导入包内副本；打包不会自动安装或发布。
+来源和已检查文件的哈希在 [_cloud/import.json](_cloud/import.json)。仅 README 维护英文与简体中文，其余工程文档统一英文。共用客户端源码位于 _cloud/device_api.py，请使用[候选包工作流](../docs/development/skill-releases.md)：准备候选，审查文件和版本差异，执行检查，再应用已审查的确切摘要。应用会重跑隔离一致性测试并拒绝源码漂移。运行时始终导入包内副本；Provider 固定完整包清单和版本，独立安装的包必须与该清单完全一致。
 
-包版本 1.0.1 移除了 Skill/API 文档译本；五个固定文件保持运行逻辑和 API 合同不变。升级安装副本时须整体替换包目录，覆盖复制会留下旧译本并触发严格清单校验失败。已有外部项目保留锁定的导入包；需要采用本次文档迁移时生成新项目。
-
-仓库工具统一使用公共入口 `python3 codecraft.py`，旧内部命令与导出项目的 build.py 保持兼容。门禁还检查候选包的可重复性、显式版本变更、篡改拒绝、回滚与恢复，以及公共入口和锁的兼容性。这些维护测试不改变当前 Skill 包版本，也不代表真实 API 已验收。
+仓库命令统一使用 `python3 codecraft.py`。门禁检查候选包可重复性、显式版本变更、源码和候选篡改拒绝、事务回滚及锁定导出项目。打包不会自动安装或发布；离线检查不代表真实 API 已验收。
 
 从仓库根执行：
 
@@ -71,4 +69,4 @@ python3 codecraft.py validate --static
 
 check-cloud-skills 默认校验仓库内完整包清单，也可用 --skills-root 校验单独安装的副本。缺失、多余或符号链接文件均失败。清单排除 Python 缓存与 .DS_Store，--help 从固定文件的全新副本运行，不使用已安装字节码或 PYTHONPATH。skill.files 显式固定的二进制素材保留在上下文、导出和锁中。静态门禁包含四个包/CLI 检查、九项离线协议测试，以及十二项 Capability 到真实客户端的一致性测试与七项共用 Provider 策略测试。离线测试把单个包安装到临时目录，使用本机回环模拟服务与合成凭据，覆盖 JSON/SSE、断流、音频限制、图片解码、归档/下载、输出保留、重定向拒绝、错误脱敏和失败不自动重试，不调用真实云 API。
 
-来源文档记录过 LLM/ASR/TTS 实际调用成功及未解决的生图 HTTP 502；这些是上游历史观察，不代表本次真实服务验收。请参阅[保留的验证报告](../docs/reviews/refactor-validation.md)和[当前优化清单](../docs/development/optimization-plan.md)。本仓库不托管云端服务，也不自动发布 Skill。
+真实 API 验收仍是独立的[待办事项](../docs/development/optimization-plan.md)。本仓库不托管云服务，也不自动发布 Skill。

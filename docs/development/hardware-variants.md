@@ -14,7 +14,7 @@ variant's controller as a fact shared by every assembly.
 
 Target variants bind Device variant identities to native input/dependency
 declarations and configuration. The default_variant field describes a build
-default only. Indicator retains GX as the historical repository default; new
+default only. Indicator declares GX as its build default; new
 applications should select the assembly identified from attributable evidence:
 
 ```sh
@@ -56,18 +56,10 @@ not import another implementation and is rejected even during relocking.
 To change assembly in an application, import the sourced implementation and
 metadata together, review the application changes and explicitly relock.
 
-Device and Target records declaring variants require schema_version 3. Version
-2 records must not declare variants; version 3 requires a nonempty declaration.
-This boundary makes older consumers reject these records instead of silently
-ignoring variant inputs. Platform metadata, adapter envelopes, project profiles
-and lock formats keep their independent versions. New variant projects carry
-the updated schema validators and selection implementation in their source lock.
-
-Targets without variants and existing exports remain compatible. Older exports
-retain their original implementation and lock; they do not acquire DX behavior
-from a documentation or global CLI update. Rollback must restore schema,
-selection, native profiles, driver conditions, evidence rules, exports and
-generated views together. Never relabel historical receipts as current evidence.
+All Device and Target records use schema_version 3, with an explicit variants
+object. Use an empty object when no variants are declared. Platform metadata,
+adapter envelopes, project profiles and locks have independent version numbers.
+Source changes invalidate matching locks and build evidence.
 
 ## Physical evidence and remaining acceptance
 

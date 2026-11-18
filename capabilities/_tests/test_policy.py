@@ -38,7 +38,7 @@ def test_semantic_contracts_and_service_policy_have_separate_versions():
         p=cloud.providers[cid+'/codecraft-cloud']
         assert cap['version']==p['contract_version']=='2.0.0'
         assert set(cap['limits'])==expected[cid] and cap['limits']['automatic_retry'] is False
-        assert p['policy']['version']=='1.0.0' and p['skill']['version']=='1.0.1'
+        assert p['policy']['version']=='1.0.0' and p['skill']['version']=='1.0.2'
         assert set(p['policy']['sources'])<=p['skill']['files'].keys()
         assert not set(p['policy']['limits']) & set(cap['limits'])
         assert p['policy']['billing']['status']=='declared'  # not observed billing
@@ -83,7 +83,7 @@ def test_defaults_and_configuration_constraints_reach_prepared_arguments():
         rejected(lambda:cloud.schema.provider(ROOT,provider,cloud.capabilities[cid]))
 
 
-def test_missing_malformed_and_legacy_policy_contracts_fail_closed():
+def test_missing_malformed_and_incompatible_policy_contracts_fail_closed():
     cloud=load_cloud(ROOT);original=cloud.providers['asr/codecraft-cloud'];cap=cloud.capabilities['asr']
     edits=[lambda p:p.pop('policy'),lambda p:p.update(contract_version='1.0.0'),
            lambda p:p['policy'].update(schema_version=True),lambda p:p['policy'].update(schema_version=99),

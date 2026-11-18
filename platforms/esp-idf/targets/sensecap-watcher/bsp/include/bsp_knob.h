@@ -25,7 +25,7 @@ extern "C" {
 esp_err_t bsp_knob_init(void);
 
 /* Encoder counts since the last call, signed (positive = one way, negative =
- * the other; which is which is TBD on hardware). The raw count advances
+ * the other; clockwise polarity requires measurement on the actual unit). The raw count advances
  * several steps per detent — divide by the encoder's steps-per-detent if you
  * want detents. Output is written only on success. Returns INVALID_STATE
  * before successful init and INVALID_ARG for a NULL output after init.

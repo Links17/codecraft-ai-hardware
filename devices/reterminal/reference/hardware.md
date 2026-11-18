@@ -1,11 +1,7 @@
-> Imported pre-migration reference. Build claims here are historical, not current evidence. Relative code paths refer to the Target; follow the device AGENTS.md for current usage.
-
 # reTerminal (CM4)
 
-Status: **Phase 1** — peripheral facts extracted, mainline-only overlay and
-demos written from vendor sources. Not yet verified on hardware.
 
-## Verified facts
+## Hardware facts
 
 Source for every row: Seeed-Studio/seeed-linux-dtoverlays
 `overlays/rpi/reTerminal-overlay.dts` (file header MIT), pinned at commit
@@ -44,9 +40,9 @@ Board I2C1 runs at 300 kHz per the vendor overlay.
 ## Target OS
 
 64-bit Raspberry Pi OS (bookworm or newer; demos assume Python 3 and, for
-the header demo, gpiod 2.x). Not yet run on hardware — the first person to
-flash it should update this section with the exact image and kernel
-version (`uname -a`, `cat /etc/os-release`).
+the header demo, gpiod 2.x). Physical acceptance must identify the exact image
+and kernel version (`uname -a`, `cat /etc/os-release`) in Device evidence.
+No current source-bound hardware result is recorded.
 
 ## Quick check after boot
 
@@ -55,3 +51,7 @@ ls /sys/class/leds/            # usr_led0 usr_led1 usr_led2 usr_buzzer
 cat /sys/class/input/event*/device/name | grep gpio-keys
 cat /sys/bus/iio/devices/iio:device*/name   # ltr303, lis331dlh
 ```
+
+## Current commands and verification
+
+Run `python3 codecraft.py validate --target linux/reterminal --projects` from the repository root. The [Target manifest](../../../platforms/linux/targets/reterminal/target.json) declares exact toolchain, examples and native interface scope. The [Device acceptance plan](../tests/acceptance.json) defines physical checks. Build receipts and physical observations are separate; an exported project carries no hardware-verification claim. Hardware writes require a selected unit and explicit authorization.
