@@ -3,13 +3,17 @@
 The repository has three content owners. Devices own hardware knowledge and native Targets;
 Platforms supply shared software-stack infrastructure; Skills own development
 workflows, cloud operation contracts and standalone clients.
+Repository tooling in tools/ supports these owners without becoming an
+installable Skill. Development workflow packages use sensecraft-development-* names; cloud
+capability packages use sensecraft-capabilities-* names, all directly under skills/.
 The governing requirements are [codecraft-hardware-distilled.md](../development/codecraft-hardware-distilled.md).
 
 | Owner | Authoritative inputs | Derived outputs |
 | --- | --- | --- |
 | Device / Target | Per-device knowledge, authored specifications, assets, target.json, native BSP/configuration/examples | Device index, native interface bindings, scoped source closure and support state |
 | Platform | adapter, platform.json, shared build helpers and reusable components | Native build cases, stack validation and CI matrix |
-| Skill | workflows, contract.json, service policy, standalone clients and external package release records | Task context, project lock, build receipt, Skill inventory and reviewed release candidate |
+| Skill | workflows, contract.json, service policy and standalone clients | Installable development workflows and cloud capability packages |
+| Repository tools | Shared orchestration in tools/codecraft/; helper sources, provenance and release records in tools/skill_packages/ | Task context, project lock, build receipt, generated indexes and reviewed release candidate |
 
 Each Device registers its native Target at targets/target.json. That manifest
 selects one software stack; peripheral interfaces belong to the Target. Cloud contracts belong to their consuming Skills and do not represent GPIO, display or individual device peripherals.
@@ -57,6 +61,12 @@ platforms/<stack>/
   adapter.py
   components/                # Reusable native components, where needed
   cmake/                     # Shared native build helpers, where needed
+skills/
+  sensecraft-development-*/               # Installable development workflow Skills
+  sensecraft-capabilities-*/ # Independently installable cloud capability Skills
+tools/
+  codecraft/                 # CLI, source graphs, exports, locks and validation
+  skill_packages/            # Client maintenance, provenance and release tooling
 tests/
   AGENTS.md                  # Test directory index and evidence rules
   devices/<device>/
@@ -66,7 +76,9 @@ tests/
     logs/                    # Original sanitized logs
   platforms/<stack>/         # Adapter tests and shared test support
     components/<component>/  # Shared component tests and fixtures
-  skills/                    # Core, client, release and validation tests
+  skills/<skill-id>/          # Workflow and standalone-client tests
+  tools/codecraft/            # Core orchestration, exports and contract tests
+  tools/skill_packages/       # Installation, protocol and release tests
 ```
 
 Target IDs remain <stack>/<device>; the stack is metadata, not another directory
@@ -82,7 +94,7 @@ outside it. Editing hardware guidance or acceptance changes source identity.
 ## Dependency and invocation boundaries
 
 The public command is `python3 codecraft.py`. The root bootstrap loads
-`skills/_shared/cli.py`; platform adapters own native build behavior. Repository
+`tools/codecraft/cli.py`; platform adapters own native build behavior. Repository
 and exported application commands share one result contract. The application
 workflow is `new`, `verify-project`, `lock-project`, `build-project`, then
 `package` when a source archive is needed. Build and package never write a device.

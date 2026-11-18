@@ -4,7 +4,7 @@
     {
       "api_version": "v1",
       "contract_version": "3.0.0",
-      "id": "codecraft-asr",
+      "id": "sensecraft-capabilities-asr",
       "operations": [
         "realtime-recover",
         "realtime-status",
@@ -12,42 +12,42 @@
         "transcribe"
       ],
       "policy_version": "2.0.0",
-      "route": "skills/codecraft-asr/SKILL.md",
-      "version": "2.0.4"
+      "route": "skills/sensecraft-capabilities-asr/SKILL.md",
+      "version": "3.0.0"
     },
     {
       "api_version": "v1",
       "contract_version": "3.0.0",
-      "id": "codecraft-image-generation",
+      "id": "sensecraft-capabilities-image-generation",
       "operations": [
         "generate"
       ],
       "policy_version": "2.0.0",
-      "route": "skills/codecraft-image-generation/SKILL.md",
-      "version": "2.0.4"
+      "route": "skills/sensecraft-capabilities-image-generation/SKILL.md",
+      "version": "3.0.0"
     },
     {
       "api_version": "v1",
       "contract_version": "3.0.0",
-      "id": "codecraft-llm",
+      "id": "sensecraft-capabilities-llm",
       "operations": [
         "complete",
         "stream"
       ],
       "policy_version": "2.0.0",
-      "route": "skills/codecraft-llm/SKILL.md",
-      "version": "2.0.4"
+      "route": "skills/sensecraft-capabilities-llm/SKILL.md",
+      "version": "3.0.0"
     },
     {
       "api_version": "v1",
       "contract_version": "3.0.0",
-      "id": "codecraft-tts",
+      "id": "sensecraft-capabilities-tts",
       "operations": [
         "speak"
       ],
       "policy_version": "2.0.0",
-      "route": "skills/codecraft-tts/SKILL.md",
-      "version": "2.0.4"
+      "route": "skills/sensecraft-capabilities-tts/SKILL.md",
+      "version": "3.0.0"
     }
   ]
 }

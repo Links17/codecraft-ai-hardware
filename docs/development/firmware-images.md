@@ -2,7 +2,7 @@
 
 Firmware merging is an optional post-build Platform operation. Device owns
 sourced hardware facts; Target declares image support; Platform owns native
-layout parsing, merging and verification; shared Skill code owns orchestration
+layout parsing, merging and verification; tools/codecraft owns orchestration
 and provenance. Cloud Capabilities are unchanged.
 
 ## Scope

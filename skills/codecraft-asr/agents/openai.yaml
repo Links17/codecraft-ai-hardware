@@ -1,4 +1,0 @@
-interface:
-  display_name: "CodeCraft Speech Recognition"
-  short_description: "Integrate file and realtime ASR on MCU and Linux"
-  default_prompt: "Use $codecraft-asr to integrate device authentication and speech recognition into my MCU or Linux application."

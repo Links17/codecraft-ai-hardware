@@ -6,9 +6,10 @@ Keep their ownership aligned with the source tree:
 - `devices/<device>/targets/`: BSPs, board bindings and native examples.
 - `platforms/<stack>/`: adapters, shared helpers and SDK doubles;
   `components/<component>/` contains shared component cases and fixtures.
-- `skills/`: `<skill-id>/` for direct client conformance, `_shared/` for
-  orchestration/contracts, `_cloud/` for protocol/install/release tests and the
-  shared client fixture, and `codecraft-validate/` for the public CLI and gate.
+- `skills/<skill-id>/`: direct standalone-client and Skill conformance.
+- `tools/codecraft/`: repository orchestration, contracts, exports, locks,
+  public CLI, test discovery and documentation rules.
+- `tools/skill_packages/`: protocol/install/release tests and shared client fixtures.
 
 Read [test ownership and execution](../docs/development/testing.md) before
 changing test placement, imports or discovery. That guide owns the commands and

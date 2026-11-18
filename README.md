@@ -45,7 +45,7 @@ The following walkthrough uses **reTerminal E1001 / ESP-IDF**. For another board
 python3 codecraft.py context --target esp-idf/reterminal-e1001
 ```
 
-Read the returned context and the [E1001 setup guide](devices/reterminal-e1001/targets/README.md#toolchain). Install and activate the exact toolchain declared in [target.json](devices/reterminal-e1001/targets/target.json) before building; when working with an agent, use [codecraft-setup](skills/codecraft-setup/SKILL.md) for missing tools.
+Read the returned context and the [E1001 setup guide](devices/reterminal-e1001/targets/README.md#toolchain). Install and activate the exact toolchain declared in [target.json](devices/reterminal-e1001/targets/target.json) before building; when working with an agent, use [sensecraft-development-setup](skills/sensecraft-development-setup/SKILL.md) for missing tools.
 
 ### 2. Create your own workspace
 
@@ -66,13 +66,13 @@ With the declared toolchain active, run:
 python3 codecraft.py build-project projects/my-e1001-project
 ```
 
-The exported workspace also contains `codecraft.py`; from that directory, use `python3 codecraft.py build-project .`. Builds do not flash the device. To test on hardware, follow the selected [Device acceptance procedure](devices/reterminal-e1001/AGENTS.md#physical-acceptance) and [codecraft-device-test](skills/codecraft-device-test/SKILL.md), with the board and port identified and device writes explicitly authorized.
+The exported workspace also contains `codecraft.py`; from that directory, use `python3 codecraft.py build-project .`. Builds do not flash the device. To test on hardware, follow the selected [Device acceptance procedure](devices/reterminal-e1001/AGENTS.md#physical-acceptance) and [sensecraft-development-device-test](skills/sensecraft-development-device-test/SKILL.md), with the board and port identified and device writes explicitly authorized.
 
-For application changes, briefs, reviewed relocking and repeat builds, follow the [portable application workflow](docs/development/application-workflow.md). Use [codecraft-ideate](skills/codecraft-ideate/SKILL.md) and `new --brief <file.json>` to record purpose, users, scenarios and a bill of materials in your project.
+For application changes, briefs, reviewed relocking and repeat builds, follow the [portable application workflow](docs/development/application-workflow.md). Use [sensecraft-development-ideate](skills/sensecraft-development-ideate/SKILL.md) and `new --brief <file.json>` to record purpose, users, scenarios and a bill of materials in your project.
 
 ## Develop with your AI coding assistant
 
-Open this checkout in your coding assistant and have it read [AGENTS.md](AGENTS.md). Before AI-assisted development, install the complete directories for these five [hardware workflow Skills](skills/README.md) into your assistant's Skill discovery location: `codecraft-develop`, `codecraft-setup`, `codecraft-build`, `codecraft-device-test` and `codecraft-debug`. The repository contract directs the agent to install and verify any missing workflows.
+Open this checkout in your coding assistant and have it read [AGENTS.md](AGENTS.md). Before AI-assisted development, install the complete directories for these five [hardware workflow Skills](skills/README.md) into your assistant's Skill discovery location: `sensecraft-development-develop`, `sensecraft-development-setup`, `sensecraft-development-build`, `sensecraft-development-device-test` and `sensecraft-development-debug`. The repository contract directs the agent to install and verify any missing workflows.
 
 For example, start a new application with this request:
 
@@ -89,7 +89,7 @@ Use a fresh output path if you already followed the quick start. For an existing
 
 ## Optional cloud features and firmware sharing
 
-Standalone clients in [skills/](skills/README.md#standalone-inference-clients) extend cloud capabilities with features such as LLM text generation, ASR/STT, TTS and image generation. Each client owns its `contract.json` and API reference and can be installed independently. Cloud service and account infrastructure remain external; read the selected Skill for credentials, limits and authorized API use.
+Standalone clients in [skills/](skills/README.md#cloud-capabilities) extend cloud capabilities with features such as LLM text generation, ASR/STT, TTS and image generation. Each client owns its `contract.json` and API reference and can be installed independently. Cloud service and account infrastructure remain external; read the selected Skill for credentials, limits and authorized API use.
 
 See the [free allowance table](skills/README.md#free-allowance) for monthly per-device usage and monthly totals across five devices. The features share one monthly device allowance; the rows are alternative usage estimates.
 
@@ -115,7 +115,8 @@ To include clients in an application, CLI contract 3 uses `new --skills <selecti
 | --- | --- |
 | `devices/<device>/` | Device knowledge, references, assets and native BSPs/examples under `targets/` |
 | `platforms/` | Software-stack adapters, build helpers and shared components |
-| `skills/` | Agent workflows and standalone cloud clients; package release records under `_cloud/packages/` |
+| `skills/` | `sensecraft-development-*` development workflows and `sensecraft-capabilities-*` standalone cloud Skills |
+| `tools/` | Local CLI and project orchestration in `codecraft/`; client maintenance and package release records in `skill_packages/` |
 | `projects/` | Ignored private application workspaces |
 | `tests/` | Tests, fixtures, mocks and retained device evidence, grouped by source owner |
 | `docs/` | Engineering guidance, generated indexes and open work |

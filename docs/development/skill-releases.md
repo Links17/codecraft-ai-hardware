@@ -2,16 +2,16 @@
 
 Use this workflow for changes to the bundled cloud Skill packages. It prepares
 reviewable local candidates, checks isolated clients and updates reviewed package
-fingerprints in skills/_cloud/packages/<skill-id>.json. It does not install Skills globally, publish artifacts or call a
-real cloud service. Original import provenance in skills/_cloud/import.json and
+fingerprints in tools/skill_packages/packages/<skill-id>.json. It does not install Skills globally, publish artifacts or call a
+real cloud service. Original import provenance in tools/skill_packages/import.json and
 Skill release source fields is preserved.
 The separately reviewed current upstream snapshot is recorded in
-skills/_cloud/upstream.json; copying new source must not rewrite the original import.
+tools/skill_packages/upstream.json; copying new source must not rewrite the original import.
 
 ## Maintained inputs and versions
 
-Edit common client behavior in skills/_cloud/device_api.py. Other package files
-remain maintained under their own skills/codecraft-* directories. The candidate
+Edit common client behavior in tools/skill_packages/device_api.py. Other package files
+remain maintained under their own skills/sensecraft-capabilities-* directories. The candidate
 builder copies the common helper into every distribution; it does not rewrite
 working package copies or their release records while preparing a candidate.
 
@@ -38,7 +38,7 @@ documentation-only ASR edit from package 2.0.1:
 
 ```json
 {
-  "codecraft-asr": {
+  "sensecraft-capabilities-asr": {
     "skill_version": "2.0.2"
   }
 }

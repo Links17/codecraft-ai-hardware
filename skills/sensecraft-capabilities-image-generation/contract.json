@@ -1,0 +1,206 @@
+{
+  "api": {
+    "authorization": "Device",
+    "operations": {
+      "generate": {
+        "method": "POST",
+        "path": "/deviceapi/ai-services/v1/images/generations"
+      }
+    },
+    "routing": "service-fixed",
+    "version": "v1"
+  },
+  "client": {
+    "operations": {
+      "generate": {
+        "arguments": {
+          "output": "--output",
+          "prompt_file": "--prompt-file"
+        },
+        "command": [],
+        "entrypoint": "scripts/generate.py",
+        "fixed_arguments": [],
+        "options": {
+          "archive": "--archive",
+          "size": "--size"
+        }
+      }
+    },
+    "python_minimum": "3.11"
+  },
+  "configuration": {
+    "additionalProperties": false,
+    "description": "Archival is a separate explicit operation.",
+    "properties": {
+      "archive": {
+        "description": "Explicit optional asset upload",
+        "type": "boolean"
+      },
+      "size": {
+        "description": "WIDTHxHEIGHT; 262144..4194304 total pixels; validated by the actual helper.",
+        "pattern": "[1-9][0-9]{0,6}x[1-9][0-9]{0,6}",
+        "policy_default": true,
+        "type": "string"
+      }
+    },
+    "required": [],
+    "type": "object"
+  },
+  "consumer": "cloud-skill",
+  "description": {
+    "en": "Image generation",
+    "zh_CN": "图像生成"
+  },
+  "errors": {
+    "invalid_input": "Skill rejects input before a billable request.",
+    "provider_failure": "Nonzero Skill exit; retain valid partial/local results, report uncertain billing, do not automatically retry.",
+    "unknown": "Environment, privacy decision, credentials or source version is unconfirmed.",
+    "unsupported": "Operation or combination is not supported by the selected Skill."
+  },
+  "estimates": {
+    "memory_bytes": null,
+    "storage_bytes": null
+  },
+  "execution": {
+    "device_integration": "unknown",
+    "execution": "agent-host"
+  },
+  "id": "sensecraft-capabilities-image-generation",
+  "limitations": [
+    "Text-to-image only; no image editing, resizing, batching or asynchronous jobs.",
+    "Respect the host agent image-tool priority rules.",
+    "Upstream Skill README reports a previous live HTTP 502; this repository does not claim a live end-to-end pass.",
+    "Host workflow compatibility does not imply device firmware/network/audio integration.",
+    "Upstream source reported a previous image-generation HTTP 502; no current live-service acceptance is claimed.",
+    "Implementation routing is fixed by the public service; requests must not select a model, provider or voice."
+  ],
+  "limits": {
+    "automatic_retry": false,
+    "count": 1
+  },
+  "operations": {
+    "generate": {
+      "input": {
+        "additionalProperties": false,
+        "description": "Prompt file and new image destination.",
+        "properties": {
+          "output": {
+            "description": "New output image path; never overwrite",
+            "minLength": 1,
+            "type": "string"
+          },
+          "prompt_file": {
+            "description": "Nonempty UTF-8 prompt file; the selected service declares its prompt bound.",
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "prompt_file",
+          "output"
+        ],
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": false,
+        "description": "Skill stdout on successful completion; archival fields appear only when explicitly requested.",
+        "properties": {
+          "asset_id": {
+            "description": "Archived asset ID",
+            "minLength": 1,
+            "type": "string"
+          },
+          "authentication": {
+            "description": "Authentication requirement for the optional archived asset.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "content_url": {
+            "description": "Provider-authenticated archived asset URL; not a public URL.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "file": {
+            "description": "New local output file",
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object"
+      }
+    }
+  },
+  "policy": {
+    "billing": {
+      "amount": 10000,
+      "basis": "image",
+      "status": "declared",
+      "unit": "platform_quota"
+    },
+    "configuration": {},
+    "defaults": {
+      "size": "1024x1024"
+    },
+    "limits": {
+      "decoder_dependency": "Pillow==13.0.0",
+      "formats": [
+        "PNG",
+        "JPEG",
+        "WebP"
+      ],
+      "maximum_output_bytes": 20971520,
+      "maximum_pixels": 4194304,
+      "maximum_prompt_characters": 2000,
+      "minimum_pixels": 262144
+    },
+    "operations": {
+      "generate": {
+        "input": {},
+        "output": {
+          "properties": {
+            "authentication": {
+              "enum": [
+                "Device header required"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "schema_version": 1,
+    "sources": [
+      "references/api.md",
+      "scripts/generate.py",
+      "scripts/requirements.txt"
+    ],
+    "version": "2.0.0"
+  },
+  "prerequisites": {
+    "environment_refs": [
+      "CODECRAFT_API_ORIGIN"
+    ],
+    "loopback_http": true,
+    "network": true,
+    "privacy": "User input is sent to the configured cloud origin; explicit operation authorization is required.",
+    "secret_refs": [
+      "CODECRAFT_DEVICE_FILE"
+    ],
+    "tls": true
+  },
+  "resources": {
+    "memory_bytes": "Agent-host working memory; Service bound unknown unless measured.",
+    "storage_bytes": "Agent-host storage; Service bound unknown unless measured."
+  },
+  "risk": {
+    "automatic_retry": false,
+    "billable": true,
+    "device_write": false,
+    "network": true,
+    "secret_values_allowed": false
+  },
+  "schema_version": 2,
+  "version": "3.0.0"
+}

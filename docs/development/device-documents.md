@@ -6,8 +6,8 @@ reader produces a schema-5 Device model from explicit sections and tables;
 it does not interpret arbitrary prose or ask an Agent to infer machine fields.
 There is no embedded JSON, generated region or separate Device/acceptance file.
 
-The host tools in [device_entry.py](../../skills/_shared/device_entry.py) parse
-this document; [device_validation.py](../../skills/_shared/device_validation.py)
+The host tools in [device_entry.py](../../tools/codecraft/device_entry.py) parse
+this document; [device_validation.py](../../tools/codecraft/device_validation.py)
 validates the resulting Device data, cited assertions, acceptance cases and
 assets. Catalog loads this validator directly. Both modules belong to the
 shared CLI implementation and are declared in its resource manifest so context,

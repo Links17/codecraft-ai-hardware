@@ -1,0 +1,32 @@
+{
+  "api_version": "v1",
+  "contract_version": "3.0.0",
+  "files": {
+    "SKILL.md": "14ed9e4f63f1949fd14dadb5008b824471356d32d80ecd22a5ea5525870b61e7",
+    "agents/openai.yaml": "a9557b098856bd5eaa7b582d8170d0f5b3bbac3d00412901b3de71a1eb355fe3",
+    "assets/device_auth.h": "a87327e80c1cc5d8b921a3500c944b0b0bcdd43f303693ec13d2768584cfb44d",
+    "contract.json": "9a93110423c2b807031e729d2f14a440878e82255ef22639f6cc9a8946f95bfe",
+    "references/api.md": "6e0e0b8d77cc1052f179408c3447f20a9637b284a9781b7f52cad955209504ae",
+    "references/device-integration.md": "f2ef2ec8d66fd36050ab3af142afac02040a65f627a38b5a7d6dc549d29e3bb7",
+    "references/onboarding.md": "e3253ece74f5bdd73011246363adf3e4ce501800f26fd43c5d867fe1889e8631",
+    "scripts/device_api.py": "0d418b066ddb816aa9beb4e2a13e9a5269b2664990ef54cb6ceebb39518c9ea2",
+    "scripts/device_credentials.py": "150933751915fc07f2a50be9fa11453b6b3e4d291f6fcb4905a523fdf5e75628",
+    "scripts/speak.py": "8c74fc9e80a39747db95b5c677ecec21e8072433b142d6bc559bf1ddcd2f624c"
+  },
+  "id": "sensecraft-capabilities-tts",
+  "policy_version": "2.0.0",
+  "schema_version": 1,
+  "source": {
+    "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",
+    "dirty": true,
+    "import_manifest": "tools/skill_packages/import.json",
+    "paths": [
+      "skills/codecraft-tts/SKILL.md",
+      "skills/codecraft-tts/references/api.md",
+      "skills/codecraft-tts/scripts/speak.py"
+    ],
+    "repository": "codecraft-gadgets-cloud",
+    "snapshot_date": "2026-11-17"
+  },
+  "version": "3.0.0"
+}

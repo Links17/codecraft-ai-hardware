@@ -1,4 +1,0 @@
-interface:
-  display_name: "CodeCraft Text Generation"
-  short_description: "Integrate CodeCraft LLM APIs on MCU and Linux"
-  default_prompt: "Use $codecraft-llm to integrate device authentication and text generation into my MCU or Linux application."

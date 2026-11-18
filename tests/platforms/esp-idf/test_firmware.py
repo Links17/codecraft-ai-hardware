@@ -8,7 +8,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(ROOT/'skills/_shared'))
+sys.path.insert(0, str(ROOT/'tools/codecraft'))
 sys.path.insert(0, str(ROOT/'platforms/esp-idf'))
 from io_utils import ContractError, OperationUnavailable, digest, read_json, write_json
 from device_entry import read_contract, write_contract

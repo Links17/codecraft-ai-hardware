@@ -6,7 +6,7 @@ import shutil
 import subprocess
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]/'skills/_shared'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]/'tools/codecraft'))
 from io_utils import ContractError, digest, object_digest, require, result, safe_path
 from runtime import command, main, selected
 

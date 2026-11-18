@@ -10,8 +10,8 @@ Use the public runner for discovery, focused host checks and the static gate:
 
 ```sh
 python3 codecraft.py test --list
-python3 codecraft.py test --path tests/skills/_shared
-python3 codecraft.py test --path tests/skills/_cloud/test_protocol.py
+python3 codecraft.py test --path tests/tools/codecraft
+python3 codecraft.py test --path tests/tools/skill_packages/test_protocol.py
 python3 codecraft.py test --path tests/platforms/esp-idf/components/codecraft_sht4x
 python3 codecraft.py test --path tests/devices/sensecap-watcher/targets
 python3 codecraft.py validate --static
@@ -60,9 +60,8 @@ remain separate, explicitly scoped workflows.
 
 | Location | Responsibility |
 | --- | --- |
-| `tests/skills/_shared/` | Device Markdown parsing/validation, catalogs, source graph, generation, project exports/locks, evidence and cross-layer orchestration |
-| `tests/skills/_cloud/` | Standalone installation/inventory, loopback protocols and reviewed release transactions |
-| `tests/skills/codecraft-validate/` | Validation entry, public CLI, test discovery, language/link policy and unique test identities |
+| `tests/tools/codecraft/` | Device Markdown parsing/validation, catalogs, source graph, generation, project exports/locks, evidence, public CLI, test discovery, documentation rules and cross-layer orchestration |
+| `tests/tools/skill_packages/` | Standalone installation/inventory, loopback protocols and reviewed release transactions |
 | `tests/skills/<skill-id>/` | Semantic contracts and direct standalone-client conformance |
 | `tests/platforms/<stack>/` | Platform-wide adapter/registration contracts and shared native test support |
 | `tests/platforms/<stack>/components/<component>/` | Shared native implementation and its C fixtures |
@@ -79,7 +78,7 @@ For Device tests, platform filtering reads devices/<device>/targets/target.json;
 it does not infer the software stack from the test folder name. Missing or
 mismatched Target ownership fails discovery. Platform filtering includes the
 selected tests/platforms/<stack>/ tree and Device tests bound to that stack.
-Shared Skill and contract tests run for every platform scope.
+Shared Tool, Skill and contract tests run for every platform scope.
 Shared fixture/compiler helpers live in tests/platforms/<stack>/ and
 use names such as `host_sensor.py`; C fixtures and SDK doubles are not Python
 test entries. `fixtures/`, `stubs/`, `mocks/`, build/cache and hidden directories are

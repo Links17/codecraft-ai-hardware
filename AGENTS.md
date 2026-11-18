@@ -38,10 +38,10 @@ The implementation separates Device facts, Platform software stacks and Skill-ow
 | `devices/<board>/targets/` | Native BSP, examples and board configuration directly under one Target root; target.json declares its software stack |
 | `platforms/esp-idf/components/` | Components shared by ESP-IDF boards |
 | `platforms/<stack>/` | Shared software-stack/runtime adapters, build helpers and reusable components; no board directories |
-| `skills/` | Hardware development workflows and independently installable cloud API Skills |
-| `skills/_cloud/` | Cloud client maintenance source, package release records, immutable import provenance and release tooling |
-| `skills/_shared/` | Shared orchestration and public CLI implementation |
-| `tests/` | All repository-maintained tests, fixtures and mocks, grouped by Device, Platform or Skill owner; see tests/AGENTS.md |
+| `skills/` | Flat installable Skills: sensecraft-development-* development workflows and sensecraft-capabilities-* cloud API clients |
+| `tools/skill_packages/` | Cloud client maintenance source, package release records, immutable import provenance and release tooling |
+| `tools/codecraft/` | Shared orchestration and public CLI implementation |
+| `tests/` | All repository-maintained tests, fixtures and mocks, grouped by Device, Platform, Skill or Tool owner; see tests/AGENTS.md |
 | `tests/devices/<board>/` | Retained observations, source-bound evidence records and sanitized original logs |
 | `tests/devices/<board>/targets/` | Board-specific host tests, native fixtures and test doubles |
 | `projects/<name>/` | Ignored private application exports, briefs and local locks; never reference dependencies |
@@ -79,36 +79,37 @@ listing or README claim.
    native toolchain setup.
 
 Before AI-assisted development, all five skills MUST be installed and available:
-`codecraft-develop`, `codecraft-setup`, `codecraft-build`,
-`codecraft-device-test`, and `codecraft-debug`. Maintained sources are in
+`sensecraft-development-develop`, `sensecraft-development-setup`, `sensecraft-development-build`,
+`sensecraft-development-device-test`, and `sensecraft-development-debug`. Maintained sources are in
 `skills/`. If any is missing, choose an installation method appropriate to the
 environment, install it, and verify availability without waiting for the user
 to request installation. No client or installation directory is mandatory.
 
-The discovery and validation workflows also have `codecraft-discover` and `codecraft-validate` Skills. Use only the Skills matching the task. Availability does not require loading
+The discovery and validation workflows also have `sensecraft-development-discover` and `sensecraft-development-validate` Skills. Use only the Skills matching the task. Availability does not require loading
 all five, and installation does not authorize flashing, Git writes, or
-publishing. A missing toolchain must be handled through `codecraft-setup`;
-a failed operation must be diagnosed through `codecraft-debug` before retrying.
+publishing. A missing toolchain must be handled through `sensecraft-development-setup`;
+a failed operation must be diagnosed through `sensecraft-development-debug` before retrying.
 
 ### Task-specific context routing
 
 | Task | Read before the relevant operation |
 | --- | --- |
-| New application ideation | `skills/codecraft-ideate/SKILL.md`, `docs/development/project-workspaces.md`, then selected Device/Target context |
+| New application ideation | `skills/sensecraft-development-ideate/SKILL.md`, `docs/development/project-workspaces.md`, then selected Device/Target context |
 | Code change | `docs/development/ai-guide.md`, relevant headers and neighboring implementation |
-| Environment bootstrap or missing toolchain | `skills/codecraft-setup/SKILL.md`, Target manifest and device knowledge entry |
+| Environment bootstrap or missing toolchain | `skills/sensecraft-development-setup/SKILL.md`, Target manifest and device knowledge entry |
 | ESP-IDF board work | `devices/<board>/AGENTS.md`, `platforms/esp-idf/AGENTS.md`, `devices/<board>/targets/target.json`, matching entry in `docs/vendor-sources.md` |
 | Linux board work | `devices/<board>/AGENTS.md`, `platforms/linux/AGENTS.md`, `devices/<board>/targets/target.json`, matching entry in `docs/vendor-sources.md` |
 | Arduino board work | `devices/<board>/AGENTS.md`, `platforms/arduino/AGENTS.md`, `devices/<board>/targets/target.json`, matching entry in `docs/vendor-sources.md` |
 | New board | Part II, `docs/development/ai-guide.md` onboarding section, platform rules, `docs/vendor-sources.md` |
-| Build, tests, dependencies, partitions | `skills/codecraft-build/SKILL.md`, device knowledge entry, Target manifest and platform configuration (`sdkconfig.defaults`, `target.json`, as applicable) |
-| Firmware image planning, merging or verification | `docs/development/firmware-images.md`, `skills/codecraft-build/SKILL.md`, Target firmware profile and Platform implementation |
-| Flashing or on-device testing | `skills/codecraft-device-test/SKILL.md`, `tests/AGENTS.md`, board deployment instructions |
-| Diagnosis | `skills/codecraft-debug/SKILL.md`, failing command/output and affected board context |
+| Build, tests, dependencies, partitions | `skills/sensecraft-development-build/SKILL.md`, device knowledge entry, Target manifest and platform configuration (`sdkconfig.defaults`, `target.json`, as applicable) |
+| Firmware image planning, merging or verification | `docs/development/firmware-images.md`, `skills/sensecraft-development-build/SKILL.md`, Target firmware profile and Platform implementation |
+| Flashing or on-device testing | `skills/sensecraft-development-device-test/SKILL.md`, `tests/AGENTS.md`, board deployment instructions |
+| Diagnosis | `skills/sensecraft-development-debug/SKILL.md`, failing command/output and affected board context |
 | Documentation or Agent rules | Part II, `docs/README.md`, affected rules and their referenced files |
 | Skills or validation changes | `skills/README.md`, `skills/validation.md`, `docs/development/testing.md`, affected Skills and validation implementation |
 | SenseCraft platform operation or external CLI setup | `docs/development/sensecraft-cli.md`, the official installed `sensecraft-cli/SKILL.md`, and its task-specific reference |
-| CodeCraft cloud API operation | The matching `skills/codecraft-{llm,asr,tts,image-generation}/SKILL.md` and its API reference; use only existing task authorization |
+| CodeCraft cloud API operation | The matching `skills/sensecraft-capabilities-{llm,asr,tts,image-generation}/SKILL.md` and its API reference; use only existing task authorization |
+| Repository tooling or package maintenance | `tools/AGENTS.md`, affected tool modules and their tests; keep `codecraft.py` as the public entry |
 | Commit or PR | `docs/development/ai-guide.md`, `.github/CONTRIBUTING.md`, `.github/PULL_REQUEST_TEMPLATE.md` |
 | Upload, online flashing, or sharing firmware | The CodeCraft Hub section below and the linked CLI documentation |
 
@@ -258,19 +259,19 @@ the owning layer and preserve unrelated behavior.
 - Device specifications MUST maintain one typed value per fact with independent source assertions. Follow [Device documents and shared references][device-documents] for the Markdown format and parsed schema; do not maintain translated or generated copies of hardware facts.
 - Device Markdown is an authored source. Generation MUST leave it unchanged; exports and source graphs hash its complete bytes. Facts require independent cited notes or native sources. Keep procedures in that document and observations in the central evidence area; follow [Device documents and shared references][device-documents].
 - Target metadata MUST declare native interfaces, common inputs, per-example inputs and dependencies. The Device-to-Target index MUST be derived from Target.device; duplicate backlinks are forbidden. All Target records MUST use schema v3 with an explicit variants object. Platform and adapter protocol versions remain independent.
-- Native build/configuration logic MUST live in platforms/<stack>. Shared Skill code MUST NOT branch on stack IDs to implement native operations.
+- Native build/configuration logic MUST live in platforms/<stack>. Shared repository tools MUST NOT branch on stack IDs to implement native operations.
 - Context, project export and evidence MUST use the same transitive dependency graph. Never filter out missing dependencies to make export pass. The graph MUST include the actual adapter and all pipeline code.
 - Application briefs MUST be owned by project.yaml. Render the marked application AGENTS region on creation/relocking, preserve custom rules outside it, and leave missing intent/BOM values unknown. Private projects MUST NOT enter reference discovery, test collection or source dependencies.
 - A project lock MUST preserve initial import provenance separately from explicitly reviewed application updates. Builds MUST check the actual toolchain against the current lock.
 - Evidence MUST name complete expected cases and the source digest, and live in tests/devices/<board>/. Preserve original log bytes, timestamps and observed results; storage changes MUST NOT refresh historical source digests. Changed source/adapter/contracts invalidate prior verification. Physical promotion additionally requires matching revision and named acceptance observations.
 - Cloud operation contracts MUST live in the consuming Skill package's contract.json. Device peripherals and native interfaces MUST NOT become cloud contracts. This repository MUST NOT implement the cloud service.
-- Shared Skill contract validation MUST NOT import or construct the hardware Catalog. Native-only context, export and project checks MUST NOT load cloud packages or contract code. Explicit Skill selections add only their complete package and verification graph. Stable semantics, service policy and API versions remain separately reviewed. Policy may only narrow schemas; defaults require explicit permission. Follow docs/architecture/skill-contracts.md.
-- Cloud Skill packages MUST run independently after copying one directory. Runtime imports MUST remain inside the package. Package release records in skills/_cloud/packages MUST pin every package file, including contract.json, and preserve original provenance. Keep inventories outside packages to avoid self-hashing. Validation MUST use offline fixtures and synthetic credentials, never real services.
+- Skill contract validation in tools/codecraft MUST NOT import or construct the hardware Catalog. Native-only context, export and project checks MUST NOT load cloud packages or contract code. Explicit Skill selections add only their complete package and verification graph. Stable semantics, service policy and API versions remain separately reviewed. Policy may only narrow schemas; defaults require explicit permission. Follow docs/architecture/skill-contracts.md.
+- Cloud Skill packages MUST run independently after copying one directory. Runtime imports MUST remain inside the package. Package release records in tools/skill_packages/packages MUST pin every package file, including contract.json, and preserve original provenance. Keep inventories outside packages to avoid self-hashing. Validation MUST use offline fixtures and synthetic credentials, never real services.
 - Bundle changes MUST use candidate/check/review/apply in docs/development/skill-releases.md. Apply MUST name the reviewed digest, rerun isolated conformance and reject source drift. Package, API, semantic contract and policy versions MUST remain separately reviewed; original import provenance MUST NOT be rewritten. Packaging MUST NOT imply installation or publication.
 - ESP-IDF examples MUST keep native BSP composition, Target example scope and managed dependency locks aligned. Public headers stay in include/ and private implementation in src/. Validate actual build-source selection and portable exports; changing source layout MUST NOT silently change hardware configuration or dependency versions. See `docs/development/native-compositions.md`.
 - Hardware variants MUST come from sourced Device facts and explicit Target/native bindings. Carry the selected variant through context, export, locks, native build cases and physical evidence. A declared build default MUST NOT imply panel detection or revision compatibility; one variant's observations MUST NOT promote another. Unknown revision mappings remain unresolved. See `docs/development/hardware-variants.md`.
-- All repository-maintained tests, fixtures and mocks MUST live under tests/, grouped by source owner. MUST NOT place test directories inside devices/, platforms/ or skills/. Use the recursive public test runner; each test MUST be discovered once. Physical evidence and logs are not executable test suites. Follow `docs/development/testing.md` for the authoritative ownership map, filtering and execution rules.
-- Document and invoke repository tools through `python3 codecraft.py`. The public entry is the only repository/application CLI. It loads skills/_shared/cli.py; native commands remain in platform adapters. New exports MUST carry the public entry and portable workflow guidance in their graph and lock. CLI contract 3 uses explicit --skills selections; project profiles and locks use schema 3 without mixed-version readers.
+- All repository-maintained tests, fixtures and mocks MUST live under tests/, grouped by source owner. MUST NOT place test directories inside devices/, platforms/, skills/ or tools/. Use the recursive public test runner; each test MUST be discovered once. Physical evidence and logs are not executable test suites. Follow `docs/development/testing.md` for the authoritative ownership map, filtering and execution rules.
+- Document and invoke repository tools through `python3 codecraft.py`. The public entry is the only repository/application CLI. It loads tools/codecraft/cli.py; native commands remain in platform adapters. New exports MUST carry the public entry and portable workflow guidance in their graph and lock. CLI contract 3 uses explicit --skills selections; project profiles and locks use schema 3 without mixed-version readers.
 
 ### Required validation and delivery
 
