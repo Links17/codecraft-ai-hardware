@@ -1,0 +1,45 @@
+name: Update Star History
+
+on:
+  schedule:
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+  push:
+    branches: ['**']
+    paths:
+      - '.github/workflows/star-history.yml'
+      - '.github/star-history.cjs'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: star-history-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Generate monthly charts
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            const { updateCharts } = require('./.github/star-history.cjs');
+            await updateCharts({ github, repo: context.repo, directory: 'docs/assets' });
+      - name: Commit changed charts
+        run: |
+          git add -- docs/assets/star-history-light.svg docs/assets/star-history-dark.svg
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'docs(readme): update Star History charts'
+          git push origin "HEAD:${GITHUB_REF_NAME}"

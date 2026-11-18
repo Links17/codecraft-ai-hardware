@@ -42,7 +42,9 @@ Apache License 2.0. Retained third-party attributions: [NOTICE](NOTICE).
 
 <a href="https://www.star-history.com/?repos=Links17%2Fcodecraft-ai-hardware&amp;type=date&amp;legend=top-left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=Links17/codecraft-ai-hardware&amp;type=date&amp;theme=dark&amp;legend=top-left" />
-    <img alt="Star History chart for Links17/codecraft-ai-hardware" src="https://api.star-history.com/chart?repos=Links17/codecraft-ai-hardware&amp;type=date&amp;legend=top-left" />
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/star-history-dark.svg" />
+    <img alt="Monthly Star History chart for Links17/codecraft-ai-hardware" src="docs/assets/star-history-light.svg" />
   </picture>
 </a>
+
+Cumulative stars by month, updated daily by [GitHub Actions](docs/development/star-history.md).

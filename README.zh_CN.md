@@ -42,7 +42,9 @@ python3 codecraft.py build-project /tmp/my-e1001-project
 
 <a href="https://www.star-history.com/?repos=Links17%2Fcodecraft-ai-hardware&amp;type=date&amp;legend=top-left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=Links17/codecraft-ai-hardware&amp;type=date&amp;theme=dark&amp;legend=top-left" />
-    <img alt="Links17/codecraft-ai-hardware 的 Star 历史趋势图" src="https://api.star-history.com/chart?repos=Links17/codecraft-ai-hardware&amp;type=date&amp;legend=top-left" />
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/star-history-dark.svg" />
+    <img alt="Links17/codecraft-ai-hardware 按月份展示的 Star 历史趋势图" src="docs/assets/star-history-light.svg" />
   </picture>
 </a>
+
+按月展示累计数量，由 [GitHub Actions](docs/development/star-history.md) 每日更新。
