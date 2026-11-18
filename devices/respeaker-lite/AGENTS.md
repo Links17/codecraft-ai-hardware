@@ -47,7 +47,7 @@ Revision: unknown
 
 ## Evidence
 
-Build/project: build-verified. Device: not_run. Maintenance: unassigned. Maturity: experimental.
+Build/project: unknown. Device: not_run. Maintenance: unassigned. Maturity: experimental.
 
 - Physical board revision and fresh on-device verification are not recorded.
 - Read the original hardware reference for unsupported drivers, prerequisites and known limitations.
@@ -67,7 +67,6 @@ No verified redistributable image is registered.
 - [hardware.md](../../devices/respeaker-lite/reference/hardware.md)
 - [bsp_pins.h](../../platforms/esp-idf/targets/respeaker-lite/bsp/include/bsp_pins.h)
 - [vendor-notes.md](../../devices/respeaker-lite/reference/vendor-notes.md)
-- [build-66e55105a58f9e8f.json](../../devices/respeaker-lite/tests/records/build-66e55105a58f9e8f.json)
 
 ## Vendor links
 

@@ -28,7 +28,7 @@ from io_utils import digest
 def fixture():
     with tempfile.TemporaryDirectory(prefix='codecraft-contract-') as folder:
         root=Path(folder)/'repo';root.mkdir()
-        for p in source_files(ROOT):
+        for p in source_files(ROOT, excluded_dirs={'projects'}):
             out=root/p.relative_to(ROOT);out.parent.mkdir(parents=True,exist_ok=True)
             shutil.copy2(p,out,follow_symlinks=True)
         yield root

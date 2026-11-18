@@ -3,8 +3,8 @@
 This file is the mandatory entry point for using or changing this repository.
 Read Part I for every task. Part II also applies when changing repository
 code, documentation, metadata, skills, tests, or workflows. Building an existing
-example or creating a project outside the repository does not by itself make
-the task a repository contribution.
+example or creating a private project under projects/ or outside the repository
+does not by itself make the task a repository contribution.
 
 **MUST** and **MUST NOT** are requirements. An unmet requirement must be reported;
 it must not be silently omitted or counted as satisfied. These rules operate
@@ -43,6 +43,7 @@ The implementation separates device facts, software stacks, cloud Skill contract
 | `skills/_cloud/` | Cloud client maintenance source, import provenance and offline protocol tests |
 | `skills/_shared/` | Shared orchestration and its core integration tests |
 | `skills/codecraft-validate/tests/` | Validation entry, public CLI and gate/discovery tests |
+| `projects/<name>/` | Ignored private application exports, briefs and local locks; never reference dependencies |
 | `docs/`, `.github/` | Reference documentation, contribution guidance, and CI |
 
 Choose the platform by software stack, not chip name. An ESP32 using Arduino
@@ -60,8 +61,10 @@ Device AGENTS.md files and reference/ own hardware knowledge. Target manifests o
    installing toolchains or running builds.
 3. For development, identify the intended output location, board, software
    stack, and relevant hardware revision before relying on those choices.
-   Keep user-specific application code outside the reference repository unless
-   the user requests a repository example or contribution.
+   Prefer ignored projects/<name> workspaces for user applications; explicit
+   external directories remain supported. Keep private code out of reference
+   source directories unless the user requests an example or contribution.
+   See docs/development/project-workspaces.md.
 4. Load the matching routing-table entries and local rules before editing or
    executing a platform operation. MUST NOT load every README by default.
 
@@ -81,6 +84,7 @@ a failed operation must be diagnosed through `codecraft-debug` before retrying.
 
 | Task | Read before the relevant operation |
 | --- | --- |
+| New application ideation | `skills/codecraft-ideate/SKILL.md`, `docs/development/project-workspaces.md`, then selected Device/Target context |
 | Code change | `docs/development/ai-guide.md`, relevant headers and neighboring implementation |
 | Environment bootstrap or missing toolchain | `skills/codecraft-setup/SKILL.md`, Target manifest and device knowledge entry |
 | ESP-IDF board work | `devices/<board>/AGENTS.md`, `platforms/esp-idf/AGENTS.md`, `platforms/esp-idf/targets/<board>/target.json`, matching entry in `docs/vendor-sources.md` |
@@ -159,16 +163,16 @@ platform success must not change the hardware verification status.
 
 | Device | Target | Implementations | Build + project | Device |
 | --- | --- | --- | --- | --- |
-| [Grove Beginner Kit for Arduino](devices/grove-beginner-kit/AGENTS.md) | arduino/grove-beginner-kit | audio, display, environment, gpio, input, led, motion | build-verified | not_run |
-| [reSpeaker Lite (XIAO ESP32-S3)](devices/respeaker-lite/AGENTS.md) | esp-idf/respeaker-lite | audio, input, led | build-verified | not_run |
-| [reTerminal (CM4)](devices/reterminal/AGENTS.md) | linux/reterminal | audio, environment, gpio, input, led | build-verified | not_run |
-| [reTerminal E1001](devices/reterminal-e1001/AGENTS.md) | esp-idf/reterminal-e1001 | audio, display, environment, input, led, power, rtc, storage | build-verified | not_run |
-| [reTerminal E1002](devices/reterminal-e1002/AGENTS.md) | esp-idf/reterminal-e1002 | audio, display, environment, input, led, power, rtc, storage | build-verified | not_run |
-| [reTerminal Sticky](devices/reterminal-sticky/AGENTS.md) | esp-idf/reterminal-sticky | display, environment, input | build-verified | not_run |
-| [SenseCAP Indicator](devices/sensecap-indicator/AGENTS.md) | esp-idf/sensecap-indicator | display, gpio, input, touch | build-verified | not_run |
-| [SenseCAP Watcher](devices/sensecap-watcher/AGENTS.md) | esp-idf/sensecap-watcher | audio, camera, display, gpio, input, power, storage, touch | build-verified | not_run |
-| [Wio Terminal](devices/wio-terminal/AGENTS.md) | arduino/wio-terminal | audio, display, gpio, input, ir, motion, storage, wireless | build-verified | not_run |
-| [XIAO ESP32-S3 1.47-inch Touch Display](devices/xiao-s3-147/AGENTS.md) | esp-idf/xiao-s3-147 | audio, display, input | build-verified | not_run |
+| [Grove Beginner Kit for Arduino](devices/grove-beginner-kit/AGENTS.md) | arduino/grove-beginner-kit | audio, display, environment, gpio, input, led, motion | unknown | not_run |
+| [reSpeaker Lite (XIAO ESP32-S3)](devices/respeaker-lite/AGENTS.md) | esp-idf/respeaker-lite | audio, input, led | unknown | not_run |
+| [reTerminal (CM4)](devices/reterminal/AGENTS.md) | linux/reterminal | audio, environment, gpio, input, led | unknown | not_run |
+| [reTerminal E1001](devices/reterminal-e1001/AGENTS.md) | esp-idf/reterminal-e1001 | audio, display, environment, input, led, power, rtc, storage | unknown | not_run |
+| [reTerminal E1002](devices/reterminal-e1002/AGENTS.md) | esp-idf/reterminal-e1002 | audio, display, environment, input, led, power, rtc, storage | unknown | not_run |
+| [reTerminal Sticky](devices/reterminal-sticky/AGENTS.md) | esp-idf/reterminal-sticky | display, environment, input | unknown | not_run |
+| [SenseCAP Indicator](devices/sensecap-indicator/AGENTS.md) | esp-idf/sensecap-indicator | display, gpio, input, touch | unknown | not_run |
+| [SenseCAP Watcher](devices/sensecap-watcher/AGENTS.md) | esp-idf/sensecap-watcher | audio, camera, display, gpio, input, power, storage, touch | unknown | not_run |
+| [Wio Terminal](devices/wio-terminal/AGENTS.md) | arduino/wio-terminal | audio, display, gpio, input, ir, motion, storage, wireless | unknown | not_run |
+| [XIAO ESP32-S3 1.47-inch Touch Display](devices/xiao-s3-147/AGENTS.md) | esp-idf/xiao-s3-147 | audio, display, input | unknown | not_run |
 
 Platforms: [arduino](platforms/arduino/AGENTS.md), [esp-idf](platforms/esp-idf/AGENTS.md), [linux](platforms/linux/AGENTS.md)
 
@@ -240,6 +244,7 @@ the owning layer and preserve unrelated behavior.
 - Target metadata MUST declare native interfaces, common inputs, per-example inputs and dependencies. The Device-to-Target index MUST be derived from Target.device; duplicate backlinks are forbidden. All Target records MUST use schema v3 with an explicit variants object. Platform and adapter protocol versions remain independent.
 - Native build/configuration logic MUST live in platforms/<stack>. Shared Skill code MUST NOT branch on stack IDs to implement native operations.
 - Context, project export and evidence MUST use the same transitive dependency graph. Never filter out missing dependencies to make export pass. The graph MUST include the actual adapter and all pipeline code.
+- Application briefs MUST be owned by project.yaml. Render the marked application AGENTS region on creation/relocking, preserve custom rules outside it, and leave missing intent/BOM values unknown. Private projects MUST NOT enter reference discovery, test collection or source dependencies.
 - A project lock MUST preserve initial import provenance separately from explicitly reviewed application updates. Builds MUST check the actual toolchain against the current lock.
 - Evidence MUST name complete expected cases and the source digest. Changed source/adapter/contracts invalidate prior verification. Physical promotion additionally requires matching revision and named acceptance observations.
 - Capability contracts are consumed by cloud Skills. Device peripherals and native interfaces MUST NOT be registered as Capabilities. This repository MUST NOT implement the consuming cloud service.

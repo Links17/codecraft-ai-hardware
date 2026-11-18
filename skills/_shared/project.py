@@ -7,6 +7,7 @@ import subprocess
 import zipfile
 
 from io_utils import digest, object_digest, read_json, require, result, safe_path, source_files, write_json
+from application import application_rules, brief as validate_brief, destination as project_destination
 from model import Catalog
 from runtime import envelope, load_adapter, run_target
 
@@ -28,10 +29,12 @@ def profile(path):
     require(isinstance(data.get('capabilities', []), list), 'Capability selections must be a list')
     if 'variant' in data:
         require(isinstance(data['variant'], str) and data['variant'] and data.get('physical_compatibility') == 'unknown', 'Variant project profile must preserve unresolved physical identity')
+    if 'brief' in data:
+        validate_brief(data['brief'], data['device'])
     return data
 
 
-def generate_project(catalog, tid, example, output, capabilities=None, variant=None):
+def generate_project(catalog, tid, example, output, capabilities=None, variant=None, brief=None):
     selected = catalog.selected_target(tid, example, variant)
     graph = catalog.graph(tid, example, variant)
     capabilities = [] if capabilities is None else capabilities
@@ -39,9 +42,8 @@ def generate_project(catalog, tid, example, output, capabilities=None, variant=N
     for selection in capabilities:
         catalog.cloud().selection(selection, tid)
         graph.resolve(catalog.cloud().graph(selection['provider']).files)
-    output = Path(output).expanduser().resolve()
-    require(not output.is_relative_to(catalog.root), 'User projects must be outside the reference repository.')
-    require(not output.exists(), 'Output must be a new directory.')
+    output = project_destination(catalog.root, output)
+    application_brief = validate_brief(brief, selected['device'])
     output.mkdir(parents=True)
     try:
         for relative in sorted(graph.files):
@@ -51,7 +53,7 @@ def generate_project(catalog, tid, example, output, capabilities=None, variant=N
         # An explicit projection by declared example scope, never by file existence.
         write_json(output/selected['path']/'target.json', selected)
         data = {'schema_version': 2, 'device': selected['device'], 'target': tid, 'example': example,
-                'toolchain': selected['toolchain'], 'interfaces': [entry['id'] for entry in selected['interfaces']], 'capabilities': capabilities, 'secrets': {}}
+                'toolchain': selected['toolchain'], 'interfaces': [entry['id'] for entry in selected['interfaces']], 'capabilities': capabilities, 'secrets': {}, 'brief': application_brief}
         if 'selected_variant' in selected:
             data['variant'] = selected['selected_variant']
             data['physical_compatibility'] = 'unknown'
@@ -64,7 +66,6 @@ def generate_project(catalog, tid, example, output, capabilities=None, variant=N
             for relative,note in [('README.md',f'\nSelected build variant: **{name}**. The native default, project profile and lock agree. This choice does not identify the physical panel or PCB revision. Changing assemblies requires the corresponding sourced native inputs and metadata, review and explicit relocking.\n'),
                                   ('README.zh_CN.md',f'\n所选构建变体：**{name}**。原生默认值、项目配置与锁文件一致。该选择不识别实际面板或 PCB 修订；更换组件必须同时引入有来源的原生输入与元数据，审查后明确重新锁定。\n')]:
                 (output/relative).write_text((output/relative).read_text()+note)
-        (output/'AGENTS.md').write_text('# Application rules\n\nRead README.md and project.yaml. Preserve source citations and native APIs. Keep application changes in this project. Verify/update the lock before building. Device writes require an identified device and explicit authorization; builds and packages never perform them. Keep secrets out of source and locks. Maintain README.md and README.zh_CN.md together; all other engineering documents use English only.\n')
         (output/'.gitignore').write_text('.codecraft/\n__pycache__/\nmanaged_components/\nbuild/\nsdkconfig\nsdkconfig.old\n')
         commit = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=catalog.root, capture_output=True, text=True)
         dirty = subprocess.run(['git', 'status', '--porcelain'], cwd=catalog.root, capture_output=True, text=True)
@@ -98,9 +99,13 @@ def lock_project(path, origin=None):
     adapter = load_adapter(path, c.platforms[target['platform']])
     adapter.validate_target(path, target)
     graph = c.graph(data['target'])
+    resolved_toolchain = adapter.probe(path, target)
+    agents = path/'AGENTS.md'
+    require(not agents.is_symlink(), 'Application AGENTS must not be a symlink; preserve the linked rules before relocking.')
+    agents.write_text(application_rules(data, agents.read_text() if agents.exists() else ''), encoding='utf-8')
     files = inventory(path, graph.files)
     lock = {'schema_version': 2, 'origin': origin, 'target': data['target'], 'example': data['example'],
-            'declared_toolchain': target['toolchain'], 'resolved_toolchain': adapter.probe(path, target),
+            'declared_toolchain': target['toolchain'], 'resolved_toolchain': resolved_toolchain,
             'files': files, 'source_digest': object_digest(files), 'dependency_graph': graph.snapshot()}
     if 'variant' in data:
         lock['variant'] = data['variant']

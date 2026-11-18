@@ -2,7 +2,7 @@
 
 This specification defines repository scope, ownership and acceptance. The [architecture guide](../architecture/overview.md) describes the implementation.
 
-The repository supplies discoverable, attributable and verifiable Seeed hardware knowledge, BSPs, native examples, development Skills and evidence. Accounts, cloud runtime, communities, platform resource management and publishing belong elsewhere. User applications live outside this reference repository.
+The repository supplies discoverable, attributable and verifiable Seeed hardware knowledge, BSPs, native examples, development Skills and evidence. Accounts, cloud runtime, communities, platform resource management and publishing belong elsewhere. User applications live in ignored projects/<name> workspaces or explicitly selected external directories; they are not reference content.
 
 ## Architecture
 
@@ -20,7 +20,7 @@ Each device has one AGENTS entry and reference/ sources. Generate devices/AGENTS
 
 - Load only task-relevant device, Target, dependency, limitation and Skill context. Every reference must resolve.
 - Declare inspect/configure/generate/build/host-test/simulate/flash/device-test/logs/package support and reasons for unavailability.
-- Generate external projects from clean directories through the development workflow; record selections in project.yaml and lock versions in codecraft.lock, with minimum validation instructions.
+- Generate private projects into new directories through the development workflow; record selections in project.yaml and lock versions in codecraft.lock, with minimum validation instructions.
 - Keep tests, simulators and assets with their Device, Platform or Capability. Simulators state coverage; assets record provenance, license, version and checksum. Device imagery must match revision, dimensions and alpha.
 - Generate device indexes, capability and CI matrices and enforce generation drift checks. Share structured bilingual facts; do not register lists manually.
 - Preserve user work, never guess hardware facts or commit secrets, retain durable sanitized evidence, and perform physical writes only within authorization.
@@ -37,4 +37,4 @@ Hardware teams own facts/BSPs/Targets/assets/device evidence; capability maintai
 
 Device knowledge, generated indexes, discovery/context, native adapters and reproducible project generation are required software boundaries. Simulation, imagery and physical evidence require their own sourced acceptance. Long-term HIL resources/retest cadence, large-asset storage and support for partial boards remain open decisions.
 
-Original plan: [CodeCraft hardware architecture](https://seeedstudio.feishu.cn/docx/QgNjdqDbwotGQcxDKHmcxYMvn6b), V0.1, 2026-11-17.
+Design target: [CodeCraft hardware architecture](https://seeedstudio.feishu.cn/docx/QgNjdqDbwotGQcxDKHmcxYMvn6b), V0.2, 2026-11-18, revision 1430. This document describes the implemented boundaries above; it does not declare the entire V0.2 target complete. See the [implementation ledger](v0.2-todo.md) for the remaining sensecraft-cli migration, MQTT/local/edge Providers, simulator ownership, asset links and physical acceptance.

@@ -10,6 +10,8 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 - [Architecture](architecture/overview.md)
 - [Capability and Provider policy](architecture/capability-provider-policy.md)
 - [Simulation scope decision](architecture/simulation-scope.md)
+- [Private project workspaces and briefs](development/project-workspaces.md)
+- [Repository maintenance entry](../CONTRIBUTION.md)
 - [AI development guide](development/ai-guide.md)
 - [Standalone Skill release workflow](development/skill-releases.md)
 - [Host test ownership and focused execution](development/testing.md)
@@ -20,6 +22,8 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 - [Device acceptance](on-device-validation.md)
 
 ## Planning and open work
+
+- [V0.2 implementation TODOs](development/v0.2-todo.md) — design alignment, completed work and pending acceptance.
 
 - [Architecture requirements](development/codecraft-hardware-distilled.md) — requirements for all four owners.
 - [Optimization plan and TODOs](development/optimization-plan.md) — remaining external acceptance and governance work.

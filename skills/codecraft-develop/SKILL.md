@@ -5,7 +5,7 @@ description: Develop hardware applications and repository contributions with nat
 
 # Develop
 
-Read the root two-part contract and obtain context for the selected Target. Hardware facts come from devices/<device>/AGENTS.md and reference/. Native BSPs/examples remain in platforms/<stack>/targets/<device>. Generate user projects outside the repository with `new --target <id> --example <name> --output <new-directory>`. Preserve application/BSP boundaries and user changes; finish with the required validation report.
+Read the root two-part contract and obtain context for the selected Target. Hardware facts come from devices/<device>/AGENTS.md and reference/. Native BSPs/examples remain in platforms/<stack>/targets/<device>. Use codecraft-ideate when the application brief needs clarification. Generate private projects with `python3 codecraft.py new --target <id> --example <name> --output projects/<name>`; explicit external directories remain supported. Use --brief <file.json> for a confirmed brief. Keep generated AGENTS content sourced from project.yaml and preserve custom rules outside its marked region. See [project workspaces](../../docs/development/project-workspaces.md). Preserve application/BSP boundaries and user changes; finish with the required validation report.
 
 All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.
 

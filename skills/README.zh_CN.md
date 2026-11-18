@@ -6,7 +6,7 @@
 
 ## 硬件开发
 
-五个必需工作流为 codecraft-develop、codecraft-setup、codecraft-build、codecraft-device-test、codecraft-debug，按需使用 codecraft-discover 与 codecraft-validate。通用编排位于 _shared/；各平台拥有原生命令与工具链探测逻辑。
+五个必需工作流为 codecraft-develop、codecraft-setup、codecraft-build、codecraft-device-test、codecraft-debug，使用 [codecraft-ideate](codecraft-ideate/SKILL.md) 梳理应用意图和项目说明，按需使用 codecraft-discover 与 codecraft-validate。`context --task ideate` 包含构思与发现指南。通用编排位于 _shared/；各平台拥有原生命令与工具链探测逻辑。
 
 ## 云 API 客户端
 
@@ -21,7 +21,7 @@
 
 仅在执行已授权 API 任务时配置 CODECRAFT_API_ORIGIN 和 CODECRAFT_DEVICE_FILE，凭据格式与限制见各 API 参考。输入、生成文件和凭据保存在安装目录之外。TTS 和生图默认保存本地文件；任务需要稳定的设备鉴权资产链接时才使用 --archive，该链接不是公开 URL。归档失败不需要再次生成。
 
-repository-skill Provider 固定本地包文件并声明依赖。new --capabilities <selection.json> 将所选包导出到仓库外项目并纳入 codecraft.lock；纯原生项目不包含云客户端。prepare-capability 只返回调用参数信封，不执行 API。云端发现、解析和准备无需硬件 Target；--target 增加可选且经过校验的上下文，设备集成仍保持 unknown。
+repository-skill Provider 固定本地包文件并声明依赖。new --capabilities <selection.json> 将所选包导出到私有项目并纳入 codecraft.lock；纯原生项目不包含云客户端。prepare-capability 只返回调用参数信封，不执行 API。云端发现、解析和准备无需硬件 Target；--target 增加可选且经过校验的上下文，设备集成仍保持 unknown。
 
 Capability 合同版本为 2.0.0，当前各 Provider 的策略版本为 1.0.0。稳定语义保留在 Capability；服务边界、计费声明和获准的默认值归所选 Provider。准备阶段返回原始与有效配置以及有效输入/输出 schema，并通过显式参数把默认值交给客户端。上表描述当前 CodeCraft Provider，不代表通用 Capability 限制或实测计费。参见[策略职责](../docs/architecture/capability-provider-policy.md)。
 

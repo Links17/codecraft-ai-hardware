@@ -71,7 +71,7 @@ Panel/assembly choices do not identify a physical PCB revision.
 
 ## Evidence
 
-Build/project: build-verified. Device: not_run. Maintenance: unassigned. Maturity: experimental.
+Build/project: unknown. Device: not_run. Maintenance: unassigned. Maturity: experimental.
 
 - Physical board revision and fresh on-device verification are not recorded.
 - Read the original hardware reference for unsupported drivers, prerequisites and known limitations.
@@ -94,7 +94,6 @@ No verified redistributable image is registered.
 - [vendor-notes.md](../../devices/sensecap-indicator/reference/vendor-notes.md)
 - [hardware-checklist.md](../../devices/sensecap-indicator/tests/hardware-checklist.md)
 - [display-variants.md](../../devices/sensecap-indicator/reference/display-variants.md)
-- [build-4fa2274e2e872ff2.json](../../devices/sensecap-indicator/tests/records/build-4fa2274e2e872ff2.json)
 
 ## Vendor links
 

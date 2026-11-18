@@ -41,8 +41,8 @@ pressure, interrupt latency or combined peripheral behavior. Native builds and
 revision-specific physical evidence remain separate acceptance steps.
 
 Linux keeps its Python/source and device-tree checks; they do not emulate the
-reTerminal kernel, overlays or physical devices. Arduino has no registered
-hardware Target. Neither platform is promoted to simulator support by the
+reTerminal kernel, overlays or physical devices. Arduino has registered
+Grove Beginner Kit and Wio Terminal Targets, but no registered simulator. Neither platform is promoted to simulator support by the
 ESP-IDF candidate assessment.
 
 Revisit this decision only for a concrete scenario requiring firmware/driver
@@ -50,3 +50,7 @@ integration beyond the existing host tests. Register its pinned simulator,
 attributable models, board wiring, expected observations and explicit fidelity
 limits together with a reproducible gate case under the owning Platform/Target.
 A passing simulation may record simulation evidence, never physical evidence.
+
+## V0.2 status
+
+This remains the current implementation limit. It does not satisfy the later V0.2 requirement for a first simulator executing a concrete user-project scenario. [V02-07](../development/v0.2-todo.md) tracks that implementation and its acceptance; host fixtures remain host tests.

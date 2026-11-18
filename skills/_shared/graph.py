@@ -14,7 +14,9 @@ class SourceGraph:
 
     def add(self, reference):
         require(isinstance(reference, str), 'dependency must be a repository-relative path')
+        require(not Path(reference).parts or Path(reference).parts[0] != 'projects', f'private project dependency: {reference}')
         path = safe_path(self.root, reference)
+        require(not path.resolve().relative_to(self.root).parts or path.resolve().relative_to(self.root).parts[0] != 'projects', f'private project dependency: {reference}')
         reference = path.relative_to(self.root).as_posix()
         require(not any(part in IGNORED for part in Path(reference).parts), f'generated/cache dependency: {reference}')
         require(path.name != '.env' and not (path.name.startswith('.env.') and path.name != '.env.example'), f'private environment dependency: {reference}')
