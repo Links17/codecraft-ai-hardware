@@ -12,6 +12,7 @@
 - [仿真范围决策](architecture/simulation-scope.md)
 - [私有项目工作区与项目说明](development/project-workspaces.md)
 - [仓库维护入口](../CONTRIBUTION.md)
+- [外部 SenseCraft CLI 安装与路由](development/sensecraft-cli.md)
 - [AI 开发指南](development/ai-guide.md)
 - [独立 Skill 打包与版本工作流](development/skill-releases.md)
 - [主机测试归属与定向执行](development/testing.md)

@@ -8,6 +8,10 @@ This directory contains hardware development workflows and standalone clients th
 
 The five required workflows are codecraft-develop, codecraft-setup, codecraft-build, codecraft-device-test and codecraft-debug. Use [codecraft-ideate](codecraft-ideate/SKILL.md) for application intent and briefs, plus codecraft-discover and codecraft-validate when needed. `context --task ideate` includes ideation and discovery guidance. Generic orchestration lives in _shared/; each platform owns its native commands and toolchain probe.
 
+## External SenseCraft CLI
+
+Use the upstream [sensecraft-cli Skill](https://github.com/Seeed-Solution/sensecraft-cli/blob/main/skills/sensecraft-cli/SKILL.md) shipped with `@seeed-studio/sensecraft-cli` for devices, telemetry, Hub, file and model-library management, and cloud deployment. Install/link the complete official Skill directory outside this repository; [setup and routing](../docs/development/sensecraft-cli.md) records the verified package version and commands. No local replacement Skill or API wrapper is maintained here. This optional platform tool is separate from the inference clients below.
+
 ## Cloud API clients
 
 | Skill | Operation | Default model | Platform quota |

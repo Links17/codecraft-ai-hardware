@@ -66,7 +66,7 @@ def generate_project(catalog, tid, example, output, capabilities=None, variant=N
             for relative,note in [('README.md',f'\nSelected build variant: **{name}**. The native default, project profile and lock agree. This choice does not identify the physical panel or PCB revision. Changing assemblies requires the corresponding sourced native inputs and metadata, review and explicit relocking.\n'),
                                   ('README.zh_CN.md',f'\n所选构建变体：**{name}**。原生默认值、项目配置与锁文件一致。该选择不识别实际面板或 PCB 修订；更换组件必须同时引入有来源的原生输入与元数据，审查后明确重新锁定。\n')]:
                 (output/relative).write_text((output/relative).read_text()+note)
-        (output/'.gitignore').write_text('.codecraft/\n__pycache__/\nmanaged_components/\nbuild/\nsdkconfig\nsdkconfig.old\n')
+        (output/'.gitignore').write_text('.codecraft/\n.codegraph/\n__pycache__/\nmanaged_components/\nbuild/\nsdkconfig\nsdkconfig.old\n')
         commit = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=catalog.root, capture_output=True, text=True)
         dirty = subprocess.run(['git', 'status', '--porcelain'], cwd=catalog.root, capture_output=True, text=True)
         origin = {'repository_commit': commit.stdout.strip() if commit.returncode == 0 else 'unknown', 'repository_dirty': bool(dirty.stdout),

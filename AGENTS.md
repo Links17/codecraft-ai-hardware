@@ -96,6 +96,7 @@ a failed operation must be diagnosed through `codecraft-debug` before retrying.
 | Diagnosis | `skills/codecraft-debug/SKILL.md`, failing command/output and affected board context |
 | Documentation or Agent rules | Part II, `docs/README.md`, affected rules and their referenced files |
 | Skills or validation changes | `skills/README.md`, `skills/validation.md`, `docs/development/testing.md`, affected Skills and validation implementation |
+| SenseCraft platform operation or external CLI setup | `docs/development/sensecraft-cli.md`, the official installed `sensecraft-cli/SKILL.md`, and its task-specific reference |
 | CodeCraft cloud API operation | The matching `skills/codecraft-{llm,asr,tts,image-generation}/SKILL.md` and its API reference; use only existing task authorization |
 | Commit or PR | `docs/development/ai-guide.md`, `.github/CONTRIBUTING.md`, `.github/PULL_REQUEST_TEMPLATE.md` |
 | Upload, online flashing, or sharing firmware | The CodeCraft Hub section below and the linked CLI documentation |
@@ -143,15 +144,27 @@ a failed operation must be diagnosed through `codecraft-debug` before retrying.
   simulation, and physical behavior are distinct results; none proves the
   next. MUST NOT present a stale binary as the output of a failed new build.
 
+### External SenseCraft tooling
+
+For SenseCraft platform operations, use the official external
+[`@seeed-studio/sensecraft-cli`](https://github.com/Seeed-Solution/sensecraft-cli)
+and its bundled Agent Skill. Follow [setup and routing](docs/development/sensecraft-cli.md).
+The repository owns installation/use guidance, not this tool's authentication,
+HTTP implementation or command wrappers. Install it only for an explicitly
+requested setup or a task that needs it. Native builds do not require it.
+Repository operations still use `python3 codecraft.py`; this separately maintained
+tool uses its own CLI. Check its actual version/help before relying on commands.
+
 ### CodeCraft Hub
 
-[CodeCraft Hub](https://test-sensecraft.seeed.cc/wiki/en/sensecraft-cli/) is a
+[CodeCraft Hub](https://codecraft.seeed.cc/hub) is a
 separate firmware-sharing platform. This repository does not implement it.
 
 Only when the user requests upload, online flashing, or sharing, use
-[`@seeed-studio/sensecraft-cli`](https://test-sensecraft.seeed.cc/wiki/en/sensecraft-cli/)
-to generate and upload the required package. Follow that documentation to
-install the CLI and its Agent skill. An ordinary build, local flash, or board
+[`@seeed-studio/sensecraft-cli`](https://github.com/Seeed-Solution/sensecraft-cli)
+and its official nested create-app Skill to prepare the required package and
+perform the requested platform operation. Follow the
+[external tool guide](docs/development/sensecraft-cli.md) to install the CLI and Skill. An ordinary build, local flash, or board
 change is not an upload request. Hardware facts remain owned by this repository;
 platform success must not change the hardware verification status.
 

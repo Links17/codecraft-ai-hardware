@@ -8,7 +8,7 @@ from pathlib import Path
 
 STATUSES = frozenset({'passed', 'failed', 'skipped', 'not_run', 'not_supported'})
 OPERATIONS = ('inspect', 'configure', 'generate', 'build', 'host-test', 'simulate', 'flash', 'device-test', 'logs', 'package')
-IGNORED = {'.git', '.codecraft', '.venv', 'secrets', '.secrets', '__pycache__', '.pytest_cache', 'node_modules', 'managed_components', 'build', 'built'}
+IGNORED = {'.git', '.codecraft', '.codegraph', '.venv', 'secrets', '.secrets', '__pycache__', '.pytest_cache', 'node_modules', 'managed_components', 'build', 'built'}
 
 
 class ContractError(ValueError):

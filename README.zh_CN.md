@@ -30,6 +30,17 @@ python3 codecraft.py build-project projects/my-e1001-project
 
 新导出项目也包含公共入口；在应用目录运行 `python3 codecraft.py build-project .`。无需全局安装 CLI。独立云端 Skill 仍可单独运行；包版本维护使用[候选包工作流](docs/development/skill-releases.md)。
 
+## 可选的 SenseCraft 平台工具
+
+涉及 SenseCraft 设备、遥测、CodeCraft Hub、文件、模型库管理或云端部署时，使用外部 [sensecraft-cli](https://github.com/Seeed-Solution/sensecraft-cli) 及其官方 Agent Skill。已验证包版本为 0.5.0（Node.js 16+）：
+
+```sh
+npx --yes @seeed-studio/sensecraft-cli@0.5.0 --version
+npx --yes @seeed-studio/sensecraft-cli@0.5.0 --help
+```
+
+参见[安装、Skill 发现与任务路由](docs/development/sensecraft-cli.md)。原生开发无需此工具，安装不代表授权云端操作。已有 LLM/ASR/TTS/图像生成客户端与这些平台管理命令保持独立。
+
 ## 结构与贡献
 
 `devices/` 负责事实和来源，`platforms/` 负责原生实现，`capabilities/` 负责云端 Skill 消费合同，`skills/` 负责流程、脚本与合同测试。阅读[架构](docs/architecture/overview.md)和[贡献规则](.github/CONTRIBUTING.md)。
@@ -38,4 +49,4 @@ python3 codecraft.py build-project projects/my-e1001-project
 
 采用 Apache License 2.0，第三方归属保留在 [NOTICE](NOTICE)。
 
-V0.2 实施进度见 [TODO 清单](docs/development/v0.2-todo.md)；[CONTRIBUTION.md](CONTRIBUTION.md) 提供维护规则入口。云端 CLI 集成、仿真和实机验收仍是独立待办。
+V0.2 实施进度见 [TODO 清单](docs/development/v0.2-todo.md)；[CONTRIBUTION.md](CONTRIBUTION.md) 提供维护规则入口。SenseCraft CLI 已作为外部工具直接引入；仿真和实机验收仍是待办。

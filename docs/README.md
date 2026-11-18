@@ -12,6 +12,7 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 - [Simulation scope decision](architecture/simulation-scope.md)
 - [Private project workspaces and briefs](development/project-workspaces.md)
 - [Repository maintenance entry](../CONTRIBUTION.md)
+- [External SenseCraft CLI setup and routing](development/sensecraft-cli.md)
 - [AI development guide](development/ai-guide.md)
 - [Standalone Skill release workflow](development/skill-releases.md)
 - [Host test ownership and focused execution](development/testing.md)

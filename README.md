@@ -30,6 +30,17 @@ The output directory must not already exist. `project.yaml` records selections; 
 
 The public entry is also included in new exports; from an application directory use `python3 codecraft.py build-project .`. No global CLI installation is needed. Standalone cloud Skills remain independent; maintain package releases through the [candidate workflow](docs/development/skill-releases.md).
 
+## Optional SenseCraft platform tool
+
+For SenseCraft devices, telemetry, CodeCraft Hub, files, model-library management or cloud deployment, use the external [sensecraft-cli](https://github.com/Seeed-Solution/sensecraft-cli) and its official Agent Skill. The verified package version is 0.5.0 (Node.js 16+):
+
+```sh
+npx --yes @seeed-studio/sensecraft-cli@0.5.0 --version
+npx --yes @seeed-studio/sensecraft-cli@0.5.0 --help
+```
+
+See [installation, Skill discovery and task routing](docs/development/sensecraft-cli.md). Native development does not require this tool; installation does not authorize cloud operations. The existing LLM/ASR/TTS/image-generation clients remain separate from these platform-management commands.
+
 ## Structure and contribution
 
 `devices/` owns facts and sources; `platforms/` owns native implementations; `capabilities/` owns contracts consumed by cloud Skills; `skills/` owns orchestration, scripts and contract tests. Read [architecture](docs/architecture/overview.md) and [contribution rules](.github/CONTRIBUTING.md).
@@ -38,4 +49,4 @@ After source metadata changes, run `python3 codecraft.py generate`, then `python
 
 Apache License 2.0. Retained third-party attributions: [NOTICE](NOTICE).
 
-V0.2 implementation is tracked in the [TODO ledger](docs/development/v0.2-todo.md); [CONTRIBUTION.md](CONTRIBUTION.md) links the maintenance rules. Cloud CLI integration, simulation and physical acceptance remain separate work items.
+V0.2 implementation is tracked in the [TODO ledger](docs/development/v0.2-todo.md); [CONTRIBUTION.md](CONTRIBUTION.md) links the maintenance rules. The external SenseCraft CLI is referenced directly; simulation and physical acceptance remain open work items.

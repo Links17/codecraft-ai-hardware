@@ -225,3 +225,21 @@ def test_relocking_does_not_write_through_an_agent_rules_symlink():
         rejects(lambda: lock_project(output), 'symlink')
         assert outside.read_text() == 'Preserve shared rules.\n'
         assert (output/'codecraft.lock').read_bytes() == lock
+
+def test_local_codegraph_updates_do_not_change_application_source_lock():
+    with reference() as root:
+        cache = root/'.codegraph'
+        cache.mkdir()
+        (cache/'index.db').write_bytes(b'reference analysis cache')
+        assert not any('.codegraph' in path.parts for path in source_files(root))
+        rejects(lambda: SourceGraph(root).resolve(['.codegraph/index.db']), 'generated/cache dependency')
+        output = root/'projects/indexed'
+        generate_project(Catalog(root), 'linux/reterminal', 'buttons_evdev', output)
+        assert not (output/'.codegraph').exists()
+        (output/'.codegraph').mkdir()
+        index = output/'.codegraph/index.db'
+        index.write_bytes(b'application analysis cache')
+        assert verify_project(output)['status'] == 'passed'
+        index.write_bytes(b'reindexed application cache')
+        assert verify_project(output)['status'] == 'passed'
+        assert not any(name.startswith('.codegraph/') for name in read_json(output/'codecraft.lock')['files'])

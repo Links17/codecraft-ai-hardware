@@ -10,7 +10,7 @@ Four content owners: devices owns physical identity/revision, facts, sources, as
 
 A Device is independent of software stack. A Target implements one Device on one stack. Capabilities serve cloud Skills and reference Targets/dependencies when device implementations are needed. GPIO, display, audio and other peripherals are Device facts and Target native interfaces, not individual Capabilities. Consuming cloud-facing contracts does not add a cloud runtime to this repository. Standardize metadata, operations and results while preserving native drivers/build systems; do not force a cross-platform ABI.
 
-Four standalone cloud API Skill packages live under skills/. Their clients, local package references and offline tests are maintained here; the cloud server remains outside this repository.
+Four standalone CodeCraft inference API Skill packages live under skills/. Their clients, local package references and offline tests are maintained here; the cloud server remains outside this repository. SenseCraft platform management uses the separately installed official sensecraft-cli and its bundled Skill. This repository owns [setup and routing](sensecraft-cli.md); the external project owns its command, authentication and HTTP implementation.
 
 ## Device knowledge
 
@@ -37,4 +37,4 @@ Hardware teams own facts/BSPs/Targets/assets/device evidence; capability maintai
 
 Device knowledge, generated indexes, discovery/context, native adapters and reproducible project generation are required software boundaries. Simulation, imagery and physical evidence require their own sourced acceptance. Long-term HIL resources/retest cadence, large-asset storage and support for partial boards remain open decisions.
 
-Design target: [CodeCraft hardware architecture](https://seeedstudio.feishu.cn/docx/QgNjdqDbwotGQcxDKHmcxYMvn6b), V0.2, 2026-11-18, revision 1430. This document describes the implemented boundaries above; it does not declare the entire V0.2 target complete. See the [implementation ledger](v0.2-todo.md) for the remaining sensecraft-cli migration, MQTT/local/edge Providers, simulator ownership, asset links and physical acceptance.
+Design target: [CodeCraft hardware architecture](https://seeedstudio.feishu.cn/docx/QgNjdqDbwotGQcxDKHmcxYMvn6b), V0.2, 2026-11-18, revision 1430. This document describes the implemented boundaries above; it does not declare the entire V0.2 target complete. See the [implementation ledger](v0.2-todo.md) for remaining MQTT/local/edge Providers, simulator ownership, asset links and physical acceptance. The user clarified V02-05 as direct adoption of the external SenseCraft CLI; it does not assert replacement of the separate CodeCraft inference APIs.

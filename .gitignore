@@ -24,3 +24,7 @@ __pycache__/
 
 # Local validation receipts and generated context
 .codecraft/
+
+# Local CodeGraph index and generated editor guidance
+.codegraph/
+.cursor/rules/codegraph.mdc

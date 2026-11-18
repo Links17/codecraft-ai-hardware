@@ -8,6 +8,10 @@
 
 五个必需工作流为 codecraft-develop、codecraft-setup、codecraft-build、codecraft-device-test、codecraft-debug，使用 [codecraft-ideate](codecraft-ideate/SKILL.md) 梳理应用意图和项目说明，按需使用 codecraft-discover 与 codecraft-validate。`context --task ideate` 包含构思与发现指南。通用编排位于 _shared/；各平台拥有原生命令与工具链探测逻辑。
 
+## 外部 SenseCraft CLI
+
+设备、遥测、Hub、文件与模型库管理、云端部署使用 `@seeed-studio/sensecraft-cli` 包提供的官方 [sensecraft-cli Skill](https://github.com/Seeed-Solution/sensecraft-cli/blob/main/skills/sensecraft-cli/SKILL.md)。完整官方 Skill 目录安装或链接在仓库之外；[安装与路由指南](../docs/development/sensecraft-cli.md) 记录已验证包版本和命令。仓库不维护替代 Skill 或 API 包装层。这个可选的平台工具与下列推理客户端相互独立。
+
 ## 云 API 客户端
 
 | Skill | 操作 | 默认模型 | 平台额度 |
