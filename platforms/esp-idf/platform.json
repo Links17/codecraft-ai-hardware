@@ -30,7 +30,7 @@
       "supported": true
     },
     "flash": {
-      "reason": "Deployment is an explicitly authorized workflow in sensecraft-development-device-test, not an automatic validation operation.",
+      "reason": "Deployment is an explicitly authorized workflow in codecraft-development-device-test, not an automatic validation operation.",
       "supported": false
     },
     "generate": {

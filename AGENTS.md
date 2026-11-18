@@ -38,7 +38,7 @@ The implementation separates Device facts, Platform software stacks and Skill-ow
 | `devices/<board>/targets/` | Native BSP, examples and board configuration directly under one Target root; target.json declares its software stack |
 | `platforms/esp-idf/components/` | Components shared by ESP-IDF boards |
 | `platforms/<stack>/` | Shared software-stack/runtime adapters, build helpers and reusable components; no board directories |
-| `skills/` | Flat installable Skills: sensecraft-development-* development workflows and sensecraft-capabilities-* cloud API clients |
+| `skills/` | Flat installable Skills: codecraft-development-* development workflows and codecraft-capabilities-* cloud API clients |
 | `tools/skill_packages/` | Cloud client maintenance source, package release records, immutable import provenance and release tooling |
 | `tools/codecraft/` | Shared orchestration and public CLI implementation |
 | `tests/` | All repository-maintained tests, fixtures and mocks, grouped by Device, Platform, Skill or Tool owner; see tests/AGENTS.md |
@@ -79,36 +79,36 @@ listing or README claim.
    native toolchain setup.
 
 Before AI-assisted development, all five skills MUST be installed and available:
-`sensecraft-development-develop`, `sensecraft-development-setup`, `sensecraft-development-build`,
-`sensecraft-development-device-test`, and `sensecraft-development-debug`. Maintained sources are in
+`codecraft-development-develop`, `codecraft-development-setup`, `codecraft-development-build`,
+`codecraft-development-device-test`, and `codecraft-development-debug`. Maintained sources are in
 `skills/`. If any is missing, choose an installation method appropriate to the
 environment, install it, and verify availability without waiting for the user
 to request installation. No client or installation directory is mandatory.
 
-The discovery and validation workflows also have `sensecraft-development-discover` and `sensecraft-development-validate` Skills. Use only the Skills matching the task. Availability does not require loading
+The discovery and validation workflows also have `codecraft-development-discover` and `codecraft-development-validate` Skills. Use only the Skills matching the task. Availability does not require loading
 all five, and installation does not authorize flashing, Git writes, or
-publishing. A missing toolchain must be handled through `sensecraft-development-setup`;
-a failed operation must be diagnosed through `sensecraft-development-debug` before retrying.
+publishing. A missing toolchain must be handled through `codecraft-development-setup`;
+a failed operation must be diagnosed through `codecraft-development-debug` before retrying.
 
 ### Task-specific context routing
 
 | Task | Read before the relevant operation |
 | --- | --- |
-| New application ideation | `skills/sensecraft-development-ideate/SKILL.md`, `docs/development/project-workspaces.md`, then selected Device/Target context |
+| New application ideation | `skills/codecraft-development-ideate/SKILL.md`, `docs/development/project-workspaces.md`, then selected Device/Target context |
 | Code change | `docs/development/ai-guide.md`, relevant headers and neighboring implementation |
-| Environment bootstrap or missing toolchain | `skills/sensecraft-development-setup/SKILL.md`, Target manifest and device knowledge entry |
+| Environment bootstrap or missing toolchain | `skills/codecraft-development-setup/SKILL.md`, Target manifest and device knowledge entry |
 | ESP-IDF board work | `devices/<board>/AGENTS.md`, `platforms/esp-idf/AGENTS.md`, `devices/<board>/targets/target.json`, matching entry in `docs/vendor-sources.md` |
 | Linux board work | `devices/<board>/AGENTS.md`, `platforms/linux/AGENTS.md`, `devices/<board>/targets/target.json`, matching entry in `docs/vendor-sources.md` |
 | Arduino board work | `devices/<board>/AGENTS.md`, `platforms/arduino/AGENTS.md`, `devices/<board>/targets/target.json`, matching entry in `docs/vendor-sources.md` |
 | New board | Part II, `docs/development/ai-guide.md` onboarding section, platform rules, `docs/vendor-sources.md` |
-| Build, tests, dependencies, partitions | `skills/sensecraft-development-build/SKILL.md`, device knowledge entry, Target manifest and platform configuration (`sdkconfig.defaults`, `target.json`, as applicable) |
-| Firmware image planning, merging or verification | `docs/development/firmware-images.md`, `skills/sensecraft-development-build/SKILL.md`, Target firmware profile and Platform implementation |
-| Flashing or on-device testing | `skills/sensecraft-development-device-test/SKILL.md`, `tests/AGENTS.md`, board deployment instructions |
-| Diagnosis | `skills/sensecraft-development-debug/SKILL.md`, failing command/output and affected board context |
+| Build, tests, dependencies, partitions | `skills/codecraft-development-build/SKILL.md`, device knowledge entry, Target manifest and platform configuration (`sdkconfig.defaults`, `target.json`, as applicable) |
+| Firmware image planning, merging or verification | `docs/development/firmware-images.md`, `skills/codecraft-development-build/SKILL.md`, Target firmware profile and Platform implementation |
+| Flashing or on-device testing | `skills/codecraft-development-device-test/SKILL.md`, `tests/AGENTS.md`, board deployment instructions |
+| Diagnosis | `skills/codecraft-development-debug/SKILL.md`, failing command/output and affected board context |
 | Documentation or Agent rules | Part II, `docs/README.md`, affected rules and their referenced files |
 | Skills or validation changes | `skills/README.md`, `skills/validation.md`, `docs/development/testing.md`, affected Skills and validation implementation |
 | SenseCraft platform operation or external CLI setup | `docs/development/sensecraft-cli.md`, the official installed `sensecraft-cli/SKILL.md`, and its task-specific reference |
-| CodeCraft cloud API operation | The matching `skills/sensecraft-capabilities-{llm,asr,tts,image-generation}/SKILL.md` and its API reference; use only existing task authorization |
+| CodeCraft cloud API operation | The matching `skills/codecraft-capabilities-{llm,asr,tts,image-generation}/SKILL.md` and its API reference; use only existing task authorization |
 | Repository tooling or package maintenance | `tools/AGENTS.md`, affected tool modules and their tests; keep `codecraft.py` as the public entry |
 | Commit or PR | `docs/development/ai-guide.md`, `.github/CONTRIBUTING.md`, `.github/PULL_REQUEST_TEMPLATE.md` |
 | Upload, online flashing, or sharing firmware | The CodeCraft Hub section below and the linked CLI documentation |

@@ -1,4 +1,0 @@
-interface:
-  display_name: "SenseCraft Speech Synthesis"
-  short_description: "Integrate CodeCraft speech on MCU and Linux"
-  default_prompt: "Use $sensecraft-capabilities-tts to integrate device authentication and speech synthesis into my MCU or Linux application."

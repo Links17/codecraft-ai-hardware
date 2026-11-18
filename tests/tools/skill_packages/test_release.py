@@ -57,21 +57,21 @@ def test_identical_inputs_produce_identical_complete_candidates_without_writes()
 
 def test_reviewed_documentation_release_executes_isolated_clients_and_preserves_provenance():
     with workspace() as (root,base):
-        source=root/'skills/sensecraft-capabilities-asr/references/api.md'
+        source=root/'skills/codecraft-capabilities-asr/references/api.md'
         source.write_text(source.read_text()+'\nPackaging fixture documentation note.\n')
         before=file_bytes(root);provenance=(root/'tools/skill_packages/import.json').read_bytes()
         rejects(lambda:release.prepare(root,base/'unversioned'))
         assert not (base/'unversioned').exists() and file_bytes(root)==before
-        version=next_version(root,'sensecraft-capabilities-asr')
-        candidate=release.prepare(root,base/'candidate',{'sensecraft-capabilities-asr':{'skill_version':version}})
-        assert candidate['packages']['sensecraft-capabilities-asr']['classification']=='documentation'
+        version=next_version(root,'codecraft-capabilities-asr')
+        candidate=release.prepare(root,base/'candidate',{'codecraft-capabilities-asr':{'skill_version':version}})
+        assert candidate['packages']['codecraft-capabilities-asr']['classification']=='documentation'
         outcome=release.apply(root,base/'candidate',candidate['review_sha256'])
         assert outcome['repository_changed'] and len(outcome['checks'])==20
         assert all(x['status']=='passed' for x in outcome['checks'])
         assert next(x for x in outcome['checks'] if x['name']=='standalone-protocol-suite')['cases']==16
         assert next(x for x in outcome['checks'] if x['name']=='standalone-onboarding-suite')['cases']==7
-        assert next(x for x in outcome['checks'] if x['name']=='sensecraft-capabilities-asr::test_realtime')['cases']==6
-        provider=load_package(root,'sensecraft-capabilities-asr')[0]
+        assert next(x for x in outcome['checks'] if x['name']=='codecraft-capabilities-asr::test_realtime')['cases']==6
+        provider=load_package(root,'codecraft-capabilities-asr')[0]
         assert provider['version']==version
         assert provider['files']['references/api.md']==digest(source)
         assert (root/'tools/skill_packages/import.json').read_bytes()==provenance
@@ -81,7 +81,7 @@ def test_reviewed_documentation_release_executes_isolated_clients_and_preserves_
 
 def test_shared_helper_candidates_classify_runtime_and_do_not_rewrite_distributions():
     with workspace() as (root,base):
-        distribution=root/'skills/sensecraft-capabilities-asr/scripts/device_api.py';original=distribution.read_bytes()
+        distribution=root/'skills/codecraft-capabilities-asr/scripts/device_api.py';original=distribution.read_bytes()
         distribution.write_bytes(original+b'\n# Local distribution edit must not be discarded.\n')
         edited=distribution.read_bytes()
         rejects(lambda:release.prepare(root,base/'conflicting-helper'))
@@ -99,11 +99,11 @@ def test_shared_helper_candidates_classify_runtime_and_do_not_rewrite_distributi
             assert (base/'candidate'/relative).read_bytes()==maintained.read_bytes()
             assert (root/relative).read_bytes()!=maintained.read_bytes()
         assert file_bytes(root)==before
-        cache=base/'candidate/skills/sensecraft-capabilities-asr/scripts/__pycache__/unregistered.pyc'
+        cache=base/'candidate/skills/codecraft-capabilities-asr/scripts/__pycache__/unregistered.pyc'
         cache.parent.mkdir();cache.write_bytes(b'unregistered candidate cache')
         outcome=release.apply(root,base/'candidate',candidate['review_sha256'])
         assert outcome['repository_changed'] and len(outcome['checks'])==20
-        assert not (root/'skills/sensecraft-capabilities-asr/scripts/__pycache__').exists()
+        assert not (root/'skills/codecraft-capabilities-asr/scripts/__pycache__').exists()
         for p in release.registrations(root).values():
             assert (root/('skills/'+p['id'])/'scripts/device_api.py').read_bytes()==maintained.read_bytes()
 
@@ -115,7 +115,7 @@ def test_wrong_review_digest_candidate_drift_and_source_drift_fail_before_execut
             rejects(lambda:release.apply(root,base/'candidate','0'*64))
             extra=base/'candidate/extra.txt';extra.write_text('unreviewed')
             rejects(lambda:release.validate(root,base/'candidate'));extra.unlink()
-            package=base/'candidate/skills/sensecraft-capabilities-asr/SKILL.md';original=package.read_bytes()
+            package=base/'candidate/skills/codecraft-capabilities-asr/SKILL.md';original=package.read_bytes()
             package.write_bytes(original+b'\ndrift\n')
             rejects(lambda:release.validate(root,base/'candidate'));package.write_bytes(original)
             link=base/'candidate/symlink';link.symlink_to(package)
@@ -131,14 +131,14 @@ def test_invalid_or_tampered_version_plans_cannot_bypass_release_validation():
         invalid=[{'skill_version':'0.0.1'},{'contract_version':'99.0.0'},
                  {'policy_version':'0.0.1'},{'api_version':''},{'unexpected':True}]
         for index,entry in enumerate(invalid):
-            rejects(lambda:release.prepare(root,base/str(index),{'sensecraft-capabilities-asr':entry}))
+            rejects(lambda:release.prepare(root,base/str(index),{'codecraft-capabilities-asr':entry}))
         versions=base/'versions.json';versions.write_text('null\n')
         stdout=io.StringIO()
         with patch('sys.stdout',stdout):
             code=release.main(['prepare','--versions',str(versions),'--output',str(base/'null-versions')],root=root)
         assert code==1 and not (base/'null-versions').exists()
-        path=root/'tools/skill_packages/packages/sensecraft-capabilities-asr.json';original=path.read_bytes()
-        for index,change in enumerate(({'id':'../outside'},{'id':'sensecraft-capabilities-asr/extra'})):
+        path=root/'tools/skill_packages/packages/codecraft-capabilities-asr.json';original=path.read_bytes()
+        for index,change in enumerate(({'id':'../outside'},{'id':'codecraft-capabilities-asr/extra'})):
             provider=read_json(path);provider.update(change);write_json(path,provider)
             rejects(lambda:release.prepare(root,base/('bad-path-'+str(index))))
             path.write_bytes(original)
@@ -148,7 +148,7 @@ def test_invalid_or_tampered_version_plans_cannot_bypass_release_validation():
             write_json(path,invalid_manifest)
             rejects(lambda:release.inspect(root,base/'candidate'))
         write_json(path,manifest)
-        entry=manifest['packages']['sensecraft-capabilities-asr'];entry['proposed']['version']='0.0.1'
+        entry=manifest['packages']['codecraft-capabilities-asr'];entry['proposed']['version']='0.0.1'
         provider=base/'candidate'/entry['record_path'];write_json(provider,entry['proposed'])
         manifest['files'][entry['record_path']]=digest(provider);write_json(path,manifest)
         rejects(lambda:release.inspect(root,base/'candidate',object_digest(manifest)))
@@ -156,9 +156,9 @@ def test_invalid_or_tampered_version_plans_cannot_bypass_release_validation():
 
 def test_failed_candidate_cli_prevents_any_apply_changes():
     with workspace() as (root,base):
-        source=root/'skills/sensecraft-capabilities-asr/scripts/transcribe.py'
+        source=root/'skills/codecraft-capabilities-asr/scripts/transcribe.py'
         source.write_text('raise SystemExit(7)\n')
-        prepared=release.prepare(root,base/'candidate',{'sensecraft-capabilities-asr':{'skill_version':next_version(root,'sensecraft-capabilities-asr')}})
+        prepared=release.prepare(root,base/'candidate',{'codecraft-capabilities-asr':{'skill_version':next_version(root,'codecraft-capabilities-asr')}})
         before=file_bytes(root)
         rejects(lambda:release.apply(root,base/'candidate',prepared['review_sha256']))
         assert file_bytes(root)==before and not (root/'.codecraft/skill-release.lock').exists()
@@ -189,7 +189,7 @@ def test_failed_backup_restoration_retains_the_original_package_for_recovery():
         maintained.write_text(maintained.read_text()+'\n# Recovery fixture.\n')
         versions={pid:{'skill_version':next_version(root,pid)} for pid in release.registrations(root)}
         prepared=release.prepare(root,base/'candidate',versions)
-        original=(root/'skills/sensecraft-capabilities-asr/scripts/device_api.py').read_bytes()
+        original=(root/'skills/codecraft-capabilities-asr/scripts/device_api.py').read_bytes()
         rename=Path.rename
         def refuse_restoration(path,destination):
             if path.name.startswith('old-'):raise OSError('injected restoration failure')
@@ -200,5 +200,5 @@ def test_failed_backup_restoration_retains_the_original_package_for_recovery():
             else:raise AssertionError('Failed restoration was not reported')
         stages=list((root/'skills').glob('.release-*'))
         assert len(stages)==1
-        assert (stages[0]/'old-sensecraft-capabilities-asr/scripts/device_api.py').read_bytes()==original
+        assert (stages[0]/'old-codecraft-capabilities-asr/scripts/device_api.py').read_bytes()==original
         assert not (root/'.codecraft/skill-release.lock').exists()

@@ -14,7 +14,7 @@ from project import generate_project, verify_project
 
 
 def selection(cid, configuration=None):
-    return {'skill':'sensecraft-capabilities-'+cid,
+    return {'skill':'codecraft-capabilities-'+cid,
             'configuration':{} if configuration is None else configuration,
             'environment':{'network':True,'tls':True,'privacy_approved':True,
                            'environment_refs':['CODECRAFT_API_ORIGIN'],
@@ -31,7 +31,7 @@ def test_semantics_policy_api_and_distribution_versions_remain_independent():
     expected={'asr':{'automatic_retry'},'llm':{'automatic_retry','roles','text_only','stream_completion_required'},
               'tts':{'automatic_retry'},'image-generation':{'automatic_retry','count'}}
     for name, limits in expected.items():
-        record, contract=contracts.load_package(ROOT,'sensecraft-capabilities-'+name)
+        record, contract=contracts.load_package(ROOT,'codecraft-capabilities-'+name)
         assert contract['schema_version']==2
         assert contract['version']==record['contract_version']=='3.0.0'
         assert contract['policy']['version']==record['policy_version']=='2.0.0'
@@ -41,7 +41,7 @@ def test_semantics_policy_api_and_distribution_versions_remain_independent():
         assert not set(contract['policy']['limits']) & limits
 
         # A documentation release may advance without changing the service contract.
-        skill='sensecraft-capabilities-'+name
+        skill='codecraft-capabilities-'+name
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder)
             for relative in contracts.package_graph(ROOT,skill).files:
@@ -69,7 +69,7 @@ def test_semantics_policy_api_and_distribution_versions_remain_independent():
 
 
 def test_policy_changes_preserve_semantics_but_require_a_reviewed_package_identity():
-    record, original=contracts.load_package(ROOT,'sensecraft-capabilities-asr')
+    record, original=contracts.load_package(ROOT,'codecraft-capabilities-asr')
     contract=copy.deepcopy(original)
     semantic={k:v for k,v in contract.items() if k!='policy'}
     contract['policy']['version']='2.0.1'
@@ -78,16 +78,16 @@ def test_policy_changes_preserve_semantics_but_require_a_reviewed_package_identi
     assert semantic=={k:v for k,v in contract.items() if k!='policy'}
     with tempfile.TemporaryDirectory() as folder:
         root=Path(folder)
-        for relative in contracts.package_graph(ROOT,'sensecraft-capabilities-asr').files:
+        for relative in contracts.package_graph(ROOT,'codecraft-capabilities-asr').files:
             out=root/relative;out.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/relative,out)
-        before=contracts.package_graph(root,'sensecraft-capabilities-asr').fingerprint()
-        write_json(root/'skills/sensecraft-capabilities-asr/contract.json',contract)
-        rejected(lambda:contracts.load_package(root,'sensecraft-capabilities-asr'))
+        before=contracts.package_graph(root,'codecraft-capabilities-asr').fingerprint()
+        write_json(root/'skills/codecraft-capabilities-asr/contract.json',contract)
+        rejected(lambda:contracts.load_package(root,'codecraft-capabilities-asr'))
         # A synthetic reviewed record, never a live policy or release claim.
-        record['files']['contract.json']=digest(root/'skills/sensecraft-capabilities-asr/contract.json')
+        record['files']['contract.json']=digest(root/'skills/codecraft-capabilities-asr/contract.json')
         record['policy_version']='2.0.1';record['version']='2.0.2'
-        write_json(root/contracts.record_path('sensecraft-capabilities-asr'),record)
-        assert contracts.package_graph(root,'sensecraft-capabilities-asr').fingerprint()!=before
+        write_json(root/contracts.record_path('codecraft-capabilities-asr'),record)
+        assert contracts.package_graph(root,'codecraft-capabilities-asr').fingerprint()!=before
 
 
 def test_defaults_require_semantic_permission_and_caller_values_take_precedence():
@@ -99,7 +99,7 @@ def test_defaults_require_semantic_permission_and_caller_values_take_precedence(
     rejected(lambda:contracts.selection(ROOT,selection('llm',{'max_tokens':2049})))
     rejected(lambda:contracts.selection(ROOT,selection('llm',{'max_tokens':False})))
     for name in ('tts','image-generation'):
-        record,contract=contracts.load_package(ROOT,'sensecraft-capabilities-'+name)
+        record,contract=contracts.load_package(ROOT,'codecraft-capabilities-'+name)
         contract['policy']['defaults']['archive']=True
         rejected(lambda:contracts.validate_contract(contract,record['files']))
 
@@ -107,7 +107,7 @@ def test_defaults_require_semantic_permission_and_caller_values_take_precedence(
 def test_unknown_environment_resources_and_secret_values_fail_selection():
     for sid in contracts.registrations(ROOT):
         record,contract=contracts.load_package(ROOT,sid)
-        item=selection(sid.removeprefix('sensecraft-capabilities-'))
+        item=selection(sid.removeprefix('codecraft-capabilities-'))
         assert contracts.prerequisites(contract)['status']=='unknown'
         assert contracts.prerequisites(contract,{'network':False})['status']=='unsupported'
         assert contracts.prerequisites(contract,item['environment'],{'memory_bytes':1024})['status']=='unknown'
@@ -130,7 +130,7 @@ def test_unknown_environment_resources_and_secret_values_fail_selection():
 
 
 def test_malformed_policy_and_versioned_records_are_rejected():
-    record,original=contracts.load_package(ROOT,'sensecraft-capabilities-asr')
+    record,original=contracts.load_package(ROOT,'codecraft-capabilities-asr')
     edits=[lambda c:c.pop('policy'),lambda c:c.update(schema_version=True),
            lambda c:c.update(client=[]),lambda c:c.update(api=[]),lambda c:c.update(prerequisites=[]),
            lambda c:c.update(resources=[]),lambda c:c.update(estimates=[]),lambda c:c.update(limits=[]),
@@ -150,7 +150,7 @@ def test_malformed_policy_and_versioned_records_are_rejected():
 
 def test_output_constraints_preserve_explicit_archival_semantics():
     for name,op in (('tts','speak'),('image-generation','generate')):
-        record,contract=contracts.load_package(ROOT,'sensecraft-capabilities-'+name)
+        record,contract=contracts.load_package(ROOT,'codecraft-capabilities-'+name)
         output={'file':'/work/result','authentication':'different fixture authentication'}
         contracts.payload(contract['operations'][op]['output'],output)
         effective=contracts.policy(contract,record['files'])['operations'][op]['output']
@@ -162,8 +162,8 @@ def test_selected_contract_and_release_drift_invalidate_the_project_lock():
     with tempfile.TemporaryDirectory() as folder:
         output=Path(folder)/'app'
         generate_project(Catalog(ROOT),'linux/reterminal','buttons_evdev',output,[selection('asr')])
-        path=output/'skills/sensecraft-capabilities-asr/contract.json'
-        assert read_json(path)==contracts.load_package(ROOT,'sensecraft-capabilities-asr')[1]
+        path=output/'skills/codecraft-capabilities-asr/contract.json'
+        assert read_json(path)==contracts.load_package(ROOT,'codecraft-capabilities-asr')[1]
         assert verify_project(output)['status']=='passed'
         value=read_json(path);value['policy']['version']='2.0.1';write_json(path,value)
         assert verify_project(output)['status']=='failed'

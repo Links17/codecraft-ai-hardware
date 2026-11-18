@@ -60,8 +60,8 @@ def test_discovery_keeps_unknowns_and_rejects_unavailable_combinations():
 def test_context_contains_native_sources_and_only_selected_workflow():
     context=Catalog(ROOT).context('esp-idf/sensecap-watcher')
     assert any(p.endswith('bsp_pins.h') for p in context['files'])
-    assert 'skills/sensecraft-development-develop/SKILL.md' in context['guidance']
-    assert 'skills/sensecraft-development-device-test/SKILL.md' not in context['guidance']
+    assert 'skills/codecraft-development-develop/SKILL.md' in context['guidance']
+    assert 'skills/codecraft-development-device-test/SKILL.md' not in context['guidance']
     assert context['unknowns'] and context['support']['device']=='not_run'
 
 

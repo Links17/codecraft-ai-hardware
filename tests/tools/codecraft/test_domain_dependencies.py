@@ -49,7 +49,7 @@ def test_application_dispatch_uses_explicit_path_without_reference_catalog():
         assert run.returncode==0,run.stdout+run.stderr
         assert json.loads(run.stdout)['data']['status']=='passed'
         selected=Path(folder)/'selected'
-        generate_project(Catalog(ROOT),'linux/reterminal','buttons_evdev',selected,[selection('sensecraft-capabilities-asr')])
+        generate_project(Catalog(ROOT),'linux/reterminal','buttons_evdev',selected,[selection('codecraft-capabilities-asr')])
         (selected/'tools/codecraft/skill_contracts.py').unlink()
         run=subprocess.run([sys.executable,'-B',str(selected/'codecraft.py'),'check-cloud-skills'],
                            cwd=selected,capture_output=True,text=True,timeout=30)
@@ -59,7 +59,7 @@ def test_application_dispatch_uses_explicit_path_without_reference_catalog():
 
 def test_all_target_variant_exports_preserve_context_and_selected_skill_closure():
     c=Catalog(ROOT)
-    ids=['sensecraft-capabilities-asr','sensecraft-capabilities-llm','sensecraft-capabilities-tts','sensecraft-capabilities-image-generation']
+    ids=['codecraft-capabilities-asr','codecraft-capabilities-llm','codecraft-capabilities-tts','codecraft-capabilities-image-generation']
     for tid,target in c.targets.items():
         for variant in target.get('variants') or [None]:
             for chosen in ([],[selection(sid) for sid in ids]):

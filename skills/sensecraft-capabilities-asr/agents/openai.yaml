@@ -1,4 +1,0 @@
-interface:
-  display_name: "SenseCraft Speech Recognition"
-  short_description: "Integrate file and realtime ASR on MCU and Linux"
-  default_prompt: "Use $sensecraft-capabilities-asr to integrate device authentication and speech recognition into my MCU or Linux application."

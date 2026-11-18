@@ -11,7 +11,7 @@ tools/skill_packages/upstream.json; copying new source must not rewrite the orig
 ## Maintained inputs and versions
 
 Edit common client behavior in tools/skill_packages/device_api.py. Other package files
-remain maintained under their own skills/sensecraft-capabilities-* directories. The candidate
+remain maintained under their own skills/codecraft-capabilities-* directories. The candidate
 builder copies the common helper into every distribution; it does not rewrite
 working package copies or their release records while preparing a candidate.
 
@@ -38,7 +38,7 @@ documentation-only ASR edit from package 2.0.1:
 
 ```json
 {
-  "sensecraft-capabilities-asr": {
+  "codecraft-capabilities-asr": {
     "skill_version": "2.0.2"
   }
 }

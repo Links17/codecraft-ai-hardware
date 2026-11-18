@@ -14,7 +14,7 @@ import threading
 import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
-SKILLS = ('sensecraft-capabilities-llm', 'sensecraft-capabilities-asr', 'sensecraft-capabilities-tts', 'sensecraft-capabilities-image-generation')
+SKILLS = ('codecraft-capabilities-llm', 'codecraft-capabilities-asr', 'codecraft-capabilities-tts', 'codecraft-capabilities-image-generation')
 EUI = '0123456789ABCDEF'
 KEY = 'abcdef0123456789ABCDEF0123456789'
 AUTH = 'Device ' + base64.b64encode((EUI + ':' + KEY).encode()).decode()
@@ -160,7 +160,7 @@ class PortableAuthTests(unittest.TestCase):
     def test_c_and_cpp_encoding_vectors_and_bounds(self):
         with tempfile.TemporaryDirectory(prefix='codecraft C auth ') as directory:
             root = Path(directory)
-            shutil.copy(ROOT / 'skills/sensecraft-capabilities-llm/assets/device_auth.h', root)
+            shutil.copy(ROOT / 'skills/codecraft-capabilities-llm/assets/device_auth.h', root)
             source = root / 'auth.c'
             source.write_text('''#include "device_auth.h"
 #ifdef __cplusplus
