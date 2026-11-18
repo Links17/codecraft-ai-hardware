@@ -101,7 +101,10 @@ esp_err_t i2c_master_transmit(i2c_master_dev_handle_t d,const uint8_t *data,size
         pthread_mutex_unlock(&gate);
     }
     esp_err_t ret=step((initializing?17:37)+pos);
-    if(ret==ESP_OK)codec_regs[data[0]]=data[1];return ret;
+    if(ret==ESP_OK){
+        codec_regs[data[0]]=data[1];
+    }
+    return ret;
 }
 esp_err_t i2c_master_receive(i2c_master_dev_handle_t d,uint8_t *data,size_t size,int timeout)
 {

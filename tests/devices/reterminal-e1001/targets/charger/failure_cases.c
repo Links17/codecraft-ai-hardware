@@ -67,7 +67,12 @@ int main(int argc,char **argv){
         concurrent=true;pthread_t a,b;assert(!pthread_create(&a,NULL,set_current,NULL));
         pthread_mutex_lock(&gate);while(!first_read)pthread_cond_wait(&changed,&gate);pthread_mutex_unlock(&gate);
         assert(!pthread_create(&b,NULL,set_enable,NULL));pthread_mutex_lock(&gate);
-        while(!second_waiting)pthread_cond_wait(&changed,&gate);release_first=true;pthread_cond_broadcast(&changed);pthread_mutex_unlock(&gate);
+        while(!second_waiting){
+            pthread_cond_wait(&changed,&gate);
+        }
+        release_first=true;
+        pthread_cond_broadcast(&changed);
+        pthread_mutex_unlock(&gate);
         pthread_join(a,NULL);pthread_join(b,NULL);assert(!in_rmw&&takes==2&&regs[2]==0xca&&(regs[1]&0x10));concurrent=false;
     }
     assert(bsp_charger_set_charge_current_ma(65535)==ESP_OK&&regs[2]==0xf2);

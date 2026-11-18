@@ -65,7 +65,7 @@ void test_free(void *ptr)
     for(int i=0;i<3;i++)if(buffers[i]==ptr){buffers[i]=NULL;allocations--;free(ptr);return;}
     assert(!"free of unowned buffer");
 }
-void sscma_packet(uint8_t *out,uint8_t cmd,const uint8_t *payload,uint16_t length)
+void sscma_packet(uint8_t out[SSCMA_PACKET],uint8_t cmd,const uint8_t *payload,uint16_t length)
 {
     assert(cmd==SSCMA_CMD_WRITE&&payload&&length<SSCMA_PACKET);
     memcpy(out,payload,length);out[length]=0;

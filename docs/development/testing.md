@@ -17,6 +17,11 @@ python3 codecraft.py test --path tests/devices/sensecap-watcher/targets
 python3 codecraft.py validate --static
 ```
 
+The full host gate needs a C11 compiler, pthreads and `dtc` on PATH. Public CLI
+integration tests compile the Linux overlay and validate locked application
+exports. On Ubuntu, install `build-essential` and `device-tree-compiler`; the
+contracts CI job installs both before discovery and execution.
+
 Select checks using the [root validation policy](../../AGENTS.md#required-validation-and-delivery).
 Documentation and host-only changes do not require native firmware builds when
 native inputs/behavior are unchanged. Host tests may compile host fixtures; this

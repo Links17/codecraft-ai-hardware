@@ -41,7 +41,12 @@ TickType_t xTaskGetTickCount(void){TickType_t step=pdMS_TO_TICKS(20);return tick
 void vTaskDelay(TickType_t ticks){
     TickType_t expected=pdMS_TO_TICKS(20);assert(ticks==(expected?expected:1));
     if(observe){pthread_mutex_lock(&gate);observed=frame;pthread_cond_broadcast(&changed);
-        while(!advance)pthread_cond_wait(&changed,&gate);advance=false;pthread_mutex_unlock(&gate);}
+        while(!advance){
+            pthread_cond_wait(&changed,&gate);
+        }
+        advance=false;
+        pthread_mutex_unlock(&gate);
+    }
     if(++frame==10)pthread_exit(NULL);
 }
 int xTaskCreate(TaskFunction_t task,const char *name,unsigned stack,void *arg,unsigned priority,void *handle){

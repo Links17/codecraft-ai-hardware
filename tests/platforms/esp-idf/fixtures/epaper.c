@@ -106,7 +106,10 @@ int main(int argc,char **argv)
     assert(argc>=2);frame=malloc(BSP_EPD_FRAME_BYTES);assert(frame);memset(frame,0xaa,BSP_EPD_FRAME_BYTES);
     if(!strcmp(argv[1],"concurrent-init")||!strcmp(argv[1],"concurrent-update")){
         pause_alloc=!strcmp(argv[1],"concurrent-init");pause_transfer=!pause_alloc;
-        if(!pause_alloc)init_ok();pthread_t task;
+        if(!pause_alloc){
+            init_ok();
+        }
+        pthread_t task;
         assert(!pthread_create(&task,NULL,worker,pause_alloc?(void *)1:NULL));
         pthread_mutex_lock(&gate);while(!waiting)pthread_cond_wait(&changed,&gate);pthread_mutex_unlock(&gate);
         int before=calls;
