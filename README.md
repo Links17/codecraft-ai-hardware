@@ -37,14 +37,3 @@ The public entry is also included in new exports; from an application directory 
 After source metadata changes, run `python3 codecraft.py generate`, then `python3 codecraft.py generate --check`. CI and discovery use the same Target records. The complete software gate is `python3 codecraft.py validate`; physical verification is separate and remains unperformed until real evidence is recorded.
 
 Apache License 2.0. Retained third-party attributions: [NOTICE](NOTICE).
-
-## Star History
-
-<a href="https://www.star-history.com/?repos=Links17%2Fcodecraft-ai-hardware&amp;type=date&amp;legend=top-left">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/star-history-dark.svg" />
-    <img alt="Monthly Star History chart for Links17/codecraft-ai-hardware" src="docs/assets/star-history-light.svg" />
-  </picture>
-</a>
-
-Cumulative stars by month, updated daily by [GitHub Actions](docs/development/star-history.md).

@@ -37,14 +37,3 @@ python3 codecraft.py build-project /tmp/my-e1001-project
 元数据修改后执行 `python3 codecraft.py generate`，再执行 `python3 codecraft.py generate --check`。CI 与发现使用同一份 Target 记录。完整软件门禁为 `python3 codecraft.py validate`，物理验证单独记录，在获得真实证据前仍属于未执行。
 
 采用 Apache License 2.0，第三方归属保留在 [NOTICE](NOTICE)。
-
-## Star 历史趋势
-
-<a href="https://www.star-history.com/?repos=Links17%2Fcodecraft-ai-hardware&amp;type=date&amp;legend=top-left">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/star-history-dark.svg" />
-    <img alt="Links17/codecraft-ai-hardware 按月份展示的 Star 历史趋势图" src="docs/assets/star-history-light.svg" />
-  </picture>
-</a>
-
-按月展示累计数量，由 [GitHub Actions](docs/development/star-history.md) 每日更新。
