@@ -4,7 +4,7 @@ from pathlib import Path
 import sys
 import tempfile
 ROOT=Path(__file__).resolve().parents[3]
-sys.path.insert(0,str(ROOT/'skills/_shared'))
+sys.path.insert(0,str(ROOT/'tools/codecraft'))
 sys.path.insert(0,str(ROOT/'platforms/esp-idf'))
 from io_utils import ContractError,write_json
 from model import Catalog

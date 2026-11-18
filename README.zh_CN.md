@@ -45,7 +45,7 @@ python3 codecraft.py discover --interface display
 python3 codecraft.py context --target esp-idf/reterminal-e1001
 ```
 
-阅读返回的上下文和 [E1001 环境配置指南](devices/reterminal-e1001/targets/README.zh_CN.md#工具链)。构建前安装并激活 [target.json](devices/reterminal-e1001/targets/target.json) 声明的精确工具链版本；与 Agent 协作时，使用 [codecraft-setup](skills/codecraft-setup/SKILL.md) 处理缺失工具。
+阅读返回的上下文和 [E1001 环境配置指南](devices/reterminal-e1001/targets/README.zh_CN.md#工具链)。构建前安装并激活 [target.json](devices/reterminal-e1001/targets/target.json) 声明的精确工具链版本；与 Agent 协作时，使用 [sensecraft-development-setup](skills/sensecraft-development-setup/SKILL.md) 处理缺失工具。
 
 ### 2. 创建自己的工作区
 
@@ -66,13 +66,13 @@ python3 codecraft.py verify-project projects/my-e1001-project
 python3 codecraft.py build-project projects/my-e1001-project
 ```
 
-导出的工作区也包含 `codecraft.py`，在该目录内可运行 `python3 codecraft.py build-project .`。构建不会刷写设备。需要实机测试时，先确认板卡和端口并明确授权设备写入，再遵循所选[设备验收步骤](devices/reterminal-e1001/AGENTS.md#physical-acceptance)和 [codecraft-device-test](skills/codecraft-device-test/SKILL.md)。
+导出的工作区也包含 `codecraft.py`，在该目录内可运行 `python3 codecraft.py build-project .`。构建不会刷写设备。需要实机测试时，先确认板卡和端口并明确授权设备写入，再遵循所选[设备验收步骤](devices/reterminal-e1001/AGENTS.md#physical-acceptance)和 [sensecraft-development-device-test](skills/sensecraft-development-device-test/SKILL.md)。
 
-应用修改、需求简述、经审阅的重新锁定和后续构建，参见[可移植应用流程](docs/development/application-workflow.md)。使用 [codecraft-ideate](skills/codecraft-ideate/SKILL.md) 和 `new --brief <file.json>`，将用途、用户、场景和物料清单记录到项目中。
+应用修改、需求简述、经审阅的重新锁定和后续构建，参见[可移植应用流程](docs/development/application-workflow.md)。使用 [sensecraft-development-ideate](skills/sensecraft-development-ideate/SKILL.md) 和 `new --brief <file.json>`，将用途、用户、场景和物料清单记录到项目中。
 
 ## 与 AI 编程助手协作
 
-在编程助手中打开本仓库，让它先阅读 [AGENTS.md](AGENTS.md)。AI 辅助开发前，将以下五个[硬件工作流 Skill](skills/README.zh_CN.md) 的完整目录安装到助手的 Skill 发现位置：`codecraft-develop`、`codecraft-setup`、`codecraft-build`、`codecraft-device-test` 和 `codecraft-debug`。仓库合同要求 Agent 安装并核实缺失的工作流。
+在编程助手中打开本仓库，让它先阅读 [AGENTS.md](AGENTS.md)。AI 辅助开发前，将以下五个[硬件工作流 Skill](skills/README.zh_CN.md) 的完整目录安装到助手的 Skill 发现位置：`sensecraft-development-develop`、`sensecraft-development-setup`、`sensecraft-development-build`、`sensecraft-development-device-test` 和 `sensecraft-development-debug`。仓库合同要求 Agent 安装并核实缺失的工作流。
 
 例如，可以这样开始一个新应用：
 
@@ -89,7 +89,7 @@ python3 codecraft.py build-project projects/my-e1001-project
 
 ## 可选的云端功能与固件分享
 
-通过 [skills/](skills/README.zh_CN.md#独立推理客户端) 中的独立客户端扩展云端能力，例如 LLM 文本生成、ASR/STT、TTS 和图像生成。每个客户端拥有自己的 `contract.json` 和 API 参考，可独立安装。云端服务和账户基础设施由外部项目负责；凭据、限制与经过授权的 API 使用方式，见所选 Skill。
+通过 [skills/](skills/README.zh_CN.md#云端能力) 中的独立客户端扩展云端能力，例如 LLM 文本生成、ASR/STT、TTS 和图像生成。每个客户端拥有自己的 `contract.json` 和 API 参考，可独立安装。云端服务和账户基础设施由外部项目负责；凭据、限制与经过授权的 API 使用方式，见所选 Skill。
 
 每台设备每月可调用次数及 5 台设备的每月合计见[免费额度表](skills/README.zh_CN.md#免费额度)。各功能共享设备每月额度，表中各行是不同使用方式下的估算。
 
@@ -115,7 +115,8 @@ python3 codecraft.py build-project projects/my-e1001-project
 | --- | --- |
 | `devices/<device>/` | 设备知识、参考资料、素材，以及 `targets/` 下的原生 BSP 和示例 |
 | `platforms/` | 软件栈适配器、构建辅助和共享组件 |
-| `skills/` | Agent 工作流与独立云端客户端，包发布记录位于 `_cloud/packages/` |
+| `skills/` | `sensecraft-development-*` 开发工作流与 `sensecraft-capabilities-*` 独立云端能力 Skill |
+| `tools/` | `codecraft/` 负责本地 CLI 与项目编排；`skill_packages/` 负责客户端维护与包发布记录 |
 | `projects/` | 被 Git 忽略的私有应用工作区 |
 | `tests/` | 按源码归属组织的测试、夹具、mock 和留存的设备证据 |
 | `docs/` | 工程指南、生成的索引和待办事项 |

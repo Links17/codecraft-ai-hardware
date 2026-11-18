@@ -56,25 +56,28 @@ applications retain their own locked code until a deliberate reviewed update.
 ```text
 skills/
   AGENTS.md
-  codecraft-asr/                 # Same ownership for LLM, TTS and image generation
+  sensecraft-development-*/                  # Hardware development workflows
+  sensecraft-capabilities-*/    # ASR, TTS, LLM and image generation
     SKILL.md
-    contract.json               # Semantic contract, separate service policy/API versions
+    contract.json              # Semantic contract and separate service policy/API versions
     references/api.md
     agents/openai.yaml
-    scripts/                    # Package-local runtime imports only
-  _shared/
-    skill_contracts.py          # Repository checks and explicit package export composition
-  _cloud/
+    scripts/                   # Package-local runtime imports only
+tools/
+  AGENTS.md
+  codecraft/                   # CLI, source graphs, exports, locks and contract checks
+  skill_packages/
     packages/<skill-id>.json    # Distribution version, complete hashes and provenance
     import.json                # Immutable original import provenance
-    device_api.py              # Reviewed shared-helper maintenance source
+    upstream.json              # Reviewed upstream snapshot
+    device_api.py              # Shared-helper maintenance source
     release.py
     check_candidate.py
     release-checks.json
-tests/skills/
-  <skill-id>/                   # Actual direct-client conformance
-  _shared/                     # Contracts, optional selection, native export/lock boundaries
-  _cloud/                      # Protocol/install/release checks and shared loopback fixture
+tests/
+  skills/<skill-id>/            # Direct-client and workflow conformance
+  tools/codecraft/             # Contracts, selection and native export/lock boundaries
+  tools/skill_packages/         # Protocol/install/release checks and loopback fixtures
 docs/
   skill-inventory.json          # Generated ID/operation/version navigation
 ```
@@ -88,7 +91,7 @@ local/edge execution still needs a real client, requirements and conformance.
 
 Native-only source graphs contain no cloud contract code, release records or
 clients. Explicit selection adds only the selected packages and their verification
-and provenance dependencies. Shared Skill checks never import the hardware
+and provenance dependencies. Repository Skill-contract checks never import the hardware
 Catalog. Application-only commands load the requested application directly.
 Platform and portable workflow guidance are included in the same graph/lock;
 context identifies its selected guidance separately from the complete file closure.
@@ -144,7 +147,7 @@ passed 20 candidate checks and the same checks during apply: four package checks
 16 HTTP/SSE/media cases, seven onboarding/authentication cases, six realtime cases
 and 13 direct-client conformance functions. Package distributions are 2.0.1 and the public API contract is v1; policy
 versions are 2.0.0 and semantic contracts are 3.0.0. The current
-source snapshot is recorded separately in skills/_cloud/upstream.json.
+source snapshot is recorded separately in tools/skill_packages/upstream.json.
 Native firmware/configuration/build inputs, historical evidence and original
 import provenance are unchanged. No global installation or publication was performed.
 

@@ -3,7 +3,7 @@ from pathlib import Path
 import re
 import sys
 ROOT=Path(__file__).resolve().parents[3]
-sys.path.insert(0,str(ROOT/'skills/_shared'))
+sys.path.insert(0,str(ROOT/'tools/codecraft'))
 from model import Catalog
 from io_utils import read_json
 

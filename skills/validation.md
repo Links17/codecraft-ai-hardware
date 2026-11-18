@@ -31,7 +31,7 @@ nonzero failures and retained partial output.
 No real credential or paid API call is used. Tests reject extra installed files,
 ignore unpinned bytecode and preserve pinned binary assets through exports/locks.
 
-Shared contract tests live in tests/skills/_shared/test_skill_contracts.py. They
+Shared contract tests live in tests/tools/codecraft/test_skill_contracts.py. They
 check separate semantic/policy/API/package versions, restrictive schemas,
 explicit default permission, unknown prerequisites/resources and source drift.
 Per-client cases live under tests/skills/<skill-id>/. Domain tests prohibit
@@ -42,7 +42,7 @@ source graph includes the selected Platform and portable guidance. Native-only
 runs reject cloud imports. Synthetic policy tests are not a second live service
 or measured billing evidence.
 
-Standalone release tests live in tests/skills/_cloud/test_release.py. They verify identical candidate bytes, explicit version changes, real isolated candidate/client conformance, source/candidate drift rejection, transactional rollback and retained recovery backups. Public-entry tests check JSON, typed errors and exit codes, source-locked exports and explicit relocking. Reference validation rejects application roots; both the application build command and direct adapter builds check the current source lock and actual toolchain. Clean export checks preserve the requested example across every selected variant, and retained evidence must cover all native cases for that selection, including overlays. README/Skill/CI commands use python3 codecraft.py; repository-only release maintenance is not required by exported applications.
+Standalone release tests live in tests/tools/skill_packages/test_release.py. They verify identical candidate bytes, explicit version changes, real isolated candidate/client conformance, source/candidate drift rejection, transactional rollback and retained recovery backups. Public-entry tests check JSON, typed errors and exit codes, source-locked exports and explicit relocking. Reference validation rejects application roots; both the application build command and direct adapter builds check the current source lock and actual toolchain. Clean export checks preserve the requested example across every selected variant, and retained evidence must cover all native cases for that selection, including overlays. README/Skill/CI commands use python3 codecraft.py; repository-only release maintenance is not required by exported applications.
 
 Test ownership and focused commands are specified in [the host testing guide](../docs/development/testing.md). The common runner recursively discovers owner-grouped modules under tests/, runs both plain functions and unittest cases, and exposes `python3 codecraft.py test --list` / `test --path <owner>`. Each protocol method and native case has an owner-qualified identity and runs directly through this runner.
 

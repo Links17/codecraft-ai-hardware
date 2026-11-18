@@ -1,0 +1,4 @@
+interface:
+  display_name: "SenseCraft Image Generation"
+  short_description: "Integrate device image generation on MCU and Linux"
+  default_prompt: "Use $sensecraft-capabilities-image-generation to integrate device authentication and image generation into my MCU or Linux application."

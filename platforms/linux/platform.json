@@ -30,7 +30,7 @@
       "supported": false
     },
     "flash": {
-      "reason": "Deployment is an explicitly authorized workflow in codecraft-device-test, not an automatic validation operation.",
+      "reason": "Deployment is an explicitly authorized workflow in sensecraft-development-device-test, not an automatic validation operation.",
       "supported": false
     },
     "generate": {
@@ -59,7 +59,7 @@
     }
   },
   "runtime": [
-    "skills/_shared/resource.json"
+    "tools/codecraft/resource.json"
   ],
   "schema_version": 2
 }

@@ -1,0 +1,34 @@
+# Repository tooling
+
+This directory owns executable repository maintenance and portable application
+orchestration. The public entry remains `python3 codecraft.py`; read the root
+contract before changing tools. Keep installable Skills under skills/ and native
+build implementations under platforms/<stack>/.
+
+## CodeCraft tools
+
+codecraft/ owns the public CLI implementation, Device document parsing, source
+graphs, project exports and locks, evidence, generated indexes and host-test
+discovery. Its resource.json declares the portable tool and workflow closure.
+Context, export and evidence must use the same graph, including these tools.
+Native-only projects must not load cloud contracts or package maintenance.
+
+## Skill package maintenance
+
+skill_packages/ owns the common client helper, reviewed package inventories,
+original import provenance, upstream snapshots and candidate release tooling.
+Maintain runtime helpers here and distribute package-local copies through the
+reviewed release workflow. An independently installed Skill must run without
+this directory, sibling Skills or the hardware Catalog.
+
+Keep original import and upstream snapshot bytes unchanged when moving tools or
+renaming a maintained package. Source paths in those records refer to the
+upstream checkout. Release records use the current package identity and point
+to the relocated provenance; they must retain original source facts. File
+hashes and distribution versions change only through reviewed candidates.
+
+Tool tests, fixtures and mocks belong under tests/tools/codecraft/ and
+tests/tools/skill_packages/. Per-Skill conformance remains under tests/skills/.
+Use the public host runner and the root validation policy. Package maintenance
+checks run isolated clients with synthetic credentials and loopback services;
+they do not authorize API requests, installation or publication.

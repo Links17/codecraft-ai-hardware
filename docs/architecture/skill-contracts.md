@@ -4,6 +4,14 @@ Each inference Skill owns its typed contract and independently runnable client.
 Hardware peripherals remain Device facts and Target native interfaces. The cloud
 server and SenseCraft platform management remain external.
 
+Development workflows use sensecraft-development-* package names. Cloud capability packages
+use sensecraft-capabilities-* names, including matching directory names,
+SKILL.md identities, Agent invocation prompts and contract IDs. Both categories
+remain flat under skills/ for installation. Repository tools live under tools/.
+The service API, authentication environment names and operation schemas do not
+depend on the distribution name. Original upstream paths in provenance retain
+their source names; they are not runtime aliases for maintained packages.
+
 ## Single sources and independent versions
 
 | Source | Responsibility |
@@ -11,18 +19,18 @@ server and SenseCraft platform management remain external.
 | skills/<id>/contract.json | Semantic operations/input/output/configuration, errors, risk, resource dimensions, client bindings, service policy and API identity |
 | skills/<id>/SKILL.md and references/api.md | Task authorization, usage and attributable service explanations |
 | skills/<id>/scripts/ | File/content checks, authentication, HTTP, streaming, media and optional archival |
-| skills/_cloud/packages/<id>.json | Distribution version, complete package inventory, reviewed contract/API/policy versions and immutable original provenance |
-| skills/_shared/skill_contracts.py | Repository validation, explicit export-selection checks and package graph composition |
+| tools/skill_packages/packages/<id>.json | Distribution version, complete package inventory, reviewed contract/API/policy versions and immutable original provenance |
+| tools/codecraft/skill_contracts.py | Repository validation, explicit export-selection checks and package graph composition |
 | docs/skill-inventory.json | Generated ID/operation/version navigation for callers selecting a package |
 
 Contract containers use schema 2; release records use schema 1. Semantic contracts
-are 3.0.0, service policies 2.0.0 and public API contracts v1. Package versions
-are 2.0.1 and describe distributed
-bytes independently. Complete inventories live outside the package, so they can
+are 3.0.0, service policies 2.0.0 and public API contracts v1. Distribution versions
+describe package bytes independently; read the selected package's release record
+for its current version. Complete inventories live outside the package, so they can
 pin contract.json and every other file without a self-hashing loop. Runtime
 imports stay within one copied Skill directory; repository helpers are never a
 client prerequisite. Original import.json and record source fields are immutable.
-_cloud/upstream.json records the separately reviewed source snapshot used for
+tools/skill_packages/upstream.json records the separately reviewed source snapshot used for
 the current copy, including uncommitted source bytes; it is part of selected
 package exports and release candidates.
 

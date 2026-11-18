@@ -6,7 +6,7 @@
 
 ## From intent to a native project
 
-Use [codecraft-ideate](../../skills/codecraft-ideate/SKILL.md) when the application needs clarification. Discover real candidates and collect their source closure:
+Use [sensecraft-development-ideate](../../skills/sensecraft-development-ideate/SKILL.md) when the application needs clarification. Discover real candidates and collect their source closure:
 
 ```bash
 python3 codecraft.py discover

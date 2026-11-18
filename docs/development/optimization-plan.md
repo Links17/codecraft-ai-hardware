@@ -62,7 +62,7 @@ mark an acceptance item complete because its metadata or test fixture exists.
   mismatches, absent mappings and secret-free output with offline fixtures. Keep
   URL discovery on the workstation; devices receive the matching origin, EUI and
   DeviceKey. Existing credentials and local import must work without discovery.
-  Current [onboarding](../../skills/codecraft-llm/references/onboarding.md) describes
+  Current [onboarding](../../skills/sensecraft-capabilities-llm/references/onboarding.md) describes
   the verified credential flow and explicit origin source; it does not claim
   automatic endpoint lookup. Live routing acceptance remains OPT-16.
 

@@ -48,7 +48,7 @@ The verified command list does not contain replacements for the CodeCraft LLM, A
 
 Each standalone client maintains its complete onboarding flow inside its own
 package; start with the selected Skill, for example
-[codecraft-llm onboarding](../../skills/codecraft-llm/references/onboarding.md).
+[sensecraft-capabilities-llm onboarding](../../skills/sensecraft-capabilities-llm/references/onboarding.md).
 That flow covers the three runtime inputs: API origin, EUI and DeviceKey.
 Existing configurations do not require another account login or device creation.
 The CLI supplies development-device credentials; local import is independent of

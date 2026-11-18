@@ -1,4 +1,4 @@
 # Optional cloud client dependencies required by the complete offline host suite.
 # Keep the versions at their package owners.
--r ../skills/codecraft-asr/scripts/requirements-realtime.txt
--r ../skills/codecraft-image-generation/scripts/requirements.txt
+-r ../skills/sensecraft-capabilities-asr/scripts/requirements-realtime.txt
+-r ../skills/sensecraft-capabilities-image-generation/scripts/requirements.txt

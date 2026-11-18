@@ -1,0 +1,377 @@
+{
+  "api": {
+    "authorization": "Device",
+    "operations": {
+      "realtime-recover": {
+        "method": "POST",
+        "path": "/deviceapi/ai-services/v1/audio/transcriptions/realtime/sessions"
+      },
+      "realtime-status": {
+        "method": "GET",
+        "path": "/deviceapi/ai-services/v1/audio/transcriptions/realtime/sessions/{session_id}"
+      },
+      "realtime-stream": {
+        "method": "POST",
+        "path": "/deviceapi/ai-services/v1/audio/transcriptions/realtime/sessions"
+      },
+      "transcribe": {
+        "method": "POST",
+        "path": "/deviceapi/ai-services/v1/audio/transcriptions"
+      }
+    },
+    "routing": "service-fixed",
+    "version": "v1"
+  },
+  "client": {
+    "operations": {
+      "realtime-recover": {
+        "arguments": {
+          "idempotency_key": "--idempotency-key"
+        },
+        "command": [
+          "recover"
+        ],
+        "entrypoint": "scripts/realtime.py",
+        "fixed_arguments": [],
+        "options": {}
+      },
+      "realtime-status": {
+        "arguments": {
+          "session_id": "--session-id"
+        },
+        "command": [
+          "status"
+        ],
+        "entrypoint": "scripts/realtime.py",
+        "fixed_arguments": [],
+        "options": {}
+      },
+      "realtime-stream": {
+        "arguments": {
+          "file": "--file",
+          "idempotency_key": "--idempotency-key",
+          "raw_pcm": "--raw-pcm"
+        },
+        "command": [
+          "stream"
+        ],
+        "entrypoint": "scripts/realtime.py",
+        "fixed_arguments": [],
+        "options": {}
+      },
+      "transcribe": {
+        "arguments": {
+          "file": "--file"
+        },
+        "command": [],
+        "entrypoint": "scripts/transcribe.py",
+        "fixed_arguments": [],
+        "options": {}
+      }
+    },
+    "python_minimum": "3.10"
+  },
+  "configuration": {
+    "additionalProperties": false,
+    "description": "No additional CLI options are supported.",
+    "properties": {},
+    "required": [],
+    "type": "object"
+  },
+  "consumer": "cloud-skill",
+  "description": {
+    "en": "Speech recognition",
+    "zh_CN": "语音识别"
+  },
+  "errors": {
+    "invalid_input": "Skill rejects input before a billable request.",
+    "provider_failure": "Nonzero Skill exit; retain valid partial/local results, report uncertain billing, do not automatically retry.",
+    "unknown": "Environment, privacy decision, credentials or source version is unconfirmed.",
+    "unsupported": "Operation or combination is not supported by the selected Skill."
+  },
+  "estimates": {
+    "memory_bytes": null,
+    "storage_bytes": null
+  },
+  "execution": {
+    "device_integration": "unknown",
+    "execution": "agent-host"
+  },
+  "id": "sensecraft-capabilities-asr",
+  "limitations": [
+    "One recording yields a transcript; no speaker identification.",
+    "No silent truncation, splitting or format conversion.",
+    "ASR and STT refer to the same API.",
+    "No silent truncation, splitting or format conversion; no speaker identification.",
+    "Host workflow compatibility does not imply device firmware/network/audio integration.",
+    "Implementation routing is fixed by the public service; requests must not select a model, provider or voice.",
+    "Realtime streams existing files. Native microphone integration requires the documented protocol and its own device evidence."
+  ],
+  "limits": {
+    "automatic_retry": false
+  },
+  "operations": {
+    "realtime-recover": {
+      "input": {
+        "additionalProperties": false,
+        "description": "Recover an uncertain creation using its original key; never reconnect or resend audio.",
+        "properties": {
+          "idempotency_key": {
+            "description": "Original idempotency key for this logical operation.",
+            "pattern": "[A-Za-z0-9_-]{8,128}",
+            "type": "string"
+          }
+        },
+        "required": [
+          "idempotency_key"
+        ],
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": false,
+        "description": "Public session status; tickets and stream URLs are never emitted.",
+        "properties": {
+          "audio_duration_ms": {
+            "description": "Observed audio duration.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "billing_status": {
+            "description": "Settlement state.",
+            "type": "string"
+          },
+          "charged_quota": {
+            "description": "Charged quota.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "outcome": {
+            "description": "Session outcome.",
+            "nullable": true,
+            "type": "string"
+          },
+          "reserved_quota": {
+            "description": "Reserved quota.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "session_id": {
+            "description": "Session UUID.",
+            "type": "string"
+          },
+          "state": {
+            "description": "Session lifecycle state.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id"
+        ],
+        "type": "object"
+      }
+    },
+    "realtime-status": {
+      "input": {
+        "additionalProperties": false,
+        "description": "Read a known session without sending audio.",
+        "properties": {
+          "session_id": {
+            "description": "Session UUID.",
+            "pattern": "[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id"
+        ],
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": false,
+        "description": "Public session status; tickets and stream URLs are never emitted.",
+        "properties": {
+          "audio_duration_ms": {
+            "description": "Observed audio duration.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "billing_status": {
+            "description": "Settlement state.",
+            "type": "string"
+          },
+          "charged_quota": {
+            "description": "Charged quota.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "outcome": {
+            "description": "Session outcome.",
+            "nullable": true,
+            "type": "string"
+          },
+          "reserved_quota": {
+            "description": "Reserved quota.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "session_id": {
+            "description": "Session UUID.",
+            "type": "string"
+          },
+          "state": {
+            "description": "Session lifecycle state.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id"
+        ],
+        "type": "object"
+      }
+    },
+    "realtime-stream": {
+      "input": {
+        "additionalProperties": false,
+        "description": "One paced PCM16/16 kHz file stream; no microphone capture or automatic replay.",
+        "properties": {
+          "file": {
+            "description": "WAV or explicitly declared raw PCM input path.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "idempotency_key": {
+            "description": "Original idempotency key for this logical operation.",
+            "pattern": "[A-Za-z0-9_-]{8,128}",
+            "type": "string"
+          },
+          "raw_pcm": {
+            "description": "Explicit raw PCM input; omitted means WAV.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object"
+      },
+      "output": {
+        "description": "JSON Lines of partial/final events and transcript.result; success requires committed session.finished. Partial output with nonzero exit is incomplete.",
+        "type": "string"
+      }
+    },
+    "transcribe": {
+      "input": {
+        "additionalProperties": false,
+        "description": "One user-selected recording.",
+        "properties": {
+          "file": {
+            "description": "Audio recording path; the selected service declares formats and bounds, and its Skill validates the bytes before submission.",
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": false,
+        "description": "Transcript; empty text may mean no speech.",
+        "properties": {
+          "text": {
+            "description": "Transcribed text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "type": "object"
+      }
+    }
+  },
+  "policy": {
+    "billing": {
+      "amount": 1000,
+      "basis": "file call or realtime session; status queries do not reserve a new session",
+      "status": "declared",
+      "unit": "platform_quota"
+    },
+    "configuration": {},
+    "defaults": {},
+    "limits": {
+      "channels": 1,
+      "container": "WAV",
+      "encoding": "PCM",
+      "maximum_duration_seconds": 60,
+      "maximum_file_bytes": 10485760,
+      "realtime": {
+        "channels": 1,
+        "dependency": "websockets==15.0.1",
+        "frame_bytes": 3200,
+        "maximum_audio_seconds": 60,
+        "maximum_pcm_bytes": 1920000,
+        "sample_bits": 16,
+        "sample_rate_hz": 16000
+      },
+      "sample_bits": 16,
+      "sample_rate_hz": {
+        "maximum": 48000,
+        "minimum": 8000
+      }
+    },
+    "operations": {
+      "realtime-recover": {
+        "input": {},
+        "output": {}
+      },
+      "realtime-status": {
+        "input": {},
+        "output": {}
+      },
+      "realtime-stream": {
+        "input": {},
+        "output": {}
+      },
+      "transcribe": {
+        "input": {},
+        "output": {}
+      }
+    },
+    "schema_version": 1,
+    "sources": [
+      "references/api.md",
+      "scripts/transcribe.py",
+      "references/realtime.md",
+      "scripts/realtime.py",
+      "scripts/requirements-realtime.txt"
+    ],
+    "version": "2.0.0"
+  },
+  "prerequisites": {
+    "environment_refs": [
+      "CODECRAFT_API_ORIGIN"
+    ],
+    "loopback_http": true,
+    "network": true,
+    "privacy": "User input is sent to the configured cloud origin; explicit operation authorization is required.",
+    "secret_refs": [
+      "CODECRAFT_DEVICE_FILE"
+    ],
+    "tls": true
+  },
+  "resources": {
+    "memory_bytes": "Agent-host working memory; Service bound unknown unless measured.",
+    "storage_bytes": "Agent-host storage; Service bound unknown unless measured."
+  },
+  "risk": {
+    "automatic_retry": false,
+    "billable": true,
+    "device_write": false,
+    "network": true,
+    "secret_values_allowed": false
+  },
+  "schema_version": 2,
+  "version": "3.0.0"
+}

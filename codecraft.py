@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Stable repository and exported-project entry; implementation stays in skills/."""
+"""Stable repository and exported-project entry for tools/codecraft/."""
 from pathlib import Path
 import runpy
 import sys
 
 
 def main(argv=None):
-    shared=Path(__file__).resolve().parent/'skills/_shared'
-    sys.path.insert(0,str(shared))
-    implementation=runpy.run_path(str(shared/'cli.py'),run_name='codecraft_cli')
+    tooling=Path(__file__).resolve().parent/'tools/codecraft'
+    sys.path.insert(0,str(tooling))
+    implementation=runpy.run_path(str(tooling/'cli.py'),run_name='codecraft_cli')
     return implementation['main'](argv)
 
 
