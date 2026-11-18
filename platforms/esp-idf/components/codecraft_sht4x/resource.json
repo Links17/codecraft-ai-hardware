@@ -1,0 +1,10 @@
+{
+  "dependencies": [],
+  "inputs": [
+    "platforms/esp-idf/components/codecraft_sht4x/CMakeLists.txt",
+    "platforms/esp-idf/components/codecraft_sht4x/include/codecraft_sht4x.h",
+    "platforms/esp-idf/components/codecraft_sht4x/src/codecraft_sht4x.c"
+  ],
+  "kind": "resource",
+  "schema_version": 1
+}

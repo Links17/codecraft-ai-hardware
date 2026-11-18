@@ -1,0 +1,354 @@
+{
+  "default_variant": "gx",
+  "dependencies": [],
+  "device": "sensecap-indicator",
+  "example_dependencies": {
+    "button_backlight": [
+      "platforms/esp-idf/targets/sensecap-indicator/examples/button_backlight/dependencies.lock",
+      "platforms/esp-idf/targets/sensecap-indicator/examples/button_backlight/main/idf_component.yml"
+    ],
+    "display_color_bars": [
+      "platforms/esp-idf/targets/sensecap-indicator/examples/display_color_bars/dependencies.lock",
+      "platforms/esp-idf/targets/sensecap-indicator/examples/display_color_bars/main/idf_component.yml"
+    ],
+    "touch_read": [
+      "platforms/esp-idf/targets/sensecap-indicator/examples/touch_read/dependencies.lock",
+      "platforms/esp-idf/targets/sensecap-indicator/examples/touch_read/main/idf_component.yml"
+    ]
+  },
+  "example_inputs": {
+    "button_backlight": [
+      "platforms/esp-idf/targets/sensecap-indicator/examples/button_backlight",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_button.h",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_display.h",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_io_expander.h",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/src/bsp_button.c",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/src/bsp_display.c",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/src/bsp_io_expander.c"
+    ],
+    "display_color_bars": [
+      "platforms/esp-idf/targets/sensecap-indicator/examples/display_color_bars",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_display.h",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_io_expander.h",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/src/bsp_display.c",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/src/bsp_io_expander.c"
+    ],
+    "touch_read": [
+      "platforms/esp-idf/targets/sensecap-indicator/examples/touch_read",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_io_expander.h",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_touch.h",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/src/bsp_io_expander.c",
+      "platforms/esp-idf/targets/sensecap-indicator/bsp/src/bsp_touch.c"
+    ]
+  },
+  "examples": [
+    "button_backlight",
+    "display_color_bars",
+    "touch_read"
+  ],
+  "firmware": {
+    "formats": [
+      "bin"
+    ],
+    "purpose": "factory",
+    "security": "unsigned-unencrypted"
+  },
+  "id": "esp-idf/sensecap-indicator",
+  "inputs": [
+    "platforms/esp-idf/targets/sensecap-indicator/bsp/CMakeLists.txt",
+    "platforms/esp-idf/targets/sensecap-indicator/bsp/idf_component.yml",
+    "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_pins.h",
+    "platforms/esp-idf/targets/sensecap-indicator/variants.cmake"
+  ],
+  "interfaces": [
+    {
+      "configuration": {
+        "bits_per_pixel": {
+          "description": "Native framebuffer packing",
+          "maximum": 64,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "bit",
+          "value": null
+        },
+        "height": {
+          "description": "Logical height",
+          "maximum": 16384,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "px",
+          "value": null
+        },
+        "width": {
+          "description": "Logical width",
+          "maximum": 16384,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "px",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "button_backlight": [
+          "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_display.h"
+        ],
+        "display_color_bars": [
+          "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_display.h"
+        ]
+      },
+      "id": "display",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "present": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_display.h",
+          "supported": true,
+          "symbol": "bsp_display_init"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "line_count": {
+          "description": "Addressable native lines",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "count",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "button_backlight": [
+          "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_io_expander.h"
+        ],
+        "display_color_bars": [
+          "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_io_expander.h"
+        ],
+        "touch_read": [
+          "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_io_expander.h"
+        ]
+      },
+      "id": "gpio",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_io_expander.h",
+          "supported": true,
+          "symbol": "bsp_io_expander_get_level"
+        },
+        "write": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_io_expander.h",
+          "supported": true,
+          "symbol": "bsp_io_expander_set_level"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "debounce_ms": {
+          "description": "Native debounce interval",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "ms",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "button_backlight": [
+          "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_button.h"
+        ]
+      },
+      "id": "input",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_button.h",
+          "supported": true,
+          "symbol": "bsp_button_pressed"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "height": {
+          "description": "Touch coordinate height",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "px",
+          "value": null
+        },
+        "max_points": {
+          "description": "Maximum reported simultaneous touches",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "count",
+          "value": null
+        },
+        "width": {
+          "description": "Touch coordinate width",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "px",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "touch_read": [
+          "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_touch.h"
+        ]
+      },
+      "id": "touch",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_touch.h",
+          "supported": true,
+          "symbol": "bsp_touch_get_handle"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    }
+  ],
+  "path": "platforms/esp-idf/targets/sensecap-indicator",
+  "platform": "esp-idf",
+  "schema_version": 3,
+  "toolchain": {
+    "name": "esp-idf",
+    "source": "devices/sensecap-indicator/reference/hardware.md",
+    "target": "esp32s3",
+    "version": "6.0.2"
+  },
+  "variants": {
+    "dx": {
+      "configuration": {
+        "profile": "platforms/esp-idf/targets/sensecap-indicator/variants/dx.cmake"
+      },
+      "dependencies": [],
+      "device_variant": "dx",
+      "inputs": [
+        "platforms/esp-idf/targets/sensecap-indicator/variants/dx.cmake"
+      ]
+    },
+    "gx": {
+      "configuration": {
+        "profile": "platforms/esp-idf/targets/sensecap-indicator/variants/gx.cmake"
+      },
+      "dependencies": [],
+      "device_variant": "gx",
+      "inputs": [
+        "platforms/esp-idf/targets/sensecap-indicator/variants/gx.cmake"
+      ]
+    }
+  }
+}

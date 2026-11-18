@@ -1,3 +1,0 @@
-# No external component dependencies; the panel driver is in-tree
-# (derived from the imported hardware reference, Apache 2.0).
-dependencies: {}

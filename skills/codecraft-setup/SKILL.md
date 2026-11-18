@@ -1,19 +1,10 @@
 ---
 name: codecraft-setup
-description: Bootstrap toolchains for codecraft-ai-hardware — ESP-IDF at the version each board requires, host test dependencies, and Linux board prerequisites. Use for environment bootstrap or a missing toolchain.
+description: Install and activate the exact toolchain declared by a hardware Target.
 ---
 
 # Setup
 
-1. Identify the target platform and board; read its README for the required
-   ESP-IDF version (versions differ per board — reSpeaker Lite requires
-   v6.0.1).
-2. If ESP-IDF is missing, install it using the board's declared version and
-   the official Espressif install flow for the host OS. Obtain required
-   network/system permissions rather than bypassing them.
-3. Verify: `. $IDF_PATH/export.sh` (or the platform equivalent) and
-   `idf.py --version` must report the board's required version.
-4. For host tests, ensure a C compiler and Python 3 are present.
-5. For Linux boards, install libgpiod and the Python bindings; document any
-   udev rules or group membership.
-6. Report exactly what was installed and what remains missing.
+Read target.json for the exact toolchain and its source. For ESP-IDF, activate the declared installation and verify idf.py --version. Linux source validation needs Python 3 and dtc. Arduino needs the declared FQBN and exact core/library versions. Preserve other toolchains; install missing prerequisites within authorization and report unresolved dependencies.
+
+All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.

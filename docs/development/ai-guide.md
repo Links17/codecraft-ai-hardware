@@ -1,72 +1,33 @@
-# AI Development Guide
+# AI development guide
 
-The detailed workflow for AI-assisted development in this repository. The
-root `AGENTS.md` is the mandatory entry point; this guide is the long form.
+Read both applicable parts of the root AGENTS.md. Use `python3 codecraft.py context --target <platform>/<device>` to collect device facts, native implementations, dependencies, native interfaces and unknowns. Read the selected files for the task; a returned path is not evidence that its contents were checked. Consult primary vendor sources when hardware facts need confirmation. Keep the five required development Skills available and load the matching workflows.
 
-## Context setup
+## Application and BSP boundary
 
-1. Read the root `AGENTS.md` routing table entry for your task.
-2. Read the board README for the target board and the matching row in
-   `docs/vendor-sources.md`.
-3. Before inventing any hardware detail, check the vendor source. Clone it
-   and search it; do not rely on web summaries.
-4. Confirm the five required skills are available; use only the ones matching
-   the task.
+Reusable board drivers belong in platforms/<stack>/targets/<device>/bsp; ESP-IDF components shared by multiple boards belong in platforms/esp-idf/components. Pages, state machines, animations and application tasks belong in examples or an external user project. Tests live with their owning core, cloud client, Capability, Platform, component or Target; validation-entry tests stay with codecraft-validate. See [test ownership and execution](testing.md). Keep testable logic independent of ESP-IDF/LVGL.
 
-## Application / BSP boundary
+For ESP-IDF builds, follow [native composition and layout](native-compositions.md). Match the example BSP source/requirement lists, managed manifest, Target input/dependency/interface scopes and regenerated lock. Keep the native registration in the BSP root; public include/ and private src/ have distinct visibility.
 
-- Board facts and reusable drivers belong in the board's BSP
-  (`esp32/boards/<board>/bsp/` or a shared component in
-  `esp32/components/` when two or more boards use it).
-- Demos, pages, state machines and application tasks live in the board's
-  `examples/` directory or the application being built.
-- Keep testable logic (state machines, protocols, timing, layout math)
-  independent from ESP-IDF/LVGL and cover it with host tests in `tests/`.
+## ESP-IDF runtime invariants
 
-## Runtime invariants (ESP32)
-
-- LVGL is not thread-safe. Code outside the LVGL task must hold the board
-  BSP's LVGL lock while accessing LVGL objects.
-- Button callbacks must stay non-blocking. Audio, storage, networking, and
-  other slow operations belong in worker tasks.
-- A demo must stop every task, timer, callback, and event handler that can
-  access its UI before deleting the screen.
-- Keep the default partition table minimal unless the product requires
-  otherwise; validate any custom table.
+- LVGL access outside the LVGL task must hold the BSP's LVGL lock.
+- Button callbacks must remain non-blocking. Move audio, storage and other slow operations into worker tasks.
+- Stop every task, timer, callback and event handler that can touch a screen before deleting it.
+- Keep the default partition table minimal; validate custom partition and persistent-data changes explicitly.
 
 ## Adding a new board
 
-1. Add the vendor source row to `docs/vendor-sources.md` first.
-2. Gather facts with citations: chip and module (target, flash size, PSRAM
-   size and mode), display, touch, audio path, power chip, buttons/LEDs,
-   USB-UART path, and the required toolchain version (ESP-IDF version for
-   `esp32/`; core and library versions for `arduino/`).
-3. Create the board directory under the matching platform —
-   `esp32/boards/<board>/`, `linux/boards/<board>/`, or
-   `arduino/boards/<board>/` — following that platform's `AGENTS.md`
-   directory contract.
-4. Register the board in `tools/validate.sh` and the root README table.
-5. Register the board in CI: ESP32 boards join the build matrix; Arduino
-   boards are discovered automatically from `arduino/boards/`.
+1. Establish devices/<device>/reference/ provenance first. Identify device revision, controller and memory, interfaces/pins, inputs/outputs, power, accessories and software prerequisites. Unknown facts remain unknown. Record conflicts and conclusions in reference/ and expose them through the generated device entry.
+2. Add device.json with bilingual Overview/scenarios and source-checked canonical typed facts, source paths, maintenance owner, independent maturity, derived Target indexes (no manual backlinks), unknowns and an asset manifest. All Device/Target records use schema_version 3 with an explicit variants object, empty when none are declared. Add tests/acceptance.json and an actual physical acceptance procedure; do not invent completed observations.
+3. Add platforms/<stack>/targets/<device>/target.json with native examples, toolchain provenance, native interface references, common/per-example inputs and dependencies. Preserve native BSP/build conventions. Lock ESP-IDF dependencies; Arduino needs exact CLI/core/library versions and an FQBN. A new stack must declare every operation in platform.json and pass adapter contract tests.
+4. Keep peripheral interfaces in Target metadata. Add a Capability only from a concrete cloud Skill consumer contract; include inputs/outputs, configuration, resources, errors, dependencies and integration tests. Put tests, assets and simulators with their owner. A simulator must declare its coverage; unsupported operations must explain why.
+5. Run `generate`, `generate --check`, `validate --static`, then `validate --target <id> --projects`. These generate and check device indexes, capability and CI matrices. Never manually register a board in multiple lists. Missing build prerequisites prevent a passing gate; experimental support must state the reason.
+6. Collect revision-specific device evidence only under authorization. Keep build, generated-project, simulator and physical results separate. Run the complete gate before delivery.
 
 ## Delivery format
 
-Every final report states separately:
+Report static/knowledge/host checks, builds per Target with actual toolchain, clean generated-project checks, and on-device verification separately. Include failures, skips, unsupported operations and unperformed checks with their reasons. A build is not hardware validation. Use the root contract and PR template for exact fields.
 
-1. Static check result (`tools/validate.sh --static`).
-2. Build result per affected board (`tools/validate.sh --esp32 <board>` or
-   `tools/validate.sh --arduino <board>`).
-3. On-device verification result, or an explicit statement that it was not
-   performed.
+Requested commits use an English imperative Conventional Commit subject. Preserve unrelated work, credentials stay out of source, and generated firmware stays untracked. A commit does not authorize push, PR or merge. Follow [.github/CONTRIBUTING.md](../../.github/CONTRIBUTING.md).
 
-A successful build is not hardware validation.
-
-Commits use an English imperative Conventional Commit subject
-(`type(scope): description`); keep each commit independently reviewable and
-exclude credentials, generated firmware, and unrelated files. Creating a
-commit does not authorize pushing, opening a PR, or merging.
-
-Pull requests fill in `.github/PULL_REQUEST_TEMPLATE.md` and follow
-`.github/CONTRIBUTING.md`. Report static checks, per-board builds, and
-on-device verification separately in the PR body; list unperformed hardware
-work under `Unverified`.
+For sourced assembly/revision differences, read [hardware variants](hardware-variants.md). Device owns the physical facts; Target owns native selections. Preserve explicit variant identity through application export, locks and evidence. Do not derive a physical revision from a build default.

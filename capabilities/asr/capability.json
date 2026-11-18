@@ -1,0 +1,75 @@
+{
+  "agent_route": "capabilities/asr/AGENTS.md",
+  "configuration": {
+    "additionalProperties": false,
+    "description": "No additional CLI options are supported.",
+    "properties": {},
+    "required": [],
+    "type": "object"
+  },
+  "consumer": "cloud-skill",
+  "description": {
+    "en": "Speech recognition",
+    "zh_CN": "语音识别"
+  },
+  "errors": {
+    "invalid_input": "Skill rejects input before a billable request.",
+    "provider_failure": "Nonzero Skill exit; retain valid partial/local results, report uncertain billing, do not automatically retry.",
+    "unknown": "Environment, privacy decision, credentials or source version is unconfirmed.",
+    "unsupported": "Operation or combination is not supported by the selected Skill."
+  },
+  "id": "asr",
+  "limitations": [
+    "One recording yields a transcript; no speaker identification.",
+    "No silent truncation, splitting or format conversion."
+  ],
+  "limits": {
+    "automatic_retry": false
+  },
+  "operations": {
+    "transcribe": {
+      "input": {
+        "additionalProperties": false,
+        "description": "One user-selected recording.",
+        "properties": {
+          "file": {
+            "description": "Audio recording path; the selected Provider declares formats and bounds, and its Skill validates the bytes before submission.",
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": false,
+        "description": "Transcript; empty text may mean no speech.",
+        "properties": {
+          "text": {
+            "description": "Transcribed text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "type": "object"
+      }
+    }
+  },
+  "resources": {
+    "memory_bytes": "Agent-host working memory; Provider bound unknown unless measured.",
+    "storage_bytes": "Agent-host storage; Provider bound unknown unless measured."
+  },
+  "risk": {
+    "automatic_retry": false,
+    "billable": true,
+    "device_write": false,
+    "network": true,
+    "secret_values_allowed": false
+  },
+  "schema_version": 2,
+  "version": "2.0.0"
+}

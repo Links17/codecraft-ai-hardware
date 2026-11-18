@@ -1,0 +1,272 @@
+{
+  "dependencies": [],
+  "device": "xiao-s3-147",
+  "example_dependencies": {
+    "button_hello": [
+      "platforms/esp-idf/targets/xiao-s3-147/examples/button_hello/dependencies.lock",
+      "platforms/esp-idf/targets/xiao-s3-147/examples/button_hello/main/idf_component.yml"
+    ],
+    "display_hello": [
+      "platforms/esp-idf/targets/xiao-s3-147/examples/display_hello/dependencies.lock",
+      "platforms/esp-idf/targets/xiao-s3-147/examples/display_hello/main/idf_component.yml"
+    ],
+    "mic_level": [
+      "platforms/esp-idf/targets/xiao-s3-147/examples/mic_level/dependencies.lock",
+      "platforms/esp-idf/targets/xiao-s3-147/examples/mic_level/main/idf_component.yml"
+    ]
+  },
+  "example_inputs": {
+    "button_hello": [
+      "platforms/esp-idf/targets/xiao-s3-147/examples/button_hello",
+      "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_button.h",
+      "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_display.h",
+      "platforms/esp-idf/targets/xiao-s3-147/bsp/src/bsp_button.c",
+      "platforms/esp-idf/targets/xiao-s3-147/bsp/src/bsp_display.c"
+    ],
+    "display_hello": [
+      "platforms/esp-idf/targets/xiao-s3-147/examples/display_hello",
+      "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_display.h",
+      "platforms/esp-idf/targets/xiao-s3-147/bsp/src/bsp_display.c"
+    ],
+    "mic_level": [
+      "platforms/esp-idf/targets/xiao-s3-147/examples/mic_level",
+      "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_mic.h",
+      "platforms/esp-idf/targets/xiao-s3-147/bsp/src/bsp_mic.c"
+    ]
+  },
+  "examples": [
+    "button_hello",
+    "display_hello",
+    "mic_level"
+  ],
+  "firmware": {
+    "formats": [
+      "bin"
+    ],
+    "purpose": "factory",
+    "security": "unsigned-unencrypted"
+  },
+  "id": "esp-idf/xiao-s3-147",
+  "inputs": [
+    "platforms/esp-idf/targets/xiao-s3-147/bsp/CMakeLists.txt",
+    "platforms/esp-idf/targets/xiao-s3-147/bsp/idf_component.yml",
+    "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_pins.h"
+  ],
+  "interfaces": [
+    {
+      "configuration": {
+        "channels": {
+          "description": "PCM channels",
+          "maximum": 32,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "channel",
+          "value": null
+        },
+        "sample_bits": {
+          "description": "PCM container width",
+          "maximum": 64,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "bit",
+          "value": null
+        },
+        "sample_rate_hz": {
+          "description": "PCM sample rate",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "Hz",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "mic_level": [
+          "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_mic.h"
+        ]
+      },
+      "id": "audio",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "capture": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_mic.h",
+          "supported": true,
+          "symbol": "bsp_mic_read"
+        },
+        "playback": {
+          "reason": "No native implementation for this semantic operation is registered.",
+          "supported": false
+        },
+        "tone": {
+          "reason": "No native implementation for this semantic operation is registered.",
+          "supported": false
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "bits_per_pixel": {
+          "description": "Native framebuffer packing",
+          "maximum": 64,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "bit",
+          "value": null
+        },
+        "height": {
+          "description": "Logical height",
+          "maximum": 16384,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "px",
+          "value": null
+        },
+        "width": {
+          "description": "Logical width",
+          "maximum": 16384,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "px",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "button_hello": [
+          "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_display.h"
+        ],
+        "display_hello": [
+          "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_display.h"
+        ]
+      },
+      "id": "display",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "present": {
+          "reason": "Initialize the BSP display, then call esp_lcd_panel_draw_bitmap on its returned native panel handle.",
+          "source": "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_display.h",
+          "supported": true,
+          "symbol": "esp_lcd_panel_draw_bitmap"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "debounce_ms": {
+          "description": "Native debounce interval",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "ms",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "button_hello": [
+          "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_button.h"
+        ]
+      },
+      "id": "input",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "platforms/esp-idf/targets/xiao-s3-147/bsp/include/bsp_button.h",
+          "supported": true,
+          "symbol": "bsp_button_pressed"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    }
+  ],
+  "path": "platforms/esp-idf/targets/xiao-s3-147",
+  "platform": "esp-idf",
+  "schema_version": 3,
+  "toolchain": {
+    "name": "esp-idf",
+    "source": "devices/xiao-s3-147/reference/hardware.md",
+    "target": "esp32s3",
+    "version": "6.0.2"
+  },
+  "variants": {}
+}

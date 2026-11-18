@@ -1,0 +1,209 @@
+{
+  "assets": "devices/reterminal-sticky/assets/manifest.json",
+  "conflicts": [
+    {
+      "resolution": {
+        "en": "Use vendor-supported physical facts; the native flash configuration is not a measurement. Sticky physical capacity remains unknown pending chip identification.",
+        "zh_CN": "物理事实以厂商来源为准，原生 Flash 配置不属于实测值。Sticky 容量在识别芯片前保持 unknown。"
+      },
+      "source": "devices/reterminal-sticky/reference/hardware.md"
+    }
+  ],
+  "facts": {
+    "accessories_details": {
+      "kind": "string",
+      "label": {
+        "en": "Accessories",
+        "zh_CN": "配件"
+      },
+      "reason": {
+        "en": "No independently confirmed value is retained; consult the original reference for limitations.",
+        "zh_CN": "未保留独立确认的值；具体限制见原始来源。"
+      },
+      "section": "Accessories",
+      "status": "unknown",
+      "value": null
+    },
+    "bus": {
+      "kind": "string",
+      "label": {
+        "en": "Bus",
+        "zh_CN": "总线"
+      },
+      "section": "Connectivity",
+      "source": {
+        "path": "devices/reterminal-sticky/reference/hardware.md",
+        "template": "temperature/humidity @0x44 on {value}"
+      },
+      "status": "documented",
+      "value": "I2C1"
+    },
+    "display": {
+      "kind": "string",
+      "label": {
+        "en": "Display",
+        "zh_CN": "显示屏"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/reterminal-sticky/reference/hardware.md",
+        "template": "Display: 3.97\" {value} e-paper"
+      },
+      "status": "documented",
+      "value": "SSD1677"
+    },
+    "display_height": {
+      "kind": "integer",
+      "label": {
+        "en": "Native panel height",
+        "zh_CN": "原生面板高度"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/reterminal-sticky/reference/hardware.md",
+        "template": "800x{value}"
+      },
+      "status": "documented",
+      "unit": "px",
+      "value": 480
+    },
+    "display_width": {
+      "kind": "integer",
+      "label": {
+        "en": "Native panel width",
+        "zh_CN": "原生面板宽度"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/reterminal-sticky/reference/hardware.md",
+        "template": "{value}x480"
+      },
+      "status": "documented",
+      "unit": "px",
+      "value": 800
+    },
+    "flash": {
+      "kind": "integer",
+      "label": {
+        "en": "Physical flash capacity",
+        "zh_CN": "物理 Flash 容量"
+      },
+      "reason": {
+        "en": "Historical sources claim 32 MB while the native configuration uses 16 MB; identify the actual chip.",
+        "zh_CN": "历史资料声称 32 MB，原生配置使用 16 MB；需识别实物芯片。"
+      },
+      "section": "Controller",
+      "status": "unknown",
+      "unit": "MB",
+      "value": null
+    },
+    "keys": {
+      "kind": "string",
+      "label": {
+        "en": "Keys",
+        "zh_CN": "按键"
+      },
+      "section": "Inputs",
+      "source": {
+        "path": "devices/reterminal-sticky/reference/hardware.md",
+        "template": "| bsp_button.h | {value} keys"
+      },
+      "status": "documented",
+      "value": "AI/Up/Down"
+    },
+    "mcu": {
+      "kind": "string",
+      "label": {
+        "en": "Controller",
+        "zh_CN": "主控"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/reterminal-sticky/reference/hardware.md",
+        "template": "SoC/memory: {value},"
+      },
+      "status": "documented",
+      "value": "ESP32-S3"
+    },
+    "power_details": {
+      "kind": "string",
+      "label": {
+        "en": "Power",
+        "zh_CN": "供电"
+      },
+      "reason": {
+        "en": "No independently confirmed value is retained; consult the original reference for limitations.",
+        "zh_CN": "未保留独立确认的值；具体限制见原始来源。"
+      },
+      "section": "Power",
+      "status": "unknown",
+      "value": null
+    },
+    "psram": {
+      "kind": "integer",
+      "label": {
+        "en": "PSRAM capacity",
+        "zh_CN": "PSRAM 容量"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/reterminal-sticky/reference/hardware.md",
+        "template": "{value} MB octal PSRAM"
+      },
+      "status": "documented",
+      "unit": "MB",
+      "value": 8
+    },
+    "sensor": {
+      "kind": "string",
+      "label": {
+        "en": "Environmental sensor",
+        "zh_CN": "环境传感器"
+      },
+      "section": "Inputs",
+      "source": {
+        "path": "devices/reterminal-sticky/reference/hardware.md",
+        "template": "- {value} temperature/humidity"
+      },
+      "status": "documented",
+      "value": "SHT4x"
+    }
+  },
+  "id": "reterminal-sticky",
+  "maintenance": "unassigned",
+  "maturity": "experimental",
+  "name": "reTerminal Sticky",
+  "overview": {
+    "en": "Portrait e-paper, keys and temperature/humidity sensing.",
+    "zh_CN": "竖屏电子纸、按键与温湿度感知。"
+  },
+  "physical_description": {
+    "en": "unknown; revision-specific orientation and imagery have not been verified.",
+    "zh_CN": "unknown；尚未核实对应硬件修订的朝向和图片。"
+  },
+  "references": [
+    "devices/reterminal-sticky/reference/hardware.md",
+    "platforms/esp-idf/targets/reterminal-sticky/bsp/include/bsp_pins.h",
+    "devices/reterminal-sticky/reference/vendor-notes.md"
+  ],
+  "revision": "unknown",
+  "scenarios": {
+    "en": "Use the listed standalone examples as the supported development entry points.",
+    "zh_CN": "以列出的独立示例作为受支持的开发入口。"
+  },
+  "schema_version": 3,
+  "unknowns": [
+    {
+      "en": "Physical board revision and fresh on-device verification are not recorded.",
+      "zh_CN": "尚未记录实际硬件修订和本次真机验证。"
+    },
+    {
+      "en": "Read the original hardware reference for unsupported drivers, prerequisites and known limitations.",
+      "zh_CN": "须阅读原始硬件来源中的待移植驱动、前置条件和已知限制。"
+    }
+  ],
+  "variants": {},
+  "vendor_sources": [
+    "https://www.seeedstudio.com/sticky/docs/en/device-guide/hardware-overview/"
+  ]
+}

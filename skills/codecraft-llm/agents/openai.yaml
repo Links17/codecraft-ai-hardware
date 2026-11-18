@@ -1,0 +1,4 @@
+interface:
+  display_name: "CodeCraft 文本模型"
+  short_description: "Call CodeCraft device LLM APIs safely"
+  default_prompt: "使用 $codecraft-llm 通过设备云总结指定文本。"

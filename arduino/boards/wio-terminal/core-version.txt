@@ -1,1 +1,0 @@
-Seeeduino:samd@1.8.6

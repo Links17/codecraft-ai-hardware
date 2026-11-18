@@ -1,0 +1,4 @@
+interface:
+  display_name: "CodeCraft 语音识别"
+  short_description: "Transcribe device WAV audio with CodeCraft"
+  default_prompt: "使用 $codecraft-asr 将指定 WAV 文件识别为文本。"

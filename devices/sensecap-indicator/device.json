@@ -1,0 +1,338 @@
+{
+  "assets": "devices/sensecap-indicator/assets/manifest.json",
+  "conflicts": [],
+  "facts": {
+    "accessories_details": {
+      "kind": "string",
+      "label": {
+        "en": "Accessories",
+        "zh_CN": "配件"
+      },
+      "reason": {
+        "en": "No independently confirmed value is retained; consult the original reference for limitations.",
+        "zh_CN": "未保留独立确认的值；具体限制见原始来源。"
+      },
+      "section": "Accessories",
+      "status": "unknown",
+      "value": null
+    },
+    "button": {
+      "kind": "string",
+      "label": {
+        "en": "Button",
+        "zh_CN": "按钮"
+      },
+      "section": "Inputs",
+      "source": {
+        "path": "devices/sensecap-indicator/reference/hardware.md",
+        "template": "Input: {value},"
+      },
+      "status": "documented",
+      "value": "top case button"
+    },
+    "display": {
+      "kind": "string",
+      "label": {
+        "en": "Display",
+        "zh_CN": "显示屏"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/sensecap-indicator/reference/display-variants.md",
+        "template": "Common display interface: {value}."
+      },
+      "status": "documented",
+      "value": "RGB"
+    },
+    "display_height": {
+      "kind": "integer",
+      "label": {
+        "en": "Native panel height",
+        "zh_CN": "原生面板高度"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/sensecap-indicator/reference/hardware.md",
+        "template": "480x{value}"
+      },
+      "status": "documented",
+      "unit": "px",
+      "value": 480
+    },
+    "display_width": {
+      "kind": "integer",
+      "label": {
+        "en": "Native panel width",
+        "zh_CN": "原生面板宽度"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/sensecap-indicator/reference/hardware.md",
+        "template": "{value}x480"
+      },
+      "status": "documented",
+      "unit": "px",
+      "value": 480
+    },
+    "flash": {
+      "kind": "integer",
+      "label": {
+        "en": "Flash capacity",
+        "zh_CN": "Flash 容量"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/sensecap-indicator/reference/hardware.md",
+        "template": "{value} MB flash"
+      },
+      "status": "documented",
+      "unit": "MB",
+      "value": 8
+    },
+    "mcu": {
+      "kind": "string",
+      "label": {
+        "en": "Controller",
+        "zh_CN": "主控"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/sensecap-indicator/reference/hardware.md",
+        "template": "SoC: {value},"
+      },
+      "status": "documented",
+      "value": "ESP32-S3"
+    },
+    "power_details": {
+      "kind": "string",
+      "label": {
+        "en": "Power",
+        "zh_CN": "供电"
+      },
+      "reason": {
+        "en": "No independently confirmed value is retained; consult the original reference for limitations.",
+        "zh_CN": "未保留独立确认的值；具体限制见原始来源。"
+      },
+      "section": "Power",
+      "status": "unknown",
+      "value": null
+    },
+    "psram": {
+      "kind": "integer",
+      "label": {
+        "en": "PSRAM capacity",
+        "zh_CN": "PSRAM 容量"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/sensecap-indicator/reference/hardware.md",
+        "template": "{value} MB octal PSRAM"
+      },
+      "status": "documented",
+      "unit": "MB",
+      "value": 8
+    },
+    "touch": {
+      "kind": "string",
+      "label": {
+        "en": "Touch controller",
+        "zh_CN": "触摸控制器"
+      },
+      "section": "Inputs",
+      "source": {
+        "path": "devices/sensecap-indicator/reference/hardware.md",
+        "template": "Vendor probes {value}"
+      },
+      "status": "documented",
+      "value": "FT6336U"
+    },
+    "usb": {
+      "kind": "string",
+      "label": {
+        "en": "USB bridge",
+        "zh_CN": "USB 桥接芯片"
+      },
+      "section": "Connectivity",
+      "source": {
+        "path": "devices/sensecap-indicator/reference/hardware.md",
+        "template": "USB: {value} USB-UART bridge"
+      },
+      "status": "documented",
+      "value": "CH340"
+    }
+  },
+  "id": "sensecap-indicator",
+  "maintenance": "unassigned",
+  "maturity": "experimental",
+  "name": "SenseCAP Indicator",
+  "overview": {
+    "en": "RGB display, touch and a case button through native examples; sensor co-processor interfaces are outside the registered Target scope.",
+    "zh_CN": "原生示例支持 RGB 显示、触摸与机身按键；传感器协处理器接口不在已登记的 Target 支持范围内。"
+  },
+  "physical_description": {
+    "en": "unknown; revision-specific orientation and imagery have not been verified.",
+    "zh_CN": "unknown；尚未核实对应硬件修订的朝向和图片。"
+  },
+  "references": [
+    "devices/sensecap-indicator/reference/hardware.md",
+    "platforms/esp-idf/targets/sensecap-indicator/bsp/include/bsp_pins.h",
+    "devices/sensecap-indicator/reference/vendor-notes.md",
+    "devices/sensecap-indicator/tests/hardware-checklist.md",
+    "devices/sensecap-indicator/reference/display-variants.md"
+  ],
+  "revision": "unknown",
+  "scenarios": {
+    "en": "Use the listed standalone examples as the supported development entry points.",
+    "zh_CN": "以列出的独立示例作为受支持的开发入口。"
+  },
+  "schema_version": 3,
+  "unknowns": [
+    {
+      "en": "Physical board revision and fresh on-device verification are not recorded.",
+      "zh_CN": "尚未记录实际硬件修订和本次真机验证。"
+    },
+    {
+      "en": "Read the original hardware reference for unsupported drivers, prerequisites and known limitations.",
+      "zh_CN": "须阅读原始硬件来源中的待移植驱动、前置条件和已知限制。"
+    },
+    {
+      "en": "GX/DX build selection does not identify the actual panel or PCB revision; physical compatibility remains unknown.",
+      "zh_CN": "GX/DX 构建选择不识别实际面板或 PCB 修订；物理兼容性保持未知。"
+    }
+  ],
+  "variants": {
+    "dx": {
+      "facts": {
+        "compatible_revisions": {
+          "kind": "strings",
+          "label": {
+            "en": "Compatible PCB revisions",
+            "zh_CN": "兼容 PCB 修订"
+          },
+          "reason": {
+            "en": "No attributable mapping from this panel assembly to physical PCB revisions is recorded.",
+            "zh_CN": "尚无可归属的来源或实测记录；保持未知。"
+          },
+          "section": "Outputs",
+          "status": "unknown",
+          "value": null
+        },
+        "display_controller": {
+          "kind": "string",
+          "label": {
+            "en": "Display register controller",
+            "zh_CN": "显示寄存器控制器"
+          },
+          "reason": {
+            "en": "The cited vendor source does not identify the DX controller.",
+            "zh_CN": "尚无可归属的来源或实测记录；保持未知。"
+          },
+          "section": "Outputs",
+          "status": "unknown",
+          "value": null
+        },
+        "initialization": {
+          "kind": "string",
+          "label": {
+            "en": "Initialization interface",
+            "zh_CN": "初始化接口"
+          },
+          "section": "Outputs",
+          "source": {
+            "path": "devices/sensecap-indicator/reference/display-variants.md",
+            "template": "DX initialization: {value}."
+          },
+          "status": "documented",
+          "value": "RGB-only"
+        },
+        "panel_supplier": {
+          "kind": "string",
+          "label": {
+            "en": "Panel supplier",
+            "zh_CN": "面板供应商"
+          },
+          "section": "Outputs",
+          "source": {
+            "path": "devices/sensecap-indicator/reference/display-variants.md",
+            "template": "DX panel supplier: {value}."
+          },
+          "status": "documented",
+          "value": "DaXian"
+        }
+      },
+      "label": {
+        "en": "DX display assembly",
+        "zh_CN": "DX 屏幕组件"
+      },
+      "source": "devices/sensecap-indicator/reference/display-variants.md"
+    },
+    "gx": {
+      "facts": {
+        "compatible_revisions": {
+          "kind": "strings",
+          "label": {
+            "en": "Compatible PCB revisions",
+            "zh_CN": "兼容 PCB 修订"
+          },
+          "reason": {
+            "en": "No attributable mapping from this panel assembly to physical PCB revisions is recorded.",
+            "zh_CN": "尚无可归属的来源或实测记录；保持未知。"
+          },
+          "section": "Outputs",
+          "status": "unknown",
+          "value": null
+        },
+        "display_controller": {
+          "kind": "string",
+          "label": {
+            "en": "Display register controller",
+            "zh_CN": "显示寄存器控制器"
+          },
+          "section": "Outputs",
+          "source": {
+            "path": "devices/sensecap-indicator/reference/display-variants.md",
+            "template": "GX register controller: {value}."
+          },
+          "status": "documented",
+          "value": "ST7701S"
+        },
+        "initialization": {
+          "kind": "string",
+          "label": {
+            "en": "Initialization interface",
+            "zh_CN": "初始化接口"
+          },
+          "section": "Outputs",
+          "source": {
+            "path": "devices/sensecap-indicator/reference/display-variants.md",
+            "template": "GX initialization: {value}."
+          },
+          "status": "documented",
+          "value": "SPI+RGB"
+        },
+        "panel_supplier": {
+          "kind": "string",
+          "label": {
+            "en": "Panel supplier",
+            "zh_CN": "面板供应商"
+          },
+          "section": "Outputs",
+          "source": {
+            "path": "devices/sensecap-indicator/reference/display-variants.md",
+            "template": "GX panel supplier: {value}."
+          },
+          "status": "documented",
+          "value": "GuanXian"
+        }
+      },
+      "label": {
+        "en": "GX display assembly",
+        "zh_CN": "GX 屏幕组件"
+      },
+      "source": "devices/sensecap-indicator/reference/display-variants.md"
+    }
+  },
+  "vendor_sources": [
+    "https://github.com/Seeed-Solution/SenseCAP_Indicator_ESP32"
+  ]
+}

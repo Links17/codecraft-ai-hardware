@@ -1,21 +1,20 @@
 ---
 name: codecraft-develop
-description: Development workflow for the codecraft-ai-hardware repository — task routing, hardware-fact priority, BSP/application boundary, and delivery format. Use for any code or documentation change; does not build, flash, commit, or publish.
+description: Develop hardware applications and repository contributions with native Target implementations.
 ---
 
 # Develop
 
-1. Run `git status --short --branch`; preserve existing user changes.
-2. Read the root `AGENTS.md` routing table entry for the task, plus
-   `docs/development/ai-guide.md`.
-3. For board work, read the board README and its row in
-   `docs/vendor-sources.md` before editing. Clone and search the vendor
-   source; never guess a hardware fact.
-4. Place code at the right layer: board facts and reusable drivers in the
-   board BSP, shared silicon drivers in `esp32/components/`, demos and
-   application logic in `examples/` or the app.
-5. Keep testable logic independent from ESP-IDF/LVGL and add host tests in
-   `tests/`.
-6. Deliver with the report format from `docs/development/ai-guide.md`:
-   static checks, per-board build result, on-device verification (or an
-   explicit statement it was not performed).
+Read the root two-part contract and obtain context for the selected Target. Hardware facts come from devices/<device>/AGENTS.md and reference/. Native BSPs/examples remain in platforms/<stack>/targets/<device>. Generate user projects outside the repository with `new --target <id> --example <name> --output <new-directory>`. Preserve application/BSP boundaries and user changes; finish with the required validation report.
+
+All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.
+
+For cloud functionality, select a Capability/Provider from cloud-catalog. Use new --capabilities with reviewed selections; the export contains the selected pinned standalone Skill package and its API client. Run python3 codecraft.py lock-project . after deliberate application or environment updates; the initial import provenance remains intact.
+
+Maintain README.md and README.zh_CN.md together. All other engineering documents, including AGENTS.md, SKILL.md, API references, plans and reports, use one English source. Update generators and local references with documentation changes; never generate translated Agent rules or duplicate hardware facts.
+
+Use skill-release prepare/check/apply for standalone package changes, following docs/development/skill-releases.md. Keep helper maintenance under skills/_cloud and runtime imports package-local. Review candidate bytes, separate versions and the exact digest before applying; never automatically accept hash drift or rewrite original provenance. Exported applications use the same public CLI and source lock.
+
+ESP-IDF examples use explicit BSP compositions. Read docs/development/native-compositions.md when changing native source selection, BSP layout or dependencies. Keep the profile, native manifests, Target example scope and lock aligned; settle native lock updates before final source-fingerprint validation. A successful compiler command must also pass the actual BSP-source/requirement check.
+
+For sourced hardware variants, use context/new/validate --variant as described in docs/development/hardware-variants.md. Keep the Device facts, Target/native profile, export selection and lock aligned. The full Target gate covers all variants. A build default is not physical identification; physical evidence must identify its variant and an observed compatible revision. Unknown compatibility remains unresolved.

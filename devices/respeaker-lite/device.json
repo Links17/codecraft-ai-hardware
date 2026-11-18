@@ -1,0 +1,171 @@
+{
+  "assets": "devices/respeaker-lite/assets/manifest.json",
+  "conflicts": [],
+  "facts": {
+    "accessories_details": {
+      "kind": "string",
+      "label": {
+        "en": "Accessories",
+        "zh_CN": "配件"
+      },
+      "reason": {
+        "en": "No independently confirmed value is retained; consult the original reference for limitations.",
+        "zh_CN": "未保留独立确认的值；具体限制见原始来源。"
+      },
+      "section": "Accessories",
+      "status": "unknown",
+      "value": null
+    },
+    "audio": {
+      "kind": "string",
+      "label": {
+        "en": "Audio input",
+        "zh_CN": "音频输入"
+      },
+      "section": "Inputs",
+      "source": {
+        "path": "devices/respeaker-lite/reference/hardware.md",
+        "template": "Audio: {value} over"
+      },
+      "status": "documented",
+      "value": "XMOS-processed microphone"
+    },
+    "button": {
+      "kind": "string",
+      "label": {
+        "en": "Button",
+        "zh_CN": "按钮"
+      },
+      "section": "Inputs",
+      "source": {
+        "path": "devices/respeaker-lite/reference/hardware.md",
+        "template": "Button: {value} on"
+      },
+      "status": "documented",
+      "value": "XIAO BOOT button"
+    },
+    "flash": {
+      "kind": "integer",
+      "label": {
+        "en": "Flash capacity",
+        "zh_CN": "Flash 容量"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/respeaker-lite/reference/hardware.md",
+        "template": "{value} MB flash"
+      },
+      "status": "documented",
+      "unit": "MB",
+      "value": 8
+    },
+    "led": {
+      "kind": "string",
+      "label": {
+        "en": "Status light",
+        "zh_CN": "状态灯"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/respeaker-lite/reference/hardware.md",
+        "template": "Status: {value}."
+      },
+      "status": "documented",
+      "value": "RGB status LED"
+    },
+    "mcu": {
+      "kind": "string",
+      "label": {
+        "en": "Controller",
+        "zh_CN": "主控"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/respeaker-lite/reference/hardware.md",
+        "template": "Module: {value},"
+      },
+      "status": "documented",
+      "value": "XIAO ESP32-S3"
+    },
+    "power_details": {
+      "kind": "string",
+      "label": {
+        "en": "Power",
+        "zh_CN": "供电"
+      },
+      "reason": {
+        "en": "No independently confirmed value is retained; consult the original reference for limitations.",
+        "zh_CN": "未保留独立确认的值；具体限制见原始来源。"
+      },
+      "section": "Power",
+      "status": "unknown",
+      "value": null
+    },
+    "psram": {
+      "kind": "integer",
+      "label": {
+        "en": "PSRAM capacity",
+        "zh_CN": "PSRAM 容量"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/respeaker-lite/reference/hardware.md",
+        "template": "{value} MB octal PSRAM"
+      },
+      "status": "documented",
+      "unit": "MB",
+      "value": 8
+    },
+    "radio": {
+      "kind": "string",
+      "label": {
+        "en": "Radio",
+        "zh_CN": "无线连接"
+      },
+      "section": "Connectivity",
+      "source": {
+        "path": "devices/respeaker-lite/reference/hardware.md",
+        "template": "{value} only."
+      },
+      "status": "documented",
+      "value": "2.4 GHz Wi-Fi"
+    }
+  },
+  "id": "respeaker-lite",
+  "maintenance": "unassigned",
+  "maturity": "experimental",
+  "name": "reSpeaker Lite (XIAO ESP32-S3)",
+  "overview": {
+    "en": "XMOS I2S audio, BOOT input and RGB LED.",
+    "zh_CN": "XMOS I2S 音频、BOOT 输入与 RGB LED。"
+  },
+  "physical_description": {
+    "en": "unknown; revision-specific orientation and imagery have not been verified.",
+    "zh_CN": "unknown；尚未核实对应硬件修订的朝向和图片。"
+  },
+  "references": [
+    "devices/respeaker-lite/reference/hardware.md",
+    "platforms/esp-idf/targets/respeaker-lite/bsp/include/bsp_pins.h",
+    "devices/respeaker-lite/reference/vendor-notes.md"
+  ],
+  "revision": "unknown",
+  "scenarios": {
+    "en": "Use the listed standalone examples as the supported development entry points.",
+    "zh_CN": "以列出的独立示例作为受支持的开发入口。"
+  },
+  "schema_version": 3,
+  "unknowns": [
+    {
+      "en": "Physical board revision and fresh on-device verification are not recorded.",
+      "zh_CN": "尚未记录实际硬件修订和本次真机验证。"
+    },
+    {
+      "en": "Read the original hardware reference for unsupported drivers, prerequisites and known limitations.",
+      "zh_CN": "须阅读原始硬件来源中的待移植驱动、前置条件和已知限制。"
+    }
+  ],
+  "variants": {},
+  "vendor_sources": [
+    "https://github.com/respeaker/reSpeaker_Lite"
+  ]
+}

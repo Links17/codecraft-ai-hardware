@@ -1,91 +1,39 @@
-<p align="right">
-  <a href="README.md">English</a> · <strong>简体中文</strong>
-</p>
+<p align="right"><a href="README.md">English</a> · <strong>简体中文</strong></p>
 
 # CodeCraft AI Hardware
 
-面向 AI agent 驱动开发的 Seeed 设备硬件能力参考仓库。
+Seeed 设备的开发参考仓库，包含设备知识、原生 BSP 与示例、云端 Skill 合同和独立 Agent 工作流。四个云 API 客户端 Skill 在 [skills/](skills/README.zh_CN.md) 中维护，云端服务和账户基础设施仍由外部项目负责。
 
-这是一个**纯硬件**仓库：板级支持包（BSP）、独立示例、经过验证的硬件事实，
-以及面向 agent 的开发指引。本仓库不包含云运行时、设备配对或账户体系——
-用本仓库构建的固件完全在设备本地运行。
+从 [AGENTS.md](AGENTS.md) 开始。[设备入口](devices/AGENTS.md)和[能力矩阵](docs/inventory.md)由来源清单生成。
 
-## 面向对象
+## 快速开始
 
-- **AI 编程 agent**（Codex、Muse Code、Claude Code 等）：仓库结构保证
-  agent 能找到权威硬件事实、遵循任务路由表、并通过验证门禁，无需人工
-  干预。入口是 [AGENTS.md](AGENTS.md)。
-- **人类开发者**：以每块板的示例为起点开发自己的固件。
-  入口是 [docs/README.md](docs/README.md)。
-
-## CodeCraft Hub
-
-[CodeCraft Hub](https://codecraft.seeed.cc/hub/)
-是固件分享的云平台，不属于本仓库。
-
-若要上传固件做线上烧录或分享，使用
-[`@seeed-studio/sensecraft-cli`](https://sensecraft.seeed.cc/wiki/en/sensecraft-cli/)
-生成并上传。安装和用法见该页面，其中包括 CLI 自带的 agent skill。
-AI agent 遵循 [AGENTS.zh_CN.md](AGENTS.zh_CN.md) 中的 CodeCraft Hub 一节，
-并且只在用户要求上传、线上烧录或分享固件时这样做。
-
-## 仓库结构
-
-| 路径 | 内容 |
-|---|---|
-| `esp32/boards/<board>/` | 每块 ESP32 板卡的 sdkconfig、板级 BSP 和独立示例 |
-| `esp32/components/` | 跨 ESP32 板卡共享的组件 |
-| `linux/boards/<board>/` | Linux 设备（设备树 overlay、GPIO 映射、Python/C 示例） |
-| `arduino/boards/<board>/` | Arduino 框架板卡（arduino-cli 草图）；见 `arduino/AGENTS.md` |
-| `skills/` | 管理 develop / setup / build / device-test / debug 工作流的 agent skills |
-| `docs/` | 硬件指南、厂商来源引用、开发规范 |
-| `tools/validate.sh` | 每次交付必须通过的验证门禁 |
-| `tests/` | 板级无关逻辑的宿主机单元测试 |
-
-## 支持的板卡
-
-| 板卡 | 平台 | BSP 范围 |
-|---|---|---|
-| SenseCAP Watcher | <code>ESP32&#8209;S3</code> | 摄像头、显示、触摸、音频、旋钮、电池、microSD |
-| SenseCAP Indicator | <code>ESP32&#8209;S3</code> | RGB 显示、IO 扩展、按键、触摸 |
-| reTerminal E1001 | <code>ESP32&#8209;S3</code> | 墨水屏、按键、LED、SHT4x、电池、RTC、充电器、蜂鸣器、PDM 麦克风、microSD |
-| reTerminal E1002 | <code>ESP32&#8209;S3</code> | 与 E1001 相同 BSP，面板为 Spectra 6 彩色 |
-| reSpeaker Lite (XIAO ESP32-S3) | <code>ESP32&#8209;S3</code> | XMOS I2S 音频、BOOT 按键、WS2812 LED |
-| reTerminal Sticky | <code>ESP32&#8209;S3</code> | SSD1677 墨水屏、按键、SHT4x |
-| XIAO ESP32-S3 1.47" 触摸显示屏 | <code>ESP32&#8209;S3</code> | JD9853A LCD、按键、PDM 麦克风 |
-| Grove Beginner Kit for Arduino（2025 后版本） | <code>ATmega328P</code> | Grove LED、蜂鸣器、OLED、按键、电位器、光、声音、DHT20、SPA06-003、IMU |
-| Wio Terminal | <code>SAMD51</code> | 显示、按键、IMU、光传感器、麦克风、蜂鸣器、microSD、IR 发射、Grove、Wi-Fi/BLE |
-| reTerminal (CM4) | <code>Linux</code> | 外设 overlay + 演示：按键、LED、蜂鸣器、传感器、RTC |
-
-所有 ESP32-S3 板卡均在 ESP-IDF v6.0.2 上构建验证通过；它们尚未上机验证。
-
-Wio Terminal 示例在 `Seeeduino:samd@1.8.6` 上构建；其中 8 个的上机结果记录在
-[docs/on-device-validation.md](docs/on-device-validation.md)。
-
-2025 年后版本的 Grove Beginner Kit 示例在 `arduino:avr@1.8.8` 上构建；全部
-10 个器件 demo 和 `i2c_scan` 已上机验证，包含按键、电位器、光线、声音和
-运动模块的物理动作。结果记录在
-[docs/on-device-validation.md](docs/on-device-validation.md)。
-
-能力矩阵和抽取来源见 [docs/inventory.md](docs/inventory.md)，
-上机验证清单见 [docs/on-device-validation.md](docs/on-device-validation.md)，
-每块板的权威上游参考见 [docs/vendor-sources.md](docs/vendor-sources.md)。
-
-## 验证门禁
-
-```bash
-./tools/validate.sh --static           # 仓库检查 + 宿主机测试
-./tools/validate.sh --esp32 <board>    # 单板 ESP-IDF 构建
-./tools/validate.sh --linux <board>    # Linux 板卡检查
-./tools/validate.sh --arduino <board>  # 单板 arduino-cli 构建
-./tools/validate.sh                    # 完整门禁
+```sh
+python3 codecraft.py catalog
+python3 codecraft.py discover --interface display
+python3 codecraft.py cloud-catalog
+python3 codecraft.py check-cloud-skills
+python3 codecraft.py resolve-capability --capability asr
+python3 codecraft.py context --target esp-idf/reterminal-e1001
+python3 codecraft.py validate --static
+python3 codecraft.py validate --target esp-idf/reterminal-e1001
 ```
 
-## 贡献
+构建前激活 Target 声明的工具链。在仓库外生成可移植项目：
 
-提交、拉取请求和 issue 规范见 [`.github/CONTRIBUTING.zh_CN.md`](.github/CONTRIBUTING.zh_CN.md)。
-AI agent 从 [AGENTS.zh_CN.md](AGENTS.zh_CN.md) 开始。
+```sh
+python3 codecraft.py new --target esp-idf/reterminal-e1001 --example epd_hello --output /tmp/my-e1001-project
+python3 codecraft.py build-project /tmp/my-e1001-project
+```
 
-## 许可证与署名
+输出目录必须尚不存在。`project.yaml` 记录选择，`codecraft.lock` 记录导入文件摘要、仓库版本与工具链。生成项目和构建日志不提交。
 
-Apache License 2.0，见 [LICENSE](LICENSE)。第三方署名见 [NOTICE](NOTICE)。
+新导出项目也包含公共入口；在应用目录运行 `python3 codecraft.py build-project .`。无需全局安装 CLI。独立云端 Skill 仍可单独运行；包版本维护使用[候选包工作流](docs/development/skill-releases.md)。
+
+## 结构与贡献
+
+`devices/` 负责事实和来源，`platforms/` 负责原生实现，`capabilities/` 负责云端 Skill 消费合同，`skills/` 负责流程、脚本与合同测试。阅读[架构](docs/architecture/overview.md)和[贡献规则](.github/CONTRIBUTING.md)。
+
+元数据修改后执行 `python3 codecraft.py generate`，再执行 `python3 codecraft.py generate --check`。CI 与发现使用同一份 Target 记录。完整软件门禁为 `python3 codecraft.py validate`，物理验证单独记录，在获得真实证据前仍属于未执行。
+
+采用 Apache License 2.0，第三方归属保留在 [NOTICE](NOTICE)。

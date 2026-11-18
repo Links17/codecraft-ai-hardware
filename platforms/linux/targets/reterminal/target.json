@@ -1,0 +1,343 @@
+{
+  "dependencies": [],
+  "device": "reterminal",
+  "example_dependencies": {
+    "buttons_evdev": [],
+    "header_gpio_blink": [],
+    "leds_buzzer_sysfs": [],
+    "sensors_sysfs": []
+  },
+  "example_inputs": {
+    "buttons_evdev": [
+      "platforms/linux/targets/reterminal/demos/buttons_evdev.py"
+    ],
+    "header_gpio_blink": [
+      "platforms/linux/targets/reterminal/demos/header_gpio_blink.py"
+    ],
+    "leds_buzzer_sysfs": [
+      "platforms/linux/targets/reterminal/demos/leds_buzzer_sysfs.py"
+    ],
+    "sensors_sysfs": [
+      "platforms/linux/targets/reterminal/demos/sensors_sysfs.py"
+    ]
+  },
+  "examples": [
+    "buttons_evdev",
+    "header_gpio_blink",
+    "leds_buzzer_sysfs",
+    "sensors_sysfs"
+  ],
+  "id": "linux/reterminal",
+  "inputs": [
+    "platforms/linux/targets/reterminal/overlays"
+  ],
+  "interfaces": [
+    {
+      "configuration": {
+        "channels": {
+          "description": "PCM channels",
+          "maximum": 32,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "channel",
+          "value": null
+        },
+        "sample_bits": {
+          "description": "PCM container width",
+          "maximum": 64,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "bit",
+          "value": null
+        },
+        "sample_rate_hz": {
+          "description": "PCM sample rate",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "Hz",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "leds_buzzer_sysfs": [
+          "platforms/linux/targets/reterminal/demos/leds_buzzer_sysfs.py"
+        ]
+      },
+      "id": "audio",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "capture": {
+          "reason": "No native implementation for this semantic operation is registered.",
+          "supported": false
+        },
+        "playback": {
+          "reason": "No native implementation for this semantic operation is registered.",
+          "supported": false
+        },
+        "tone": {
+          "example_sources": {
+            "leds_buzzer_sysfs": "platforms/linux/targets/reterminal/demos/leds_buzzer_sysfs.py"
+          },
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "supported": true,
+          "symbol": "usr_buzzer"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "sample_interval_ms": {
+          "description": "Supported acquisition interval",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "ms",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "sensors_sysfs": [
+          "platforms/linux/targets/reterminal/demos/sensors_sysfs.py"
+        ]
+      },
+      "id": "environment",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "read": {
+          "reason": "No native implementation for this semantic operation is registered.",
+          "supported": false
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "line_count": {
+          "description": "Addressable native lines",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "count",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "header_gpio_blink": [
+          "platforms/linux/targets/reterminal/demos/header_gpio_blink.py"
+        ]
+      },
+      "id": "gpio",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "read": {
+          "reason": "No native implementation for this semantic operation is registered.",
+          "supported": false
+        },
+        "write": {
+          "example_sources": {
+            "header_gpio_blink": "platforms/linux/targets/reterminal/demos/header_gpio_blink.py"
+          },
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "supported": true,
+          "symbol": "set_value"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "debounce_ms": {
+          "description": "Native debounce interval",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "ms",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "buttons_evdev": [
+          "platforms/linux/targets/reterminal/demos/buttons_evdev.py"
+        ]
+      },
+      "id": "input",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "read": {
+          "example_sources": {
+            "buttons_evdev": "platforms/linux/targets/reterminal/demos/buttons_evdev.py"
+          },
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "supported": true,
+          "symbol": "EV_KEY"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "channels": {
+          "description": "Independently controlled color channels",
+          "maximum": 4,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "channel",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "leds_buzzer_sysfs": [
+          "platforms/linux/targets/reterminal/demos/leds_buzzer_sysfs.py"
+        ]
+      },
+      "id": "led",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "write": {
+          "reason": "No native implementation for this semantic operation is registered.",
+          "supported": false
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    }
+  ],
+  "path": "platforms/linux/targets/reterminal",
+  "platform": "linux",
+  "schema_version": 3,
+  "toolchain": {
+    "kernel": "unknown",
+    "name": "python3+dtc",
+    "os": "Raspberry Pi OS 64-bit; exact device image/kernel unknown",
+    "runtime_requirements": {
+      "buttons_evdev": "Python standard library and Linux 64-bit input_event layout",
+      "header_gpio_blink": "Python gpiod 2.x; exact device package/kernel must be recorded before use",
+      "leds_buzzer_sysfs": "Python standard library and matching LED sysfs drivers",
+      "sensors_sysfs": "Python standard library and matching IIO sysfs drivers"
+    },
+    "source": "devices/reterminal/reference/hardware.md",
+    "version": "unknown"
+  },
+  "variants": {}
+}

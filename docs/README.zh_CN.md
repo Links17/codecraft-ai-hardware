@@ -1,0 +1,28 @@
+<p align="right"><a href="README.md">English</a> · <strong>简体中文</strong></p>
+
+# 文档
+
+仅 README 保留中文版。工程指南、规则、Skills 和报告统一维护英文。
+
+## 当前规则与实现
+
+- [仓库与贡献约束](../AGENTS.md)
+- [架构](architecture/overview.md)
+- [Capability 与 Provider 策略](architecture/capability-provider-policy.md)
+- [仿真范围决策](architecture/simulation-scope.md)
+- [AI 开发指南](development/ai-guide.md)
+- [独立 Skill 打包与版本工作流](development/skill-releases.md)
+- [主机测试归属与定向执行](development/testing.md)
+- [ESP-IDF BSP 组合与布局](development/native-compositions.md)
+- [硬件变体与原生构建选择](development/hardware-variants.md)
+- [固件镜像交付与 TODO](development/firmware-images.md)
+- [生成的设备/能力清单](inventory.md)
+- [生成的厂商索引](vendor-sources.md)
+- [设备验收](on-device-validation.md)
+
+## 规划与待办
+
+- [架构要求](development/codecraft-hardware-distilled.md) — 定义四个内容所有者的范围与验收要求。
+- [优化方案与 TODO](development/optimization-plan.md) — 尚未完成的外部验收与治理事项。
+
+硬件事实与原始来源记录位于 devices/<device>/reference/。

@@ -1,0 +1,145 @@
+{
+  "schema_version": 2,
+  "ok": true,
+  "data": {
+    "schema_version": 2,
+    "target": "arduino/grove-beginner-kit",
+    "operation": "build",
+    "source_digest": "881a84693086eb2bd78f5f00b50b8fc757bfccdd9aaebbdb830235d7dbbdbab7",
+    "ok": true,
+    "results": [
+      {
+        "name": "arduino/grove-beginner-kit/accelerometer",
+        "status": "passed",
+        "reason": "",
+        "command": [
+          "arduino-cli",
+          "compile",
+          "--fqbn",
+          "arduino:avr:uno",
+          "--build-path",
+          "<temporary-path>",
+          "--jobs",
+          "4",
+          "--library",
+          "<repository>/.codecraft/toolchains/arduino/user/libraries/Grove_Temperature_And_Humidity_Sensor",
+          "--library",
+          "<repository>/.codecraft/toolchains/arduino/user/libraries/Grove-3-Axis-Digital-Accelerometer-2g-to-16g-LIS3DHTR",
+          "--library",
+          "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SPA06",
+          "--library",
+          "<repository>/.codecraft/toolchains/arduino/user/libraries/U8g2",
+          "<temporary-path>"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 2.9,
+        "log": ".codecraft/logs/arduino_grove-beginner-kit_accelerometer.log",
+        "log_sha256": "535ee72a95b078b5af2b8f75819f3cfc69ac9193a1b133e06ef855dff2a24a22",
+        "toolchain": {
+          "status": "passed",
+          "cli": "1.5.0",
+          "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+          "fqbn": "arduino:avr:uno",
+          "core": {
+            "id": "arduino:avr",
+            "version": "1.8.8",
+            "path": "<repository>/.codecraft/toolchains/arduino/data/packages/arduino/hardware/avr/1.8.8",
+            "source_digest": "7223f6a9523fc383385aeea4a119445a767b6483f87ac57f1c7af58fdb44276d"
+          },
+          "libraries": {
+            "Grove Temperature And Humidity Sensor": {
+              "version": "2.0.2",
+              "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Grove_Temperature_And_Humidity_Sensor",
+              "source_digest": "dbd6298fa4cd5330a0193a9c0bf4cff47e6fb420218499cf426dda58ab805339"
+            },
+            "Grove-3-Axis-Digital-Accelerometer-2g-to-16g-LIS3DHTR": {
+              "version": "1.2.4",
+              "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Grove-3-Axis-Digital-Accelerometer-2g-to-16g-LIS3DHTR",
+              "source_digest": "9c1ec73985f1d1825722c6a975c62cdefe17345584fb04e7f5876df9f1d59ce8"
+            },
+            "Seeed Arduino SPA06": {
+              "version": "1.0.1",
+              "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SPA06",
+              "source_digest": "d5bc08d2dbb1d26a3b5c46cd4cce6fa852f10d93114de28ffb35950587f7df1c"
+            },
+            "U8g2": {
+              "version": "2.36.19",
+              "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/U8g2",
+              "source_digest": "76748217e769ee2d19c3a68da60167f33d92f7a70246e141b3c9e60b4722a597"
+            }
+          },
+          "bundled_libraries": {},
+          "tools": {
+            "arduino/arduinoOTA": {
+              "version": "1.3.0",
+              "source_digest": "9b98289b799ab6bffc20df4e6f2427024225373adb993eb322720ac759583ba3"
+            },
+            "arduino/avr-gcc": {
+              "version": "7.3.0-atmel3.6.1-arduino7",
+              "source_digest": "f6bacbca668f11e7b03cca049b827ef50c95b2cc345dc63edf91f1e33daf9a6e"
+            },
+            "arduino/avrdude": {
+              "version": "8.0.0-arduino1",
+              "source_digest": "0d2b9e07dbdbe4b547c413244b622ab6a2e35d7597363d2bb638adab88d21adb"
+            }
+          }
+        }
+      }
+    ],
+    "project_source_digest": "2fdc3f380052fd3dc22348064b340b668f76e0268093b4e387473319ec1c3fbe",
+    "resolved_toolchain": {
+      "status": "passed",
+      "cli": "1.5.0",
+      "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+      "fqbn": "arduino:avr:uno",
+      "core": {
+        "id": "arduino:avr",
+        "version": "1.8.8",
+        "path": "<repository>/.codecraft/toolchains/arduino/data/packages/arduino/hardware/avr/1.8.8",
+        "source_digest": "7223f6a9523fc383385aeea4a119445a767b6483f87ac57f1c7af58fdb44276d"
+      },
+      "libraries": {
+        "Grove Temperature And Humidity Sensor": {
+          "version": "2.0.2",
+          "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Grove_Temperature_And_Humidity_Sensor",
+          "source_digest": "dbd6298fa4cd5330a0193a9c0bf4cff47e6fb420218499cf426dda58ab805339"
+        },
+        "Grove-3-Axis-Digital-Accelerometer-2g-to-16g-LIS3DHTR": {
+          "version": "1.2.4",
+          "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Grove-3-Axis-Digital-Accelerometer-2g-to-16g-LIS3DHTR",
+          "source_digest": "9c1ec73985f1d1825722c6a975c62cdefe17345584fb04e7f5876df9f1d59ce8"
+        },
+        "Seeed Arduino SPA06": {
+          "version": "1.0.1",
+          "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SPA06",
+          "source_digest": "d5bc08d2dbb1d26a3b5c46cd4cce6fa852f10d93114de28ffb35950587f7df1c"
+        },
+        "U8g2": {
+          "version": "2.36.19",
+          "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/U8g2",
+          "source_digest": "76748217e769ee2d19c3a68da60167f33d92f7a70246e141b3c9e60b4722a597"
+        }
+      },
+      "bundled_libraries": {},
+      "tools": {
+        "arduino/arduinoOTA": {
+          "version": "1.3.0",
+          "source_digest": "9b98289b799ab6bffc20df4e6f2427024225373adb993eb322720ac759583ba3"
+        },
+        "arduino/avr-gcc": {
+          "version": "7.3.0-atmel3.6.1-arduino7",
+          "source_digest": "f6bacbca668f11e7b03cca049b827ef50c95b2cc345dc63edf91f1e33daf9a6e"
+        },
+        "arduino/avrdude": {
+          "version": "8.0.0-arduino1",
+          "source_digest": "0d2b9e07dbdbe4b547c413244b622ab6a2e35d7597363d2bb638adab88d21adb"
+        }
+      }
+    }
+  }
+}
+
+
+arduino_grove-beginner-kit_accelerometer.log
+Sketch uses 7576 bytes (23%) of program storage space. Maximum is 32256 bytes.
+Global variables use 433 bytes (21%) of dynamic memory, leaving 1615 bytes for local variables. Maximum is 2048 bytes.

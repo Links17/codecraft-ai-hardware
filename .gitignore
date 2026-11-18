@@ -3,13 +3,16 @@ build/
 build-*/
 sdkconfig
 sdkconfig.old
-dependencies.lock
+# Native dependency locks are versioned inputs for reproducible projects.
 managed_components/
 
 # Linux / Python
 __pycache__/
 *.pyc
 .venv/
+
+# Firmware output
+*.hex
 
 # OS
 .DS_Store
@@ -18,3 +21,6 @@ __pycache__/
 .idea/
 .vscode/
 *.swp
+
+# Local validation receipts and generated context
+.codecraft/

@@ -1,0 +1,26 @@
+{
+  "dependencies": [
+    "LICENSE",
+    "NOTICE"
+  ],
+  "inputs": [
+    "codecraft.py",
+    "skills/_shared/io_utils.py",
+    "skills/_shared/registry.py",
+    "skills/_shared/graph.py",
+    "skills/_shared/runtime.py",
+    "skills/_shared/testing.py",
+    "skills/_shared/model.py",
+    "skills/_shared/project.py",
+    "skills/_shared/evidence.py",
+    "skills/_shared/cli.py",
+    "skills/_shared/render.py",
+    "devices/schema.py",
+    "platforms/schema.py",
+    "capabilities/schema.py",
+    "capabilities/catalog.py",
+    "skills/_shared/firmware.py"
+  ],
+  "kind": "resource",
+  "schema_version": 1
+}

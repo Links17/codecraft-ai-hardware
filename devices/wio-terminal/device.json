@@ -1,0 +1,155 @@
+{
+  "assets": "devices/wio-terminal/assets/manifest.json",
+  "conflicts": [],
+  "facts": {
+    "accessories": {
+      "kind": "string",
+      "label": {
+        "en": "Accessory qualification",
+        "zh_CN": "配件适配验证"
+      },
+      "reason": {
+        "en": "No source-bound qualification is recorded for the actual connected assembly.",
+        "zh_CN": "尚无对应实际连接组件、可追溯来源的验证记录。"
+      },
+      "section": "Accessories",
+      "status": "unknown",
+      "value": null
+    },
+    "buzzer": {
+      "kind": "integer",
+      "label": {
+        "en": "Buzzer pin",
+        "zh_CN": "蜂鸣器引脚"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/wio-terminal/reference/hardware.md",
+        "template": "WIO_BUZZER, GPIO {value}."
+      },
+      "status": "documented",
+      "unit": "GPIO",
+      "value": 12
+    },
+    "display": {
+      "kind": "string",
+      "label": {
+        "en": "Display",
+        "zh_CN": "显示屏"
+      },
+      "section": "Outputs",
+      "source": {
+        "path": "devices/wio-terminal/reference/hardware.md",
+        "template": "320x240 {value} panel"
+      },
+      "status": "documented",
+      "value": "ILI9341"
+    },
+    "imu": {
+      "kind": "string",
+      "label": {
+        "en": "Accelerometer",
+        "zh_CN": "加速度计"
+      },
+      "section": "Inputs",
+      "source": {
+        "path": "devices/wio-terminal/reference/hardware.md",
+        "template": "IMU: ST {value} on"
+      },
+      "status": "documented",
+      "value": "LIS3DHTR"
+    },
+    "mcu": {
+      "kind": "string",
+      "label": {
+        "en": "MCU",
+        "zh_CN": "主控"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/wio-terminal/reference/hardware.md",
+        "template": "MCU: Microchip {value},"
+      },
+      "status": "documented",
+      "value": "ATSAMD51P19A"
+    },
+    "power": {
+      "kind": "string",
+      "label": {
+        "en": "Power limits",
+        "zh_CN": "供电限制"
+      },
+      "reason": {
+        "en": "No source-bound qualification is recorded for the actual connected assembly.",
+        "zh_CN": "尚无对应实际连接组件、可追溯来源的验证记录。"
+      },
+      "section": "Power",
+      "status": "unknown",
+      "value": null
+    },
+    "sram": {
+      "kind": "integer",
+      "label": {
+        "en": "RAM",
+        "zh_CN": "RAM"
+      },
+      "section": "Controller",
+      "source": {
+        "path": "devices/wio-terminal/reference/hardware.md",
+        "template": "{value} KB RAM"
+      },
+      "status": "documented",
+      "unit": "KB",
+      "value": 192
+    },
+    "wireless": {
+      "kind": "string",
+      "label": {
+        "en": "Wireless coprocessor",
+        "zh_CN": "无线协处理器"
+      },
+      "section": "Connectivity",
+      "source": {
+        "path": "devices/wio-terminal/reference/hardware.md",
+        "template": "Wireless: Realtek {value},"
+      },
+      "status": "documented",
+      "value": "RTL8720DN"
+    }
+  },
+  "id": "wio-terminal",
+  "maintenance": "unassigned",
+  "maturity": "experimental",
+  "name": "Wio Terminal",
+  "overview": {
+    "en": "SAMD51 terminal with LCD, buttons, sensors, microSD and separate Wi-Fi/BLE scan examples.",
+    "zh_CN": "SAMD51 终端，包含 LCD、按键、传感器、microSD 和独立 Wi-Fi/BLE 扫描示例。"
+  },
+  "physical_description": {
+    "en": "See the cited vendor schematic and hardware reference; revision-specific imagery is not registered.",
+    "zh_CN": "请参阅厂商原理图和硬件参考；尚未登记对应修订版本的图片。"
+  },
+  "references": [
+    "devices/wio-terminal/reference/hardware.md",
+    "devices/wio-terminal/reference/toolchain.md",
+    "devices/wio-terminal/tests/hardware-checklist.md",
+    "devices/wio-terminal/tests/observations.md"
+  ],
+  "revision": "unknown; source schematic v1.2 does not identify a connected board",
+  "scenarios": {
+    "en": "Use the standalone native sketches and their explicit physical test procedures.",
+    "zh_CN": "使用独立原生示例及其明确的实机测试步骤。"
+  },
+  "schema_version": 3,
+  "unknowns": [
+    {
+      "en": "Current source-bound on-device acceptance has not been performed. Recorded observations do not certify new source bytes.",
+      "zh_CN": "尚未执行绑定当前源码的实机验收；已有观察记录不证明新源码已通过验收。"
+    }
+  ],
+  "variants": {},
+  "vendor_sources": [
+    "https://files.seeedstudio.com/wiki/Wio-Terminal/res/Wio-Terminal-SCH-v1.2.pdf",
+    "https://wiki.seeedstudio.com/Wio-Terminal-Getting-Started/"
+  ]
+}

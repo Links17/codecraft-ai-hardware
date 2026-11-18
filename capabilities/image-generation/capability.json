@@ -1,0 +1,103 @@
+{
+  "agent_route": "capabilities/image-generation/AGENTS.md",
+  "configuration": {
+    "additionalProperties": false,
+    "description": "Archival is a separate explicit operation.",
+    "properties": {
+      "archive": {
+        "description": "Explicit optional asset upload",
+        "type": "boolean"
+      }
+    },
+    "required": [],
+    "type": "object"
+  },
+  "consumer": "cloud-skill",
+  "description": {
+    "en": "Image generation",
+    "zh_CN": "图像生成"
+  },
+  "errors": {
+    "invalid_input": "Skill rejects input before a billable request.",
+    "provider_failure": "Nonzero Skill exit; retain valid partial/local results, report uncertain billing, do not automatically retry.",
+    "unknown": "Environment, privacy decision, credentials or source version is unconfirmed.",
+    "unsupported": "Operation or combination is not supported by the selected Skill."
+  },
+  "id": "image-generation",
+  "limitations": [
+    "Text-to-image only; no image editing, resizing, batching or asynchronous jobs.",
+    "Respect the host agent image-tool priority rules."
+  ],
+  "limits": {
+    "automatic_retry": false,
+    "count": 1
+  },
+  "operations": {
+    "generate": {
+      "input": {
+        "additionalProperties": false,
+        "description": "Prompt file and new image destination.",
+        "properties": {
+          "output": {
+            "description": "New output image path; never overwrite",
+            "minLength": 1,
+            "type": "string"
+          },
+          "prompt_file": {
+            "description": "Nonempty UTF-8 prompt file; the selected Provider declares its prompt bound.",
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "prompt_file",
+          "output"
+        ],
+        "type": "object"
+      },
+      "output": {
+        "additionalProperties": false,
+        "description": "Skill stdout on successful completion; archival fields appear only when explicitly requested.",
+        "properties": {
+          "asset_id": {
+            "description": "Archived asset ID",
+            "minLength": 1,
+            "type": "string"
+          },
+          "authentication": {
+            "description": "Authentication requirement for the optional archived asset.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "content_url": {
+            "description": "Provider-authenticated archived asset URL; not a public URL.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "file": {
+            "description": "New local output file",
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "type": "object"
+      }
+    }
+  },
+  "resources": {
+    "memory_bytes": "Agent-host working memory; Provider bound unknown unless measured.",
+    "storage_bytes": "Agent-host storage; Provider bound unknown unless measured."
+  },
+  "risk": {
+    "automatic_retry": false,
+    "billable": true,
+    "device_write": false,
+    "network": true,
+    "secret_values_allowed": false
+  },
+  "schema_version": 2,
+  "version": "2.0.0"
+}
