@@ -2,215 +2,130 @@
 
 ## Overview
 
-Portrait e-paper, keys and temperature/humidity sensing.
+Compact magnetic 3.97-inch 4-level grayscale e-paper device with touch, three buttons, environmental/motion sensors, RTC, microphone, buzzer, microSD, Wi-Fi/BLE and a 750 mAh battery.
 
-## Profile
+Best for low-frequency, always-visible notes, weather, schedules and status dashboards. Pocket size makes it suitable for both handheld and stationary use. Stick it to magnetic surfaces, or the back of your phone. Mount it to any surface with the adhesive magnetic ring accessory.
 
-| Field | Value |
-| --- | --- |
-| ID | reterminal-sticky |
-| Format | 5 |
-| Revision | unknown |
-| Maintenance | unassigned |
-| Maturity | experimental |
+## Physical
 
-## Usage
+Viewing from the front in portrait orientation.
 
-Use the listed standalone examples as the supported development entry points.
+- Dimensions (height × width × thickness): 106 × 65.5 × 7.3 mm
+- Weight: 70 g
+- Protection: IP40 (not waterproof)
 
-## Physical layout
+Card-style body with a light silver-grey front bezel and glass touch cover. The rear shell is light silver-grey, with four N52 magnets in the four corners and a center metal ring beneath the shell (it works with the adhesive magnetic ring accessory). All four edges are white. Three buttons sit along the upper part of the right edge, from top to bottom: AI/OK/Power (grey), Up (white), Down (white). The microSD slot is on the lower part of the left edge. On the bottom, from left to right: reset hole, microphone, lanyard hole, charging LED and USB-C port.
 
-unknown; revision-specific orientation and imagery have not been verified.
+## Specs
 
-## Hardware notes
+### Platform
 
-### Hardware facts
+- ESP-IDF (recommanded)
 
-- SoC/memory: ESP32-S3, 8 MB octal PSRAM (80 MHz). Flash: the retained factory/reference notes claim 32 MB, while the Target
-  configuration uses 16 MB. The installed capacity remains unverified. This Target uses a 16 MB address range until the flash chip is confirmed on hardware. This is a configured
-  address range, not proof of the installed capacity.
-  Sources: reference `../../devices/reterminal-sticky/targets/bsp/include/bsp_pins.h`
-  header, `../../devices/reterminal-sticky/targets/sdkconfig.defaults`.
-- Display: 3.97" SSD1677 e-paper, native 800x480, used portrait 480x800;
-  1 bpp mono with full + fast refresh, plus a 4-gray image mode. SPI2:
-  SCLK=13, MOSI=14, MISO=12, CS=15, DC=16, RST=17 (active low), BUSY=18
-  (high = busy), panel power EN=47, 20 MHz.
-  Source: the native pins header records the panel provenance from
-  Seeed-reTerminal-E10xx-Firmware `factory_fw` and the MIT panel reference.
-  The local pins header itself is Apache-2.0.
-- Keys: AI=GPIO 4, Up=GPIO 5, Down=GPIO 6, active low.
-  Source: reference `board_reterminal_sticky.c`.
-- SHT4x temperature/humidity @0x44 on I2C1 (SDA=1, SCL=0), shared with
-  the BQ27220 fuel gauge @0x55.
-  Sources: reference `../../devices/reterminal-sticky/targets/bsp/include/bsp_pins.h` (Sticky bus pins),
-  `board_reterminal_sticky.c` (gauge).
-- PDM microphone on I2S0: CLK=19, DATA=20, power EN=38 (active high).
-  Source: reference `board_reterminal_sticky.c`.
-
-### Hardware outside registered native interfaces
-
-- GT911 capacitive touch on I2C0 (SDA=3, SCL=2), address 0x5D (fallback
-  0x14), power EN=42, RST=41, INT=21; the digitizer counts Y from the
-  bottom, so Y is flipped in software.
-- microSD over SDSPI on the panel's SPI2 bus: CS=8, power EN=10,
-  card-detect=11 (low = inserted), MISO=12.
-- Charger enable on GPIO 39: the reference board file drives it low at boot,
-  but the active level is unconfirmed against factory_fw — treat as
-  unverified until measured.
-
-### Vendor source
-
-The imported hardware reference headers credit Seeed's
-`Seeed-reTerminal-E10xx-Firmware` `factory_fw`
-(`main/boards/reterminal_e1005/`, MIT, JoJang2u) as the original board
-source, but that repo could not be located publicly at the time of
-writing, so reference's field-verified files are the citable source here.
-Board-level reference:
-[reTerminal Sticky hardware overview][vendor].
-
-### Source locations
-
-Primary links identify vendor sources; inspect the stated files and revisions before changing hardware facts.
-
-| Board | Vendor source | Where to look |
-| --- | --- | --- |
-| reTerminal Sticky | [Sticky hardware overview][vendor] + the imported hardware reference (Apache 2.0, field-verified) | reference's `../../devices/reterminal-sticky/targets/bsp/include/bsp_pins.h` has the button/I2C/touch/mic/SD facts; `../../devices/reterminal-sticky/targets/bsp/include/bsp_pins.h` puts SHT4x on I2C1; `../../devices/reterminal-sticky/targets/bsp/include/bsp_pins.h` (MIT) carries the SSD1677 panel pins and refresh sequence. reference's headers credit `Seeed-reTerminal-E10xx-Firmware` `factory_fw` (`main/boards/reterminal_e1005/`, `components/seeed_epaper/driver/ssd1677.c`, MIT, JoJang2u) as the original source, but that repo could not be located publicly at the time of writing, so reference's field-verified files are the citable source. |
-
-Native pin citations: [bsp_pins.h][bsp-pins]. Software configuration and examples belong to the [Target][readme].
-
-## Implementation references
-
-The [esp-idf/reterminal-sticky Target][readme] provides the native reference implementation. Header and example names below are relative to that Target. Keep hardware behavior and implementation guidance here; the Target owns executable code, software-stack bindings and build configuration.
-
-### Reference interfaces
-| Header | Native interface |
-|---|---|
-| `bsp_epd.h` | SSD1677 panel, 480x800 portrait: mono full/fast refresh + 4-gray mode |
-| `bsp_button.h` | AI/Up/Down keys with debounce task |
-| `bsp_sht4x.h` | SHT4x temperature/humidity on I2C1 |
-
-Pin facts with sources: [bsp_pins.h][bsp-pins].
-
-### Reference examples
-
-- `epd_hello` — test pattern, full refresh, then an inverted fast refresh.
-- `sht4x` — temperature/humidity log once a second.
-- `button_hello` — log AI/Up/Down presses.
-
-## Specifications
+- Arduino
 
 ### Controller
 
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Physical flash capacity (`flash`) | integer | — | MB | unknown | — | Historical sources claim 32 MB while the native configuration uses 16 MB; identify the actual chip. |
-| Controller (`mcu`) | string | ESP32-S3 | — | documented | [device-notes][device-notes] | SoC/memory: {value}, |
-| PSRAM capacity (`psram`) | integer | 8 | MB | documented | [device-notes][device-notes] | {value} MB octal PSRAM |
+- Main controller: ESP32-S3
+- PSRAM capacity: 8 MB
+- Physical QSPI Flash: 32 MB
 
 ### Connectivity
 
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Bus (`bus`) | string | I2C1 | — | documented | [device-notes][device-notes] | temperature/humidity @0x44 on {value} |
+#### Wireless
+
+- 2.4 GHz Wi-Fi
+
+- BLE 5.0
+
+#### Wired interface:
+
+- USB-C for power, data, firmware download and debugging (CH343P USB-UART)
+
+- Expandable storage: microSD via SPI, sharing SPI2 with the display
 
 ### Inputs
 
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Keys (`keys`) | string | AI/Up/Down | — | documented | [device-notes][device-notes] | &#124; bsp_button.h &#124; {value} keys |
-| Environmental sensor (`sensor`) | string | SHT4x | — | documented | [device-notes][device-notes] | - {value} temperature/humidity |
+#### Sensors
+
+- SHT40 temperature/humidity (I2C)
+- LSM6DS3TR-C 6-axis IMU (I2C)
+- PDM digital microphone
+- Real-time clock: PCF8563 (I2C)
+
+#### Controls
+
+- Buttons: AI / OK / Power button, Up, Down; Reset via CHIP_PU
+- Touch: GT911 capacitive touch panel (I2C)
 
 ### Outputs
 
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Display (`display`) | string | SSD1677 | — | documented | [device-notes][device-notes] | Display: 3.97" {value} e-paper |
-| Native panel height (`display_height`) | integer | 480 | px | documented | [device-notes][device-notes] | 800x{value} |
-| Native panel width (`display_width`) | integer | 800 | px | documented | [device-notes][device-notes] | {value}x480 |
+#### Display
+
+- 3.97-inch E-Ink, 4-level grayscale
+- Panel controller: SSD1677 or SSD2677. Both are shipped without declaration.
+- Native resolution: 800 × 480 px (horizontal)
+- Pixel density: 235 ppi
+
+#### Audio output
+
+- Onboard buzzer (PWM)
 
 ### Power
 
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Power (`power_details`) | string | — | — | unknown | — | No independently confirmed value is retained; consult the original reference for limitations. |
+- Battery: 750 mAh single-cell lithium
+- Fuel gauge: BQ27220 (I2C)
+- Charging: USB-C; red/green charging indicator (red while charging, green when fully charged)
 
 ### Accessories
 
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Accessories (`accessories_details`) | string | — | — | unknown | — | No independently confirmed value is retained; consult the original reference for limitations. |
+- Mounting accessory: Adhesive magnetic ring for non-metal surfaces, included in the packaging
 
-## Limitations
+### Pins and signals
 
-- Physical board revision and fresh on-device verification are not recorded.
-- Read the original hardware reference for unsupported drivers, prerequisites and known limitations.
+Sticky exposes no user-accessible connector pins. This table is for development reference only.
 
-## Source conflicts
+Required at boot: drive GPIO45 (HOLD) and GPIO46 (LOCK) HIGH to keep the power rail and power controller on.
 
-| Source | Resolution |
-| --- | --- |
-| [device-notes][device-notes] | Use vendor-supported physical facts; the native flash configuration is not a measurement. Sticky physical capacity remains unknown pending chip identification. |
+| Function          | Hardware                             | Bus                        | Signals                                                        | Constraints                                                                                                                                                                                                                     |
+| ----------------- | ------------------------------------ | -------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Display           | E-paper, SSD1677 or SSD2677          | SPI2, 20 MHz               | SCK=13, MOSI=14, MISO=12, CS=15, DC=16, RST=17, BUSY=18, EN=47 | RST active low; BUSY high while busy; EN high = powered. SPI2 is shared with microSD, which needs its own CS.                                                                                                                   |
+| Touch             | GT911                                | I2C0                       | SDA=3, SCL=2, INT=21, RST=41, EN=42                            | Address 0x5D (fallback 0x14). The digitizer counts Y from the bottom, so flip Y in software.                                                                                                                                    |
+| microSD           | microSD card                         | SPI2 (shared with display) | CS=8, EN=10, DET=11                                            | EN high = powered; DET low = card inserted.                                                                                                                                                                                     |
+| Sensors and clock | SHT40, LSM6DS3TR-C, PCF8563, BQ27220 | I2C1                       | SDA=1, SCL=0; IMU INT=7                                        | Addresses 0x44, 0x6A, 0x51, 0x55. All share one bus instance.                                                                                                                                                                   |
+| Keys              | AI/OK/Power, Up, Down                | GPIO                       | 4, 5, 6                                                        | Active low. GPIO4 is the deep-sleep wake source.                                                                                                                                                                                |
+| Microphone        | PDM digital microphone               | PDM                        | CLK=19, DATA=20, EN=38                                         | EN high = powered.                                                                                                                                                                                                              |
+| Buzzer            | Onboard buzzer                       | PWM                        | GPIO48                                                         |                                                                                                                                                                                                                                 |
+| Power control     | Power and charger                    | GPIO                       | HOLD=45, LOCK=46, charger EN=39, external-power detect=9       | HOLD and LOCK active high. Charger EN: the demo drives it low to enable charging; the active level is unconfirmed against the factory firmware, so treat it as unverified until measured. Detect high = external power present. |
+| USB-UART          | CH343P                               | UART                       | TX=43, RX=44                                                   |                                                                                                                                                                                                                                 |
+| Reset             | Reset button hole                    | CHIP_PU                    | not a GPIO                                                     |                                                                                                                                                                                                                                 |
 
-## Physical acceptance
+## Intent routing
 
-### Preconditions
+Locate references and targets based on intent. Target is the BSP in [`targets/`](targets/README.md). Reference is a guide in `reference/` for implementation of functions.
 
-Identify the actual unit, revision, required peripherals and authorized write scope. Run one selected native example at a time. Record source digest, toolchain, stimuli, actual observations and recovery; a plan or build is not a physical pass.
-
-### identity
-
-- Interfaces: none
-- Source: [target][target]
-
-Record board identity, observed revision, connected port/drive and approved write scope.
-
-Expected: Identity and revision are unambiguous and match this Device.
-
-### recovery
-
-- Interfaces: none
-- Source: [target][target]
-
-After the functional cases, power-cycle/restart using the documented normal procedure.
-
-Expected: Device returns to the documented working state; record failures and recovery steps.
-
-### button-hello
-
-- Interfaces: input
-- Source: [target][target]
-
-Run `button_hello` under the confirmed write scope and observe the selected hardware.
-
-Expected: log AI/Up/Down presses.
-
-### epd-hello
-
-- Interfaces: display
-- Source: [target][target]
-
-Run `epd_hello` under the confirmed write scope and observe the selected hardware.
-
-Expected: test pattern, full refresh, then an inverted fast refresh.
-
-### sht4x
-
-- Interfaces: environment
-- Source: [target][target]
-
-Run `sht4x` under the confirmed write scope and observe the selected hardware.
-
-Expected: temperature/humidity log once a second.
+| Intent                           | Covers                                                                                                          | Reference                                                                                                                                                                                                                                                                                                                                                    | Target                                                                                                             |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| Refresh the e-paper display      | Grayscale full, monochrome full and monochrome partial refresh                                                  | [display-refresh.md](reference/display-refresh.md)                                                                                                                                                                                                                                                                                                           | `bsp_epd_update`, `bsp_epd_update_gray4`; example [`epd_hello`](targets/examples/epd_hello/).                      |
+| Identify the panel controller    | Read chip ID with `0x70` (`0x07` = SSD2677, else SSD1677), then apply that chip's busy timeout and reset timing | Demo source: [`resolve_panel_model()`](https://github.com/Seeed-Projects/sticky-esp-idf-dashboard/blob/1a28b2a11da2df3819c3a6f34561793f562d53c8/components/seeed_epaper/epaper_panel.c), [`sticky_display_init()`](https://github.com/Seeed-Projects/sticky-esp-idf-dashboard/blob/1a28b2a11da2df3819c3a6f34561793f562d53c8/main/devices/sticky_display.cpp) | None                                                                                                               |
+| Update only the status-bar clock | Minute event, change detection, redraw of the `HH:MM` area, partial refresh                                     | [display-rtc-time.md](reference/display-rtc-time.md)                                                                                                                                                                                                                                                                                                         | Display only; no RTC driver                                                                                        |
+| Add an information page          | Renderer, page registration, navigation, `AppState` data flow                                                   | [add-information-page.md](reference/add-information-page.md)                                                                                                                                                                                                                                                                                                 | None                                                                                                               |
+| Navigate with buttons or swipes  | Button presses and horizontal swipes mapped to page and refresh events                                          | [button-touch-navigation.md](reference/button-touch-navigation.md)                                                                                                                                                                                                                                                                                           | `bsp_button_init`, `bsp_button_pressed`; example [`button_hello`](targets/examples/button_hello/). No touch driver |
+| Sleep and wake                   | AI hold-to-sleep, shutdown order, active-low EXT1 wake, page-state restore                                      | [deep-sleep-wake.md](reference/deep-sleep-wake.md)                                                                                                                                                                                                                                                                                                           | None                                                                                                               |
+| Show battery and charging state  | BQ27220 percentage, external-power presence, separate validity states                                           | [display-battery-percentage.md](reference/display-battery-percentage.md)                                                                                                                                                                                                                                                                                     | None                                                                                                               |
+| React to orientation changes     | Stable IMU orientation events, refresh only when the IMU page is visible                                        | [imu-orientation-monitoring.md](reference/imu-orientation-monitoring.md)                                                                                                                                                                                                                                                                                     | None                                                                                                               |
+| Capture audio                    | AI-triggered one-second PDM sample with scoped microphone power                                                 | [microphone-capture.md](reference/microphone-capture.md)                                                                                                                                                                                                                                                                                                     | None                                                                                                               |
+| Read files from microSD          | Mount, read and unmount around the SPI2 bus shared with the display                                             | [microsd-text-page.md](reference/microsd-text-page.md)                                                                                                                                                                                                                                                                                                       | None                                                                                                               |
+| Read temperature and humidity    | SHT40 reading on shared I2C1                                                                                    | None                                                                                                                                                                                                                                                                                                                                                         | `bsp_sht4x_read`; example [`sht4x`](targets/examples/sht4x/)                                                       |
+| Create images of the device      | Official product shots and use scenes with descriptions; physical details image models often get wrong          | [image-generation.md](reference/image-generation.md)                                                                                                                                                                                                                                                                                                         | None                                                                                                               |
 
 ## Sources
 
-- [device-notes][device-notes]
-- [bsp-pins][bsp-pins]
-- [readme][readme]
-- [vendor][vendor]
-
-[device-notes]: AGENTS.md#hardware-notes
-[target]: targets/target.json
-[bsp-pins]: targets/bsp/include/bsp_pins.h
-[readme]: targets/README.md
-[vendor]: https://www.seeedstudio.com/sticky/docs/en/device-guide/hardware-overview/
+- [reTerminal Sticky official product page](https://www.seeedstudio.com/sticky/)
+- [reTerminal Sticky - purchase from Seeed Studio official store](https://www.seeedstudio.com/reTerminal-Sticky-p-6861.html?utm_source=github&utm_medium=repository&utm_campaign=codecraft-ai-hardware)
+- [reTerminal Sticky Developer Docs - full index & hardware overview](https://www.seeedstudio.com/sticky/docs/en/device-guide/hardware-overview/)
+- [reTerminal Sticky Playground - community firmwares and 3d prints](https://github.com/Seeed-Projects/reterminal-sticky-playground-registry/tree/main)
+- [reTerminal Sticky ESP-IDF Dashboard Demo - official reference implementation, commit 1a28b2a](https://github.com/Seeed-Projects/sticky-esp-idf-dashboard/tree/1a28b2a11da2df3819c3a6f34561793f562d53c8)
+- [reTerminal Sticky ESP-IDF Target - README](targets/README.md)
+- [reTerminal Sticky ESP-IDF Target - toolchain, examples and native interfaces](targets/target.json)
+- [reTerminal Sticky ESP-IDF Target - pin definitions](targets/bsp/include/bsp_pins.h)
