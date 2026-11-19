@@ -36,9 +36,9 @@ Use the listed standalone examples as the supported development entry points.
 
 ## [reTerminal Sticky](reterminal-sticky/AGENTS.md)
 
-Portrait e-paper, keys and temperature/humidity sensing.
+Compact magnetic 3.97-inch 4-level grayscale e-paper device (ESP32-S3) with touch, three buttons, environmental/motion sensors, RTC, microphone, buzzer, microSD, Wi-Fi/BLE and a 750 mAh battery.
 
-Use the listed standalone examples as the supported development entry points.
+Best for low-frequency, always-visible notes, weather, schedules and status dashboards. Start from the device entry's Intent routing: the Target covers the display, buttons and SHT40, and the guides in reference/ cover the other peripherals.
 
 ## [SenseCAP Indicator](sensecap-indicator/AGENTS.md)
 
