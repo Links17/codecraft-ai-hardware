@@ -1,12 +1,14 @@
 # Public API reference
 
-按任务只读需要的模块。以下文件随 skill 安装，可离线查阅。
+Read only the modules needed for the task. These references work offline.
 
-源码基线：`635ffc3c51d596dd2e8139f297798162e6be62b9`；打包器版本仍由 `sdk-contract-lock.json` 单独固定。
+SDK source revision: `635ffc3c51d596dd2e8139f297798162e6be62b9`. The builder is pinned separately by `sdk-contract-lock.json`.
 
-先读 [接口特性、权限、生命周期及示例](features.md)。
+Start with [interface characteristics and limitations](features.md).
 
-| Python 模块 | 说明 |
+Module descriptions and source docstrings retain their imported upstream language and attribution.
+
+| Python module | Imported description |
 | --- | --- |
 | [kit](python/kit.md) | Kit 顶层惰性导出。下表列出所有公共名称及定义位置；导入本身不启动摄像头或 NPU。 |
 | [kit.adapters](python/kit-adapters.md) | 适配器惰性导出；普通托管应用优先使用 App 提供的帧、模型与 emit，不能自行重建网关。 |
@@ -73,24 +75,27 @@
 | [recamera_ext.buffer](python/recamera_ext-buffer.md) | Native BorrowedBuffer 与平面布局：源 lease 控制有效期，释放后访问报错，跨迭代持有必须 copy。 |
 | [recamera_ext.errors](python/recamera_ext-errors.md) | native 返回码到 Python typed errors 的映射；保留 operation/detail，区分超时、权限、背压、格式与 capability 缺失。 |
 
-其他公开边界：
+Other public interfaces:
 
-- [完整 C ABI](c-abi.md)
-- [HTTP、SSE、WebSocket 与平台接口](http.md)
+- [Complete C ABI](c-abi.md)
+- [HTTP, SSE, WebSocket and platform interfaces](http.md)
 
-## 覆盖定义
+## Coverage
 
-覆盖 `recamera_ext` 和 `kit` 非私有源码模块的公开定义、公开重导出、构造器、属性、类字段、枚举和本模块继承的方法；跨模块继承链接到基类。
-包括兼容/平台实现供诊断，但不把它们视作普通应用可任意调用的接口。下划线私有模块、测试、构建缓存、示例 CLI 不作为公开开发契约。
-参数签名、类型注解、默认值来自 AST；数据类的构造字段和原始文档一并保留。没有类型注解并不表示返回 None，返回语义以逐项说明为准。
-源码中的旧示例仅用于理解该模块；托管应用的入口、NPU 调度和结果路由以 `features.md`、`managed-runtime.md` 为准。
-接口存在不代表目标固件已部署，也不代表模型精度、吞吐或外设已通过真机验收。
+The snapshot covers public definitions, exports, constructors, properties, fields, enums and local inherited methods in non-private `recamera_ext` and `kit` modules. Cross-module inheritance links to its owner.
+Compatibility and platform-only APIs remain documented with their caller restrictions; tests, private modules, caches and example CLIs are excluded.
+Signatures, annotations, defaults and original docstrings are extracted from AST without importing hardware dependencies. An absent annotation does not establish return semantics.
+Historical examples are context only. Managed entry, resource admission and result routing follow `features.md` and `managed-runtime.md`.
+API presence does not establish deployed firmware support, model accuracy, throughput or physical acceptance.
 
-## 维护检查
+## Repository maintenance
+
+The generator and editorial notes belong to the hardware repository's `tools/skill_packages/recamera/`, outside this installed Skill.
+
+From that repository, compare a compatible checkout with:
 
 ```text
-python scripts/api_reference.py --sdk-root <checkout> --check
+python3 codecraft.py skill-reference --skill codecraft-development-recamera-pysdk --sdk-root <checkout> --check
 ```
 
-检查模块集合、源码散列、导出/签名/字段和生成文档。新模块或无说明的定义会失败。
-审阅源码变化及 `api-notes.json` 后，使用 `--write --revision <full-commit>` 更新；命令不会更改 SDK 或打包器版本。
+This checks module/source inventories, public signatures, HTTP routes and generated pages. Review source changes before `--write --revision <full-commit>`; regeneration never changes the builder pin.

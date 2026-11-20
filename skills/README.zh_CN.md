@@ -22,6 +22,9 @@ Skills 负责硬件开发工作流和独立云端客户端。设备事实与原�
 复制完整 Skill 目录即可独立使用。该工作流锁定官方 SDK 打包器和 API 参考，
 不注册原生 Target，也不表示已验证实体板卡支持。设备上传、安装和测试仍是
 需要相应授权的独立操作。参见其[来源记录](codecraft-development-recamera-pysdk/references/provenance.md)。
+参考文档生成和经过审阅的包文件清单由仓库工具维护，不随 Skill 安装。
+参见 [SDK 维护流程](../docs/development/recamera-sdk-maintenance.md)和
+[优化 TODO](../docs/development/recamera-sdk-todo.md)。
 
 ## 外部 SenseCraft CLI
 

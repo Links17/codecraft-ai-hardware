@@ -15,6 +15,13 @@ Native-only projects must not load cloud contracts or package maintenance.
 
 ## Skill package maintenance
 
+reCamera SDK reference production and development-package candidate review live
+under skill_packages/recamera/. Its release.json owns the installed file
+inventory; original import evidence stays in docs/recamera-skill-import.json.
+Use the public skill-reference command and explicit skill-release --skill
+selection documented in docs/development/recamera-sdk-maintenance.md. Keep these
+maintenance tools outside the installed Skill and native application exports.
+
 skill_packages/ owns the common client helper, reviewed package inventories,
 original import provenance, upstream snapshots and candidate release tooling.
 Maintain runtime helpers here and distribute package-local copies through the

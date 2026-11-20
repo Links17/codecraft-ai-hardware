@@ -6,18 +6,16 @@ their caller restrictions in api/features.md. Never execute native imports.
 """
 from __future__ import annotations
 
-import argparse
 import ast
 import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 
-SKILL = Path(__file__).resolve().parents[1]
-DEST = SKILL / "references/api"
-LOCK = SKILL / "scripts/api-reference-lock.json"
-NOTES = SKILL / "scripts/api-notes.json"
-HTTP_NOTES = SKILL / "scripts/api-http-notes.json"
+from io_utils import read_json, require, safe_path
+
+SKILL_ID = "codecraft-development-recamera-pysdk"
 REPOSITORY = "https://github.com/Seeed-Studio/recamera-pro-ext-api"
 EXCLUDED = {"setup.py", "demo_detect.py", "demo_live.py", "ws_probe.py"}
 SPECIAL = {"__init__", "__enter__", "__exit__", "__iter__", "__next__", "__call__", "__or__",
@@ -343,25 +341,27 @@ def build(root: Path, revision: str, notes: dict, http_notes: dict) -> tuple[dic
                       f"- 请求：{spec['request']}", f"- 返回：{spec['response']}",
                       f"- 特性：{spec['features']}", "", f"源码路由：`{route}`", ""]
     pages["http-routes.md"] = "\n".join(http_rows)
-    index = ["# Public API reference", "", "按任务只读需要的模块。以下文件随 skill 安装，可离线查阅。", "",
-             f"源码基线：`{revision}`；打包器版本仍由 `sdk-contract-lock.json` 单独固定。", "",
-             "先读 [接口特性、权限、生命周期及示例](features.md)。", "",
-             "| Python 模块 | 说明 |", "| --- | --- |"]
+    index = ["# Public API reference", "", "Read only the modules needed for the task. These references work offline.", "",
+             f"SDK source revision: `{revision}`. The builder is pinned separately by `sdk-contract-lock.json`.", "",
+             "Start with [interface characteristics and limitations](features.md).", "",
+             "Module descriptions and source docstrings retain their imported upstream language and attribution.", "",
+             "| Python module | Imported description |", "| --- | --- |"]
     for module in modules:
         short = notes["modules"][module].split("\n", 1)[0].replace("|", "\\|")
         index.append(f"| [{module}](python/{page_name(module)}) | {short} |")
-    index += ["", "其他公开边界：", "", "- [完整 C ABI](c-abi.md)",
-              "- [HTTP、SSE、WebSocket 与平台接口](http.md)", "",
-              "## 覆盖定义", "",
-              "覆盖 `recamera_ext` 和 `kit` 非私有源码模块的公开定义、公开重导出、构造器、属性、类字段、枚举和本模块继承的方法；跨模块继承链接到基类。",
-              "包括兼容/平台实现供诊断，但不把它们视作普通应用可任意调用的接口。下划线私有模块、测试、构建缓存、示例 CLI 不作为公开开发契约。",
-              "参数签名、类型注解、默认值来自 AST；数据类的构造字段和原始文档一并保留。没有类型注解并不表示返回 None，返回语义以逐项说明为准。",
-              "源码中的旧示例仅用于理解该模块；托管应用的入口、NPU 调度和结果路由以 `features.md`、`managed-runtime.md` 为准。",
-              "接口存在不代表目标固件已部署，也不代表模型精度、吞吐或外设已通过真机验收。", "",
-              "## 维护检查", "", "```text",
-              "python scripts/api_reference.py --sdk-root <checkout> --check", "```", "",
-              "检查模块集合、源码散列、导出/签名/字段和生成文档。新模块或无说明的定义会失败。",
-              "审阅源码变化及 `api-notes.json` 后，使用 `--write --revision <full-commit>` 更新；命令不会更改 SDK 或打包器版本。", ""]
+    index += ["", "Other public interfaces:", "", "- [Complete C ABI](c-abi.md)",
+              "- [HTTP, SSE, WebSocket and platform interfaces](http.md)", "",
+              "## Coverage", "",
+              "The snapshot covers public definitions, exports, constructors, properties, fields, enums and local inherited methods in non-private `recamera_ext` and `kit` modules. Cross-module inheritance links to its owner.",
+              "Compatibility and platform-only APIs remain documented with their caller restrictions; tests, private modules, caches and example CLIs are excluded.",
+              "Signatures, annotations, defaults and original docstrings are extracted from AST without importing hardware dependencies. An absent annotation does not establish return semantics.",
+              "Historical examples are context only. Managed entry, resource admission and result routing follow `features.md` and `managed-runtime.md`.",
+              "API presence does not establish deployed firmware support, model accuracy, throughput or physical acceptance.", "",
+              "## Repository maintenance", "",
+              "The generator and editorial notes belong to the hardware repository's `tools/skill_packages/recamera/`, outside this installed Skill.", "",
+              "From that repository, compare a compatible checkout with:", "", "```text",
+              "python3 codecraft.py skill-reference --skill codecraft-development-recamera-pysdk --sdk-root <checkout> --check", "```", "",
+              "This checks module/source inventories, public signatures, HTTP routes and generated pages. Review source changes before `--write --revision <full-commit>`; regeneration never changes the builder pin.", ""]
     pages["index.md"] = "\n".join(index)
     snapshot = {"source_revision": revision, "repository": REPOSITORY,
                 "source_files": files, "symbols": inventory,
@@ -370,45 +370,51 @@ def build(root: Path, revision: str, notes: dict, http_notes: dict) -> tuple[dic
     return pages, snapshot
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--sdk-root", type=Path, required=True)
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("--check", action="store_true")
-    group.add_argument("--write", action="store_true")
-    parser.add_argument("--revision")
-    args = parser.parse_args()
+def reference(root: Path, sdk_root: Path, *, write: bool = False, revision: str | None = None) -> dict:
+    """Compare or regenerate references through the repository public entry."""
+    root = Path(root).resolve()
+    sdk_root = Path(sdk_root).expanduser().resolve()
+    skill = root / "skills" / SKILL_ID
+    destination = skill / "references/api"
+    lock = skill / "scripts/api-reference-lock.json"
+    maintenance = root / "tools/skill_packages/recamera"
+    previous = read_json(lock)
+    selected = revision or previous.get("source_revision")
+    require(isinstance(selected, str) and re.fullmatch(r"[0-9a-f]{40}", selected),
+            "Provide an explicit full source commit with --revision")
+    if write:
+        require(revision is not None, "Reference writes require an explicit --revision")
+        def git(*args):
+            return subprocess.run(["git", "-C", str(sdk_root), *args], check=True,
+                                  capture_output=True, text=True, timeout=15).stdout.strip()
+        try:
+            require(Path(git("rev-parse", "--show-toplevel")).resolve() == sdk_root,
+                    "The SDK root must be the checkout root")
+            require(git("rev-parse", "HEAD") == selected, "SDK checkout differs from --revision")
+            require(not git("status", "--porcelain", "--untracked-files=all"),
+                    "Reference writes require a clean SDK checkout")
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
+            raise ValueError("Cannot verify the SDK checkout revision") from exc
     try:
-        previous = json.loads(LOCK.read_text()) if LOCK.exists() else {}
-        revision = args.revision or previous.get("source_revision")
-        if not revision or not re.fullmatch(r"[0-9a-f]{40}", revision):
-            raise ValueError("Provide an explicit full source commit with --revision")
-        pages, snapshot = build(args.sdk_root.resolve(), revision, json.loads(NOTES.read_text()),
-                                json.loads(HTTP_NOTES.read_text()))
-        if args.write:
-            # Remove only obsolete generated files named by our previous lock.
-            for name in set(previous.get("generated_files", {})) - set(pages):
-                (DEST / name).unlink(missing_ok=True)
-            for name, content in pages.items():
-                target = DEST / name
-                target.parent.mkdir(parents=True, exist_ok=True)
-                target.write_text(content)
-            LOCK.write_text(json.dumps(snapshot, indent=2, ensure_ascii=False) + "\n")
-        else:
-            changed = [name for name, content in pages.items()
-                       if not (DEST / name).is_file() or (DEST / name).read_text() != content]
-            if previous != snapshot or changed:
-                print(json.dumps({"ok": False, "changed_pages": changed,
-                    "source_changes": sorted(k for k in set(previous.get("source_files", {})) | set(snapshot["source_files"])
-                        if previous.get("source_files", {}).get(k) != snapshot["source_files"].get(k))}, indent=2))
-                return 1
-        print(json.dumps({"ok": True, "modules": len(discover(args.sdk_root.resolve())),
-                          "symbols": len(snapshot["symbols"]), "pages": len(pages)}, indent=2))
-        return 0
-    except (OSError, ValueError, SyntaxError) as exc:
-        print(f"API reference error: {exc}")
-        return 1
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+        pages, snapshot = build(sdk_root, selected, read_json(maintenance / "api-notes.json"),
+                                read_json(maintenance / "api-http-notes.json"))
+    except SyntaxError as exc:
+        raise ValueError(f"SDK source parsing failed: {exc}") from exc
+    changed = sorted(name for name, content in pages.items()
+                     if not (destination / name).is_file() or (destination / name).read_text() != content)
+    source_changes = sorted(name for name in set(previous.get("source_files", {})) | set(snapshot["source_files"])
+                            if previous.get("source_files", {}).get(name) != snapshot["source_files"].get(name))
+    if write:
+        for name in set(previous.get("generated_files", {})) - set(pages):
+            safe_path(destination, name, exists=False).unlink(missing_ok=True)
+        for name, content in pages.items():
+            path = safe_path(destination, name, exists=False)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(content, encoding="utf-8")
+        lock.write_text(json.dumps(snapshot, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    ok = write or previous == snapshot and not changed
+    return {"status": "passed" if ok else "failed", "modules": len(discover(sdk_root)),
+            "symbols": len(snapshot["symbols"]), "pages": len(pages),
+            "changed_pages": changed, "source_changes": source_changes,
+            "repository_changed": write and (previous != snapshot or bool(changed)),
+            "source_revision": selected, "sdk_execution": "not_run"}

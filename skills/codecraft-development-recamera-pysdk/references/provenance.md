@@ -19,11 +19,20 @@ SDK revision consumed. They must not be refreshed merely to accept drift.
 Original third-party API reference text and SDK docstrings retain their source
 language and attribution, including Chinese text. These are imported reference
 snapshots, not translated copies of this repository's engineering rules.
-The imported runtime scripts, reference pages and SDK locks are preserved from
-the submitted package. Local integration changes the package identity and
-maintenance commands, adds offline host tests under the central test owner,
-and provides repository navigation and licensing. It does not change the SDK
-API, builder, target runtime profile or hardware behavior.
+The initial integration preserved the submitted runtime and reference snapshots
+and adapted package identity, maintenance guidance, host tests and licensing.
+Subsequent optimization keeps the application execution helpers, SDK API,
+builder and target runtime profile unchanged while shortening the Agent entry
+and moving the API-reference producer/editorial notes to the repository's
+`tools/skill_packages/recamera/`. The generated API index documents the public
+maintenance command; upstream descriptions retain their original attribution.
+
+The current package inventory/version is reviewed separately in
+`tools/skill_packages/recamera/release.json`. Original import hashes remain in
+`docs/recamera-skill-import.json`; these repository records are not runtime
+dependencies. Candidate/check/review/apply uses the repository public CLI with
+explicit `--skill codecraft-development-recamera-pysdk` selection. An installed
+copy needs neither the generator nor the repository's maintenance sources.
 
 ## Licensing and limits
 

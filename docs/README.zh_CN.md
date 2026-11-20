@@ -30,6 +30,7 @@
 ## 规划与待办
 
 - [V0.2 实施 TODO](development/v0.2-todo.md) — 设计对齐、已完成工作与待验收事项。
+- [reCamera SDK 优化 TODO](development/recamera-sdk-todo.md) — Skill/工具职责、已完成检查与后续 Device/Target 接入；参考文档和候选包命令见 [SDK 维护流程](development/recamera-sdk-maintenance.md)。
 
 - [架构要求](development/codecraft-hardware-distilled.md) — 定义三个内容所有者的范围与验收要求。
 - [优化方案与 TODO](development/optimization-plan.md) — 尚未完成的工具、外部验收与治理事项。

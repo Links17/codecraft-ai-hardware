@@ -32,6 +32,9 @@ packaging. Copy the whole Skill directory for independent use. It pins the
 official SDK builder and API references; it does not register a native Target
 or establish physical board support. Device upload, installation and testing
 remain separate authorized operations. See its [provenance](codecraft-development-recamera-pysdk/references/provenance.md).
+Reference generation and reviewed package inventories live in repository tools,
+outside the installed Skill. See [SDK maintenance](../docs/development/recamera-sdk-maintenance.md)
+and the [optimization TODOs](../docs/development/recamera-sdk-todo.md).
 
 ## External SenseCraft CLI
 
