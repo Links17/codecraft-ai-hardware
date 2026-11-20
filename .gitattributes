@@ -1,2 +1,2 @@
 # Retained compiler logs preserve hashed bytes, including console padding.
-devices/*/tests/logs/*.log -whitespace
+tests/devices/*/logs/*.log -whitespace

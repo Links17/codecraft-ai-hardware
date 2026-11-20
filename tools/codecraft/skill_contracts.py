@@ -399,4 +399,3 @@ def package_inventory(package):
             require(path.name!='.env' and not (path.name.startswith('.env.') and path.name!='.env.example') and not {'secrets','.secrets'} & set(relative.parts),f'Private file inside Skill package: {relative}')
             files[relative.as_posix()]=digest(path)
     return files
-

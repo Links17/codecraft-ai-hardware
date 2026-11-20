@@ -185,4 +185,3 @@ def test_schema_constraints_cannot_weaken_or_contradict_the_base():
     schema.payload(tightened,{'name':'valid','count':3})
     rejected(lambda:schema.payload(tightened,{'name':'longer','count':3}))
     assert base['properties']['name']['maxLength']==10
-
