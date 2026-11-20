@@ -1,0 +1,4 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+#define BUTTON_FIRST_GPIO BSP_PIN_BUTTON_BOOT
+#define BUTTON_SINGLE
+#include "button_cases.h"

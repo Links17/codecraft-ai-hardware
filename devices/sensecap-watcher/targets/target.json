@@ -1,0 +1,669 @@
+{
+  "dependencies": [],
+  "device": "sensecap-watcher",
+  "example_dependencies": {
+    "audio_tone": [
+      "devices/sensecap-watcher/targets/examples/audio_tone/dependencies.lock",
+      "devices/sensecap-watcher/targets/examples/audio_tone/main/idf_component.yml"
+    ],
+    "battery_status": [
+      "devices/sensecap-watcher/targets/examples/battery_status/dependencies.lock",
+      "devices/sensecap-watcher/targets/examples/battery_status/main/idf_component.yml"
+    ],
+    "camera_capture": [
+      "devices/sensecap-watcher/targets/examples/camera_capture/dependencies.lock",
+      "devices/sensecap-watcher/targets/examples/camera_capture/main/idf_component.yml",
+      "platforms/esp-idf/components/sscma_client"
+    ],
+    "display_color_bars": [
+      "devices/sensecap-watcher/targets/examples/display_color_bars/dependencies.lock",
+      "devices/sensecap-watcher/targets/examples/display_color_bars/main/idf_component.yml"
+    ],
+    "knob_input": [
+      "devices/sensecap-watcher/targets/examples/knob_input/dependencies.lock",
+      "devices/sensecap-watcher/targets/examples/knob_input/main/idf_component.yml"
+    ],
+    "mic_level": [
+      "devices/sensecap-watcher/targets/examples/mic_level/dependencies.lock",
+      "devices/sensecap-watcher/targets/examples/mic_level/main/idf_component.yml"
+    ],
+    "sdcard_test": [
+      "devices/sensecap-watcher/targets/examples/sdcard_test/dependencies.lock",
+      "devices/sensecap-watcher/targets/examples/sdcard_test/main/idf_component.yml"
+    ],
+    "touch_read": [
+      "devices/sensecap-watcher/targets/examples/touch_read/dependencies.lock",
+      "devices/sensecap-watcher/targets/examples/touch_read/main/idf_component.yml",
+      "platforms/esp-idf/components/esp_lcd_touch_spd2010"
+    ]
+  },
+  "example_inputs": {
+    "audio_tone": [
+      "devices/sensecap-watcher/targets/examples/audio_tone",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_audio.c",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_io_expander.c"
+    ],
+    "battery_status": [
+      "devices/sensecap-watcher/targets/examples/battery_status",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_battery.h",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_battery.c",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_io_expander.c"
+    ],
+    "camera_capture": [
+      "devices/sensecap-watcher/targets/examples/camera_capture",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_camera.h",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_camera.c",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_io_expander.c"
+    ],
+    "display_color_bars": [
+      "devices/sensecap-watcher/targets/examples/display_color_bars",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_display.h",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_display.c",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_io_expander.c"
+    ],
+    "knob_input": [
+      "devices/sensecap-watcher/targets/examples/knob_input",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_knob.h",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_io_expander.c",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_knob.c"
+    ],
+    "mic_level": [
+      "devices/sensecap-watcher/targets/examples/mic_level",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_audio.c",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_io_expander.c"
+    ],
+    "sdcard_test": [
+      "devices/sensecap-watcher/targets/examples/sdcard_test",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_sdcard.h",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_io_expander.c",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_sdcard.c"
+    ],
+    "touch_read": [
+      "devices/sensecap-watcher/targets/examples/touch_read",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_display.h",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
+      "devices/sensecap-watcher/targets/bsp/include/bsp_touch.h",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_display.c",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_io_expander.c",
+      "devices/sensecap-watcher/targets/bsp/src/bsp_touch.c"
+    ]
+  },
+  "examples": [
+    "audio_tone",
+    "battery_status",
+    "camera_capture",
+    "display_color_bars",
+    "knob_input",
+    "mic_level",
+    "sdcard_test",
+    "touch_read"
+  ],
+  "firmware": {
+    "formats": [
+      "bin"
+    ],
+    "purpose": "factory",
+    "security": "unsigned-unencrypted"
+  },
+  "id": "esp-idf/sensecap-watcher",
+  "inputs": [
+    "devices/sensecap-watcher/targets/bsp/CMakeLists.txt",
+    "devices/sensecap-watcher/targets/bsp/idf_component.yml",
+    "devices/sensecap-watcher/targets/bsp/include/bsp_pins.h",
+    "devices/sensecap-watcher/targets/README.md",
+    "devices/sensecap-watcher/targets/README.zh_CN.md"
+  ],
+  "interfaces": [
+    {
+      "configuration": {
+        "channels": {
+          "description": "PCM channels",
+          "maximum": 32,
+          "minimum": 0,
+          "source": {
+            "assertion": "#define BSP_AUDIO_CHANNELS    1",
+            "path": "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h"
+          },
+          "status": "known",
+          "type": "integer",
+          "unit": "channel",
+          "value": 1
+        },
+        "sample_bits": {
+          "description": "PCM container width",
+          "maximum": 64,
+          "minimum": 0,
+          "source": {
+            "assertion": "#define BSP_AUDIO_SAMPLE_BITS 16",
+            "path": "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h"
+          },
+          "status": "known",
+          "type": "integer",
+          "unit": "bit",
+          "value": 16
+        },
+        "sample_rate_hz": {
+          "description": "PCM sample rate",
+          "minimum": 0,
+          "source": {
+            "assertion": "#define BSP_AUDIO_SAMPLE_RATE 16000",
+            "path": "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h"
+          },
+          "status": "known",
+          "type": "integer",
+          "unit": "Hz",
+          "value": 16000
+        }
+      },
+      "example_implementation": {
+        "audio_tone": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h"
+        ],
+        "mic_level": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h"
+        ]
+      },
+      "id": "audio",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "capture": {
+          "reason": "Initialize BSP audio, obtain the matching native codec handle and use esp_codec_dev_read.",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h",
+          "supported": true,
+          "symbol": "esp_codec_dev_read"
+        },
+        "playback": {
+          "reason": "Initialize BSP audio, obtain the matching native codec handle and use esp_codec_dev_write.",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_audio.h",
+          "supported": true,
+          "symbol": "esp_codec_dev_write"
+        },
+        "tone": {
+          "reason": "No native implementation for this semantic operation is registered.",
+          "supported": false
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "encoding": {
+          "description": "Returned image encoding",
+          "enum": [
+            "JPEG",
+            "RGB565",
+            "RGB888"
+          ],
+          "source": {
+            "assertion": "take a JPEG with camera_capture()",
+            "path": "platforms/esp-idf/components/sscma_client/camera.h"
+          },
+          "status": "known",
+          "type": "string",
+          "value": "JPEG"
+        }
+      },
+      "example_implementation": {
+        "camera_capture": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_camera.h",
+          "platforms/esp-idf/components/sscma_client/camera.h"
+        ]
+      },
+      "id": "camera",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "capture": {
+          "reason": "Initialize with bsp_camera_init; call camera_capture, then camera_release. Only one outstanding frame is allowed.",
+          "source": "platforms/esp-idf/components/sscma_client/camera.h",
+          "supported": true,
+          "symbol": "camera_capture"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "bits_per_pixel": {
+          "description": "Native framebuffer packing",
+          "maximum": 64,
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "bit",
+          "value": null
+        },
+        "height": {
+          "description": "Logical height",
+          "maximum": 16384,
+          "minimum": 0,
+          "source": {
+            "assertion": "#define BSP_LCD_V_RES 412",
+            "path": "devices/sensecap-watcher/targets/bsp/include/bsp_display.h"
+          },
+          "status": "known",
+          "type": "integer",
+          "unit": "px",
+          "value": 412
+        },
+        "width": {
+          "description": "Logical width",
+          "maximum": 16384,
+          "minimum": 0,
+          "source": {
+            "assertion": "#define BSP_LCD_H_RES 412",
+            "path": "devices/sensecap-watcher/targets/bsp/include/bsp_display.h"
+          },
+          "status": "known",
+          "type": "integer",
+          "unit": "px",
+          "value": 412
+        }
+      },
+      "example_implementation": {
+        "display_color_bars": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_display.h"
+        ],
+        "touch_read": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_display.h"
+        ]
+      },
+      "id": "display",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "present": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_display.h",
+          "supported": true,
+          "symbol": "bsp_display_init"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "line_count": {
+          "description": "Addressable native lines",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "count",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "audio_tone": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h"
+        ],
+        "battery_status": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h"
+        ],
+        "camera_capture": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h"
+        ],
+        "display_color_bars": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h"
+        ],
+        "knob_input": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h"
+        ],
+        "mic_level": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h"
+        ],
+        "sdcard_test": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h"
+        ],
+        "touch_read": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h"
+        ]
+      },
+      "id": "gpio",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
+          "supported": true,
+          "symbol": "bsp_io_expander_get_level"
+        },
+        "write": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_io_expander.h",
+          "supported": true,
+          "symbol": "bsp_io_expander_set_level"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "debounce_ms": {
+          "description": "Native debounce interval",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "ms",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "knob_input": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_knob.h"
+        ]
+      },
+      "id": "input",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_knob.h",
+          "supported": true,
+          "symbol": "bsp_knob_get_delta"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "voltage_scale": {
+          "description": "Native voltage output scale",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "mV",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "battery_status": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_battery.h"
+        ]
+      },
+      "id": "power",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_battery.h",
+          "supported": true,
+          "symbol": "bsp_battery_get_voltage_mv"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "max_open_files": {
+          "description": "Maximum simultaneous file descriptors",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "count",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "sdcard_test": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_sdcard.h"
+        ]
+      },
+      "id": "storage",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "mount": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_sdcard.h",
+          "supported": true,
+          "symbol": "bsp_sdcard_init"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    },
+    {
+      "configuration": {
+        "height": {
+          "description": "Touch coordinate height",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "px",
+          "value": null
+        },
+        "max_points": {
+          "description": "Maximum reported simultaneous touches",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "count",
+          "value": null
+        },
+        "width": {
+          "description": "Touch coordinate width",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "px",
+          "value": null
+        }
+      },
+      "example_implementation": {
+        "touch_read": [
+          "devices/sensecap-watcher/targets/bsp/include/bsp_touch.h"
+        ]
+      },
+      "id": "touch",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior and resource bounds require device evidence. See the Device reference for hardware prerequisites and the supported interface scope."
+      ],
+      "operations": {
+        "read": {
+          "reason": "Native API semantics and lifetime are defined in the cited implementation.",
+          "source": "devices/sensecap-watcher/targets/bsp/include/bsp_touch.h",
+          "supported": true,
+          "symbol": "bsp_touch_get_handle"
+        }
+      },
+      "resources": {
+        "peak_memory_bytes": {
+          "description": "Upper bound on peak implementation working memory; unknown without measurement",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        },
+        "persistent_storage_bytes": {
+          "description": "Upper bound on implementation persistent storage footprint",
+          "minimum": 0,
+          "reason": "No source-backed bound or measurement is registered; do not infer a default.",
+          "status": "unknown",
+          "type": "integer",
+          "unit": "byte",
+          "value": null
+        }
+      }
+    }
+  ],
+  "path": "devices/sensecap-watcher/targets",
+  "platform": "esp-idf",
+  "schema_version": 3,
+  "toolchain": {
+    "name": "esp-idf",
+    "source": "devices/sensecap-watcher/targets/README.md",
+    "target": "esp32s3",
+    "version": "6.0.2"
+  },
+  "variants": {}
+}

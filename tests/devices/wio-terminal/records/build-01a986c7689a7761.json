@@ -1,0 +1,1369 @@
+{
+  "cases": [
+    {
+      "command": [
+        "arduino-cli",
+        "compile",
+        "--fqbn",
+        "Seeeduino:samd:seeed_wio_terminal",
+        "--build-path",
+        "<repository>/.codecraft/builds/arduino/wio-terminal/accelerometer",
+        "--jobs",
+        "4",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+        "--library",
+        "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD",
+        "<repository>/platforms/arduino/targets/wio-terminal/examples/accelerometer"
+      ],
+      "elapsed_seconds": 0.77,
+      "exit_code": 0,
+      "log": "tests/devices/wio-terminal/logs/20261118030508Z-arduino_wio-terminal_accelerometer.log",
+      "log_sha256": "6ddc04438952840c9c7190e2819cd98fd67ca9c1e9405fa47c43791e69d9ea28",
+      "name": "arduino/wio-terminal/accelerometer",
+      "reason": "",
+      "status": "passed",
+      "toolchain": {
+        "bundled_libraries": {
+          "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+        },
+        "cli": "1.5.0",
+        "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+        "core": {
+          "id": "Seeeduino:samd",
+          "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+          "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+          "version": "1.8.6"
+        },
+        "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+        "libraries": {
+          "Seeed Arduino FS": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+            "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+            "version": "2.1.5"
+          },
+          "Seeed Arduino SFUD": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+            "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+            "version": "2.0.2"
+          },
+          "Seeed Arduino rpcBLE": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+            "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+            "version": "1.0.0"
+          },
+          "Seeed Arduino rpcUnified": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+            "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+            "version": "2.1.4"
+          },
+          "Seeed Arduino rpcWiFi": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+            "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+            "version": "1.1.0"
+          },
+          "Seeed_Arduino_mbedtls": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+            "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+            "version": "3.0.2"
+          }
+        },
+        "status": "passed",
+        "tools": {
+          "Seeeduino/CMSIS": {
+            "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+            "version": "5.7.0"
+          },
+          "Seeeduino/CMSIS-Atmel": {
+            "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arduinoOTA": {
+            "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arm-none-eabi-gcc": {
+            "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+            "version": "7-2017q4"
+          },
+          "Seeeduino/bossac": {
+            "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+            "version": "1.8.0-48-gb176eee"
+          },
+          "arduino/openocd": {
+            "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+            "version": "0.10.0-arduino7"
+          }
+        }
+      }
+    },
+    {
+      "command": [
+        "arduino-cli",
+        "compile",
+        "--fqbn",
+        "Seeeduino:samd:seeed_wio_terminal",
+        "--build-path",
+        "<repository>/.codecraft/builds/arduino/wio-terminal/ble_scan",
+        "--jobs",
+        "4",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+        "--library",
+        "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD",
+        "<repository>/platforms/arduino/targets/wio-terminal/examples/ble_scan"
+      ],
+      "elapsed_seconds": 0.88,
+      "exit_code": 0,
+      "log": "tests/devices/wio-terminal/logs/20261118030508Z-arduino_wio-terminal_ble_scan.log",
+      "log_sha256": "822edf35b6c3d808883e8d545cf29e89d968c32675a273b0e1376a5140e67184",
+      "name": "arduino/wio-terminal/ble_scan",
+      "reason": "",
+      "status": "passed",
+      "toolchain": {
+        "bundled_libraries": {
+          "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+        },
+        "cli": "1.5.0",
+        "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+        "core": {
+          "id": "Seeeduino:samd",
+          "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+          "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+          "version": "1.8.6"
+        },
+        "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+        "libraries": {
+          "Seeed Arduino FS": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+            "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+            "version": "2.1.5"
+          },
+          "Seeed Arduino SFUD": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+            "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+            "version": "2.0.2"
+          },
+          "Seeed Arduino rpcBLE": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+            "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+            "version": "1.0.0"
+          },
+          "Seeed Arduino rpcUnified": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+            "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+            "version": "2.1.4"
+          },
+          "Seeed Arduino rpcWiFi": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+            "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+            "version": "1.1.0"
+          },
+          "Seeed_Arduino_mbedtls": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+            "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+            "version": "3.0.2"
+          }
+        },
+        "status": "passed",
+        "tools": {
+          "Seeeduino/CMSIS": {
+            "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+            "version": "5.7.0"
+          },
+          "Seeeduino/CMSIS-Atmel": {
+            "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arduinoOTA": {
+            "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arm-none-eabi-gcc": {
+            "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+            "version": "7-2017q4"
+          },
+          "Seeeduino/bossac": {
+            "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+            "version": "1.8.0-48-gb176eee"
+          },
+          "arduino/openocd": {
+            "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+            "version": "0.10.0-arduino7"
+          }
+        }
+      }
+    },
+    {
+      "command": [
+        "arduino-cli",
+        "compile",
+        "--fqbn",
+        "Seeeduino:samd:seeed_wio_terminal",
+        "--build-path",
+        "<repository>/.codecraft/builds/arduino/wio-terminal/buzzer_tones",
+        "--jobs",
+        "4",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+        "--library",
+        "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD",
+        "<repository>/platforms/arduino/targets/wio-terminal/examples/buzzer_tones"
+      ],
+      "elapsed_seconds": 0.57,
+      "exit_code": 0,
+      "log": "tests/devices/wio-terminal/logs/20261118030508Z-arduino_wio-terminal_buzzer_tones.log",
+      "log_sha256": "2618537ac8f90d1695c6eb1f38b896d9e1d1be99668f978a609278368ff162d4",
+      "name": "arduino/wio-terminal/buzzer_tones",
+      "reason": "",
+      "status": "passed",
+      "toolchain": {
+        "bundled_libraries": {
+          "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+        },
+        "cli": "1.5.0",
+        "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+        "core": {
+          "id": "Seeeduino:samd",
+          "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+          "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+          "version": "1.8.6"
+        },
+        "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+        "libraries": {
+          "Seeed Arduino FS": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+            "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+            "version": "2.1.5"
+          },
+          "Seeed Arduino SFUD": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+            "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+            "version": "2.0.2"
+          },
+          "Seeed Arduino rpcBLE": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+            "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+            "version": "1.0.0"
+          },
+          "Seeed Arduino rpcUnified": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+            "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+            "version": "2.1.4"
+          },
+          "Seeed Arduino rpcWiFi": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+            "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+            "version": "1.1.0"
+          },
+          "Seeed_Arduino_mbedtls": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+            "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+            "version": "3.0.2"
+          }
+        },
+        "status": "passed",
+        "tools": {
+          "Seeeduino/CMSIS": {
+            "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+            "version": "5.7.0"
+          },
+          "Seeeduino/CMSIS-Atmel": {
+            "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arduinoOTA": {
+            "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arm-none-eabi-gcc": {
+            "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+            "version": "7-2017q4"
+          },
+          "Seeeduino/bossac": {
+            "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+            "version": "1.8.0-48-gb176eee"
+          },
+          "arduino/openocd": {
+            "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+            "version": "0.10.0-arduino7"
+          }
+        }
+      }
+    },
+    {
+      "command": [
+        "arduino-cli",
+        "compile",
+        "--fqbn",
+        "Seeeduino:samd:seeed_wio_terminal",
+        "--build-path",
+        "<repository>/.codecraft/builds/arduino/wio-terminal/display_buttons",
+        "--jobs",
+        "4",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+        "--library",
+        "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD",
+        "<repository>/platforms/arduino/targets/wio-terminal/examples/display_buttons"
+      ],
+      "elapsed_seconds": 0.57,
+      "exit_code": 0,
+      "log": "tests/devices/wio-terminal/logs/20261118030508Z-arduino_wio-terminal_display_buttons.log",
+      "log_sha256": "9fa02c162f1996966f7c60aac09bf2a2807736ba46eee8744ba331eb5b4a9c94",
+      "name": "arduino/wio-terminal/display_buttons",
+      "reason": "",
+      "status": "passed",
+      "toolchain": {
+        "bundled_libraries": {
+          "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+        },
+        "cli": "1.5.0",
+        "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+        "core": {
+          "id": "Seeeduino:samd",
+          "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+          "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+          "version": "1.8.6"
+        },
+        "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+        "libraries": {
+          "Seeed Arduino FS": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+            "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+            "version": "2.1.5"
+          },
+          "Seeed Arduino SFUD": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+            "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+            "version": "2.0.2"
+          },
+          "Seeed Arduino rpcBLE": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+            "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+            "version": "1.0.0"
+          },
+          "Seeed Arduino rpcUnified": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+            "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+            "version": "2.1.4"
+          },
+          "Seeed Arduino rpcWiFi": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+            "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+            "version": "1.1.0"
+          },
+          "Seeed_Arduino_mbedtls": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+            "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+            "version": "3.0.2"
+          }
+        },
+        "status": "passed",
+        "tools": {
+          "Seeeduino/CMSIS": {
+            "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+            "version": "5.7.0"
+          },
+          "Seeeduino/CMSIS-Atmel": {
+            "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arduinoOTA": {
+            "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arm-none-eabi-gcc": {
+            "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+            "version": "7-2017q4"
+          },
+          "Seeeduino/bossac": {
+            "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+            "version": "1.8.0-48-gb176eee"
+          },
+          "arduino/openocd": {
+            "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+            "version": "0.10.0-arduino7"
+          }
+        }
+      }
+    },
+    {
+      "command": [
+        "arduino-cli",
+        "compile",
+        "--fqbn",
+        "Seeeduino:samd:seeed_wio_terminal",
+        "--build-path",
+        "<repository>/.codecraft/builds/arduino/wio-terminal/grove_i2c_scan",
+        "--jobs",
+        "4",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+        "--library",
+        "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD",
+        "<repository>/platforms/arduino/targets/wio-terminal/examples/grove_i2c_scan"
+      ],
+      "elapsed_seconds": 0.56,
+      "exit_code": 0,
+      "log": "tests/devices/wio-terminal/logs/20261118030508Z-arduino_wio-terminal_grove_i2c_scan.log",
+      "log_sha256": "da7e8d39d613cc905525eaadc98f20c43ce4891eb8c129a609717c75cc8c8564",
+      "name": "arduino/wio-terminal/grove_i2c_scan",
+      "reason": "",
+      "status": "passed",
+      "toolchain": {
+        "bundled_libraries": {
+          "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+        },
+        "cli": "1.5.0",
+        "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+        "core": {
+          "id": "Seeeduino:samd",
+          "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+          "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+          "version": "1.8.6"
+        },
+        "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+        "libraries": {
+          "Seeed Arduino FS": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+            "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+            "version": "2.1.5"
+          },
+          "Seeed Arduino SFUD": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+            "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+            "version": "2.0.2"
+          },
+          "Seeed Arduino rpcBLE": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+            "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+            "version": "1.0.0"
+          },
+          "Seeed Arduino rpcUnified": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+            "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+            "version": "2.1.4"
+          },
+          "Seeed Arduino rpcWiFi": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+            "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+            "version": "1.1.0"
+          },
+          "Seeed_Arduino_mbedtls": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+            "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+            "version": "3.0.2"
+          }
+        },
+        "status": "passed",
+        "tools": {
+          "Seeeduino/CMSIS": {
+            "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+            "version": "5.7.0"
+          },
+          "Seeeduino/CMSIS-Atmel": {
+            "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arduinoOTA": {
+            "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arm-none-eabi-gcc": {
+            "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+            "version": "7-2017q4"
+          },
+          "Seeeduino/bossac": {
+            "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+            "version": "1.8.0-48-gb176eee"
+          },
+          "arduino/openocd": {
+            "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+            "version": "0.10.0-arduino7"
+          }
+        }
+      }
+    },
+    {
+      "command": [
+        "arduino-cli",
+        "compile",
+        "--fqbn",
+        "Seeeduino:samd:seeed_wio_terminal",
+        "--build-path",
+        "<repository>/.codecraft/builds/arduino/wio-terminal/ir_nec_sender",
+        "--jobs",
+        "4",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+        "--library",
+        "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD",
+        "<repository>/platforms/arduino/targets/wio-terminal/examples/ir_nec_sender"
+      ],
+      "elapsed_seconds": 0.68,
+      "exit_code": 0,
+      "log": "tests/devices/wio-terminal/logs/20261118030508Z-arduino_wio-terminal_ir_nec_sender.log",
+      "log_sha256": "0d67e31883be81b6b945ec47556665118b2864d6c71458deab0217f39599f05e",
+      "name": "arduino/wio-terminal/ir_nec_sender",
+      "reason": "",
+      "status": "passed",
+      "toolchain": {
+        "bundled_libraries": {
+          "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+        },
+        "cli": "1.5.0",
+        "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+        "core": {
+          "id": "Seeeduino:samd",
+          "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+          "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+          "version": "1.8.6"
+        },
+        "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+        "libraries": {
+          "Seeed Arduino FS": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+            "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+            "version": "2.1.5"
+          },
+          "Seeed Arduino SFUD": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+            "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+            "version": "2.0.2"
+          },
+          "Seeed Arduino rpcBLE": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+            "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+            "version": "1.0.0"
+          },
+          "Seeed Arduino rpcUnified": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+            "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+            "version": "2.1.4"
+          },
+          "Seeed Arduino rpcWiFi": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+            "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+            "version": "1.1.0"
+          },
+          "Seeed_Arduino_mbedtls": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+            "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+            "version": "3.0.2"
+          }
+        },
+        "status": "passed",
+        "tools": {
+          "Seeeduino/CMSIS": {
+            "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+            "version": "5.7.0"
+          },
+          "Seeeduino/CMSIS-Atmel": {
+            "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arduinoOTA": {
+            "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arm-none-eabi-gcc": {
+            "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+            "version": "7-2017q4"
+          },
+          "Seeeduino/bossac": {
+            "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+            "version": "1.8.0-48-gb176eee"
+          },
+          "arduino/openocd": {
+            "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+            "version": "0.10.0-arduino7"
+          }
+        }
+      }
+    },
+    {
+      "command": [
+        "arduino-cli",
+        "compile",
+        "--fqbn",
+        "Seeeduino:samd:seeed_wio_terminal",
+        "--build-path",
+        "<repository>/.codecraft/builds/arduino/wio-terminal/light_sensor",
+        "--jobs",
+        "4",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+        "--library",
+        "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD",
+        "<repository>/platforms/arduino/targets/wio-terminal/examples/light_sensor"
+      ],
+      "elapsed_seconds": 0.56,
+      "exit_code": 0,
+      "log": "tests/devices/wio-terminal/logs/20261118030508Z-arduino_wio-terminal_light_sensor.log",
+      "log_sha256": "cfe0dc4ddfc3f9d68a3ecb84320a0d9ed47806c20a22584928d581e3d4b5e5b9",
+      "name": "arduino/wio-terminal/light_sensor",
+      "reason": "",
+      "status": "passed",
+      "toolchain": {
+        "bundled_libraries": {
+          "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+        },
+        "cli": "1.5.0",
+        "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+        "core": {
+          "id": "Seeeduino:samd",
+          "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+          "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+          "version": "1.8.6"
+        },
+        "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+        "libraries": {
+          "Seeed Arduino FS": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+            "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+            "version": "2.1.5"
+          },
+          "Seeed Arduino SFUD": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+            "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+            "version": "2.0.2"
+          },
+          "Seeed Arduino rpcBLE": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+            "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+            "version": "1.0.0"
+          },
+          "Seeed Arduino rpcUnified": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+            "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+            "version": "2.1.4"
+          },
+          "Seeed Arduino rpcWiFi": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+            "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+            "version": "1.1.0"
+          },
+          "Seeed_Arduino_mbedtls": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+            "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+            "version": "3.0.2"
+          }
+        },
+        "status": "passed",
+        "tools": {
+          "Seeeduino/CMSIS": {
+            "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+            "version": "5.7.0"
+          },
+          "Seeeduino/CMSIS-Atmel": {
+            "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arduinoOTA": {
+            "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arm-none-eabi-gcc": {
+            "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+            "version": "7-2017q4"
+          },
+          "Seeeduino/bossac": {
+            "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+            "version": "1.8.0-48-gb176eee"
+          },
+          "arduino/openocd": {
+            "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+            "version": "0.10.0-arduino7"
+          }
+        }
+      }
+    },
+    {
+      "command": [
+        "arduino-cli",
+        "compile",
+        "--fqbn",
+        "Seeeduino:samd:seeed_wio_terminal",
+        "--build-path",
+        "<repository>/.codecraft/builds/arduino/wio-terminal/microphone_level",
+        "--jobs",
+        "4",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+        "--library",
+        "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD",
+        "<repository>/platforms/arduino/targets/wio-terminal/examples/microphone_level"
+      ],
+      "elapsed_seconds": 0.56,
+      "exit_code": 0,
+      "log": "tests/devices/wio-terminal/logs/20261118030508Z-arduino_wio-terminal_microphone_level.log",
+      "log_sha256": "9a7d2a43dc318bd537dac6935a9cb8bb893f869643eb2f9e011897b6a0a3014b",
+      "name": "arduino/wio-terminal/microphone_level",
+      "reason": "",
+      "status": "passed",
+      "toolchain": {
+        "bundled_libraries": {
+          "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+        },
+        "cli": "1.5.0",
+        "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+        "core": {
+          "id": "Seeeduino:samd",
+          "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+          "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+          "version": "1.8.6"
+        },
+        "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+        "libraries": {
+          "Seeed Arduino FS": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+            "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+            "version": "2.1.5"
+          },
+          "Seeed Arduino SFUD": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+            "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+            "version": "2.0.2"
+          },
+          "Seeed Arduino rpcBLE": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+            "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+            "version": "1.0.0"
+          },
+          "Seeed Arduino rpcUnified": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+            "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+            "version": "2.1.4"
+          },
+          "Seeed Arduino rpcWiFi": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+            "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+            "version": "1.1.0"
+          },
+          "Seeed_Arduino_mbedtls": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+            "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+            "version": "3.0.2"
+          }
+        },
+        "status": "passed",
+        "tools": {
+          "Seeeduino/CMSIS": {
+            "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+            "version": "5.7.0"
+          },
+          "Seeeduino/CMSIS-Atmel": {
+            "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arduinoOTA": {
+            "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arm-none-eabi-gcc": {
+            "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+            "version": "7-2017q4"
+          },
+          "Seeeduino/bossac": {
+            "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+            "version": "1.8.0-48-gb176eee"
+          },
+          "arduino/openocd": {
+            "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+            "version": "0.10.0-arduino7"
+          }
+        }
+      }
+    },
+    {
+      "command": [
+        "arduino-cli",
+        "compile",
+        "--fqbn",
+        "Seeeduino:samd:seeed_wio_terminal",
+        "--build-path",
+        "<repository>/.codecraft/builds/arduino/wio-terminal/sd_card_log",
+        "--jobs",
+        "4",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+        "--library",
+        "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD",
+        "<repository>/platforms/arduino/targets/wio-terminal/examples/sd_card_log"
+      ],
+      "elapsed_seconds": 0.55,
+      "exit_code": 0,
+      "log": "tests/devices/wio-terminal/logs/20261118030508Z-arduino_wio-terminal_sd_card_log.log",
+      "log_sha256": "8aab96bc547278657581707096aa41972a83db8c05233cd35412b4f0ee2535fa",
+      "name": "arduino/wio-terminal/sd_card_log",
+      "reason": "",
+      "status": "passed",
+      "toolchain": {
+        "bundled_libraries": {
+          "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+        },
+        "cli": "1.5.0",
+        "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+        "core": {
+          "id": "Seeeduino:samd",
+          "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+          "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+          "version": "1.8.6"
+        },
+        "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+        "libraries": {
+          "Seeed Arduino FS": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+            "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+            "version": "2.1.5"
+          },
+          "Seeed Arduino SFUD": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+            "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+            "version": "2.0.2"
+          },
+          "Seeed Arduino rpcBLE": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+            "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+            "version": "1.0.0"
+          },
+          "Seeed Arduino rpcUnified": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+            "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+            "version": "2.1.4"
+          },
+          "Seeed Arduino rpcWiFi": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+            "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+            "version": "1.1.0"
+          },
+          "Seeed_Arduino_mbedtls": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+            "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+            "version": "3.0.2"
+          }
+        },
+        "status": "passed",
+        "tools": {
+          "Seeeduino/CMSIS": {
+            "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+            "version": "5.7.0"
+          },
+          "Seeeduino/CMSIS-Atmel": {
+            "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arduinoOTA": {
+            "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arm-none-eabi-gcc": {
+            "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+            "version": "7-2017q4"
+          },
+          "Seeeduino/bossac": {
+            "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+            "version": "1.8.0-48-gb176eee"
+          },
+          "arduino/openocd": {
+            "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+            "version": "0.10.0-arduino7"
+          }
+        }
+      }
+    },
+    {
+      "command": [
+        "arduino-cli",
+        "compile",
+        "--fqbn",
+        "Seeeduino:samd:seeed_wio_terminal",
+        "--build-path",
+        "<repository>/.codecraft/builds/arduino/wio-terminal/wifi_scan",
+        "--jobs",
+        "4",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+        "--library",
+        "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+        "--library",
+        "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD",
+        "<repository>/platforms/arduino/targets/wio-terminal/examples/wifi_scan"
+      ],
+      "elapsed_seconds": 0.99,
+      "exit_code": 0,
+      "log": "tests/devices/wio-terminal/logs/20261118030508Z-arduino_wio-terminal_wifi_scan.log",
+      "log_sha256": "7a378f68527dacad077a6e44a6a0eea19aa72240079ee7a90f221007cf804875",
+      "name": "arduino/wio-terminal/wifi_scan",
+      "reason": "",
+      "status": "passed",
+      "toolchain": {
+        "bundled_libraries": {
+          "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+        },
+        "cli": "1.5.0",
+        "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+        "core": {
+          "id": "Seeeduino:samd",
+          "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+          "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+          "version": "1.8.6"
+        },
+        "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+        "libraries": {
+          "Seeed Arduino FS": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+            "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+            "version": "2.1.5"
+          },
+          "Seeed Arduino SFUD": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+            "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+            "version": "2.0.2"
+          },
+          "Seeed Arduino rpcBLE": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+            "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+            "version": "1.0.0"
+          },
+          "Seeed Arduino rpcUnified": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+            "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+            "version": "2.1.4"
+          },
+          "Seeed Arduino rpcWiFi": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+            "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+            "version": "1.1.0"
+          },
+          "Seeed_Arduino_mbedtls": {
+            "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+            "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+            "version": "3.0.2"
+          }
+        },
+        "status": "passed",
+        "tools": {
+          "Seeeduino/CMSIS": {
+            "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+            "version": "5.7.0"
+          },
+          "Seeeduino/CMSIS-Atmel": {
+            "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arduinoOTA": {
+            "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+            "version": "1.2.1"
+          },
+          "Seeeduino/arm-none-eabi-gcc": {
+            "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+            "version": "7-2017q4"
+          },
+          "Seeeduino/bossac": {
+            "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+            "version": "1.8.0-48-gb176eee"
+          },
+          "arduino/openocd": {
+            "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+            "version": "0.10.0-arduino7"
+          }
+        }
+      }
+    }
+  ],
+  "command": [
+    "python3",
+    "codecraft.py",
+    "validate",
+    "--report",
+    "<local-report>"
+  ],
+  "environment": {
+    "host": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.6"
+  },
+  "executed_at": "2026-11-18T03:05:08.828135+00:00",
+  "generated_project": {
+    "build_results": [
+      {
+        "command": [
+          "arduino-cli",
+          "compile",
+          "--fqbn",
+          "Seeeduino:samd:seeed_wio_terminal",
+          "--build-path",
+          "<temporary-path>",
+          "--jobs",
+          "4",
+          "--library",
+          "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+          "--library",
+          "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+          "--library",
+          "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+          "--library",
+          "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+          "--library",
+          "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+          "--library",
+          "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+          "--library",
+          "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD",
+          "<temporary-path>"
+        ],
+        "elapsed_seconds": 11.92,
+        "exit_code": 0,
+        "log": "tests/devices/wio-terminal/logs/20261118030508Z-generated-project.log",
+        "log_sha256": "aa2b8bfd41db3581896e4424aaa36ad264079b5fc78887ed91efb771fd1ab1a2",
+        "name": "arduino/wio-terminal/accelerometer",
+        "reason": "",
+        "status": "passed",
+        "toolchain": {
+          "bundled_libraries": {
+            "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+          },
+          "cli": "1.5.0",
+          "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+          "core": {
+            "id": "Seeeduino:samd",
+            "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+            "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+            "version": "1.8.6"
+          },
+          "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+          "libraries": {
+            "Seeed Arduino FS": {
+              "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+              "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+              "version": "2.1.5"
+            },
+            "Seeed Arduino SFUD": {
+              "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+              "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+              "version": "2.0.2"
+            },
+            "Seeed Arduino rpcBLE": {
+              "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+              "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+              "version": "1.0.0"
+            },
+            "Seeed Arduino rpcUnified": {
+              "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+              "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+              "version": "2.1.4"
+            },
+            "Seeed Arduino rpcWiFi": {
+              "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+              "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+              "version": "1.1.0"
+            },
+            "Seeed_Arduino_mbedtls": {
+              "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+              "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+              "version": "3.0.2"
+            }
+          },
+          "status": "passed",
+          "tools": {
+            "Seeeduino/CMSIS": {
+              "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+              "version": "5.7.0"
+            },
+            "Seeeduino/CMSIS-Atmel": {
+              "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+              "version": "1.2.1"
+            },
+            "Seeeduino/arduinoOTA": {
+              "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+              "version": "1.2.1"
+            },
+            "Seeeduino/arm-none-eabi-gcc": {
+              "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+              "version": "7-2017q4"
+            },
+            "Seeeduino/bossac": {
+              "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+              "version": "1.8.0-48-gb176eee"
+            },
+            "arduino/openocd": {
+              "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+              "version": "0.10.0-arduino7"
+            }
+          }
+        }
+      }
+    ],
+    "example": "accelerometer",
+    "log": "tests/devices/wio-terminal/logs/20261118030508Z-generated-project.log",
+    "log_sha256": "aa2b8bfd41db3581896e4424aaa36ad264079b5fc78887ed91efb771fd1ab1a2",
+    "name": "arduino/wio-terminal/generated-project",
+    "origin_source_digest": "7b65ac81332d30bc3941cdf892730263080879f7bcb7b2808f7b4ed5b47535e4",
+    "provenance": "passed",
+    "reason": "Clean external import, locked environment, native build and provenance check.",
+    "source_digest": "5db9017923de0bd2b63c1ba6bcaa65956d54117da029820f3fd966d7ac090b78",
+    "status": "passed",
+    "toolchain": {
+      "bundled_libraries": {
+        "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+      },
+      "cli": "1.5.0",
+      "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+      "core": {
+        "id": "Seeeduino:samd",
+        "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+        "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+        "version": "1.8.6"
+      },
+      "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+      "libraries": {
+        "Seeed Arduino FS": {
+          "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+          "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+          "version": "2.1.5"
+        },
+        "Seeed Arduino SFUD": {
+          "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+          "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+          "version": "2.0.2"
+        },
+        "Seeed Arduino rpcBLE": {
+          "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+          "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+          "version": "1.0.0"
+        },
+        "Seeed Arduino rpcUnified": {
+          "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+          "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+          "version": "2.1.4"
+        },
+        "Seeed Arduino rpcWiFi": {
+          "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+          "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+          "version": "1.1.0"
+        },
+        "Seeed_Arduino_mbedtls": {
+          "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+          "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+          "version": "3.0.2"
+        }
+      },
+      "status": "passed",
+      "tools": {
+        "Seeeduino/CMSIS": {
+          "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+          "version": "5.7.0"
+        },
+        "Seeeduino/CMSIS-Atmel": {
+          "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+          "version": "1.2.1"
+        },
+        "Seeeduino/arduinoOTA": {
+          "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+          "version": "1.2.1"
+        },
+        "Seeeduino/arm-none-eabi-gcc": {
+          "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+          "version": "7-2017q4"
+        },
+        "Seeeduino/bossac": {
+          "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+          "version": "1.8.0-48-gb176eee"
+        },
+        "arduino/openocd": {
+          "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+          "version": "0.10.0-arduino7"
+        }
+      }
+    },
+    "variant": null
+  },
+  "kind": "build",
+  "limitations": [
+    "Software build and generated-project checks only; no hardware writes or observations.",
+    "The working tree is uncommitted; the source digest identifies the tested files.",
+    "Actual toolchain provenance is recorded, including pre-existing SDK modifications."
+  ],
+  "log": "tests/devices/wio-terminal/logs/20261118030508Z-summary.json",
+  "log_sha256": "50712c2206d7adf9518438d87d70e2e0cf1b6f61718b936e7278eaf5b8ccfe36",
+  "operator": "Codex: local software validation",
+  "repository_commit": "77cd430cb7b9418bb6dc040fb2ab181bf32f816e",
+  "repository_dirty": true,
+  "result": "passed",
+  "revision": "unknown; source schematic v1.2 does not identify a connected board",
+  "schema_version": 2,
+  "source_digest": "7b65ac81332d30bc3941cdf892730263080879f7bcb7b2808f7b4ed5b47535e4",
+  "target": "arduino/wio-terminal",
+  "toolchain": {
+    "bundled_libraries": {
+      "Seeed_Arduino_LCD": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6/libraries/Seeed_Arduino_LCD"
+    },
+    "cli": "1.5.0",
+    "cli_sha256": "3a72dc8b9fc12d2973312ea258532ebd22ef354006b21f74f1872e54b171c347",
+    "core": {
+      "id": "Seeeduino:samd",
+      "path": "<home>/Library/Arduino15/packages/Seeeduino/hardware/samd/1.8.6",
+      "source_digest": "cf07bc89228e0cab1504a03009063ab6c6e39b84c6809b0660db141c1577002d",
+      "version": "1.8.6"
+    },
+    "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+    "libraries": {
+      "Seeed Arduino FS": {
+        "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_FS",
+        "source_digest": "67d7384a16ac2de5f6f21f928c14139804a132ef7f055c93cf7a5558533e0a0f",
+        "version": "2.1.5"
+      },
+      "Seeed Arduino SFUD": {
+        "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_SFUD",
+        "source_digest": "2762c39c1be8e673f44dd734fe642be407b5b328f054adcf2925003ffbd9f94b",
+        "version": "2.0.2"
+      },
+      "Seeed Arduino rpcBLE": {
+        "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcBLE",
+        "source_digest": "2ef1249983280b0c24a25590892d62b328dd531f54816433a640f09da2b06d7b",
+        "version": "1.0.0"
+      },
+      "Seeed Arduino rpcUnified": {
+        "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcUnified",
+        "source_digest": "5403fcd2b13e4634ed5c5575b0bd6a21c1fd6facac3353b834fbeafa486f8519",
+        "version": "2.1.4"
+      },
+      "Seeed Arduino rpcWiFi": {
+        "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_rpcWiFi",
+        "source_digest": "2d7ed6af3e9d3209f8e1bc5560b2b7c0bbd929820b6bd3b5e4c685095339eb26",
+        "version": "1.1.0"
+      },
+      "Seeed_Arduino_mbedtls": {
+        "path": "<repository>/.codecraft/toolchains/arduino/user/libraries/Seeed_Arduino_mbedtls",
+        "source_digest": "d4aea7c7115c903346e1571d0349b1538ee9f870cc998d558f388b294ed4904f",
+        "version": "3.0.2"
+      }
+    },
+    "status": "passed",
+    "tools": {
+      "Seeeduino/CMSIS": {
+        "source_digest": "4ef79d5c612f43cba89a7b839f80a8e6b343e4ab46363793d490d345f20efa06",
+        "version": "5.7.0"
+      },
+      "Seeeduino/CMSIS-Atmel": {
+        "source_digest": "928339ad0203b32f5bc5dbc24fb851c446bdce23e3e9c9388183cb9d8abe507b",
+        "version": "1.2.1"
+      },
+      "Seeeduino/arduinoOTA": {
+        "source_digest": "674ce44e2a1a1e1abe940159b253f3d8db7c7027158687c834c2aa07038743c5",
+        "version": "1.2.1"
+      },
+      "Seeeduino/arm-none-eabi-gcc": {
+        "source_digest": "f730f0f59e469b6443e27e4dcf0ef3f27cad5172822fcc6c7dc20d420b42b0ba",
+        "version": "7-2017q4"
+      },
+      "Seeeduino/bossac": {
+        "source_digest": "fd95dff0243600ca71d3e4cebbb5c16cd898b2f3a1f33cc403fde7b13f826db2",
+        "version": "1.8.0-48-gb176eee"
+      },
+      "arduino/openocd": {
+        "source_digest": "8f7391e8cb8de6ad726b2f4bb919544e1bd8405376fa4d9f3f201b91fd637cd6",
+        "version": "0.10.0-arduino7"
+      }
+    }
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "dependencies": [],
+  "device": "grove-beginner-kit",
+  "example_dependencies": {
+    "accelerometer": [],
+    "air_pressure_spa06": [],
+    "button_led": [],
+    "buzzer_tones": [],
+    "i2c_scan": [],
+    "led_blink": [],
+    "light_sensor": [],
+    "oled_status": [],
+    "potentiometer": [],
+    "sound_sensor": [],
+    "temperature_humidity_dht20": []
+  },
+  "example_inputs": {
+    "accelerometer": [
+      "devices/grove-beginner-kit/targets/examples/accelerometer"
+    ],
+    "air_pressure_spa06": [
+      "devices/grove-beginner-kit/targets/examples/air_pressure_spa06"
+    ],
+    "button_led": [
+      "devices/grove-beginner-kit/targets/examples/button_led"
+    ],
+    "buzzer_tones": [
+      "devices/grove-beginner-kit/targets/examples/buzzer_tones"
+    ],
+    "i2c_scan": [
+      "devices/grove-beginner-kit/targets/examples/i2c_scan"
+    ],
+    "led_blink": [
+      "devices/grove-beginner-kit/targets/examples/led_blink"
+    ],
+    "light_sensor": [
+      "devices/grove-beginner-kit/targets/examples/light_sensor"
+    ],
+    "oled_status": [
+      "devices/grove-beginner-kit/targets/examples/oled_status"
+    ],
+    "potentiometer": [
+      "devices/grove-beginner-kit/targets/examples/potentiometer"
+    ],
+    "sound_sensor": [
+      "devices/grove-beginner-kit/targets/examples/sound_sensor"
+    ],
+    "temperature_humidity_dht20": [
+      "devices/grove-beginner-kit/targets/examples/temperature_humidity_dht20"
+    ]
+  },
+  "examples": [
+    "accelerometer",
+    "air_pressure_spa06",
+    "button_led",
+    "buzzer_tones",
+    "i2c_scan",
+    "led_blink",
+    "light_sensor",
+    "oled_status",
+    "potentiometer",
+    "sound_sensor",
+    "temperature_humidity_dht20"
+  ],
+  "id": "arduino/grove-beginner-kit",
+  "inputs": [
+    "devices/grove-beginner-kit/targets/README.md",
+    "devices/grove-beginner-kit/targets/README.zh_CN.md"
+  ],
+  "interfaces": [
+    {
+      "configuration": {},
+      "example_implementation": {
+        "accelerometer": [
+          "devices/grove-beginner-kit/targets/examples/accelerometer/accelerometer.ino"
+        ]
+      },
+      "id": "motion",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "accelerometer": "devices/grove-beginner-kit/targets/examples/accelerometer/accelerometer.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "air_pressure_spa06": [
+          "devices/grove-beginner-kit/targets/examples/air_pressure_spa06/air_pressure_spa06.ino"
+        ],
+        "light_sensor": [
+          "devices/grove-beginner-kit/targets/examples/light_sensor/light_sensor.ino"
+        ],
+        "temperature_humidity_dht20": [
+          "devices/grove-beginner-kit/targets/examples/temperature_humidity_dht20/temperature_humidity_dht20.ino"
+        ]
+      },
+      "id": "environment",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "air_pressure_spa06": "devices/grove-beginner-kit/targets/examples/air_pressure_spa06/air_pressure_spa06.ino",
+            "light_sensor": "devices/grove-beginner-kit/targets/examples/light_sensor/light_sensor.ino",
+            "temperature_humidity_dht20": "devices/grove-beginner-kit/targets/examples/temperature_humidity_dht20/temperature_humidity_dht20.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "i2c_scan": [
+          "devices/grove-beginner-kit/targets/examples/i2c_scan/i2c_scan.ino"
+        ]
+      },
+      "id": "gpio",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "i2c_scan": "devices/grove-beginner-kit/targets/examples/i2c_scan/i2c_scan.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "button_led": [
+          "devices/grove-beginner-kit/targets/examples/button_led/button_led.ino"
+        ],
+        "potentiometer": [
+          "devices/grove-beginner-kit/targets/examples/potentiometer/potentiometer.ino"
+        ],
+        "sound_sensor": [
+          "devices/grove-beginner-kit/targets/examples/sound_sensor/sound_sensor.ino"
+        ]
+      },
+      "id": "input",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "button_led": "devices/grove-beginner-kit/targets/examples/button_led/button_led.ino",
+            "potentiometer": "devices/grove-beginner-kit/targets/examples/potentiometer/potentiometer.ino",
+            "sound_sensor": "devices/grove-beginner-kit/targets/examples/sound_sensor/sound_sensor.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "button_led": [
+          "devices/grove-beginner-kit/targets/examples/button_led/button_led.ino"
+        ],
+        "led_blink": [
+          "devices/grove-beginner-kit/targets/examples/led_blink/led_blink.ino"
+        ]
+      },
+      "id": "led",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "button_led": "devices/grove-beginner-kit/targets/examples/button_led/button_led.ino",
+            "led_blink": "devices/grove-beginner-kit/targets/examples/led_blink/led_blink.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "buzzer_tones": [
+          "devices/grove-beginner-kit/targets/examples/buzzer_tones/buzzer_tones.ino"
+        ]
+      },
+      "id": "audio",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "buzzer_tones": "devices/grove-beginner-kit/targets/examples/buzzer_tones/buzzer_tones.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "oled_status": [
+          "devices/grove-beginner-kit/targets/examples/oled_status/oled_status.ino"
+        ]
+      },
+      "id": "display",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "oled_status": "devices/grove-beginner-kit/targets/examples/oled_status/oled_status.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    }
+  ],
+  "path": "devices/grove-beginner-kit/targets",
+  "platform": "arduino",
+  "schema_version": 3,
+  "toolchain": {
+    "board_manager_urls": [],
+    "bundled_libraries": [],
+    "core_version": "1.8.8",
+    "fqbn": "arduino:avr:uno",
+    "libraries": {
+      "Grove Temperature And Humidity Sensor": "2.0.2",
+      "Grove-3-Axis-Digital-Accelerometer-2g-to-16g-LIS3DHTR": "1.2.4",
+      "Seeed Arduino SPA06": "1.0.1",
+      "U8g2": "2.36.19"
+    },
+    "name": "arduino-cli",
+    "source": "devices/grove-beginner-kit/targets/README.md",
+    "version": "1.5.0"
+  },
+  "variants": {}
+}

@@ -55,7 +55,7 @@ body:
       label: Steps to reproduce / 复现步骤
       description: Include the exact commands, example path, and configuration used.
       placeholder: |
-        1. cd esp32/boards/<board>/examples/<example>
+        1. cd devices/<board>/targets/examples/<example>
         2. idf.py build flash monitor
         3. ...
     validations:

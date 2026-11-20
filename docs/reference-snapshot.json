@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "scope": "Locally available external reference snapshot inspected during source-label cleanup; this is not a statement of the original import revision or a new hardware observation.",
+  "reference_commit": "c3d58c66a02bfea44847e0345714507166656bed",
+  "source_ids": "Normalized labels, not upstream filesystem paths. Retained basenames and byte hashes identify the inspected files.",
+  "files": [
+    {
+      "source_id": "esp32/README.md",
+      "sha256": "706f9e13b81483d1e87393123d4a0a5ece183402345c12a6d5b849b89d14f49b"
+    },
+    {
+      "source_id": "esp32/components/camera/CMakeLists.txt",
+      "sha256": "1adbc33a24a1ecf0ff193788b8866ddc189904eaf520519e7eca7caf654e8d2f"
+    },
+    {
+      "source_id": "esp32/components/camera/camera.c",
+      "sha256": "d8dd5032f858ca06dd3c1dc133065050f096f7d5fc511d81d89452c8a6ebb336"
+    },
+    {
+      "source_id": "esp32/components/camera/camera.h",
+      "sha256": "cc0e3c00fc8c593f4885dcdc07dbd1ee4f4f52bbbdc1d286175a8891fbc950e6"
+    },
+    {
+      "source_id": "esp32/components/camera/camera_sscma.c",
+      "sha256": "c26aee6760f8a41f90709761803e160af606a781f3e0a2d465d75b0d20938aa1"
+    },
+    {
+      "source_id": "esp32/components/camera/camera_sscma.h",
+      "sha256": "711a5fb9791a3088b3e18547f4630ab56cd05957dc34c8270f953a401ef11c99"
+    },
+    {
+      "source_id": "esp32/components/camera/idf_component.yml",
+      "sha256": "95c872c9a244e6d6ebd8d67f83952c9a0e818081da66155b18d934bf2486f8ed"
+    },
+    {
+      "source_id": "esp32/components/camera/sscma_proto.c",
+      "sha256": "2d781272fc5c5120364678747c2962ca5e38e3ec90b2c066da1162478a36724e"
+    },
+    {
+      "source_id": "esp32/components/camera/sscma_proto.h",
+      "sha256": "9f97b4cb7362e9295200a7d2af3ef3a1ad6811d6fd2fce91aed8846d2ea7a396"
+    },
+    {
+      "source_id": "reference:boards/board_reterminal_sticky.c",
+      "sha256": "96df61fdd0cf309fecae1d582be0bb244a7c13063af9df92e377944c04936df2"
+    },
+    {
+      "source_id": "reference:boards/board_seeed_xiao_s3_147.c",
+      "sha256": "cff99f0c3400f389fdccab1e0fe66faf1ff8a70ec3bf5e0b67b61525f58e45dd"
+    },
+    {
+      "source_id": "reference:boards/board_sensecap_watcher.c",
+      "sha256": "0d784e23cff2d7ab3661c3a385c0d7dc9390b37726e6b7e51ad8ee2bb7a3d9db"
+    },
+    {
+      "source_id": "reference:boards/xiao_147_touch.h",
+      "sha256": "779ba91f3838832d5cfd2c81545df44415deca592c141c0aad1d2ca69d0fbfa4"
+    },
+    {
+      "source_id": "esp32/devices/AGENTS.md",
+      "sha256": "5db1ef0bf4817cdb6fe72a63ea3ce077bf3df0bc5f70554e4cbac122ef4a7f2b"
+    },
+    {
+      "source_id": "esp32/devices/sdkconfig.seeed-xiao-s3-147",
+      "sha256": "0572dbe16b072d29f26091e99f9d9328d74abbe013e30b3cd6292869b29ca099"
+    },
+    {
+      "source_id": "esp32/devices/sdkconfig.sensecap-watcher",
+      "sha256": "cb88802c3d3cdc5853120d92e550109db26d2a566ce99995641293a5c21998e6"
+    },
+    {
+      "source_id": "esp32/devices/sdkconfig.reterminal-e1001",
+      "sha256": "a7104af00bfbe1e99209102f1add8fe1067691c06a28e871512e46fb8144d1e5"
+    },
+    {
+      "source_id": "esp32/devices/sdkconfig.reterminal-e1002",
+      "sha256": "737b1180beea227bb6d75924fc0adc0e318b6dbbf11efc7fe7b3ec9510cf3449"
+    },
+    {
+      "source_id": "esp32/devices/sdkconfig.reterminal-sticky",
+      "sha256": "a6d2140f65f5ea0a76ae92a8c0d0a20c62546530490b873d793465a349384aa0"
+    },
+    {
+      "source_id": "esp32/devices/sdkconfig.seeed-respeaker-lite",
+      "sha256": "e77441e9cf3d6373047e6eeb8431a0876d63d5d1d3970eabb0ef7789fd9a6195"
+    },
+    {
+      "source_id": "esp32/devices/sdkconfig.sensecap-indicator",
+      "sha256": "4d8a65bd46d1faf464007ac819dc550370f1d0d9ce8a30c7e5355ebeea0297aa"
+    },
+    {
+      "source_id": "esp32/devices/seeed-respeaker-lite.md",
+      "sha256": "06cc311f9662fa4b2485c3f002023c9cba3c518c37498043710555c3efa55a49"
+    },
+    {
+      "source_id": "esp32/devices/seeed-xiao-s3-147.md",
+      "sha256": "ba774900303be09ad3ec996357d8f5f81d15b7628e685df313073c908cccbf8f"
+    },
+    {
+      "source_id": "esp32/docs/power/ppk2.md",
+      "sha256": "85f3440a51976014886c68f07ef3933716ae5c9ae1f0b1b0f9dbc3aed8041444"
+    },
+    {
+      "source_id": "esp32/docs/power/sensecap-watcher-findings.md",
+      "sha256": "1a77c5cc7c93e69b36abefa6e280f65f7263f15a159427d71f63247025786e14"
+    },
+    {
+      "source_id": "esp32/docs/power/sensecap-watcher-sleep-findings.md",
+      "sha256": "a6011bb26d99e115ea87f0c9f3c1aba924e07144a21bb5349f3bff71e6f640b4"
+    },
+    {
+      "source_id": "esp32/docs/power/sensecap-watcher.md",
+      "sha256": "8de63cec8364f4817889d84dbbee05f987fd8d1403bf682abc88b049198b7f60"
+    },
+    {
+      "source_id": "esp32/main/epd_spectra6.c",
+      "sha256": "d60d9d25adb672041017f2477417080578e6dd761c69945c32885bb0c271a991"
+    },
+    {
+      "source_id": "esp32/main/epd_ssd1677.c",
+      "sha256": "edafa28b887c25165efbcead847f755fdedf9404e742f5d0690c4d26850e09ad"
+    },
+    {
+      "source_id": "esp32/main/epd_uc8179.c",
+      "sha256": "a364994e138fd0ee35026cc4d16564ac1db4c69fc90b022db97311243de73816"
+    },
+    {
+      "source_id": "esp32/main/led_status.c",
+      "sha256": "3a25a9174de68f4039aa2cd94a3b6bba25892992f09be6eae3c0df6f043710f6"
+    },
+    {
+      "source_id": "esp32/main/reterminal_sht4x.c",
+      "sha256": "3618b8a87cc51c5444ce0dff369b8fdb7054960a0a871d95e1c93bd4b1b12fc5"
+    },
+    {
+      "source_id": "esp32/main/voice_board_respeaker_lite.c",
+      "sha256": "9119aaab3b143c44eecccca2cfd5d5d21e64a1253107f7a28387531ce78888b9"
+    }
+  ]
+}
