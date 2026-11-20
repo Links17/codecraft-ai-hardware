@@ -1,91 +1,139 @@
-<p align="right">
-  <a href="README.md">English</a> · <strong>简体中文</strong>
-</p>
+<p align="right"><a href="README.md">English</a> · <strong>简体中文</strong></p>
 
 # CodeCraft AI Hardware
 
-面向 AI agent 驱动开发的 Seeed 设备硬件能力参考仓库。
+**用你的 AI 编程助手，开发和修改 Seeed 硬件项目。**
 
-这是一个**纯硬件**仓库：板级支持包（BSP）、独立示例、经过验证的硬件事实，
-以及面向 agent 的开发指引。本仓库不包含云运行时、设备配对或账户体系——
-用本仓库构建的固件完全在设备本地运行。
+CodeCraft AI Hardware 汇集设备知识、原生板级支持包（BSP）、示例和 Agent Skills，帮助你使用 **ESP-IDF、Arduino 和 Linux** 进行 AI 辅助嵌入式开发。从现有示例创建自己的项目，为编程助手提供所需的板卡上下文和开发流程。
 
-## 面向对象
+[选择示例](#选择一个起点) · [快速开始](#快速开始) · [设备目录](devices/AGENTS.md) · [Agent Skills](skills/README.zh_CN.md) · [文档](docs/README.zh_CN.md) · [English](README.md)
 
-- **AI 编程 agent**（Codex、Muse Code、Claude Code 等）：仓库结构保证
-  agent 能找到权威硬件事实、遵循任务路由表、并通过验证门禁，无需人工
-  干预。入口是 [AGENTS.md](AGENTS.md)。
-- **人类开发者**：以每块板的示例为起点开发自己的固件。
-  入口是 [docs/README.md](docs/README.md)。
+## 你可以做什么
 
-## CodeCraft Hub
+- **先了解板卡。** 修改固件前，找到设备参考资料、原生接口、工具链要求和已知限制。
+- **从示例开始创作。** 导出包含 BSP、依赖和源码锁定信息的私有应用，沿用板卡的原生软件栈开发。
+- **与 AI 编程助手协作。** 使用 Skills 完成环境配置、开发、构建、调试和经过授权的设备测试。
+- **按需加入云端功能。** 通过独立 Skills 为项目扩展云端能力，例如文本生成、语音识别、语音合成和图像生成；本地原生开发无需云端账户。
 
-[CodeCraft Hub](https://codecraft.seeed.cc/hub/)
-是固件分享的云平台，不属于本仓库。
+## 选择一个起点
 
-若要上传固件做线上烧录或分享，使用
-[`@seeed-studio/sensecraft-cli`](https://sensecraft.seeed.cc/wiki/en/sensecraft-cli/)
-生成并上传。安装和用法见该页面，其中包括 CLI 自带的 agent skill。
-AI agent 遵循 [AGENTS.zh_CN.md](AGENTS.zh_CN.md) 中的 CodeCraft Hub 一节，
-并且只在用户要求上传、线上烧录或分享固件时这样做。
+以下均为仓库已有的源码示例，可作为应用开发起点。硬件版本要求见各设备文档，环境配置见对应 Target 指南。
 
-## 仓库结构
+| 开始体验 | 设备与软件栈 | 示例源码 | 环境配置 |
+| --- | --- | --- | --- |
+| 探索墨水屏显示 | [reTerminal E1001](devices/reterminal-e1001/AGENTS.md) · ESP-IDF | [epd_hello](devices/reterminal-e1001/targets/examples/epd_hello) | [Target 指南](devices/reterminal-e1001/targets/README.zh_CN.md) |
+| 探索显示与按键 | [Wio Terminal](devices/wio-terminal/AGENTS.md) · Arduino | [display_buttons](devices/wio-terminal/targets/examples/display_buttons) | [Target 指南](devices/wio-terminal/targets/README.zh_CN.md) |
+| 从按键和 LED 入门 | [Grove Beginner Kit](devices/grove-beginner-kit/AGENTS.md) · Arduino | [button_led](devices/grove-beginner-kit/targets/examples/button_led) | [Target 指南](devices/grove-beginner-kit/targets/README.zh_CN.md) |
 
-| 路径 | 内容 |
-|---|---|
-| `esp32/boards/<board>/` | 每块 ESP32 板卡的 sdkconfig、板级 BSP 和独立示例 |
-| `esp32/components/` | 跨 ESP32 板卡共享的组件 |
-| `linux/boards/<board>/` | Linux 设备（设备树 overlay、GPIO 映射、Python/C 示例） |
-| `arduino/boards/<board>/` | Arduino 框架板卡（arduino-cli 草图）；见 `arduino/AGENTS.md` |
-| `skills/` | 管理 develop / setup / build / device-test / debug 工作流的 agent skills |
-| `docs/` | 硬件指南、厂商来源引用、开发规范 |
-| `tools/validate.sh` | 每次交付必须通过的验证门禁 |
-| `tests/` | 板级无关逻辑的宿主机单元测试 |
+更多板卡和示例见[设备目录](devices/AGENTS.md)。生成的[原生接口与证据矩阵](docs/inventory.md)分别记录实现、构建和实机验证情况。当前源码对应的实机验收仍未完成，历史观察记录不能证明新版本源码的物理表现。
 
-## 支持的板卡
+## 快速开始
 
-| 板卡 | 平台 | BSP 范围 |
-|---|---|---|
-| SenseCAP Watcher | <code>ESP32&#8209;S3</code> | 摄像头、显示、触摸、音频、旋钮、电池、microSD |
-| SenseCAP Indicator | <code>ESP32&#8209;S3</code> | RGB 显示、IO 扩展、按键、触摸 |
-| reTerminal E1001 | <code>ESP32&#8209;S3</code> | 墨水屏、按键、LED、SHT4x、电池、RTC、充电器、蜂鸣器、PDM 麦克风、microSD |
-| reTerminal E1002 | <code>ESP32&#8209;S3</code> | 与 E1001 相同 BSP，面板为 Spectra 6 彩色 |
-| reSpeaker Lite (XIAO ESP32-S3) | <code>ESP32&#8209;S3</code> | XMOS I2S 音频、BOOT 按键、WS2812 LED |
-| reTerminal Sticky | <code>ESP32&#8209;S3</code> | SSD1677 墨水屏、按键、SHT4x |
-| XIAO ESP32-S3 1.47" 触摸显示屏 | <code>ESP32&#8209;S3</code> | JD9853A LCD、按键、PDM 麦克风 |
-| Grove Beginner Kit for Arduino（2025 后版本） | <code>ATmega328P</code> | Grove LED、蜂鸣器、OLED、按键、电位器、光、声音、DHT20、SPA06-003、IMU |
-| Wio Terminal | <code>SAMD51</code> | 显示、按键、IMU、光传感器、麦克风、蜂鸣器、microSD、IR 发射、Grove、Wi-Fi/BLE |
-| reTerminal (CM4) | <code>Linux</code> | 外设 overlay + 演示：按键、LED、蜂鸣器、传感器、RTC |
+### 1. 获取仓库并选择板卡
 
-所有 ESP32-S3 板卡均在 ESP-IDF v6.0.2 上构建验证通过；它们尚未上机验证。
+准备 Git 和 Python 3，在终端运行：
 
-Wio Terminal 示例在 `Seeeduino:samd@1.8.6` 上构建；其中 8 个的上机结果记录在
-[docs/on-device-validation.md](docs/on-device-validation.md)。
-
-2025 年后版本的 Grove Beginner Kit 示例在 `arduino:avr@1.8.8` 上构建；全部
-10 个器件 demo 和 `i2c_scan` 已上机验证，包含按键、电位器、光线、声音和
-运动模块的物理动作。结果记录在
-[docs/on-device-validation.md](docs/on-device-validation.md)。
-
-能力矩阵和抽取来源见 [docs/inventory.md](docs/inventory.md)，
-上机验证清单见 [docs/on-device-validation.md](docs/on-device-validation.md)，
-每块板的权威上游参考见 [docs/vendor-sources.md](docs/vendor-sources.md)。
-
-## 验证门禁
-
-```bash
-./tools/validate.sh --static           # 仓库检查 + 宿主机测试
-./tools/validate.sh --esp32 <board>    # 单板 ESP-IDF 构建
-./tools/validate.sh --linux <board>    # Linux 板卡检查
-./tools/validate.sh --arduino <board>  # 单板 arduino-cli 构建
-./tools/validate.sh                    # 完整门禁
+```sh
+git clone https://github.com/Seeed-Solution/codecraft-ai-hardware.git
+cd codecraft-ai-hardware
+python3 codecraft.py discover --interface display
 ```
 
-## 贡献
+以下流程以 **reTerminal E1001 / ESP-IDF** 为例。使用其他板卡时，请遵循它的 Target 指南和声明的软件栈。
 
-提交、拉取请求和 issue 规范见 [`.github/CONTRIBUTING.zh_CN.md`](.github/CONTRIBUTING.zh_CN.md)。
-AI agent 从 [AGENTS.zh_CN.md](AGENTS.zh_CN.md) 开始。
+```sh
+python3 codecraft.py context --target esp-idf/reterminal-e1001
+```
 
-## 许可证与署名
+阅读返回的上下文和 [E1001 环境配置指南](devices/reterminal-e1001/targets/README.zh_CN.md#工具链)。构建前安装并激活 [target.json](devices/reterminal-e1001/targets/target.json) 声明的精确工具链版本；与 Agent 协作时，使用 [codecraft-development-setup](skills/codecraft-development-setup/SKILL.md) 处理缺失工具。
 
-Apache License 2.0，见 [LICENSE](LICENSE)。第三方署名见 [NOTICE](NOTICE)。
+### 2. 创建自己的工作区
+
+在仓库根目录运行：
+
+```sh
+python3 codecraft.py new --target esp-idf/reterminal-e1001 --example epd_hello --output projects/my-e1001-project
+python3 codecraft.py verify-project projects/my-e1001-project
+```
+
+输出目录必须尚不存在。`projects/` 已被 Git 忽略，便于将自己的应用与参考示例分开；也支持显式指定仓库外目录。`project.yaml` 记录选择，`codecraft.lock` 记录导入源码与工具链来源。无需全局安装 CodeCraft CLI。
+
+### 3. 构建所选示例
+
+激活声明的工具链后运行：
+
+```sh
+python3 codecraft.py build-project projects/my-e1001-project
+```
+
+导出的工作区也包含 `codecraft.py`，在该目录内可运行 `python3 codecraft.py build-project .`。构建不会刷写设备。需要实机测试时，先确认板卡和端口并明确授权设备写入，再遵循所选[设备验收步骤](devices/reterminal-e1001/AGENTS.md#physical-acceptance)和 [codecraft-development-device-test](skills/codecraft-development-device-test/SKILL.md)。
+
+应用修改、需求简述、经审阅的重新锁定和后续构建，参见[可移植应用流程](docs/development/application-workflow.md)。使用 [codecraft-development-ideate](skills/codecraft-development-ideate/SKILL.md) 和 `new --brief <file.json>`，将用途、用户、场景和物料清单记录到项目中。
+
+## 与 AI 编程助手协作
+
+在编程助手中打开本仓库，让它先阅读 [AGENTS.md](AGENTS.md)。AI 辅助开发前，将以下五个[硬件工作流 Skill](skills/README.zh_CN.md) 的完整目录安装到助手的 Skill 发现位置：`codecraft-development-develop`、`codecraft-development-setup`、`codecraft-development-build`、`codecraft-development-device-test` 和 `codecraft-development-debug`。仓库合同要求 Agent 安装并核实缺失的工作流。
+
+例如，可以这样开始一个新应用：
+
+```text
+阅读 AGENTS.md，并使用要求的 CodeCraft Skills。
+我有一台 reTerminal E1001，请从 epd_hello 示例创建私有项目，
+输出到 projects/my-e1001-project。
+检查板卡上下文和声明的工具链，然后构建。
+报告构建结果与未知项。刷写前先让我确认板卡、端口，
+并明确授权设备写入。
+```
+
+如果已经完成快速开始，请换一个尚不存在的输出路径。对于已有应用，在助手中打开应用工作区并遵循生成的 `AGENTS.md`。Agent 工作流涵盖环境配置、开发、构建、调试和设备测试，原生命令由所选 Platform 负责。
+
+## 可选的云端功能与固件分享
+
+通过 [skills/](skills/README.zh_CN.md#云端能力) 中的独立客户端扩展云端能力，例如 LLM 文本生成、ASR/STT、TTS 和图像生成。每个客户端拥有自己的 `contract.json` 和 API 参考，可独立安装。云端服务和账户基础设施由外部项目负责；凭据、限制与经过授权的 API 使用方式，见所选 Skill。
+
+每台设备每月可调用次数及 5 台设备的每月合计见[免费额度表](skills/README.zh_CN.md#免费额度)。各功能共享设备每月额度，表中各行是不同使用方式下的估算。
+
+将客户端组合进应用时，CLI 契约版本 3 使用 `new --skills <selection.json>` 显式选择；项目配置与锁文件采用 schema 3。参见[项目组合](skills/README.zh_CN.md#可选项目组合)和生成的 [Skill 索引](docs/skill-inventory.json)。
+
+[CodeCraft Hub](https://codecraft.seeed.cc/hub) 是独立的固件分享平台。用户要求上传、在线刷写、SenseCraft 设备管理或云端部署时，使用外部 [sensecraft-cli](https://github.com/Seeed-Solution/sensecraft-cli) 及其官方内置 Skill。已核实版本、前提和安装方式见[安装与任务路由](docs/development/sensecraft-cli.md)。原生开发无需此工具，安装 Skill 或 CLI 不代表授权云端操作。
+
+## 文档与贡献
+
+| 你想要…… | 从这里开始 |
+| --- | --- |
+| 查找设备知识和原生示例 | [设备目录](devices/AGENTS.md) |
+| 查看接口实现与证据状态 | [原生接口矩阵](docs/inventory.md) |
+| 修改导出的项目 | [应用开发流程](docs/development/application-workflow.md) |
+| 了解硬件与云端 Skills | [Skills 指南](skills/README.zh_CN.md) |
+| 理解职责划分和架构 | [架构说明](docs/architecture/overview.md) |
+| 报告问题或参与贡献 | [Issues](https://github.com/Seeed-Solution/codecraft-ai-hardware/issues) · [贡献指南](.github/CONTRIBUTING.md) |
+| 浏览全部指南和待办 | [文档目录](docs/README.zh_CN.md) · [实施进度](docs/development/v0.2-todo.md) |
+
+### 仓库结构
+
+| 路径 | 内容 |
+| --- | --- |
+| `devices/<device>/` | 设备知识、参考资料、素材，以及 `targets/` 下的原生 BSP 和示例 |
+| `platforms/` | 软件栈适配器、构建辅助和共享组件 |
+| `skills/` | `codecraft-development-*` 开发工作流与 `codecraft-capabilities-*` 独立云端能力 Skill |
+| `tools/` | `codecraft/` 负责本地 CLI 与项目编排；`skill_packages/` 负责客户端维护与包发布记录 |
+| `projects/` | 被 Git 忽略的私有应用工作区 |
+| `tests/` | 按源码归属组织的测试、夹具、mock 和留存的设备证据 |
+| `docs/` | 工程指南、生成的索引和待办事项 |
+
+### 贡献者检查
+
+遵循[仓库合同](AGENTS.md)、[维护入口](CONTRIBUTION.md)和[测试归属指南](docs/development/testing.md)。源码元数据变化后执行 `python3 codecraft.py generate`，再检查生成结果漂移和静态/主机行为：
+
+```sh
+python3 codecraft.py generate --check
+python3 codecraft.py validate --static
+```
+
+仅修改文档时无需原生构建。固件或原生构建发生变化时，按[验证策略](AGENTS.md#required-validation-and-delivery)执行对应范围的检查；不带选项的 `python3 codecraft.py validate` 会运行完整软件门禁。构建结果、仿真和实机观察分别报告。生成的固件和临时构建产物不跟踪，留存的脱敏证据位于 `tests/devices/<device>/`。
+
+修改独立客户端包时，遵循[候选包准备、检查、审阅与应用流程](docs/development/skill-releases.md)。打包不等于安装或发布 Skill。尚未完成的验收和仿真工作见上方实施进度文档。
+
+## 许可证
+
+[Apache License 2.0](LICENSE)。第三方归属保留在 [NOTICE](NOTICE)。

@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "ok": true,
+  "data": {
+    "schema_version": 2,
+    "target": "linux/reterminal",
+    "operation": "build",
+    "source_digest": "bfc9aed4ae3410a51f1f174210a665485ff1565b30fdfe1ed2dedccfa3daa2db",
+    "ok": true,
+    "results": [
+      {
+        "name": "linux/reterminal/buttons_evdev",
+        "status": "passed",
+        "reason": "Python syntax checked; device behavior not executed.",
+        "toolchain": "3.14.6"
+      },
+      {
+        "name": "linux/reterminal/overlay/reterminal-peripherals-overlay",
+        "status": "passed",
+        "reason": "",
+        "command": [
+          "dtc",
+          "-@",
+          "-I",
+          "dts",
+          "-O",
+          "dtb",
+          "-o",
+          "<temporary-path>",
+          "<temporary-path>"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.01,
+        "log": ".codecraft/logs/linux_reterminal_overlay_reterminal-peripherals-overlay.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "toolchain": "Version: DTC 1.8.1"
+      }
+    ],
+    "project_source_digest": "4d3083f9fd6b5b54e9aafa0e8c7ef4540820f85e4006dfbfcf72f95ee7b1252e",
+    "resolved_toolchain": {
+      "status": "passed",
+      "python": "3.14.6",
+      "dtc": "Version: DTC 1.8.1",
+      "scope": "host syntax and overlay compilation; device OS/kernel not verified"
+    }
+  }
+}
+
+
+linux_reterminal_overlay_reterminal-peripherals-overlay.log

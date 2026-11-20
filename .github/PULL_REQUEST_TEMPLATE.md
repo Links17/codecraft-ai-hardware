@@ -1,42 +1,42 @@
-<p align="right">
-  <strong>English</strong> · <a href="PULL_REQUEST_TEMPLATE.zh_CN.md">简体中文</a>
-</p>
+## Problem and resulting behavior
 
-## Summary
+<!-- Explain the concrete problem and the resulting behavior. -->
 
-<!-- What problem does this PR solve, and which board(s) or subsystems change? -->
+## Scope and provenance
 
-## Scope and compatibility
+- Device / revision / Target / Capability / Skill:
+- Owning source and reviewer domain:
+- Hardware sources and third-party licenses:
+- Compatibility, wiring, partitions and persistent-data impact:
+- Rollback:
 
-- Affected board(s) / platform:
-- Affected subsystem (BSP / example / docs / tooling / skills):
-- Wiring or pin-map impact: None
-- Flash, partition, or persistent-data impact: None
-- New hardware facts introduced (each must cite a vendor source or measured result): None
-- Backward-compatibility impact: None
+## Validation
 
-## Verification
+Use passed, failed, skipped, not_run or not_supported, with reasons. Do not count missing prerequisites as success.
 
-| Check | Result | Evidence or notes |
+Select checks using the [root validation policy](../AGENTS.md#required-validation-and-delivery).
+If firmware and native build inputs/behavior are unchanged, mark native builds
+and the complete gate `skipped` with that reason.
+
+- Changed firmware or native build inputs/behavior, and affected Targets:
+- Selected checks and any reused build evidence:
+
+| Check | Result | Command / evidence / limitations |
 | --- | --- | --- |
-| Static checks (`./tools/validate.sh --static`) | PASS / FAIL / NOT RUN | |
-| Build per affected board (`./tools/validate.sh --esp32 <board>` or `--linux <board>`) | PASS / FAIL / NOT RUN | |
-| On-device verification | PASS / FAIL / NOT RUN | |
-| Unverified | — | List every remaining board, instrument, or user check |
+| Static, knowledge and host (`validate --static`) | | |
+| Native build per Target (`validate --target <id>`) | | |
+| Clean generated project (`validate --target <id> --projects`) | | |
+| Simulator, when registered | | |
+| Physical device, with revision and cases | | |
+| Complete software gate (`validate`, when selected by scope) | | |
 
-A successful build is not hardware validation. Do not mark on-device
-verification as done unless the change actually ran on the physical board.
+A build never establishes physical behavior. Reference retained device test records and list remaining unknowns.
 
-## Device evidence
+## Contribution checklist
 
-<!-- Board revision, observed behavior, logs, measurements, and photos where
-applicable. Never include credentials or personal data. -->
-
-## Checklist
-
-- [ ] I reviewed the complete diff and excluded unrelated or generated files.
-- [ ] Hardware facts cite their source (vendor schematic, vendor BSP, or measured result); no pin numbers were invented.
-- [ ] No cloud runtime, device pairing, account system, or telemetry was introduced.
-- [ ] Bilingual documentation pairs (`.md` / `.zh_CN.md`) were kept in sync for maintained documents.
-- [ ] Board READMEs and `docs/vendor-sources.md` were updated for changed hardware facts.
-- [ ] I removed credentials, personal data, and unsanitized logs.
+- [ ] Owning source records and generated views are aligned; generate --check passes.
+- [ ] README language pairs agree; other engineering documents use English only; referenced files exist.
+- [ ] Sources and licenses accompany hardware facts and assets.
+- [ ] Maintenance, maturity and evidence status are recorded independently.
+- [ ] No credentials, private data, temporary logs or firmware artifacts are included.
+- [ ] No cloud runtime or unrelated user changes are included.

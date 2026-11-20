@@ -1,101 +1,139 @@
-<p align="right">
-  <strong>English</strong> · <a href="README.zh_CN.md">简体中文</a>
-</p>
+<p align="right"><strong>English</strong> · <a href="README.zh_CN.md">简体中文</a></p>
 
 # CodeCraft AI Hardware
 
-An open hardware capability reference repository built for AI-agent-driven
-development on Seeed devices.
+**Build and customize Seeed hardware projects with your AI coding assistant.**
 
-This is a **pure hardware** repository: board support packages (BSPs),
-standalone demos, verified hardware facts, and agent-facing development
-guidance. It contains no cloud runtime, device pairing, or account
-system — firmware built from this repository runs entirely on the device.
+CodeCraft AI Hardware brings together device knowledge, native board support packages (BSPs), examples and Agent Skills for AI-assisted embedded development with **ESP-IDF, Arduino and Linux**. Start from an existing example, create your own project, and give your coding assistant the board context and development workflow it needs.
 
-## Who this is for
+[Choose an example](#choose-a-starting-example) · [Quick start](#quick-start) · [Devices](devices/AGENTS.md) · [Agent Skills](skills/README.md) · [Documentation](docs/README.md) · [简体中文](README.zh_CN.md)
 
-- **AI coding agents** (Codex, Muse Code, Claude Code, ...): the repository
-  is structured so an agent can find authoritative hardware facts, follow a
-  task routing table, and pass a validation gate without human hand-holding.
-  Start at [AGENTS.md](AGENTS.md).
-- **Human developers**: use the per-board examples as a starting point for
-  your own firmware. Start at [docs/README.md](docs/README.md).
+## What you can do
 
-## CodeCraft Hub
+- **Start with board context.** Find device references, native interfaces, toolchain requirements and known limitations before changing firmware.
+- **Make an example your own.** Export a private application with its BSP, dependencies and source lock; develop with the board's native software stack.
+- **Work with an AI coding assistant.** Use Skills for setup, development, builds, debugging and authorized device testing.
+- **Add optional cloud features.** Standalone Skills extend your project with capabilities such as text generation, speech recognition, speech synthesis and image generation. Local native development does not require a cloud account.
 
-[CodeCraft Hub](https://codecraft.seeed.cc/hub/)
-is a cloud platform for sharing firmware. It lives outside this
-repository.
+## Choose a starting example
 
-To upload firmware for online flashing or sharing, use
-[`@seeed-studio/sensecraft-cli`](https://sensecraft.seeed.cc/wiki/en/sensecraft-cli/)
-to generate and upload it. Install and usage are documented on that
-page, including the agent skill that ships with the CLI. AI agents
-follow the CodeCraft Hub section in [AGENTS.md](AGENTS.md) and do this
-only when asked to upload, flash online, or share firmware.
+These are existing source examples to build on. Follow each Device entry for hardware revision requirements and the Target guide for setup.
 
-## Repository layout
+| Starting point | Device and software stack | Example source | Setup |
+| --- | --- | --- | --- |
+| Explore an e-paper display | [reTerminal E1001](devices/reterminal-e1001/AGENTS.md) · ESP-IDF | [epd_hello](devices/reterminal-e1001/targets/examples/epd_hello) | [Target guide](devices/reterminal-e1001/targets/README.md) |
+| Explore a display and buttons | [Wio Terminal](devices/wio-terminal/AGENTS.md) · Arduino | [display_buttons](devices/wio-terminal/targets/examples/display_buttons) | [Target guide](devices/wio-terminal/targets/README.md) |
+| Start with a button and LED | [Grove Beginner Kit](devices/grove-beginner-kit/AGENTS.md) · Arduino | [button_led](devices/grove-beginner-kit/targets/examples/button_led) | [Target guide](devices/grove-beginner-kit/targets/README.md) |
 
-| Path | Contents |
-|---|---|
-| `esp32/boards/<board>/` | Per-board sdkconfig, board-level BSP, and standalone examples for ESP32 targets |
-| `esp32/components/` | Components shared across ESP32 boards |
-| `linux/boards/<board>/` | Linux-based devices (device tree overlays, GPIO maps, Python/C demos) |
-| `arduino/boards/<board>/` | Arduino-framework boards (arduino-cli sketches); see `arduino/AGENTS.md` |
-| `skills/` | Agent skills governing develop / setup / build / device-test / debug workflows |
-| `docs/` | Hardware guides, vendor-source citations, development conventions |
-| `tools/validate.sh` | The validation gate every delivery must pass |
-| `tests/` | Host-side unit tests for board-independent logic |
+Find more boards and examples in the [device directory](devices/AGENTS.md). The generated [native interface and evidence matrix](docs/inventory.md) distinguishes implementation from build and physical verification. Current-source on-device acceptance remains unperformed; historical observations do not certify a new source version.
 
-## Supported boards
+## Quick start
 
-| Board | Platform | BSP scope |
-|---|---|---|
-| SenseCAP Watcher | <code>ESP32&#8209;S3</code> | camera, display, touch, audio, knob, battery, microSD |
-| SenseCAP Indicator | <code>ESP32&#8209;S3</code> | RGB display, IO expander, button, touch |
-| reTerminal E1001 | <code>ESP32&#8209;S3</code> | EPD, keys, LED, SHT4x, battery, RTC, charger, buzzer, PDM mic, microSD |
-| reTerminal E1002 | <code>ESP32&#8209;S3</code> | E1001 BSP with the Spectra 6 color panel |
-| reSpeaker Lite (XIAO ESP32-S3) | <code>ESP32&#8209;S3</code> | XMOS I2S audio, BOOT button, WS2812 LED |
-| reTerminal Sticky | <code>ESP32&#8209;S3</code> | SSD1677 EPD, keys, SHT4x |
-| XIAO ESP32-S3 1.47" Touch Display | <code>ESP32&#8209;S3</code> | JD9853A LCD, buttons, PDM mic |
-| Grove Beginner Kit for Arduino (post-2025) | <code>ATmega328P</code> | Grove LED, buzzer, OLED, button, pot, light, sound, DHT20, SPA06-003, IMU |
-| Wio Terminal | <code>SAMD51</code> | display, buttons, IMU, light sensor, mic, buzzer, microSD, IR emitter, Grove, Wi-Fi/BLE |
-| reTerminal (CM4) | <code>Linux</code> | peripherals overlay + demos: buttons, LEDs, buzzer, sensors, RTC |
+### 1. Get the repository and select your board
 
-All ESP32-S3 boards are build-verified on ESP-IDF v6.0.2; on-device
-validation is pending for them.
+Have Git and Python 3 available. Run the following commands in your terminal:
 
-Wio Terminal demos build on `Seeeduino:samd@1.8.6`; eight of ten have
-on-device results recorded in [docs/on-device-validation.md](docs/on-device-validation.md).
-
-Post-2025 Grove Beginner Kit demos build on `arduino:avr@1.8.8`; all 10
-device demos plus `i2c_scan` are on-device verified, including the physical
-actions for the button, potentiometer, light, sound and motion modules.
-Results are recorded in
-[docs/on-device-validation.md](docs/on-device-validation.md).
-
-See [docs/inventory.md](docs/inventory.md) for the capability matrix and
-extraction sources, [docs/on-device-validation.md](docs/on-device-validation.md)
-for the field-test checklist, and
-[docs/vendor-sources.md](docs/vendor-sources.md) for
-the authoritative upstream reference for every board.
-
-## Validation gate
-
-```bash
-./tools/validate.sh --static           # repository checks + host tests
-./tools/validate.sh --esp32 <board>    # ESP-IDF build for one board
-./tools/validate.sh --linux <board>    # Linux board checks
-./tools/validate.sh --arduino <board>  # arduino-cli build for one board
-./tools/validate.sh                    # complete gate
+```sh
+git clone https://github.com/Seeed-Solution/codecraft-ai-hardware.git
+cd codecraft-ai-hardware
+python3 codecraft.py discover --interface display
 ```
 
-## Contributing
+The following walkthrough uses **reTerminal E1001 / ESP-IDF**. For another board, use its Target guide and declared software stack.
 
-See [`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md) for commit, pull
-request, and issue conventions. AI agents start at [AGENTS.md](AGENTS.md).
+```sh
+python3 codecraft.py context --target esp-idf/reterminal-e1001
+```
 
-## License and attribution
+Read the returned context and the [E1001 setup guide](devices/reterminal-e1001/targets/README.md#toolchain). Install and activate the exact toolchain declared in [target.json](devices/reterminal-e1001/targets/target.json) before building; when working with an agent, use [codecraft-development-setup](skills/codecraft-development-setup/SKILL.md) for missing tools.
 
-Apache License 2.0, see [LICENSE](LICENSE). Third-party attributions are in
-[NOTICE](NOTICE).
+### 2. Create your own workspace
+
+Run from the repository root:
+
+```sh
+python3 codecraft.py new --target esp-idf/reterminal-e1001 --example epd_hello --output projects/my-e1001-project
+python3 codecraft.py verify-project projects/my-e1001-project
+```
+
+Choose an output directory that does not already exist. `projects/` is ignored by Git so your application stays separate from the reference examples; an explicit external directory also works. `project.yaml` records your selections, and `codecraft.lock` tracks imported sources and toolchain provenance. No global CodeCraft CLI installation is needed.
+
+### 3. Build the selected example
+
+With the declared toolchain active, run:
+
+```sh
+python3 codecraft.py build-project projects/my-e1001-project
+```
+
+The exported workspace also contains `codecraft.py`; from that directory, use `python3 codecraft.py build-project .`. Builds do not flash the device. To test on hardware, follow the selected [Device acceptance procedure](devices/reterminal-e1001/AGENTS.md#physical-acceptance) and [codecraft-development-device-test](skills/codecraft-development-device-test/SKILL.md), with the board and port identified and device writes explicitly authorized.
+
+For application changes, briefs, reviewed relocking and repeat builds, follow the [portable application workflow](docs/development/application-workflow.md). Use [codecraft-development-ideate](skills/codecraft-development-ideate/SKILL.md) and `new --brief <file.json>` to record purpose, users, scenarios and a bill of materials in your project.
+
+## Develop with your AI coding assistant
+
+Open this checkout in your coding assistant and have it read [AGENTS.md](AGENTS.md). Before AI-assisted development, install the complete directories for these five [hardware workflow Skills](skills/README.md) into your assistant's Skill discovery location: `codecraft-development-develop`, `codecraft-development-setup`, `codecraft-development-build`, `codecraft-development-device-test` and `codecraft-development-debug`. The repository contract directs the agent to install and verify any missing workflows.
+
+For example, start a new application with this request:
+
+```text
+Read AGENTS.md and use the required CodeCraft Skills.
+I have a reTerminal E1001. Help me create a private project at
+projects/my-e1001-project from the epd_hello example.
+Check the board context and declared toolchain, then build it.
+Report the build result and any unknowns. Ask me to identify the
+board and port and authorize device writes before flashing.
+```
+
+Use a fresh output path if you already followed the quick start. For an existing application, open its workspace and follow its generated `AGENTS.md`. Agent workflows cover setup, development, build, debugging and device testing; the selected Platform owns the native commands.
+
+## Optional cloud features and firmware sharing
+
+Standalone clients in [skills/](skills/README.md#cloud-capabilities) extend cloud capabilities with features such as LLM text generation, ASR/STT, TTS and image generation. Each client owns its `contract.json` and API reference and can be installed independently. Cloud service and account infrastructure remain external; read the selected Skill for credentials, limits and authorized API use.
+
+See the [free allowance table](skills/README.md#free-allowance) for monthly per-device usage and monthly totals across five devices. The features share one monthly device allowance; the rows are alternative usage estimates.
+
+To include clients in an application, CLI contract 3 uses `new --skills <selection.json>` with explicit selections; project profiles and locks use schema 3. See [project composition](skills/README.md#optional-project-composition) and the generated [Skill inventory](docs/skill-inventory.json).
+
+[CodeCraft Hub](https://codecraft.seeed.cc/hub) is the separate firmware-sharing platform. For requested uploads, online flashing, SenseCraft device management or cloud deployment, use the external [sensecraft-cli](https://github.com/Seeed-Solution/sensecraft-cli) and its official bundled Skill. Follow [installation and task routing](docs/development/sensecraft-cli.md) for the verified version and prerequisites. Native development does not require this tool; installing a Skill or CLI does not authorize cloud operations.
+
+## Documentation and contribution
+
+| You want to… | Start here |
+| --- | --- |
+| Find device knowledge and native examples | [Device directory](devices/AGENTS.md) |
+| Check implementation and evidence status | [Native interface matrix](docs/inventory.md) |
+| Customize an exported project | [Application workflow](docs/development/application-workflow.md) |
+| Explore hardware and cloud Skills | [Skills guide](skills/README.md) |
+| Understand ownership and architecture | [Architecture](docs/architecture/overview.md) |
+| Report a problem or contribute | [Issues](https://github.com/Seeed-Solution/codecraft-ai-hardware/issues) · [Contribution guide](.github/CONTRIBUTING.md) |
+| Browse all guides and open work | [Documentation](docs/README.md) · [Implementation ledger](docs/development/v0.2-todo.md) |
+
+### Repository layout
+
+| Path | Contents |
+| --- | --- |
+| `devices/<device>/` | Device knowledge, references, assets and native BSPs/examples under `targets/` |
+| `platforms/` | Software-stack adapters, build helpers and shared components |
+| `skills/` | `codecraft-development-*` development workflows and `codecraft-capabilities-*` standalone cloud Skills |
+| `tools/` | Local CLI and project orchestration in `codecraft/`; client maintenance and package release records in `skill_packages/` |
+| `projects/` | Ignored private application workspaces |
+| `tests/` | Tests, fixtures, mocks and retained device evidence, grouped by source owner |
+| `docs/` | Engineering guidance, generated indexes and open work |
+
+### Contributor checks
+
+Follow the [repository contract](AGENTS.md), [maintenance entry](CONTRIBUTION.md) and [test ownership guide](docs/development/testing.md). After source metadata changes, run `python3 codecraft.py generate`; then check generation drift and static/host behavior:
+
+```sh
+python3 codecraft.py generate --check
+python3 codecraft.py validate --static
+```
+
+Documentation-only changes do not require native builds. Firmware or native build changes need scoped validation under the [validation policy](AGENTS.md#required-validation-and-delivery); no-option `python3 codecraft.py validate` runs the complete software gate. Build results, simulation and physical observations are reported separately. Generated firmware and transient build output stay untracked; retained, sanitized evidence lives under `tests/devices/<device>/`.
+
+For standalone client package changes, follow the [candidate/check/review/apply release workflow](docs/development/skill-releases.md). Packaging does not install or publish a Skill. Remaining acceptance and simulation work is tracked in the implementation ledger linked above.
+
+## License
+
+[Apache License 2.0](LICENSE). Retained third-party attributions: [NOTICE](NOTICE).

@@ -1,3 +1,0 @@
-# No external component dependencies; the panel driver is in-tree
-# (derived from muse-gadget-sdk, Apache 2.0).
-dependencies: {}

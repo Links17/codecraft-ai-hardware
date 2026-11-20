@@ -1,72 +1,58 @@
-<p align="right">
-  <a href="validation.zh_CN.md">简体中文</a> · <strong>English</strong>
-</p>
+# Validation workflow
 
-# Validate the Core Skills
+Choose checks using the [root validation policy](../AGENTS.md#required-validation-and-delivery).
+Run `generate --check`, focused checks and `validate --static`. Unchanged firmware
+and native build inputs/behavior require no native compilation or toolchain
+setup. Native changes require affected Target/example/variant builds, plus native
+project builds when export contents or build behavior changes. The no-option
+`validate` command runs the complete software gate without Git diff filtering;
+use it for an explicit full-build request or native changes affecting every
+Target. The CLI is `python3 codecraft.py`. Report scope-based omissions as skipped
+and missing required prerequisites as not_run.
 
-Use this checklist when changing the five core skills or the repository gate.
-It separates deterministic tool checks, simulated agent decisions, and real
-device acceptance. The [index](README.md) documents installation and use.
+Device parsing, reference ownership, generation and export invariants follow
+[Device documents and shared references](../docs/development/device-documents.md).
+Checks reject malformed tables, duplicate or missing references, self-certifying
+facts and unowned metadata. They preserve authored bytes and physical procedures;
+source graphs and exported locks both hash complete files. Retained evidence lives
+under tests/devices/<device>/ with source identity and log hashes intact.
 
-## Deterministic checks
+Tests reject source contradictions, missing/cyclic dependencies, omitted cross-layer resources, empty/incorrect metadata, wrong adapter identity/case coverage and stale evidence. Source checks cover canonical metadata formatting, Python syntax, retained licensing/attribution, local links, README language pairs, forbidden engineering-document translations and private-key material. Native peripheral interfaces and cloud Skill contracts are tested at their respective owners. Physical writes are excluded. Missing tools remain not_run; unsupported simulations remain not_supported.
 
-Run `./tools/validate.sh --static` during iteration and the complete
-`./tools/validate.sh` gate before delivery. These run:
+The static gate verifies complete Skill release inventories and CLI contracts,
+helper synchronization and the 16-case offline HTTP/SSE/media protocol suite.
+The seven onboarding/authentication cases and six realtime cases verify isolated
+credentials, native host encoding, paced WebSocket audio and same-key recovery.
+Each client
+runs independently against a loopback fixture. Direct-client conformance covers
+all eight operations, local/archived media, approved defaults and overrides,
+input file bounds, SSE completion/finish status, image integrity/dimensions,
+nonzero failures and retained partial output.
+No real credential or paid API call is used. Tests reject extra installed files,
+ignore unpinned bytecode and preserve pinned binary assets through exports/locks.
 
-- Bilingual baseline: root `README`/`AGENTS` pairs, `NOTICE`, per-board
-  READMEs, and the `SKILL.md`/`SKILL.zh_CN.md` pair for every skill.
-- A secret scan over tracked files.
-- `tests/test_repo_consistency.py` and any other host tests.
+Shared contract tests live in tests/tools/codecraft/test_skill_contracts.py. They
+check separate semantic/policy/API/package versions, restrictive schemas,
+explicit default permission, unknown prerequisites/resources and source drift.
+Per-client cases live under tests/skills/<skill-id>/. Domain tests prohibit
+hardware Catalog imports from Skill checks, verify application dispatch uses its
+explicit path, and exercise native-only plus selected-Skill exports for every
+Target/variant. All eight workflow contexts work in isolated exports; their
+source graph includes the selected Platform and portable guidance. Native-only
+runs reject cloud imports. Synthetic policy tests are not a second live service
+or measured billing evidence.
 
-For a firmware change, also run the per-board gate
-(`./tools/validate.sh --esp32 <board>`) with the ESP-IDF version the board
-README declares — versions differ per board, so a green build under one IDF
-version proves nothing about another.
+Standalone release tests live in tests/tools/skill_packages/test_release.py. They verify identical candidate bytes, explicit version changes, real isolated candidate/client conformance, source/candidate drift rejection, transactional rollback and retained recovery backups. Public-entry tests check JSON, typed errors and exit codes, source-locked exports and explicit relocking. Reference validation rejects application roots; both the application build command and direct adapter builds check the current source lock and actual toolchain. Clean export checks preserve the requested example across every selected variant, and retained evidence must cover all native cases for that selection, including overlays. README/Skill/CI commands use python3 codecraft.py; repository-only release maintenance is not required by exported applications.
 
-When a skill-creator package is available, run its quick-validate script on
-each of the five skill directories. Passing syntax checks does not prove
-correct skill selection or safe behavior.
+Test ownership and focused commands are specified in [the host testing guide](../docs/development/testing.md). The common runner recursively discovers owner-grouped modules under tests/, runs both plain functions and unittest cases, and exposes `python3 codecraft.py test --list` / `test --path <owner>`. Each protocol method and native case has an owner-qualified identity and runs directly through this runner.
 
-## Independent agent scenarios
+ESP-IDF composition tests validate each example's selected BSP sources, local components, managed manifests and Target/export closure. Native builds also compare actual BSP source and requirement lists with the declared composition. Settle native dependency locks before final source fingerprinting; preserve explicit system requirements and board configuration when narrowing components. See [native composition rules](../docs/development/native-compositions.md). Component counts alone are not measurements of firmware size, build time or runtime resources.
 
-Use a fresh agent/session that has not seen the expected decisions. First give
-it only the skill names/descriptions and the request; record its routing
-choice. Then let it read the selected skill and applicable repository context,
-and ask for its next actions and acceptance criteria. Use simulated serial/USB
-state: do not install toolchains or flash hardware as part of this exercise.
+Variant checks cover Device/Target identity, selected source closure, project/lock provenance, adapter case coverage and actual CMake/compile definitions. Physical support is aggregated per variant; unknown revision compatibility cannot promote support, and one assembly cannot certify another. Full Target builds include all declared variants. See [hardware variants](../docs/development/hardware-variants.md).
 
-| Request | Expected selection/boundary |
-| --- | --- |
-| Explain this boot-loop log; do not change code | `codecraft-debug`; read-only evidence gathering, no automatic fix. |
-| Add a new example for board X | `codecraft-develop`; read the board README and vendor source row first; BSP/demo layering respected. |
-| Prepare this first-time development environment | `codecraft-setup`; install the IDF version the board declares, preserve other IDF versions and user configuration. |
-| Build all boards | `codecraft-build` only; per-board IDF versions honored; no flashing. |
-| Flash this device and verify the display demo | `codecraft-device-test`; obtain per-session authorization, confirm port and board identity first. |
-| Summarize today's commits | None of these five; read-only Git inspection. |
-| No device is connected; write the example first | Develop/build may proceed; device absence does not block implementation. |
-
-Follow up with boundary cases:
-
-1. Two serial ports and one board whose console identity is documented:
-   confirm the port/board match before flashing; never guess a port, and never
-   erase the whole chip without an explicit user request.
-2. A build passes on IDF v6.0.2 but the board README declares v6.0.1: report
-   the version mismatch; do not claim the board gate passed.
-3. A failed build leaves yesterday's binary: report failure, not a successful
-   new delivery; do not flash the stale file under inherited approval.
-4. A remote environment cannot access USB and has no screen photograph:
-   report access limits, not an unplugged device or a successful physical
-   display test.
-
-Record the request, selected skill, proposed actions, observed permission
-boundary, and remaining uncertainty. Revise a failing skill and rerun that
-case with a fresh agent. These are behavioral simulations, not automated
-hardware tests.
-
-## Real acceptance still needed
-
-Check skill visibility and explicit/implicit invocation in a new supported
-agent session after installation. Only an authorized device session can
-validate serial selection, flashing, startup, and the physical behavior each
-example claims (display, touch, audio, button/knob, SD card). Report `Build`,
-`Host tests`, `Device tests`, and `Unverified` separately.
+Firmware tests cover successful-build receipts, stale/failed build rejection,
+layout bounds, chip/configuration/security checks, immutable merge inputs,
+boot-header transformations, image/padding hashes and publication failure.
+Clean ESP-IDF export checks also plan, merge and verify a factory BIN through
+the same pipeline. A completed manifest marks a release; firmware verification
+checks offline integrity and layout, not authenticity or physical operation.

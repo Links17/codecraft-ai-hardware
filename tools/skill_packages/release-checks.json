@@ -1,0 +1,54 @@
+{
+  "codecraft-capabilities-asr": {
+    "operations": [
+      "transcribe",
+      "realtime-stream",
+      "realtime-status",
+      "realtime-recover"
+    ],
+    "path": "tests/skills/codecraft-capabilities-asr/test_contract.py",
+    "suites": [
+      "tests/skills/codecraft-capabilities-asr/test_realtime.py"
+    ],
+    "tests": [
+      "test_standalone_transcription_matches_actual_client_contract",
+      "test_standalone_invalid_audio_fails_before_api_execution",
+      "test_service_audio_boundaries_are_enforced_by_the_isolated_client",
+      "test_realtime_contract_matches_actual_standalone_operations"
+    ]
+  },
+  "codecraft-capabilities-image-generation": {
+    "operations": [
+      "generate"
+    ],
+    "path": "tests/skills/codecraft-capabilities-image-generation/test_contract.py",
+    "tests": [
+      "test_standalone_local_and_archived_image_match_actual_output_contract",
+      "test_standalone_image_rejects_existing_output_before_api_execution",
+      "test_service_prompt_bound_and_request_size_reach_the_isolated_client"
+    ]
+  },
+  "codecraft-capabilities-llm": {
+    "operations": [
+      "complete",
+      "stream"
+    ],
+    "path": "tests/skills/codecraft-capabilities-llm/test_contract.py",
+    "tests": [
+      "test_standalone_prompt_and_messages_match_actual_client_contract",
+      "test_standalone_stream_requires_done_and_preserves_failure_status",
+      "test_service_token_default_and_caller_override_reach_the_isolated_client"
+    ]
+  },
+  "codecraft-capabilities-tts": {
+    "operations": [
+      "speak"
+    ],
+    "path": "tests/skills/codecraft-capabilities-tts/test_contract.py",
+    "tests": [
+      "test_standalone_local_and_archived_speech_match_actual_output_contract",
+      "test_standalone_archive_failure_keeps_file_and_nonzero_exit",
+      "test_service_text_bound_and_fixed_routing_reach_the_isolated_client"
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "adaptations": [
+    "English default documentation and paired Simplified Chinese documents.",
+    "Maintenance helper paths updated for this repository; runtime behavior preserved.",
+    "Source README merged into skills/README.md and skills/README.zh_CN.md.",
+    "Local Capability package checksums identify the maintained imported package."
+  ],
+  "imported_at": "2026-11-17T15:20:28.003539+00:00",
+  "schema_version": 1,
+  "source": {
+    "commit": "bec6dd7a64adb9382df01d25212d8887368452f3",
+    "dirty": true,
+    "repository": "codecraft-gadgets-cloud"
+  },
+  "source_files": {
+    "skills/README.md": "220c9515af7b7f7ae05d9da92bda27c4b95f7452dd5a6c5c7979d70f00e35882",
+    "skills/codecraft-asr/SKILL.md": "b27f8519c3257e01cf1d811226df10affa0d8961c8aef7eee138921fcc0c840e",
+    "skills/codecraft-asr/agents/openai.yaml": "ffcfa558981bdccf6b2c58bf5e4fe047ff303f4ae2ca4cab0057a75edfb642fc",
+    "skills/codecraft-asr/references/api.md": "a78de672c3f0edcd18aa7e061f6c5ae20dce8db5dfe39ad5dd0715323075bb15",
+    "skills/codecraft-asr/scripts/device_api.py": "8213b55e6b19ef3338039468791813eb007a8db71637ff3c5f854852d2a6552f",
+    "skills/codecraft-asr/scripts/transcribe.py": "c441fdf38607d4b48564c2bc77c8e1cf569509b70a5cfacf0b83ae17a639a36b",
+    "skills/codecraft-image-generation/SKILL.md": "e46a5818a078910b807352b7a5f5a65724ce2e5d955f80c6733e95e295275424",
+    "skills/codecraft-image-generation/agents/openai.yaml": "31edf6fcf6fdca5ebf5596e5b3773d1c04215cf46a7b90fd5ea0b569cfb9dbc7",
+    "skills/codecraft-image-generation/references/api.md": "a2474ae103d5a55c43ff24a8314e6ad8a8c659b3ef12180796135d2f7b2719c3",
+    "skills/codecraft-image-generation/scripts/device_api.py": "8213b55e6b19ef3338039468791813eb007a8db71637ff3c5f854852d2a6552f",
+    "skills/codecraft-image-generation/scripts/generate.py": "02545b723f9d45e60b628814f72588b348dc7e1969c58dfd7ea47f5978846ae7",
+    "skills/codecraft-llm/SKILL.md": "0f614ea2cb42a541b3eeaa0903b11b398ff96651cf26bf8f7991a9d66f41a89a",
+    "skills/codecraft-llm/agents/openai.yaml": "8af71d716cfdc2708423c6680245e719a22729240f9a274a34c4652ffb1f9fec",
+    "skills/codecraft-llm/references/api.md": "7e48a8ae9e694c4296fe3f377fd9b0eca8e7748617568e489992ae688f664ba4",
+    "skills/codecraft-llm/scripts/device_api.py": "8213b55e6b19ef3338039468791813eb007a8db71637ff3c5f854852d2a6552f",
+    "skills/codecraft-llm/scripts/llm.py": "467b1ba79277fa21d18d43f7e0f518d69f7c53525f8e4d0a72cc0fa1b356f45c",
+    "skills/codecraft-tts/SKILL.md": "ce8366cada2445f00eb920a768f5098f1f10c85da885f59c23318d8f43a6eecc",
+    "skills/codecraft-tts/agents/openai.yaml": "09c8c5eec270464812eb7341103767d130237191b99cb6ce869614f2bdb4974c",
+    "skills/codecraft-tts/references/api.md": "128db72b5be0ac386f786c9b3c1fba4054bd09208d3c95ea2cb66bd81c52b03c",
+    "skills/codecraft-tts/scripts/device_api.py": "8213b55e6b19ef3338039468791813eb007a8db71637ff3c5f854852d2a6552f",
+    "skills/codecraft-tts/scripts/speak.py": "889a28a42c8d9fa780ee0cdf820682b75228a617bb510e154677dbc025049664",
+    "tools/skills/device_api.py": "8213b55e6b19ef3338039468791813eb007a8db71637ff3c5f854852d2a6552f",
+    "tools/skills/sync_helpers.py": "f18b0b45f63811785a1225cb5350b816981651fc31cff842fc0f79f8853e070a",
+    "tools/skills/test_skills.py": "39eabb3ff603d24e777b2f8f4192db50adc73b50448dcd32994d37466c5b1f1d"
+  },
+  "upstream_license": "No separate license file was present in the supplied checkout."
+}

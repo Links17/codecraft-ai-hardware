@@ -1,0 +1,2 @@
+# Python 3.11+; decode and verify generated PNG/JPEG/WebP before saving.
+Pillow==13.0.0

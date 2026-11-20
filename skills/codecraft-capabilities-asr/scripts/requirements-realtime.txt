@@ -1,0 +1,3 @@
+# Optional: only realtime streaming needs this dependency.
+# The sync client in this tested version does not follow HTTP redirects.
+websockets==15.0.1

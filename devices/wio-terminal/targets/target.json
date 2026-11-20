@@ -1,0 +1,296 @@
+{
+  "dependencies": [],
+  "device": "wio-terminal",
+  "example_dependencies": {
+    "accelerometer": [],
+    "ble_scan": [],
+    "buzzer_tones": [],
+    "display_buttons": [],
+    "grove_i2c_scan": [],
+    "ir_nec_sender": [],
+    "light_sensor": [],
+    "microphone_level": [],
+    "sd_card_log": [],
+    "wifi_scan": []
+  },
+  "example_inputs": {
+    "accelerometer": [
+      "devices/wio-terminal/targets/examples/accelerometer"
+    ],
+    "ble_scan": [
+      "devices/wio-terminal/targets/examples/ble_scan"
+    ],
+    "buzzer_tones": [
+      "devices/wio-terminal/targets/examples/buzzer_tones"
+    ],
+    "display_buttons": [
+      "devices/wio-terminal/targets/examples/display_buttons"
+    ],
+    "grove_i2c_scan": [
+      "devices/wio-terminal/targets/examples/grove_i2c_scan"
+    ],
+    "ir_nec_sender": [
+      "devices/wio-terminal/targets/examples/ir_nec_sender"
+    ],
+    "light_sensor": [
+      "devices/wio-terminal/targets/examples/light_sensor"
+    ],
+    "microphone_level": [
+      "devices/wio-terminal/targets/examples/microphone_level"
+    ],
+    "sd_card_log": [
+      "devices/wio-terminal/targets/examples/sd_card_log"
+    ],
+    "wifi_scan": [
+      "devices/wio-terminal/targets/examples/wifi_scan"
+    ]
+  },
+  "examples": [
+    "accelerometer",
+    "ble_scan",
+    "buzzer_tones",
+    "display_buttons",
+    "grove_i2c_scan",
+    "ir_nec_sender",
+    "light_sensor",
+    "microphone_level",
+    "sd_card_log",
+    "wifi_scan"
+  ],
+  "id": "arduino/wio-terminal",
+  "inputs": [
+    "devices/wio-terminal/targets/README.md",
+    "devices/wio-terminal/targets/README.zh_CN.md"
+  ],
+  "interfaces": [
+    {
+      "configuration": {},
+      "example_implementation": {
+        "accelerometer": [
+          "devices/wio-terminal/targets/examples/accelerometer/accelerometer.ino"
+        ]
+      },
+      "id": "motion",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "accelerometer": "devices/wio-terminal/targets/examples/accelerometer/accelerometer.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "display_buttons": [
+          "devices/wio-terminal/targets/examples/display_buttons/display_buttons.ino"
+        ]
+      },
+      "id": "display",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "display_buttons": "devices/wio-terminal/targets/examples/display_buttons/display_buttons.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "display_buttons": [
+          "devices/wio-terminal/targets/examples/display_buttons/display_buttons.ino"
+        ],
+        "light_sensor": [
+          "devices/wio-terminal/targets/examples/light_sensor/light_sensor.ino"
+        ]
+      },
+      "id": "input",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "display_buttons": "devices/wio-terminal/targets/examples/display_buttons/display_buttons.ino",
+            "light_sensor": "devices/wio-terminal/targets/examples/light_sensor/light_sensor.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "buzzer_tones": [
+          "devices/wio-terminal/targets/examples/buzzer_tones/buzzer_tones.ino"
+        ],
+        "microphone_level": [
+          "devices/wio-terminal/targets/examples/microphone_level/microphone_level.ino"
+        ]
+      },
+      "id": "audio",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "buzzer_tones": "devices/wio-terminal/targets/examples/buzzer_tones/buzzer_tones.ino",
+            "microphone_level": "devices/wio-terminal/targets/examples/microphone_level/microphone_level.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "sd_card_log": [
+          "devices/wio-terminal/targets/examples/sd_card_log/sd_card_log.ino"
+        ]
+      },
+      "id": "storage",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "sd_card_log": "devices/wio-terminal/targets/examples/sd_card_log/sd_card_log.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "ir_nec_sender": [
+          "devices/wio-terminal/targets/examples/ir_nec_sender/ir_nec_sender.ino"
+        ]
+      },
+      "id": "ir",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "ir_nec_sender": "devices/wio-terminal/targets/examples/ir_nec_sender/ir_nec_sender.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "grove_i2c_scan": [
+          "devices/wio-terminal/targets/examples/grove_i2c_scan/grove_i2c_scan.ino"
+        ]
+      },
+      "id": "gpio",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "grove_i2c_scan": "devices/wio-terminal/targets/examples/grove_i2c_scan/grove_i2c_scan.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    },
+    {
+      "configuration": {},
+      "example_implementation": {
+        "ble_scan": [
+          "devices/wio-terminal/targets/examples/ble_scan/ble_scan.ino"
+        ],
+        "wifi_scan": [
+          "devices/wio-terminal/targets/examples/wifi_scan/wifi_scan.ino"
+        ]
+      },
+      "id": "wireless",
+      "implementation": [],
+      "limitations": [
+        "Physical behavior requires source-bound device evidence. Consult the hardware reference and example procedures."
+      ],
+      "operations": {
+        "run_demo": {
+          "example_sources": {
+            "ble_scan": "devices/wio-terminal/targets/examples/ble_scan/ble_scan.ino",
+            "wifi_scan": "devices/wio-terminal/targets/examples/wifi_scan/wifi_scan.ino"
+          },
+          "reason": "Standalone native sketch; initialization and lifetime are defined by Arduino setup()/loop().",
+          "supported": true,
+          "symbol": "void setup()"
+        }
+      },
+      "resources": {}
+    }
+  ],
+  "path": "devices/wio-terminal/targets",
+  "platform": "arduino",
+  "schema_version": 3,
+  "toolchain": {
+    "board_manager_urls": [
+      "https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json"
+    ],
+    "bundled_libraries": [
+      "Seeed_Arduino_LCD"
+    ],
+    "core_version": "1.8.6",
+    "fqbn": "Seeeduino:samd:seeed_wio_terminal",
+    "libraries": {
+      "Seeed Arduino FS": "2.1.5",
+      "Seeed Arduino SFUD": "2.0.2",
+      "Seeed Arduino rpcBLE": "1.0.0",
+      "Seeed Arduino rpcUnified": "2.1.4",
+      "Seeed Arduino rpcWiFi": "1.1.0",
+      "Seeed_Arduino_mbedtls": "3.0.2"
+    },
+    "name": "arduino-cli",
+    "source": "devices/wio-terminal/targets/README.md",
+    "version": "1.5.0"
+  },
+  "variants": {}
+}
