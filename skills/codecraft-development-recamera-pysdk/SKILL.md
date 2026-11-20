@@ -1,5 +1,5 @@
 ---
-name: recamera-pysdk
+name: codecraft-development-recamera-pysdk
 description: "Develop and package reCamera Pro (RV1126B) Python SDK apps, including ONNX-to-RKNN conversion, dependency/API checks and controlled runtime tests; optionally upload, install and verify an app on a user-provided device."
 ---
 
@@ -17,6 +17,8 @@ reCamera Pro / RV1126B Python extension SDK Apps. It has four outcomes:
    original target-compatible wheels under `wheels/`.
 4. When the user requests device delivery/testing and supplies access, upload
    the verified archive and optionally install/verify it through AppMgr.
+
+This is a standalone SDK workflow, not a registered native Target in this hardware repository. Read the [import provenance](references/provenance.md) for the pinned SDK and original reference snapshots.
 
 ## Authoritative source
 
@@ -295,5 +297,7 @@ Both validators use the selected official manifest module. Build reports record
 commit, dirty status and file hashes; exported non-Git overrides have unknown
 commit/dirty status. API call and entry checks use AST only: dynamic exports are
 reported as unverified by the static checks; only the separate smoke helper
-executes trusted application code with a bounded lifetime. Run
-`uv run --frozen pytest skill/recamera-pysdk/tests` when maintaining this skill.
+executes trusted application code with a bounded lifetime. For maintenance in the CodeCraft hardware repository, run
+`python3 codecraft.py test --path tests/skills/codecraft-development-recamera-pysdk`
+and `python3 codecraft.py validate --static`. Installed copies need only this
+Skill directory for the offline application commands above.
