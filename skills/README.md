@@ -24,6 +24,15 @@ validation and orchestration live in tools/codecraft/. Native commands remain in
 Platform. The [portable workflow](../docs/development/application-workflow.md)
 and selected Platform/workflow guidance are exported and locked with applications.
 
+## reCamera Pro SDK applications
+
+Use [codecraft-development-recamera-pysdk](codecraft-development-recamera-pysdk/SKILL.md)
+for reCamera Pro / RV1126B Python SDK apps, offline validation and App Center
+packaging. Copy the whole Skill directory for independent use. It pins the
+official SDK builder and API references; it does not register a native Target
+or establish physical board support. Device upload, installation and testing
+remain separate authorized operations. See its [provenance](codecraft-development-recamera-pysdk/references/provenance.md).
+
 ## External SenseCraft CLI
 
 Use the official Skill bundled with @seeed-studio/sensecraft-cli for platform

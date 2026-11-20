@@ -15,6 +15,14 @@ Skills 负责硬件开发工作流和独立云端客户端。设备事实与原�
 
 必需工作流为 codecraft-development-develop、codecraft-development-setup、codecraft-development-build、codecraft-development-device-test 和 codecraft-development-debug。使用 codecraft-development-ideate 整理应用需求，按需使用 codecraft-development-discover 和 codecraft-development-validate。设备校验与共享编排位于 tools/codecraft/，原生命令仍由对应 Platform 实现。[可移植工作流](../docs/development/application-workflow.md)及所选 Platform、工作流指南随应用导出并纳入锁文件。
 
+## reCamera Pro SDK 应用
+
+[codecraft-development-recamera-pysdk](codecraft-development-recamera-pysdk/SKILL.md)
+用于 reCamera Pro / RV1126B Python SDK 应用开发、离线验证和 App Center 打包。
+复制完整 Skill 目录即可独立使用。该工作流锁定官方 SDK 打包器和 API 参考，
+不注册原生 Target，也不表示已验证实体板卡支持。设备上传、安装和测试仍是
+需要相应授权的独立操作。参见其[来源记录](codecraft-development-recamera-pysdk/references/provenance.md)。
+
 ## 外部 SenseCraft CLI
 
 平台认证、云端设备、遥测、Hub、文件、模型库和云端部署使用 @seeed-studio/sensecraft-cli 自带的官方 Skill，遵循[安装与路由指南](../docs/development/sensecraft-cli.md)。仅在需要时安装到仓库外；原生开发无需此工具，安装不授权平台操作。
