@@ -1,303 +1,111 @@
 ---
 name: codecraft-development-recamera-pysdk
-description: "Develop and package reCamera Pro (RV1126B) Python SDK apps, including ONNX-to-RKNN conversion, dependency/API checks and controlled runtime tests; optionally upload, install and verify an app on a user-provided device."
+description: Develop, validate and package reCamera Pro (RV1126B) Python SDK apps. Use for Kit/App Center applications, ONNX-to-RKNN conversion and authorized app delivery; firmware and BSP development use the device's native workflow.
 ---
 
 # reCamera Pro Python Development
 
-Turn a natural-language idea into an installable reCamera Pro App package
-(`.tar.gz`) that the device App Center can run. Use this skill only for
-reCamera Pro / RV1126B Python extension SDK Apps. It has four outcomes:
+Turn the requested behavior into Python source or an installable App Center
+archive. This package is an independently installable SDK workflow. It does not
+register a hardware Target or establish board-revision compatibility.
 
-1. Decide whether the requested behavior is supported by the published SDK.
-2. When supported, write or modify the App's Python source using the real SDK
-   API and the current `kit` application shape.
-3. For an App Center deliverable, once the code passes offline validation, build a deterministic
-   App archive containing the App and its non-platform Python dependencies as
-   original target-compatible wheels under `wheels/`.
-4. When the user requests device delivery/testing and supplies access, upload
-   the verified archive and optionally install/verify it through AppMgr.
-
-This is a standalone SDK workflow, not a registered native Target in this hardware repository. Read the [import provenance](references/provenance.md) for the pinned SDK and original reference snapshots.
-
-## Authoritative source
-
-The compatible public SDK upstream is
+The authoritative SDK is
 [Seeed-Studio/recamera-pro-ext-api](https://github.com/Seeed-Studio/recamera-pro-ext-api).
-It is the source for API docs, bindings, Kit code, official Apps, examples, and
-the packaging implementation. The skill includes an offline
-[public API reference](references/api/index.md), with exact signatures, fields,
-defaults, descriptions and [interface characteristics](references/api/features.md).
-Its source revision is recorded in `scripts/api-reference-lock.json`;
-it is independent of the builder revision. For default packaging this skill bundles the
-fixed official builder from public commit
-`635ffc3c51d596dd2e8139f297798162e6be62b9` under `scripts/sdk-builder/` and
-verifies its three SDK files by SHA-256, so no local SDK checkout is required.
-A complete local checkout is only an explicit override via `--sdk-root` or
-`RECAMERA_SDK_ROOT`. Never embed a host, account, password, private path, or
-environment-specific SDK revision in an App or in this skill, and never
-substitute a hand-made archive or an unverified SDK revision.
+The package includes an offline API snapshot and a pinned official builder;
+ordinary validation and packaging need no SDK checkout, repository CLI or
+sibling Skill. See [provenance](references/provenance.md) for their identities.
+Run the commands below from this Skill's installed directory.
 
-## Scope and boundaries
+## Select the outcome and required context
 
-This skill may build the App archive described in
-[app-packaging.md](references/app-packaging.md) and deliver/test that App within
-the user's authorized scope using [runtime-validation.md](references/runtime-validation.md).
-Providing device access for upload does not by itself request installation or
-starting hardware actions. Honor installation/testing authorization already
-given in the session; do not ask again just because a helper has an explicit
-action flag. Do not sign, change firmware/Buildroot/AppMgr, overwrite live App
-directories, or change the shared Python environment. Extraction, per-release
-environment assembly and lifecycle remain AppMgr's job. Device access is
-optional; offline development and packaging must work without a device.
+Read [capability-routing.md](references/capability-routing.md) first. Classify
+the requested behavior as supported, supported with preconditions, or not
+supported through this SDK. A documented API does not prove the device has its
+extension runtime, compatible model, service or permissions. Keep those
+preconditions explicit; offline application development can proceed without a
+device. For unsupported behavior, explain the missing capability without
+creating placeholder implementations.
 
-Keep four evidence levels distinct in every report: the public `recamera_ext`
-API contract; the Kit/AppMgr packaging and launch contract; this skill's own
-conservative publication gates; and actual device observations. Read-only
-inventory (imports, sockets, logs) alone proves presence, not end-to-end
-success; report lifecycle, result delivery and task behavior separately.
+| Task | Read when selected | Deliverable |
+| --- | --- | --- |
+| Direct SDK demo | [SDK contracts](references/sdk-contracts.md), selected [API module](references/api/index.md) | Python source and relevant offline checks |
+| Managed Kit/App Center app | [Kit patterns](references/kit-app-patterns.md), [manifest contract](references/manifest-contract.md) | A real Kit entry and manifest; a verified archive when packaging is requested |
+| New model or ONNX conversion | [Model conversion](references/model-conversion.md) | Conversion artifact and separate numerical/runtime results |
+| Inference output/overlay | [Result overlay](references/result-overlay.md) | Matching output, coordinates and renderer declarations |
+| Recording or speaker output | [Recording](references/recording.md) or [audio playback](references/audio-playback.md) | The supported SDK/firmware path and its actual acceptance status |
+| Runtime failure | [Managed runtime](references/managed-runtime.md) | Diagnosis tied to the current App instance |
+| Host smoke test or device delivery | [Runtime validation](references/runtime-validation.md) | Separate archive, loader, upload, installation and device observations |
 
-## Workflow
+Use [doc-router.md](references/doc-router.md) for deeper API/source lookup.
+Load only the selected references and API modules. Keep API and builder pins
+separate: `scripts/api-reference-lock.json` identifies the documentation;
+`scripts/sdk-contract-lock.json` identifies the bundled builder and watched
+contracts. Newer APIs require an explicit revision and contract comparison.
+Do not refresh either pin during ordinary application development.
 
-### 1. Assess before coding
+## Implement against the selected contract
 
-Read [capability-routing.md](references/capability-routing.md) for every
-request and restate the goal as a concrete SDK path. Conclude one of
-**Supported**, **Supported with preconditions**, or **Not supported through this
-SDK** before changing source. A route is directly runnable only after its
-extension runtime is confirmed present (the binding imports,
-`librecamera_ext.so.1` loads, the needed `/run/recamera/*.sock` endpoint is
-live); until then report **Supported with preconditions**. Never invent private
-RPC calls, direct media-pipeline access, or placeholder code that pretends to
-work. Ask a focused question only when a decision materially changes the app.
+Start from the closest compatible official example. Direct SDK demos may use
+`recamera_ext`; App Center apps need a `kit.app.App` entry, `owns_loop = True`
+and `run(self)`. A plain script is not launchable by `kit.run`. Keep application
+code separate from the installed Skill and SDK.
 
-### 2. Resolve SDK documentation without flooding context
+The routed references own the detailed contracts. In particular:
 
-Read [doc-router.md](references/doc-router.md), then load only the documents the
-current feature needs. Start with the bundled [API index](references/api/index.md)
-and the relevant module; it includes SDK/Kit, native ABI, HTTP and WebSocket
-contracts without requiring a repository checkout or network access.
-Prefer a user-provided compatible checkout when comparing versions; otherwise
-use the API reference's pinned commit as the documentation baseline. If newer APIs are
-needed, resolve and record an explicit revision and compare its contract before
-using it; do not mix newer examples with an older packager silently. Do not preload
-all of `docs/`. If GitHub cannot be read, work only from the bundled stable
-contracts and classify the unverified part as **Supported with preconditions**.
+- Read the Kit and manifest references before selecting NPU/resource modes,
+  model artifacts, wheel dependencies or result routing. Declaring a model
+  alone does not grant inference access.
+- Frame/zero-copy views belong to the current iteration. Copy before retaining
+  or queuing them; keep coordinate and timestamp conventions consistent with
+  the selected SDK layer.
+- For inference apps, follow the default browser-overlay policy in the overlay
+  reference. Stream/recording OSD is a separate, explicitly selected output.
+- RKIPC/AppMgr own media pipelines, installation and lifecycle. Do not open a
+  competing camera pipeline, invent private RPC calls, modify shared Python,
+  or change firmware/Buildroot/AppMgr to make an app work.
 
-### 3. Select the development layer
+## Validate and package the requested deliverable
 
-Use `recamera_ext` directly for a standalone SDK demo. App Center packages must
-expose a `kit.app.App` subclass/instance through the manifest entry; a plain
-script is not launchable by `kit.run`. A thin Kit lifecycle wrapper may use
-direct SDK primitives without duplicating camera or result ownership. Use
-`kit` for model-backed vision, tracking, zones, OCR, pose, temporal logic,
-config hot reload, or the common output pipeline; use `ProbeSource` only to
-observe built-in inference. Read
-[sdk-contracts.md](references/sdk-contracts.md) before writing direct SDK code,
-[kit-app-patterns.md](references/kit-app-patterns.md) for a kit app, and
-[managed-runtime.md](references/managed-runtime.md) for App Center launch
-behavior. Prefer the nearest official example as a starting point. Speaker
-output has **no unified public playback API**; an audible alarm is a conditional
-**firmware ALSA path** (`aplay` / `libasound`), and real sound requires an
-authorized hardware test. Never invent a `recamera_ext` playback call. Read
-[audio-playback.md](references/audio-playback.md) before implementing any audio.
-
-When a new model or ONNX conversion is needed, read
-[model-conversion.md](references/model-conversion.md). Use the matching pinned
-Rockchip Model Zoo example, an isolated host Toolkit2 environment and an
-explicit preprocessing contract. `scripts/convert_model.py` covers static
-single-image models, FP/INT8 builds and optional ONNX-versus-simulator checks;
-model-specific exports/hybrid quantization need their own reviewed recipe.
-Keep conversion, numerical validation and device validation separate. A supplied
-compatible RKNN does not require reconversion, and converter dependencies must
-not enter the App wheelhouse.
-
-### 4. Preserve the SDK and AppMgr contracts
-
-These are current runtime requirements, not style. The bundled validator
-enforces the ones that can be checked offline.
-
-- A `FrameSource`/`ProbeSource` zero-copy array is valid only for the current
-  iteration; copy before queues, threads, delayed use, or storage.
-- A kit app declares `owns_loop = True` and implements `run(self)` with no
-  positional arguments; never use the removed `on_results`, `process_frame`, or
-  `run_postproc` callbacks, and never derive the App root with
-  `Path(__file__).parents[...]`.
-- **NPU inference:** declare the `npu.rknn` resource with `mode: "scheduled"`
-  (`brokered` is the scheduled service lane, `exclusive` the legacy direct
-  lane). `shared` or an omitted mode is rejected at device preflight with
-  `npu.rknn must use scheduled service or exclusive legacy mode`.
-- **Bundled RKNN artifact:** in `scheduled`/`brokered` mode `models[]` supplies
-  Kit metadata but does not authorize inference. Every `models[].file` must
-  also appear in `artifacts[]` as `kind: "rknn"`, `source: "bundled"`, with
-  `file` equal to `mount` and an exact `sha256` and positive `size` for the
-  real file, or the device reports `inference authorization failed: scheduled
-  application <id> has no bundled RKNN artifact`.
-- Keep the entry at the package root (for example `app.py`) when models,
-  classes, or artifacts are declared; a subdirectory entry with package-root
-  resources fails device-side model authorization.
-- **Result route:** Kit `App.emit()` and `App.request_recording()` use exactly
-  one `result.publish: brokered` claim and `endpoint_mode: allocated`.
-  Direct SDK `ResultSink` uses `result.publish: shared/exclusive` ingress.
-  Do not infer gateway requirements merely from the existence of a model.
-  Never bind the reserved `8124` port or override AppMgr identity variables.
-- **Recording:** read [recording.md](references/recording.md) for manifest
-  authorization, explicit requests and legacy FRAME compatibility. `OsdSink`
-  and `RecordSink` are AppMgr-only despite being exported by the Python module.
-- **Multiple inputs:** read [multi-input models and backend selection](references/kit-app-patterns.md#multi-input-models-and-backend-selection)
-  before choosing a runtime. Typed sessions with a complete multi-input contract
-  use RKNNLite in `auto`; ctypes/shared DMA require a single input. The ordinary
-  App Center manifest-to-`self.models` path does not yet carry that full contract;
-  do not promise deployment support from session support alone.
-- **DMA:** for supported single-image models with synchronous model-only frame consumption, use `hw-direct`,
-  `model_dma_input = True`, and `infer(prepared)`; read the lifetime and RGB/BGR
-  rules in [kit-app-patterns.md](references/kit-app-patterns.md). Keep ndarray
-  input and CPU/original-pixel paths where the application needs them.
-- **AI result overlay is on by default:** when an App produces recognition
-  results (detection, classification, tracking, keypoints, zones, OCR, or any
-  other inference output), declare the browser AI result overlay by default and
-  do not wait for the user to request it. A Kit result App is
-  frontend-renderable only when the manifest declares
-  `output.contract_version: 2`, `output.sink: "ws"`, a direct
-  `output.fields[]` entry named `box` from `results[].box` with one consistent
-  `coord` (`pixel_xyxy` or `normalized_xyxy`), and `render.schema_version: 1`
-  with `render.boxes`. Data-only Apps need no renderer. Burning boxes into the
-  RTSP/recording stream additionally needs `render.stream_osd` with
-  `default: false` plus a user opt-in, and remains separate from the default
-  browser overlay. Calling `self.emit(results=...)`, logging `dets=N`, or
-  drawing with `cv2.rectangle()` on an app-owned image does not put a box on
-  the official preview. See
-  [result-overlay.md](references/result-overlay.md).
-- Do not open `/dev/video*`, build a competing VI/VPSS/VENC pipeline, or access
-  `/var/tmp/rkipc`. Public Apps must not expose configurable or shell-based
-  command execution.
-
-### 5. Verify offline first
-
-Read [manifest-contract.md](references/manifest-contract.md), then run the
-bundled standard-library validator. It never connects to a device:
+Run the non-executing source/manifest validator and fix its errors:
 
 ```text
 python scripts/validate_app.py --app-dir <app> --mode demo
 ```
 
-Fix every error before returning the App. Warnings and
-`runtime_preconditions_unverified` mark work that still needs SDK, firmware,
-model, or hardware confirmation. Test model-specific postprocessing against
-known outputs, including input size, class count and original-image coordinates.
-The packager checks mandatory source imports against local modules, platform
-modules and bundled wheels even when `python.imports` is empty. Dynamic imports
-and dispatch still need runtime tests. Never fail an otherwise valid Demo just because no device is connected,
-and never claim device execution unless it was actually observed. For an
-installed App that will not start, the read-only
-`scripts/diagnose_managed_app.py --host <user>@<target-host> --app-id <id>`
-correlates the manifest, release lock, AppMgr history, gateway socket, and logs.
-
-### 6. Build the requested App Center package
-
-For an App Center deliverable, create and verify the package. Standalone SDK
-demos or a user-requested source-only change do not require a package. Read
-[app-packaging.md](references/app-packaging.md), then run the bundled helper:
+For an App Center archive, read [app-packaging.md](references/app-packaging.md)
+and run the official-builder wrapper:
 
 ```text
 python scripts/package_app.py --app-dir <app> --out <dist>
 ```
 
-The helper runs `validate_app.py` in `package` mode, fills the fixed platform
-contract (`compatibility` and `python.runtime_profile`) into the staged
-manifest, resolves an optional flat target wheelhouse into `wheels/`, and
-delegates `release.lock.json`, `files.sha256`, and deterministic tar creation
-to the official builder. It never runs pip and never copies the developer
-machine's `site-packages`. When the App has no private dependencies it creates
-an empty wheelhouse automatically; when the App has dependencies the caller must
-supply a prepared target wheelhouse, since the helper does not infer, download,
-or build wheels. Platform-owned projects (`numpy`, `cv2`, `kit`,
-`recamera-ext`, `rknnlite`, and the rest listed in
-[app-packaging.md](references/app-packaging.md)) are provided by the device
-runtime and must not be bundled.
+This performs package-mode validation, builds the archive and reopens the
+final bytes to verify the manifest, lock, payload and hashes. It does not run
+the application, install dependencies or contact a device. Supply an explicit
+target-compatible wheelhouse for private dependencies; missing wheels remain
+a packaging prerequisite. Do not substitute host site-packages or a handwritten
+tar archive. Source-only tasks and standalone demos do not require packaging.
 
-After the builder returns, the helper reopens the exact final archive and
-verifies its embedded manifest, release lock, BOM, payload digests, size and
-member caps, and App identity; for scheduled/brokered NPU Apps it requires a
-bundled `kind: "rknn"` artifact for every `models[].file`. It deletes a
-same-name prior output first, so a stale archive cannot be mistaken for the
-current build. Do not report packaging complete unless the final `.tar.gz` path
-was printed and the archive contains `manifest.json`, `release.lock.json`, and
-`files.sha256`. Do not replace this command with a hand-written `tar`, and do
-not stop after running `validate_app.py`. For a public release candidate also
-run `python scripts/validate_app.py --app-dir <app> --mode publish`, which adds
-a stable-channel requirement and payload-hygiene checks.
+For a requested public release candidate, also run the documented `publish`
+validation mode. Signing and channel acceptance remain AppMgr/platform policy;
+structural validity alone does not establish installation acceptance.
 
-The expected archive contains:
+## Test or deliver only within the requested scope
 
-```text
-manifest.json
-app.py
-...application files...
-wheels/<target-compatible-wheel>.whl
-release.lock.json
-files.sha256
-```
+Follow [runtime-validation.md](references/runtime-validation.md) to smoke-test
+the final archive with the real Kit loader and a bounded, app-specific hook.
+This executes trusted application code and is separate from static inspection.
+Missing compatible host dependencies leave that stage unperformed; do not
+replace native target wheels with incompatible host packages.
 
-The device AppMgr applies channel-specific signature policy, safe extraction, per-release
-environment construction, activation, and rollback; it does not run pip. This
-skill does not sign the archive or hold a private key. A structurally valid unsigned archive is not automatically
-accepted by every device or publication channel. Read `/api/app-center/v1/policy`
-when assessing installation: current local Web upload permits unsigned packages;
-other channels can require a signature.
+For authorized delivery, `scripts/deploy_app.py` defaults to upload only.
+Select `--action install`, `--action verify` or `--replace` only when covered by
+the user's request. Reuse existing authorization and access; do not embed
+credentials or device addresses in application source or this package.
 
-### 7. Validate the artifact and optionally deliver to the device
-
-Read [runtime-validation.md](references/runtime-validation.md). In an isolated
-host environment with the compatible SDK, run `scripts/smoke_app.py` against
-the **final archive**, using the real Kit loader and an app-specific bounded
-`smoke(app)` hook with controlled frames/model outputs. The packager remains
-non-executing. Native target wheels or missing host runtime can prevent this
-test; report it as unverified and use the target runtime rather than replacing
-dependencies with incompatible host wheels.
-
-With a user-provided IP/user and SSH key or password, `scripts/deploy_app.py`
-defaults to **upload only** with SHA-256 verification. For authorized device
-installation/testing, choose `--action install` or `--action verify`. It uses
-the official preflight/permission/async-operation APIs; verify also checks
-start/stop/restart and current-instance results. Never silently replace an
-existing App; `--replace` reflects user authorization for that specific App.
-Device verification is not complete just because a PID or socket exists.
-Use known scene/sample assertions for task accuracy and check requested
-overlays, recording, GPIO/audio behavior separately. Without target access,
-deliver the archive and clearly mark device acceptance **not run**.
-
-## Output expectations
-
-For an unsupported request, give a concise feasibility conclusion and the
-precise blocker; do not create fake source files. For a supported request, name
-the selected SDK layer, make the Python edit, call out the important runtime
-preconditions and any unverified hardware-dependent path, and deliver the
-packaged artifact for App Center requests: report the archive and build-report paths, bundled
-versus platform-provided dependencies, and the fixed platform contract. If
-packaging cannot run because a wheelhouse input is missing, state the missing
-input explicitly. Report separate evidence for static/package validation,
-host loader/mock loop, model numerical comparison (when applicable), device
-upload/install/lifecycle/result delivery, and task-specific behavior. A failed,
-pending or unverified stage must not be described as device acceptance passed.
-
-## Maintaining the fixed contract
-
-Run `python scripts/api_reference.py --sdk-root <checkout> --check` to compare
-the complete documented SDK/Kit API surface, AppMgr routes, signatures, fields
-and source hashes. Review changed behavior and update `api-notes.json` /
-`api-http-notes.json` before `--write --revision <full-commit>`; do not regenerate
-against an unreviewed version during ordinary app development. This check is
-independent of the builder/manifest contract below and does not certify hardware.
-
-Run `python scripts/sdk_contract.py --sdk-root <checkout>` to detect changes to
-manifest/build/dependency admission, Kit APIs, recording and resource routing.
-A mismatch requires review, not an automatic update during a user's build.
-Both validators use the selected official manifest module. Build reports record
-commit, dirty status and file hashes; exported non-Git overrides have unknown
-commit/dirty status. API call and entry checks use AST only: dynamic exports are
-reported as unverified by the static checks; only the separate smoke helper
-executes trusted application code with a bounded lifetime. For maintenance in the CodeCraft hardware repository, run
-`python3 codecraft.py test --path tests/skills/codecraft-development-recamera-pysdk`
-and `python3 codecraft.py validate --static`. Installed copies need only this
-Skill directory for the offline application commands above.
+Report the selected SDK/runtime assumptions, source or artifact paths and
+actual results separately: offline validation/package integrity, host loader,
+model numerical comparison, upload/install/lifecycle, result delivery and task
+behavior. A PID, socket, successful upload or successful build does not prove
+device behavior. Keep unknown hardware revision and runtime compatibility
+explicit.

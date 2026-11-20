@@ -39,7 +39,7 @@ The implementation separates Device facts, Platform software stacks and Skill-ow
 | `platforms/esp-idf/components/` | Components shared by ESP-IDF boards |
 | `platforms/<stack>/` | Shared software-stack/runtime adapters, build helpers and reusable components; no board directories |
 | `skills/` | Flat installable Skills: codecraft-development-* development workflows and codecraft-capabilities-* cloud API clients |
-| `tools/skill_packages/` | Cloud client maintenance source, package release records, immutable import provenance and release tooling |
+| `tools/skill_packages/` | Skill package maintenance source, package release records, immutable import provenance and release tooling |
 | `tools/codecraft/` | Shared orchestration and public CLI implementation |
 | `tests/` | All repository-maintained tests, fixtures and mocks, grouped by Device, Platform, Skill or Tool owner; see tests/AGENTS.md |
 | `tests/devices/<board>/` | Retained observations, source-bound evidence records and sanitized original logs |

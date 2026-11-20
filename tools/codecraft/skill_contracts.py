@@ -5,7 +5,7 @@ import re
 
 from pathlib import Path
 
-from io_utils import digest, localized, require, safe_path, read_json, object_digest
+from io_utils import digest, localized, require, safe_path, read_json, object_digest, package_inventory
 from graph import SourceGraph
 from registry import load_group
 
@@ -383,19 +383,3 @@ def policy(contract, files):
         effective[name]={kind:constrained_schema(operation[kind],overrides[kind],identity+'/'+name+'/'+kind)
                          for kind in ('input','output')}
     return {'configuration':config,'operations':effective}
-
-
-def package_inventory(package):
-    """Fingerprint a standalone package, not a native build source directory."""
-    package=Path(package)
-    require(package.is_dir() and not package.is_symlink(), 'Skill package must be a real directory')
-    files={}
-    for path in sorted(package.rglob('*')):
-        relative=path.relative_to(package)
-        if '__pycache__' in relative.parts or path.name=='.DS_Store':
-            continue
-        require(not path.is_symlink(), f'Skill package must not contain symlinks: {relative}')
-        if path.is_file():
-            require(path.name!='.env' and not (path.name.startswith('.env.') and path.name!='.env.example') and not {'secrets','.secrets'} & set(relative.parts),f'Private file inside Skill package: {relative}')
-            files[relative.as_posix()]=digest(path)
-    return files
