@@ -304,7 +304,11 @@ or claim a new build passed when compilation was skipped.
 
 This is a check-selection policy for Agents and contributors. The CLI does not
 automatically inspect the Git diff; no-option `validate` still runs all Targets
-and clean project builds. CI selection remains defined by its workflow.
+and clean project builds. CI keeps the static/host gate and selects native Targets
+with `python3 codecraft.py ci plan`; its fixed result job checks every selected
+platform. See [CI selection](docs/development/ci.md) for event baselines, dependency
+ownership, conservative fallbacks and explicit skips. This does not replace
+reviewing an uncommitted local diff under the scope rules above.
 Select any required native checks by the actual platform:
 
 | Command | What it establishes |
