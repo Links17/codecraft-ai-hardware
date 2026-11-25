@@ -19,11 +19,17 @@ Policy constraints may only narrow the semantic schema; defaults require explici
 policy_default permission. Archival is never an implicit default. Unknown
 resource bounds and missing execution prerequisites must remain explicit.
 
-Release records in tools/skill_packages/packages/<skill-id>.json own distribution versions,
+Cloud release records in tools/skill_packages/packages/<skill-id>.json own distribution versions,
 complete file hashes and original import provenance. Keep these records outside
 packages to avoid self-hashing. Never refresh hashes to accept unreviewed edits.
 Follow [release maintenance](../docs/development/skill-releases.md) and apply only
 the reviewed candidate digest. Packaging is not installation or publication.
+
+The standalone reCamera development Skill has its separate inventory at
+tools/skill_packages/recamera/release.json and immutable import record at
+docs/recamera-skill-import.json. Follow [SDK maintenance](../docs/development/recamera-sdk-maintenance.md)
+for explicit candidate selection and API reference production. It has no cloud
+contract and must not enter native discovery until a real Device/Target exists.
 
 Runtime imports must stay inside the copied package. Shared repository contract
 checks must not import the hardware Catalog or call a service. Native-only

@@ -39,7 +39,7 @@ The implementation separates Device facts, Platform software stacks and Skill-ow
 | `platforms/esp-idf/components/` | Components shared by ESP-IDF boards |
 | `platforms/<stack>/` | Shared software-stack/runtime adapters, build helpers and reusable components; no board directories |
 | `skills/` | Flat installable Skills: codecraft-development-* development workflows and codecraft-capabilities-* cloud API clients |
-| `tools/skill_packages/` | Cloud client maintenance source, package release records, immutable import provenance and release tooling |
+| `tools/skill_packages/` | Skill package maintenance source, package release records, immutable import provenance and release tooling |
 | `tools/codecraft/` | Shared orchestration and public CLI implementation |
 | `tests/` | All repository-maintained tests, fixtures and mocks, grouped by Device, Platform, Skill or Tool owner; see tests/AGENTS.md |
 | `tests/devices/<board>/` | Retained observations, source-bound evidence records and sanitized original logs |
@@ -304,7 +304,11 @@ or claim a new build passed when compilation was skipped.
 
 This is a check-selection policy for Agents and contributors. The CLI does not
 automatically inspect the Git diff; no-option `validate` still runs all Targets
-and clean project builds. CI selection remains defined by its workflow.
+and clean project builds. CI keeps the static/host gate and selects native Targets
+with `python3 codecraft.py ci plan`; its fixed result job checks every selected
+platform. See [CI selection](docs/development/ci.md) for event baselines, dependency
+ownership, conservative fallbacks and explicit skips. This does not replace
+reviewing an uncommitted local diff under the scope rules above.
 Select any required native checks by the actual platform:
 
 | Command | What it establishes |

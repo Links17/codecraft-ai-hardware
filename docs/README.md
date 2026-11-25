@@ -8,6 +8,7 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 
 - [Repository and contribution contract](../AGENTS.md)
 - [Architecture](architecture/overview.md)
+- [CodeCraft hardware application platform architecture](architecture/codecraft-hardware-app-platform.md)
 - [Standalone Skill contracts and release ownership](architecture/skill-contracts.md)
 - [Simulation scope decision](architecture/simulation-scope.md)
 - [Private project workspaces and briefs](development/project-workspaces.md)
@@ -18,6 +19,7 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 - [AI development guide](development/ai-guide.md)
 - [Standalone Skill release workflow](development/skill-releases.md)
 - [Host test ownership and focused execution](development/testing.md)
+- [CI impact selection and aggregate result](development/ci.md)
 - [ESP-IDF BSP composition and layout](development/native-compositions.md)
 - [Hardware variants and native build selection](development/hardware-variants.md)
 - [Firmware image delivery and TODOs](development/firmware-images.md)
@@ -30,6 +32,7 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 ## Planning and open work
 
 - [V0.2 implementation TODOs](development/v0.2-todo.md) — design alignment, completed work and pending acceptance.
+- [reCamera SDK optimization TODOs](development/recamera-sdk-todo.md) — Skill/tool ownership, completed checks and future Device/Target integration; see [SDK maintenance](development/recamera-sdk-maintenance.md) for reference and candidate commands.
 
 - [Architecture requirements](development/codecraft-hardware-distilled.md) — requirements for all three content owners.
 - [Optimization plan and TODOs](development/optimization-plan.md) — remaining tooling, external acceptance and governance work.

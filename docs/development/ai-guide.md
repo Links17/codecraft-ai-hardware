@@ -35,6 +35,11 @@ not require rebuilding unchanged, already validated native inputs. The no-option
 `python3 codecraft.py validate` command remains a full-build operation, not the
 default delivery check.
 
+The [CI planner](ci.md) compares committed inputs on both sides of a change and
+selects native Target jobs while retaining static/host checks. Review its reasons
+and the fixed CI result job; it does not inspect uncommitted local work or turn
+skipped builds into fresh verification evidence.
+
 ## Delivery format
 
 Report static/knowledge/host checks, builds per Target with actual toolchain, clean generated-project checks, and on-device verification separately. Include failures, skips, unsupported operations and unperformed checks with their reasons. A build is not hardware validation. Use the root contract and PR template for exact fields.

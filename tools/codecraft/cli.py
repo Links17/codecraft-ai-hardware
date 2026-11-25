@@ -225,8 +225,24 @@ def main(argv=None):
     evidence=sub.add_parser('record-evidence');evidence.add_argument('--file',type=Path,required=True)
     release=sub.add_parser('skill-release',help='Prepare, check or explicitly apply standalone Skill candidates')
     release.add_argument('release_args',nargs=argparse.REMAINDER)
+    ci=sub.add_parser('ci',help='Plan affected native CI Targets or check completed CI jobs')
+    ci.add_argument('ci_args',nargs=argparse.REMAINDER)
+    reference=sub.add_parser('skill-reference',help='Check or regenerate the maintained reCamera SDK API reference')
+    reference.add_argument('--skill',required=True,choices=['codecraft-development-recamera-pysdk'])
+    reference.add_argument('--sdk-root',type=Path,required=True)
+    reference.add_argument('--revision')
+    reference_mode=reference.add_mutually_exclusive_group(required=True)
+    reference_mode.add_argument('--check',action='store_true')
+    reference_mode.add_argument('--write',action='store_true')
     args=parser.parse_args(argv)
     try:
+        if args.command=='ci':
+            if not (args.root/'tools/codecraft/ci.py').is_file():
+                require((args.root/'project.yaml').is_file() and (args.root/'codecraft.lock').is_file(),
+                        'Missing repository CI implementation')
+                raise OperationUnavailable('not_supported','CI planning requires the full Git repository.')
+            import ci as ci_flow
+            return ci_flow.main(args.ci_args,root=args.root)
         if args.command=='firmware':
             import firmware as image_flow
             if args.image_command=='plan':
@@ -247,6 +263,18 @@ def main(argv=None):
                 code=exit_code(checks)
             print(json.dumps({'schema_version':2,'ok':code==0,'data':data},ensure_ascii=False,indent=2))
             return code
+        if args.command=='skill-reference':
+            path=args.root/'tools/skill_packages/recamera/api_reference.py'
+            if not path.is_file():
+                require((args.root/'project.yaml').is_file() and (args.root/'codecraft.lock').is_file(),
+                        'Missing repository Skill reference implementation')
+                raise OperationUnavailable('not_supported','Skill reference maintenance requires the full repository.')
+            spec=importlib.util.spec_from_file_location('codecraft_skill_reference',path)
+            module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+            data=module.reference(args.root,args.sdk_root,write=args.write,revision=args.revision)
+            ok=data['status']=='passed'
+            print(json.dumps({'schema_version':2,'ok':ok,'data':data},ensure_ascii=False,indent=2))
+            return 0 if ok else 1
         if args.command=='skill-release':
             path=args.root/'tools/skill_packages/release.py'
             if not path.is_file():

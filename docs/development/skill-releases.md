@@ -5,6 +5,11 @@ reviewable local candidates, checks isolated clients and updates reviewed packag
 fingerprints in tools/skill_packages/packages/<skill-id>.json. It does not install Skills globally, publish artifacts or call a
 real cloud service. Original import provenance in tools/skill_packages/import.json and
 Skill release source fields is preserved.
+The standalone reCamera development Skill uses explicit `--skill
+codecraft-development-recamera-pysdk` selection with its own package inventory
+and offline acceptance, without a cloud contract. Follow
+[reCamera SDK maintenance](recamera-sdk-maintenance.md) for that path; the
+unqualified commands below continue to select the cloud bundle.
 The separately reviewed current upstream snapshot is recorded in
 tools/skill_packages/upstream.json; copying new source must not rewrite the original import.
 

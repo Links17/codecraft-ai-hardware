@@ -26,7 +26,7 @@ Use these for setting, scale in the hand, mounting and typical screen content.
 
 ## Fact checks
 
-Pass the relevant lines to image generation models as explicit constraints if needed, or validate generated image against this list. 
+Pass the relevant lines to image generation models as explicit constraints if needed, or validate generated image against this list.
 
 - Front bezels are not uniform on all sides: left, top, and right bezels are the same, while the bottom bezel is wider. Compare against the front view.
 

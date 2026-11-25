@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -15,8 +16,8 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT/'tools/codecraft'))
 from graph import SourceGraph
-from io_utils import ContractError, digest, object_digest, read_json, require, safe_path, write_json
-from skill_contracts import registrations, record_path, package_inventory, validate_contract, load_package
+from io_utils import ContractError, digest, object_digest, read_json, require, safe_path, write_json, package_inventory
+from skill_contracts import registrations, record_path, validate_contract, load_package
 
 
 def versions(value):
@@ -246,8 +247,17 @@ def main(argv=None, root=ROOT):
     command = sub.add_parser('check');command.add_argument('--candidate', type=Path, required=True)
     command = sub.add_parser('apply');command.add_argument('--candidate', type=Path, required=True)
     command.add_argument('--review-sha256', required=True)
+    for command in sub.choices.values():
+        command.add_argument('--skill',choices=['codecraft-development-recamera-pysdk'],
+                             help='Select the development SDK package; omitted selects the cloud bundle')
     args = parser.parse_args(argv)
     try:
+        if args.skill:
+            path=Path(root)/'tools/skill_packages/recamera/release.py'
+            spec=importlib.util.spec_from_file_location('codecraft_recamera_release',path)
+            module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+            data=module.dispatch(root,args)
+            print(json.dumps({'schema_version':2,'ok':True,'data':data},ensure_ascii=False,indent=2));return 0
         if args.command=='prepare':
             releases=read_json(args.versions) if args.versions else {}
             require(isinstance(releases,dict),'Release versions must be an object keyed by Skill ID')

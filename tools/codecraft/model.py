@@ -11,6 +11,21 @@ from device_entry import read_contract
 from device_validation import validate as validate_device
 
 
+def native_roots(target, platform):
+    """Declared native inputs and pipeline; knowledge/evidence are added by Catalog."""
+    roots = [f'{target["path"]}/target.json', f'platforms/{platform["id"]}/platform.json',
+             platform['adapter'], *platform['runtime'], *target['inputs'],
+             *target['dependencies'], target['toolchain']['source']]
+    for name in target['examples']:
+        roots += target['example_inputs'][name] + target['example_dependencies'][name]
+    for choice in target.get('variants', {}).values():
+        roots += choice['inputs'] + choice['dependencies']
+    for binding in target['interfaces']:
+        roots += binding['implementation']
+        roots += [ref for refs in binding.get('example_implementation', {}).values() for ref in refs]
+    return roots
+
+
 class Catalog:
     def __init__(self, root):
         self.root = Path(root).resolve()
@@ -92,20 +107,12 @@ class Catalog:
         target = self.selected_target(tid, example, variant)
         device = self.devices[target['device']]
         platform = self.platforms[target['platform']]
-        roots = ['AGENTS.md', f'platforms/{platform["id"]}/AGENTS.md', f'devices/{device["id"]}/AGENTS.md', f'{target["path"]}/target.json',
-                 f'platforms/{platform["id"]}/platform.json', platform['adapter'],
-                 *platform['runtime'], *device['references'],
-                 *target['inputs'], *target['dependencies'], target['toolchain']['source']]
+        roots = ['AGENTS.md', f'platforms/{platform["id"]}/AGENTS.md',
+                 f'devices/{device["id"]}/AGENTS.md', *device['references'],
+                 *native_roots(target, platform)]
         roots.extend(asset['path'] for asset in device['assets'])
         for case in device['acceptance']['cases']:
             roots.append(case['source'])
-        for name in target['examples']:
-            roots += target['example_inputs'][name] + target['example_dependencies'][name]
-        for choice in target.get('variants', {}).values():
-            roots += choice['inputs'] + choice['dependencies']
-        for binding in target['interfaces']:
-            roots += binding['implementation']
-            roots += [ref for refs in binding.get('example_implementation', {}).values() for ref in refs]
         graph = SourceGraph(self.root)
         graph.resolve(roots)
         profile = self.root/'project.yaml'
