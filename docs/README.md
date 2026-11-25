@@ -8,6 +8,7 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 
 - [Repository and contribution contract](../AGENTS.md)
 - [Architecture](architecture/overview.md)
+- [CodeCraft hardware application platform architecture](architecture/codecraft-hardware-app-platform.md)
 - [Standalone Skill contracts and release ownership](architecture/skill-contracts.md)
 - [Simulation scope decision](architecture/simulation-scope.md)
 - [Private project workspaces and briefs](development/project-workspaces.md)
@@ -18,6 +19,7 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 - [AI development guide](development/ai-guide.md)
 - [Standalone Skill release workflow](development/skill-releases.md)
 - [Host test ownership and focused execution](development/testing.md)
+- [CI impact selection and aggregate result](development/ci.md)
 - [ESP-IDF BSP composition and layout](development/native-compositions.md)
 - [Hardware variants and native build selection](development/hardware-variants.md)
 - [Firmware image delivery and TODOs](development/firmware-images.md)

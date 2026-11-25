@@ -38,7 +38,9 @@ Skill owner.
    [root validation policy](../AGENTS.md#required-validation-and-delivery).
    Run focused checks and `validate --static`. If firmware and native build
    inputs/behavior are unchanged, skip native builds and the complete gate.
-   Use the appropriate command below only for affected native scope:
+   CI follows [committed-input selection](../docs/development/ci.md); inspect its
+   Target decisions and the fixed **CI result** job. Planned skips are not fresh
+   build evidence. Use the appropriate command below only for affected native scope:
 
    ```bash
    python3 codecraft.py validate --target <platform>/<device>

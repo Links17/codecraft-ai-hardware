@@ -225,6 +225,8 @@ def main(argv=None):
     evidence=sub.add_parser('record-evidence');evidence.add_argument('--file',type=Path,required=True)
     release=sub.add_parser('skill-release',help='Prepare, check or explicitly apply standalone Skill candidates')
     release.add_argument('release_args',nargs=argparse.REMAINDER)
+    ci=sub.add_parser('ci',help='Plan affected native CI Targets or check completed CI jobs')
+    ci.add_argument('ci_args',nargs=argparse.REMAINDER)
     reference=sub.add_parser('skill-reference',help='Check or regenerate the maintained reCamera SDK API reference')
     reference.add_argument('--skill',required=True,choices=['codecraft-development-recamera-pysdk'])
     reference.add_argument('--sdk-root',type=Path,required=True)
@@ -234,6 +236,13 @@ def main(argv=None):
     reference_mode.add_argument('--write',action='store_true')
     args=parser.parse_args(argv)
     try:
+        if args.command=='ci':
+            if not (args.root/'tools/codecraft/ci.py').is_file():
+                require((args.root/'project.yaml').is_file() and (args.root/'codecraft.lock').is_file(),
+                        'Missing repository CI implementation')
+                raise OperationUnavailable('not_supported','CI planning requires the full Git repository.')
+            import ci as ci_flow
+            return ci_flow.main(args.ci_args,root=args.root)
         if args.command=='firmware':
             import firmware as image_flow
             if args.image_command=='plan':

@@ -75,7 +75,7 @@ def test_exported_public_entry_preserves_not_run_and_not_supported_exit_statuses
         release=command(output/'codecraft.py',['skill-release','prepare','--output',str(Path(folder)/'release')],output)
         assert release.returncode==2 and json.loads(release.stdout)['data']['status']=='not_supported'
         assert not (Path(folder)/'release').exists()
-        for args in (['check-cloud-skills'],['generate'],
+        for args in (['check-cloud-skills'],['generate'],['ci','plan','--full'],
                      ['skill-reference','--skill','codecraft-development-recamera-pysdk',
                       '--sdk-root',folder,'--check']):
             unavailable=command(output/'codecraft.py',args,output)

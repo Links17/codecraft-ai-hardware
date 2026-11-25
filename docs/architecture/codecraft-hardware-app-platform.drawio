@@ -1,0 +1,153 @@
+<mxfile host="app.diagrams.net" modified="2026-11-23T09:30:00.000Z" agent="Codex" version="32.6.1" type="device">
+  <diagram id="system-context" name="System Context">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ctx-title" value="CodeCraft Hardware Application Platform — System Context" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;fontColor=#1f2937;" vertex="1" parent="1">
+          <mxGeometry x="40" y="25" width="900" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx-subtitle" value="Hub discovers and delivers; Web Coding creates and remixes; APISIX is the public API edge." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontColor=#4b5563;" vertex="1" parent="1">
+          <mxGeometry x="42" y="58" width="900" height="25" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctx-user" value="User&lt;br&gt;&lt;small&gt;discover · create · remix · flash&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#f97316;fontColor=#7c2d12;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="40" y="160" width="165" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx-external-agent" value="User-owned Agent&lt;br&gt;&lt;small&gt;Claude Code · Codex · other&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#f97316;fontColor=#7c2d12;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="440" width="165" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctx-hub" value="CodeCraft Hub&lt;br&gt;&lt;small&gt;discover · release · publish · flash entry&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontColor=#0c4a6e;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="260" y="105" width="230" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx-web" value="CodeCraft Web Coding&lt;br&gt;&lt;small&gt;conversational workspace · source · remix&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontColor=#0c4a6e;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="260" y="260" width="230" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctx-apisix" value="APISIX Gateway&lt;br&gt;&lt;small&gt;OIDC/JWT · quotas · routes · events&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontColor=#4c1d95;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="550" y="185" width="235" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctx-control" value="Platform Control Plane&lt;br&gt;&lt;small&gt;projects · hardware profiles · builds · agents · devices&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="845" y="165" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx-gitea" value="Gitea&lt;br&gt;&lt;small&gt;repositories · revisions · branches · PRs&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0fdf4;strokeColor=#22c55e;fontColor=#14532d;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="85" width="220" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx-db" value="PostgreSQL&lt;br&gt;&lt;small&gt;control-plane metadata&lt;/small&gt;" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#f0fdf4;strokeColor=#22c55e;fontColor=#14532d;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="205" width="220" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx-r2" value="Cloudflare R2&lt;br&gt;&lt;small&gt;uploads · firmware · logs · backups&lt;/small&gt;" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#fef3c7;strokeColor=#d97706;fontColor=#78350f;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="325" width="220" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx-queue" value="Queue&lt;br&gt;&lt;small&gt;Redis / Valkey / equivalent&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontColor=#78350f;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="845" y="410" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx-exec" value="Execution Plane&lt;br&gt;&lt;small&gt;ESP-IDF/Arduino builders · Agent Sandboxes&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontColor=#7f1d1d;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="465" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx-device" value="Device Service / Bridge&lt;br&gt;&lt;small&gt;USB · serial · OTA · hardware tests&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontColor=#7f1d1d;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="845" y="570" width="260" height="85" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx-board" value="ESP32 device&lt;br&gt;&lt;small&gt;claimed physical target&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;fontColor=#1f2937;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="590" width="220" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctx-e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#f97316;" edge="1" parent="1" source="ctx-user" target="ctx-hub"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#f97316;" edge="1" parent="1" source="ctx-user" target="ctx-web"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e3" value="external agent API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;dashed=1;strokeColor=#f97316;fontColor=#7c2d12;" edge="1" parent="1" source="ctx-external-agent" target="ctx-apisix"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#0284c7;" edge="1" parent="1" source="ctx-hub" target="ctx-apisix"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#0284c7;" edge="1" parent="1" source="ctx-web" target="ctx-apisix"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e6" value="authorized API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#7c3aed;fontColor=#4c1d95;" edge="1" parent="1" source="ctx-apisix" target="ctx-control"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e7" value="source API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#22c55e;fontColor=#14532d;" edge="1" parent="1" source="ctx-control" target="ctx-gitea"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e8" value="metadata" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#22c55e;fontColor=#14532d;" edge="1" parent="1" source="ctx-control" target="ctx-db"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e9" value="signed URLs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#d97706;fontColor=#78350f;" edge="1" parent="1" source="ctx-control" target="ctx-r2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e10" value="jobs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#d97706;fontColor=#78350f;" edge="1" parent="1" source="ctx-control" target="ctx-queue"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e11" value="run" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#dc2626;fontColor=#7f1d1d;" edge="1" parent="1" source="ctx-queue" target="ctx-exec"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e12" value="artifacts/logs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#d97706;fontColor=#78350f;" edge="1" parent="1" source="ctx-exec" target="ctx-r2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e13" value="PR / commit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#22c55e;fontColor=#14532d;" edge="1" parent="1" source="ctx-exec" target="ctx-gitea"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e14" value="approved action" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#dc2626;fontColor=#7f1d1d;" edge="1" parent="1" source="ctx-control" target="ctx-device"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ctx-e15" value="USB / OTA" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#6b7280;fontColor=#1f2937;" edge="1" parent="1" source="ctx-device" target="ctx-board"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="agent-build" name="Agent Remix and Build">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ab-title" value="Agent Remix and ESP32 Build Flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;fontColor=#1f2937;" vertex="1" parent="1"><mxGeometry x="40" y="25" width="900" height="35" as="geometry" /></mxCell>
+        <mxCell id="ab-note" value="A Remix is the user-facing change object; branch, sandbox and PR are implementation details." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontColor=#4b5563;" vertex="1" parent="1"><mxGeometry x="42" y="58" width="1000" height="25" as="geometry" /></mxCell>
+
+        <mxCell id="ab-user" value="User&lt;br&gt;&lt;small&gt;selects project + hardware&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#f97316;fontColor=#7c2d12;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="175" width="170" height="80" as="geometry" /></mxCell>
+        <mxCell id="ab-web" value="Web Coding&lt;br&gt;&lt;small&gt;prompt / guided change&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontColor=#0c4a6e;fontSize=14;" vertex="1" parent="1"><mxGeometry x="270" y="175" width="190" height="80" as="geometry" /></mxCell>
+        <mxCell id="ab-run" value="Create AgentRun&lt;br&gt;&lt;small&gt;base revision + scopes + profile&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontColor=#4c1d95;fontSize=14;" vertex="1" parent="1"><mxGeometry x="520" y="175" width="210" height="80" as="geometry" /></mxCell>
+        <mxCell id="ab-sandbox" value="Ephemeral Agent Sandbox&lt;br&gt;&lt;small&gt;read · patch · test&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontColor=#7f1d1d;fontSize=14;" vertex="1" parent="1"><mxGeometry x="790" y="175" width="220" height="80" as="geometry" /></mxCell>
+        <mxCell id="ab-build" value="ESP32 Build Worker&lt;br&gt;&lt;small&gt;pinned ESP-IDF / Arduino image&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontColor=#7f1d1d;fontSize=14;" vertex="1" parent="1"><mxGeometry x="1070" y="175" width="220" height="80" as="geometry" /></mxCell>
+        <mxCell id="ab-review" value="Change Request / PR&lt;br&gt;&lt;small&gt;diff · logs · size · candidate&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;fontSize=14;" vertex="1" parent="1"><mxGeometry x="790" y="365" width="220" height="80" as="geometry" /></mxCell>
+        <mxCell id="ab-r2" value="R2&lt;br&gt;&lt;small&gt;firmware · logs · reports&lt;/small&gt;" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#fef3c7;strokeColor=#d97706;fontColor=#78350f;fontSize=14;" vertex="1" parent="1"><mxGeometry x="1070" y="365" width="220" height="80" as="geometry" /></mxCell>
+        <mxCell id="ab-approve" value="User approval&lt;br&gt;&lt;small&gt;merge / iterate / discard&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#f97316;fontColor=#7c2d12;fontSize=14;" vertex="1" parent="1"><mxGeometry x="520" y="365" width="210" height="80" as="geometry" /></mxCell>
+        <mxCell id="ab-release" value="Firmware Release&lt;br&gt;&lt;small&gt;manifest + hash + signature status&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;fontSize=14;" vertex="1" parent="1"><mxGeometry x="1070" y="555" width="220" height="80" as="geometry" /></mxCell>
+        <mxCell id="ab-device" value="Device Bridge&lt;br&gt;&lt;small&gt;explicit flash approval&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;fontColor=#1f2937;fontSize=14;" vertex="1" parent="1"><mxGeometry x="790" y="555" width="220" height="80" as="geometry" /></mxCell>
+        <mxCell id="ab-board" value="ESP32 board&lt;br&gt;&lt;small&gt;flash result + serial log&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;fontColor=#1f2937;fontSize=14;" vertex="1" parent="1"><mxGeometry x="520" y="555" width="210" height="80" as="geometry" /></mxCell>
+
+        <mxCell id="ab-e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#f97316;" edge="1" parent="1" source="ab-user" target="ab-web"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ab-e2" value="prompt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#0284c7;fontColor=#0c4a6e;" edge="1" parent="1" source="ab-web" target="ab-run"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ab-e3" value="short-lived scope" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#7c3aed;fontColor=#4c1d95;" edge="1" parent="1" source="ab-run" target="ab-sandbox"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ab-e4" value="edit + build" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#dc2626;fontColor=#7f1d1d;" edge="1" parent="1" source="ab-sandbox" target="ab-build"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ab-e5" value="branch / commit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#16a34a;fontColor=#14532d;" edge="1" parent="1" source="ab-sandbox" target="ab-review"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ab-e6" value="artifacts" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#d97706;fontColor=#78350f;" edge="1" parent="1" source="ab-build" target="ab-r2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ab-e7" value="result" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#dc2626;fontColor=#7f1d1d;" edge="1" parent="1" source="ab-build" target="ab-review"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ab-e8" value="review" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#f97316;fontColor=#7c2d12;" edge="1" parent="1" source="ab-review" target="ab-approve"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ab-e9" value="merge or iterate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#f97316;fontColor=#7c2d12;" edge="1" parent="1" source="ab-approve" target="ab-web"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ab-e10" value="approved release" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#16a34a;fontColor=#14532d;" edge="1" parent="1" source="ab-approve" target="ab-release"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ab-e11" value="flash request" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#6b7280;fontColor=#1f2937;" edge="1" parent="1" source="ab-release" target="ab-device"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ab-e12" value="USB / OTA" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#6b7280;fontColor=#1f2937;" edge="1" parent="1" source="ab-device" target="ab-board"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="trust-data" name="Trust Boundaries and Data">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="td-title" value="Trust Boundaries and Data Ownership" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;fontColor=#1f2937;" vertex="1" parent="1"><mxGeometry x="40" y="25" width="900" height="35" as="geometry" /></mxCell>
+        <mxCell id="td-note" value="The gateway authenticates traffic; services authorize resources; sandboxes and devices are separate capability boundaries." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontColor=#4b5563;" vertex="1" parent="1"><mxGeometry x="42" y="58" width="1100" height="25" as="geometry" /></mxCell>
+
+        <mxCell id="td-edge" value="EDGE TRUST BOUNDARY" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f3ff;strokeColor=#7c3aed;dashed=1;fontStyle=1;fontColor=#4c1d95;fontSize=13;align=left;verticalAlign=top;spacingTop=6;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="40" y="105" width="1470" height="145" as="geometry" /></mxCell>
+        <mxCell id="td-edge-node" value="APISIX&lt;br&gt;&lt;small&gt;OIDC/JWT · rate limits · request ID · WebSocket&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontColor=#4c1d95;fontSize=14;" vertex="1" parent="1"><mxGeometry x="95" y="145" width="300" height="75" as="geometry" /></mxCell>
+        <mxCell id="td-edge-rules" value="Public clients&lt;br&gt;&lt;small&gt;Hub · Web Coding · user-owned Agents&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#f97316;fontColor=#7c2d12;fontSize=14;" vertex="1" parent="1"><mxGeometry x="485" y="145" width="300" height="75" as="geometry" /></mxCell>
+        <mxCell id="td-edge-direct" value="Large object transfer&lt;br&gt;&lt;small&gt;short-lived R2 URLs; no master credentials&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontColor=#78350f;fontSize=14;" vertex="1" parent="1"><mxGeometry x="875" y="145" width="300" height="75" as="geometry" /></mxCell>
+
+        <mxCell id="td-control" value="CONTROL PLANE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0fdf4;strokeColor=#16a34a;dashed=1;fontStyle=1;fontColor=#14532d;fontSize=13;align=left;verticalAlign=top;spacingTop=6;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="40" y="285" width="1470" height="185" as="geometry" /></mxCell>
+        <mxCell id="td-api" value="Project / Agent / Build / Device API&lt;br&gt;&lt;small&gt;resource authorization · workflow state&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;fontSize=14;" vertex="1" parent="1"><mxGeometry x="95" y="335" width="300" height="90" as="geometry" /></mxCell>
+        <mxCell id="td-db2" value="PostgreSQL&lt;br&gt;&lt;small&gt;projects · runs · releases · devices · audit&lt;/small&gt;" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#f0fdf4;strokeColor=#22c55e;fontColor=#14532d;fontSize=14;" vertex="1" parent="1"><mxGeometry x="485" y="335" width="300" height="90" as="geometry" /></mxCell>
+        <mxCell id="td-git2" value="Gitea&lt;br&gt;&lt;small&gt;source and review; accessed by API&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0fdf4;strokeColor=#22c55e;fontColor=#14532d;fontSize=14;" vertex="1" parent="1"><mxGeometry x="875" y="335" width="300" height="90" as="geometry" /></mxCell>
+
+        <mxCell id="td-exec" value="EXECUTION BOUNDARY" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef2f2;strokeColor=#dc2626;dashed=1;fontStyle=1;fontColor=#7f1d1d;fontSize=13;align=left;verticalAlign=top;spacingTop=6;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="40" y="505" width="1470" height="190" as="geometry" /></mxCell>
+        <mxCell id="td-sandbox" value="Agent Sandbox&lt;br&gt;&lt;small&gt;untrusted source · short-lived token · no device keys&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontColor=#7f1d1d;fontSize=14;" vertex="1" parent="1"><mxGeometry x="95" y="555" width="300" height="95" as="geometry" /></mxCell>
+        <mxCell id="td-build2" value="Build Worker&lt;br&gt;&lt;small&gt;pinned ESP32 toolchain image · deterministic receipt&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontColor=#7f1d1d;fontSize=14;" vertex="1" parent="1"><mxGeometry x="485" y="555" width="300" height="95" as="geometry" /></mxCell>
+        <mxCell id="td-r22" value="R2&lt;br&gt;&lt;small&gt;artifacts · logs · backups · quarantine uploads&lt;/small&gt;" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#fef3c7;strokeColor=#d97706;fontColor=#78350f;fontSize=14;" vertex="1" parent="1"><mxGeometry x="875" y="555" width="300" height="95" as="geometry" /></mxCell>
+
+        <mxCell id="td-device" value="DEVICE BOUNDARY" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;dashed=1;fontStyle=1;fontColor=#1f2937;fontSize=13;align=left;verticalAlign=top;spacingTop=6;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="40" y="730" width="1470" height="150" as="geometry" /></mxCell>
+        <mxCell id="td-bridge" value="Device Bridge / Pool&lt;br&gt;&lt;small&gt;claim · lock · flash · serial evidence&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;fontColor=#1f2937;fontSize=14;" vertex="1" parent="1"><mxGeometry x="95" y="775" width="300" height="75" as="geometry" /></mxCell>
+        <mxCell id="td-approval" value="Human approval gate&lt;br&gt;&lt;small&gt;requested by Agent, confirmed by user&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#f97316;fontColor=#7c2d12;fontSize=14;" vertex="1" parent="1"><mxGeometry x="485" y="775" width="300" height="75" as="geometry" /></mxCell>
+        <mxCell id="td-board2" value="ESP32 board&lt;br&gt;&lt;small&gt;flash result + telemetry/logs&lt;/small&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#6b7280;fontColor=#1f2937;fontSize=14;" vertex="1" parent="1"><mxGeometry x="875" y="775" width="300" height="75" as="geometry" /></mxCell>
+
+        <mxCell id="td-e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#7c3aed;" edge="1" parent="1" source="td-edge-node" target="td-api"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="td-e2" value="auth context" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#7c3aed;fontColor=#4c1d95;" edge="1" parent="1" source="td-edge-rules" target="td-api"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="td-e3" value="resource policy" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#16a34a;fontColor=#14532d;" edge="1" parent="1" source="td-api" target="td-db2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="td-e4" value="source API" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#16a34a;fontColor=#14532d;" edge="1" parent="1" source="td-api" target="td-git2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="td-e5" value="short-lived job" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#dc2626;fontColor=#7f1d1d;" edge="1" parent="1" source="td-api" target="td-sandbox"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="td-e6" value="fixed image" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#dc2626;fontColor=#7f1d1d;" edge="1" parent="1" source="td-api" target="td-build2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="td-e7" value="artifact write" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#d97706;fontColor=#78350f;" edge="1" parent="1" source="td-build2" target="td-r22"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="td-e8" value="candidate only" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#f97316;fontColor=#7c2d12;" edge="1" parent="1" source="td-api" target="td-approval"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="td-e9" value="approved flash" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#6b7280;fontColor=#1f2937;" edge="1" parent="1" source="td-approval" target="td-bridge"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="td-e10" value="USB / OTA" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#6b7280;fontColor=#1f2937;" edge="1" parent="1" source="td-bridge" target="td-board2"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

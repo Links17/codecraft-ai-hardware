@@ -8,6 +8,7 @@
 
 - [仓库与贡献约束](../AGENTS.md)
 - [架构](architecture/overview.md)
+- [CodeCraft 硬件应用平台架构](architecture/codecraft-hardware-app-platform.md)
 - [独立 Skill 契约与发布归属](architecture/skill-contracts.md)
 - [仿真范围决策](architecture/simulation-scope.md)
 - [私有项目工作区与项目说明](development/project-workspaces.md)
@@ -18,6 +19,7 @@
 - [AI 开发指南](development/ai-guide.md)
 - [独立 Skill 打包与版本工作流](development/skill-releases.md)
 - [主机测试归属与定向执行](development/testing.md)
+- [CI 影响范围选择与汇总结果](development/ci.md)
 - [ESP-IDF BSP 组合与布局](development/native-compositions.md)
 - [硬件变体与原生构建选择](development/hardware-variants.md)
 - [固件镜像交付与 TODO](development/firmware-images.md)
