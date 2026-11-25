@@ -40,6 +40,8 @@ Compact magnetic 3.97-inch 4-level grayscale e-paper device with touch, three bu
 
 Best for low-frequency, always-visible notes, weather, schedules and status dashboards. Pocket size makes it suitable for both handheld and stationary use. Stick it to magnetic surfaces, or the back of your phone. Mount it to any surface with the adhesive magnetic ring accessory.
 
+Use the listed standalone Target examples (`epd_hello`, `button_hello`, `sht4x`) as the supported development entry points. The guides under `reference/` and the Intent routing table below map common tasks (display refresh, RTC clock, battery, navigation, sleep, microphone, microSD, IMU) to implementation patterns. Export private applications into a project workspace through the development workflow instead of editing the reference examples.
+
 ## [SenseCAP Indicator](sensecap-indicator/AGENTS.md)
 
 RGB display, touch and a case button through native examples; sensor co-processor interfaces are outside the registered Target scope.
