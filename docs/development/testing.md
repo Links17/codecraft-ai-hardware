@@ -94,6 +94,13 @@ fixtures are not an implicit supported test format.
 
 ## Coverage
 
+CI selection cases in tests/tools/codecraft/test_ci.py cover native inputs across
+all three platforms, shared resources, both sides of deletions/renames, internal
+configuration links, new/removed Targets, event baselines and aggregate-job failures.
+Run them with `python3 codecraft.py test --path tests/tools/codecraft/test_ci.py`.
+Public CLI tests also verify that repository-only CI commands are unavailable in
+native application exports. See [CI selection](ci.md) for the workflow contract.
+
 Every discovered case has one owner-qualified ID. Collection rejects duplicate
 aliases and reports import/fixture failures. Adding or moving tests must retain
 behavioral coverage without forwarding wrappers or duplicate execution.

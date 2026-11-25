@@ -10,6 +10,13 @@ use it for an explicit full-build request or native changes affecting every
 Target. The CLI is `python3 codecraft.py`. Report scope-based omissions as skipped
 and missing required prerequisites as not_run.
 
+GitHub CI keeps the static/host gate on every run and uses the public
+`python3 codecraft.py ci plan` command to select affected native Targets. Its
+fixed aggregate job rejects failed or unexpectedly skipped selected jobs and
+reports intentional omissions explicitly. Read [CI selection](../docs/development/ci.md)
+for committed-revision baselines and conservative fallback rules; local diff
+review and the no-option full gate retain the scope rules above.
+
 Device parsing, reference ownership, generation and export invariants follow
 [Device documents and shared references](../docs/development/device-documents.md).
 Checks reject malformed tables, duplicate or missing references, self-certifying
