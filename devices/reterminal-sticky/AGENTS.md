@@ -4,8 +4,6 @@
 
 Compact magnetic 3.97-inch 4-level grayscale e-paper device with touch, three buttons, environmental/motion sensors, RTC, microphone, buzzer, microSD, Wi-Fi/BLE and a 750 mAh battery.
 
-## Usage
-
 Best for low-frequency, always-visible notes, weather, schedules and status dashboards. Pocket size makes it suitable for both handheld and stationary use. Stick it to magnetic surfaces, or the back of your phone. Mount it to any surface with the adhesive magnetic ring accessory.
 
 ## Profile
@@ -18,9 +16,13 @@ Best for low-frequency, always-visible notes, weather, schedules and status dash
 | Maintenance | unassigned |
 | Maturity | experimental |
 
+## Usage
+
+Use the listed standalone Target examples (`epd_hello`, `button_hello`, `sht4x`) as the supported development entry points. The guides under `reference/` and the Intent routing table below map common tasks (display refresh, RTC clock, battery, navigation, sleep, microphone, microSD, IMU) to implementation patterns. Export private applications into a project workspace through the development workflow instead of editing the reference examples.
+
 ## Physical layout
 
-Vendor-described layout, viewed from the front in portrait orientation. See the [hardware overview][vendor-hardware] and [product images](reference/image-generation.md); the physical revision of a tested unit remains unknown.
+Viewing from the front in portrait orientation.
 
 - Dimensions (height × width × thickness): 106 × 65.5 × 7.3 mm
 - Weight: 70 g
@@ -28,21 +30,19 @@ Vendor-described layout, viewed from the front in portrait orientation. See the 
 
 Card-style body with a light silver-grey front bezel and glass touch cover. The rear shell is light silver-grey, with four N52 magnets in the four corners and a center metal ring beneath the shell (it works with the adhesive magnetic ring accessory). All four edges are white. Three buttons sit along the upper part of the right edge, from top to bottom: AI/OK/Power (grey), Up (white), Down (white). The microSD slot is on the lower part of the left edge. On the bottom, from left to right: reset hole, microphone, lanyard hole, charging LED and USB-C port.
 
-## Hardware notes
-
-The [vendor hardware overview][vendor-hardware] documents the following modules. The pin table also retains the [native header][pins] and [pinned official demo][vendor-demo] as implementation references. These source notes describe documented hardware, not a new physical observation.
+## Specs
 
 ### Platform
 
-- ESP-IDF (the registered Target stack)
+- ESP-IDF (recommanded)
 
-- Arduino (vendor examples; no Arduino Target is registered for Sticky)
+- Arduino
 
 ### Controller
 
 - Main controller: ESP32-S3
 - PSRAM capacity: 8 MB
-- Physical flash capacity remains unknown for an identified unit. The vendor lists 32 MB QSPI Flash, while `targets/sdkconfig.defaults` configures a 16 MB address range. The configuration is not a measurement of the installed chip.
+- Physical QSPI Flash: 32 MB
 
 ### Connectivity
 
@@ -69,7 +69,7 @@ The [vendor hardware overview][vendor-hardware] documents the following modules.
 
 #### Controls
 
-- Buttons: AI / OK / Power, Up, Down; Reset via CHIP_PU
+- Buttons: AI / OK / Power button, Up, Down; Reset via CHIP_PU
 - Touch: GT911 capacitive touch panel (I2C)
 
 ### Outputs
@@ -77,7 +77,7 @@ The [vendor hardware overview][vendor-hardware] documents the following modules.
 #### Display
 
 - 3.97-inch E-Ink, 4-level grayscale
-- Panel controller candidates in the official demo: SSD1677 or SSD2677. The [pinned panel implementation][vendor-panel] detects the controller; it does not establish which revision uses which panel. The current Target implements SSD1677 only and has no detection.
+- Panel controller: SSD1677 or SSD2677. Both are shipped without declaration.
 - Native resolution: 800 × 480 px (horizontal)
 - Pixel density: 235 ppi
 
@@ -93,7 +93,7 @@ The [vendor hardware overview][vendor-hardware] documents the following modules.
 
 ### Accessories
 
-- Mounting accessory: Adhesive magnetic ring for non-metal surfaces; confirm package contents with the supplier.
+- Mounting accessory: Adhesive magnetic ring for non-metal surfaces, included in the packaging
 
 ### Pins and signals
 
@@ -114,6 +114,57 @@ Required at boot: drive GPIO45 (HOLD) and GPIO46 (LOCK) HIGH to keep the power r
 | USB-UART          | CH343P                               | UART                       | TX=43, RX=44                                                   |                                                                                                                                                                                                                                 |
 | Reset             | Reset button hole                    | CHIP_PU                    | not a GPIO                                                     |                                                                                                                                                                                                                                 |
 
+## Specifications
+
+### Controller
+
+| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
+| --- | --- | --- | --- | --- | --- | --- |
+| Main controller (`mcu`) | string | ESP32-S3 | — | documented | [device-notes][device-notes] | Main controller: {value} |
+| PSRAM capacity (`psram`) | integer | 8 | MB | documented | [device-notes][device-notes] | PSRAM capacity: {value} MB |
+| Physical QSPI flash (`flash`) | integer | 32 | MB | documented | [device-notes][device-notes] | Physical QSPI Flash: {value} MB |
+
+### Connectivity
+
+| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
+| --- | --- | --- | --- | --- | --- | --- |
+| Wi-Fi (`wifi`) | string | 2.4 GHz Wi-Fi | — | documented | [device-notes][device-notes] | - {value} |
+| Bluetooth (`ble`) | string | BLE 5.0 | — | documented | [device-notes][device-notes] | - {value} |
+
+### Inputs
+
+| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
+| --- | --- | --- | --- | --- | --- | --- |
+| Buttons (`keys`) | string | AI / OK / Power button, Up, Down | — | documented | [device-notes][device-notes] | Buttons: {value} |
+| Touch (`touch`) | string | GT911 | — | documented | [device-notes][device-notes] | Touch: {value} capacitive touch panel |
+| Microphone (`mic`) | string | PDM digital microphone | — | documented | [device-notes][device-notes] | - {value} |
+| Temperature/humidity sensor (`temp_sensor`) | string | SHT40 | — | documented | [device-notes][device-notes] | - {value} temperature/humidity (I2C) |
+| IMU (`imu`) | string | LSM6DS3TR-C | — | documented | [device-notes][device-notes] | - {value} 6-axis IMU (I2C) |
+| Real-time clock (`rtc`) | string | PCF8563 | — | documented | [device-notes][device-notes] | Real-time clock: {value} (I2C) |
+
+### Outputs
+
+| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
+| --- | --- | --- | --- | --- | --- | --- |
+| Display panel (`display`) | string | SSD1677 or SSD2677 | — | documented | [device-notes][device-notes] | Panel controller: {value}. |
+| Display size (`display_size`) | number | 3.97 | inch | documented | [device-notes][device-notes] | - {value}-inch E-Ink, 4-level grayscale |
+| Native panel width (`display_width`) | integer | 800 | px | documented | [device-notes][device-notes] | Native resolution: {value} × 480 px (horizontal) |
+| Native panel height (`display_height`) | integer | 480 | px | documented | [device-notes][device-notes] | Native resolution: 800 × {value} px (horizontal) |
+| Buzzer (`buzzer`) | string | Onboard buzzer (PWM) | — | documented | [device-notes][device-notes] | - {value} |
+
+### Power
+
+| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
+| --- | --- | --- | --- | --- | --- | --- |
+| Battery capacity (`battery`) | integer | 750 | mAh | documented | [device-notes][device-notes] | Battery: {value} mAh single-cell lithium |
+| Fuel gauge (`gauge`) | string | BQ27220 | — | documented | [device-notes][device-notes] | Fuel gauge: {value} (I2C) |
+
+### Accessories
+
+| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
+| --- | --- | --- | --- | --- | --- | --- |
+| Mounting accessory (`mount`) | string | Adhesive magnetic ring for non-metal surfaces, included in the packaging | — | documented | [device-notes][device-notes] | Mounting accessory: {value} |
+
 ## Intent routing
 
 Locate references and targets based on intent. Target is the BSP in [`targets/`](targets/README.md). Reference is a guide in `reference/` for implementation of functions.
@@ -133,63 +184,18 @@ Locate references and targets based on intent. Target is the BSP in [`targets/`]
 | Read temperature and humidity    | SHT40 reading on shared I2C1                                                                                    | None                                                                                                                                                                                                                                                                                                                                                         | `bsp_sht4x_read`; example `sht4x`                                                       |
 | Create images of the device      | Official product shots and use scenes with descriptions; physical details image models often get wrong          | [image-generation.md](reference/image-generation.md)                                                                                                                                                                                                                                                                                                         | None                                                                                                               |
 
-## Specifications
-
-### Controller
-
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Physical flash capacity (`flash`) | integer | — | MB | unknown | — | Vendor documentation lists 32 MB while the Target configures 16 MB; identify the installed chip and revision before changing the address range. |
-| Controller (`mcu`) | string | ESP32-S3 | — | documented | [notes][notes] | Main controller: {value} |
-| PSRAM capacity (`psram`) | integer | 8 | MB | documented | [notes][notes] | PSRAM capacity: {value} MB |
-
-### Connectivity
-
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Sensor bus (`bus`) | string | I2C1 | — | documented | [notes][notes] | SHT40 reading on shared {value} |
-| USB connector (`usb`) | string | USB-C | — | documented | [notes][notes] | {value} for power, data, firmware download |
-
-### Inputs
-
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Keys (`keys`) | string | AI / OK / Power, Up, Down | — | documented | [notes][notes] | Buttons: {value}; Reset |
-| Environmental sensor (`sensor`) | string | SHT40 | — | documented | [notes][notes] | {value} temperature/humidity |
-
-### Outputs
-
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Panel candidates recognized by the vendor demo (`display`) | string | SSD1677 or SSD2677 | — | documented | [notes][notes] | Panel controller candidates in the official demo: {value}. |
-| Native panel height (`display_height`) | integer | 480 | px | documented | [notes][notes] | 800 × {value} px |
-| Native panel width (`display_width`) | integer | 800 | px | documented | [notes][notes] | Native resolution: {value} × 480 px |
-
-### Power
-
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Documented battery capacity (`battery_capacity`) | integer | 750 | mAh | documented | [notes][notes] | Battery: {value} mAh single-cell lithium |
-
-### Accessories
-
-| Fact | Type | Value | Unit | Status | Source | Assertion / reason |
-| --- | --- | --- | --- | --- | --- | --- |
-| Supported mounting accessory (`accessories_details`) | string | Adhesive magnetic ring | — | documented | [notes][notes] | Mounting accessory: {value} for non-metal surfaces |
-
 ## Limitations
 
 - Physical board revision and fresh on-device verification are not recorded.
-- The Target exposes display, keys and temperature/humidity only; the official demo guides do not add native drivers or prove their integration here.
-- Installed flash capacity remains unknown; keep the existing 16 MB configuration until the chip is identified.
-- The Target supports SSD1677 only; SSD2677 operation and panel-to-revision mapping remain unverified.
-- Charger-enable polarity on GPIO39 remains unconfirmed against factory firmware and measurement.
+- The panel controller varies by unit (SSD1677 or SSD2677); the registered Target BSP supports SSD1677 only. Identify the panel before relying on display behavior; see the panel-detection sources in Intent routing.
+- Charger enable (GPIO39) active level is unconfirmed against the factory firmware; treat it as unverified until measured.
+- The native configuration uses a 16 MB flash address range while the vendor specification states 32 MB physical flash; the installed capacity is not measured.
 
 ## Source conflicts
 
 | Source | Resolution |
 | --- | --- |
-| [notes][notes] | Vendor flash capacity and the native configured address range describe different things; keep installed capacity unknown until measured. Panel detection in the official demo does not establish revision compatibility for this Target. |
+| [device-notes][device-notes] | The vendor specification states 32 MB physical QSPI flash while the Target's `sdkconfig.defaults` configures a 16 MB address range. Keep the configured 16 MB range until the flash chip is identified on hardware; a configured address range is not a measurement of installed capacity. |
 
 ## Physical acceptance
 
@@ -244,46 +250,44 @@ Expected: temperature/humidity log once a second.
 
 ## Sources
 
-- [Hardware source notes][notes]
-- [Official product page][vendor-product]
-- [Official store][vendor-store]
-- [Vendor hardware overview][vendor-hardware]
-- [Vendor playground][vendor-playground]
-- [Official demo at 1a28b2a][vendor-demo]
-- [Official panel detection at 1a28b2a][vendor-panel]
-- [Native build instructions][readme]
-- [Native Target][target]
-- [Native pin definitions][pins]
+- [device-notes][device-notes]
+- [Sticky product page][product]
+- [Sticky store listing][store]
+- [Sticky hardware overview][vendor]
+- [Sticky playground registry][playground]
+- [Sticky ESP-IDF dashboard demo][dashboard]
+- [Target README][readme]
+- [Target manifest][target]
+- [Native pin definitions][bsp-pins]
 - [Display API contract][epd-api]
-- [Add information page][guide-add-information-page]
-- [Button touch navigation][guide-button-touch-navigation]
-- [Deep sleep wake][guide-deep-sleep-wake]
-- [Display battery percentage][guide-display-battery-percentage]
-- [Display refresh][guide-display-refresh]
-- [Display rtc time][guide-display-rtc-time]
-- [Image generation][guide-image-generation]
-- [Imu orientation monitoring][guide-imu-orientation-monitoring]
+- [Display refresh implementations][guide-display-refresh]
+- [RTC status-bar time partial refresh][guide-display-rtc-time]
+- [Information page structure][guide-add-information-page]
+- [Button and touch navigation][guide-button-touch-navigation]
+- [Deep sleep and wake][guide-deep-sleep-wake]
+- [Battery and charging display][guide-display-battery-percentage]
+- [IMU orientation monitoring][guide-imu-orientation-monitoring]
 - [Microphone capture][guide-microphone-capture]
-- [Microsd text page][guide-microsd-text-page]
+- [microSD text page][guide-microsd-text-page]
+- [Device image generation][guide-image-generation]
 
-[notes]: AGENTS.md#hardware-notes
-[vendor-product]: https://www.seeedstudio.com/sticky/
-[vendor-store]: https://www.seeedstudio.com/reTerminal-Sticky-p-6861.html
-[vendor-hardware]: https://www.seeedstudio.com/sticky/docs/en/device-guide/hardware-overview/
-[vendor-playground]: https://github.com/Seeed-Projects/reterminal-sticky-playground-registry/tree/main
-[vendor-demo]: https://github.com/Seeed-Projects/sticky-esp-idf-dashboard/tree/1a28b2a11da2df3819c3a6f34561793f562d53c8
-[vendor-panel]: https://github.com/Seeed-Projects/sticky-esp-idf-dashboard/blob/1a28b2a11da2df3819c3a6f34561793f562d53c8/components/seeed_epaper/epaper_panel.c
+[device-notes]: AGENTS.md#specs
+[product]: https://www.seeedstudio.com/sticky/
+[store]: https://www.seeedstudio.com/reTerminal-Sticky-p-6861.html?utm_source=github&utm_medium=repository&utm_campaign=codecraft-ai-hardware
+[vendor]: https://www.seeedstudio.com/sticky/docs/en/device-guide/hardware-overview/
+[playground]: https://github.com/Seeed-Projects/reterminal-sticky-playground-registry/tree/main
+[dashboard]: https://github.com/Seeed-Projects/sticky-esp-idf-dashboard/tree/1a28b2a11da2df3819c3a6f34561793f562d53c8
 [readme]: targets/README.md
 [target]: targets/target.json
-[pins]: targets/bsp/include/bsp_pins.h
+[bsp-pins]: targets/bsp/include/bsp_pins.h
 [epd-api]: targets/bsp/include/bsp_epd.h
+[guide-display-refresh]: reference/display-refresh.md
+[guide-display-rtc-time]: reference/display-rtc-time.md
 [guide-add-information-page]: reference/add-information-page.md
 [guide-button-touch-navigation]: reference/button-touch-navigation.md
 [guide-deep-sleep-wake]: reference/deep-sleep-wake.md
 [guide-display-battery-percentage]: reference/display-battery-percentage.md
-[guide-display-refresh]: reference/display-refresh.md
-[guide-display-rtc-time]: reference/display-rtc-time.md
-[guide-image-generation]: reference/image-generation.md
 [guide-imu-orientation-monitoring]: reference/imu-orientation-monitoring.md
 [guide-microphone-capture]: reference/microphone-capture.md
 [guide-microsd-text-page]: reference/microsd-text-page.md
+[guide-image-generation]: reference/image-generation.md
