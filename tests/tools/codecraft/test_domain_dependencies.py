@@ -44,14 +44,14 @@ def test_application_dispatch_uses_explicit_path_without_reference_catalog():
         app=Path(folder)/'app'
         generate_project(Catalog(ROOT),'linux/reterminal','buttons_evdev',app)
         # Invalid --root must not be consulted for an explicit application operation.
-        run=subprocess.run([sys.executable,'-B',str(ROOT/'codecraft.py'),'--root',folder,'verify-project',str(app)],
+        run=subprocess.run([sys.executable,'-B',str(ROOT/'tools/codecraft/maintenance.py'),'--root',folder,'verify-project',str(app)],
                            capture_output=True,text=True,timeout=30)
         assert run.returncode==0,run.stdout+run.stderr
         assert json.loads(run.stdout)['data']['status']=='passed'
         selected=Path(folder)/'selected'
         generate_project(Catalog(ROOT),'linux/reterminal','buttons_evdev',selected,[selection('codecraft-capabilities-asr')])
         (selected/'tools/codecraft/skill_contracts.py').unlink()
-        run=subprocess.run([sys.executable,'-B',str(selected/'codecraft.py'),'check-cloud-skills'],
+        run=subprocess.run([sys.executable,'-B',str(selected/'tools/codecraft/maintenance.py'),'check-cloud-skills'],
                            cwd=selected,capture_output=True,text=True,timeout=30)
         assert run.returncode==1 and not run.stderr
         assert json.loads(run.stdout)['error']['type']=='contract'
@@ -92,3 +92,28 @@ for task in ('ideate','develop','setup','build','debug','device-test','discover'
                     run=subprocess.run([sys.executable,'-I','-B','-c',program,str(app),tid,'selected' if chosen else 'native'],
                                        cwd=folder,capture_output=True,text=True,timeout=90)
                     assert run.returncode==0,(tid,variant,run.stdout,run.stderr)
+
+
+def test_public_cloud_command_does_not_import_hardware():
+    program = """
+import importlib.abc, pathlib, runpy, sys
+root = pathlib.Path(sys.argv[1])
+class NoHardware(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname == 'model':
+            raise AssertionError('Public cloud command imported hardware Catalog')
+sys.meta_path.insert(0, NoHardware())
+sys.argv = [str(root/'tools/codecraft/maintenance.py'), 'check-cloud-skills']
+runpy.run_path(sys.argv[0], run_name='__main__')
+"""
+    run = subprocess.run([sys.executable, '-I', '-B', '-c', program, str(ROOT)],
+                         capture_output=True, text=True, timeout=120)
+    assert run.returncode == 0, run.stdout + run.stderr
+    assert json.loads(run.stdout)['ok'] is True
+    with tempfile.TemporaryDirectory() as folder:
+        app = Path(folder)/'app'
+        generate_project(Catalog(ROOT), 'linux/reterminal', 'buttons_evdev', app)
+        run = subprocess.run([sys.executable, '-I', '-B', '-c', program, str(app)],
+                             capture_output=True, text=True, timeout=30)
+        assert run.returncode == 2, run.stdout + run.stderr
+        assert json.loads(run.stdout)['data']['status'] == 'not_supported'

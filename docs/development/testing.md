@@ -9,12 +9,12 @@ ignored SDK or package installations are not maintained repository suites.
 Use the public runner for discovery, focused host checks and the static gate:
 
 ```sh
-python3 codecraft.py test --list
-python3 codecraft.py test --path tests/tools/codecraft
-python3 codecraft.py test --path tests/tools/skill_packages/test_protocol.py
-python3 codecraft.py test --path tests/platforms/esp-idf/components/codecraft_sht4x
-python3 codecraft.py test --path tests/devices/sensecap-watcher/targets
-python3 codecraft.py validate --static
+codecraft maintenance test --list
+codecraft maintenance test --path tests/tools/codecraft
+codecraft maintenance test --path tests/tools/skill_packages/test_protocol.py
+codecraft maintenance test --path tests/platforms/esp-idf/components/codecraft_sht4x
+codecraft maintenance test --path tests/devices/sensecap-watcher/targets
+codecraft validate --static
 ```
 
 The full host gate needs a C11 compiler, pthreads and `dtc` on PATH. Public CLI
@@ -42,7 +42,7 @@ client dependencies must be reported rather than silently skipping their cases.
 Select checks using the [root validation policy](../../AGENTS.md#required-validation-and-delivery).
 Documentation and host-only changes do not require native firmware builds when
 native inputs/behavior are unchanged. Host tests may compile host fixtures; this
-is separate from building board firmware. No-option `python3 codecraft.py validate`
+is separate from building board firmware. No-option `codecraft validate`
 includes all native Targets and clean project builds, so it is reserved for an
 explicit full-build request or native changes affecting every Target.
 
@@ -60,7 +60,8 @@ remain separate, explicitly scoped workflows.
 
 | Location | Responsibility |
 | --- | --- |
-| `tests/tools/codecraft/` | Device Markdown parsing/validation, catalogs, source graph, generation, project exports/locks, evidence, public CLI, test discovery, documentation rules and cross-layer orchestration |
+| `tests/tools/cli/` | Rust creator CLI, standalone authoring, source locks and native orchestration; run `cargo test --locked --package codecraft` |
+| `tests/tools/codecraft/` | Python conformance fixtures: Device Markdown parsing/validation, catalogs, source graph, generation, project exports/locks, evidence, public CLI, test discovery, documentation rules and cross-layer orchestration |
 | `tests/tools/skill_packages/` | Standalone installation/inventory, loopback protocols and reviewed release transactions |
 | `tests/skills/<skill-id>/` | Semantic contracts and direct standalone-client conformance |
 | `tests/platforms/<stack>/` | Platform-wide adapter/registration contracts and shared native test support |
@@ -97,7 +98,7 @@ fixtures are not an implicit supported test format.
 CI selection cases in tests/tools/codecraft/test_ci.py cover native inputs across
 all three platforms, shared resources, both sides of deletions/renames, internal
 configuration links, new/removed Targets, event baselines and aggregate-job failures.
-Run them with `python3 codecraft.py test --path tests/tools/codecraft/test_ci.py`.
+Run them with `codecraft maintenance test --path tests/tools/codecraft/test_ci.py`.
 Public CLI tests also verify that repository-only CI commands are unavailable in
 native application exports. See [CI selection](ci.md) for the workflow contract.
 
@@ -109,3 +110,11 @@ checks do not turn offline protocol results into live service acceptance.
 Their source graph explicitly includes the four per-Skill conformance directories and the shared standalone
 protocol fixture. Native application exports include production dependencies
 and cited Device observations, not test code, fixtures, records or logs.
+
+## Rust CLI checks
+
+Run `cargo fmt --all -- --check`, `cargo clippy --locked --package codecraft --all-targets -- -D warnings` and `cargo test --locked --package codecraft` after Rust changes.
+The Python recursive runner does not discover Rust tests. CI compiles their explicit
+Cargo targets only on cache misses and runs the cached executables against current
+Device data on every run. `codecraft validate --static` runs repository Python
+static/host checks; the Rust suite is a separate required CI job.

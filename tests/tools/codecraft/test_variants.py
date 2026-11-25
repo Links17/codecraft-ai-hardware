@@ -181,17 +181,18 @@ def test_build_evidence_requires_clean_exports_for_every_declared_variant():
         log.write_text('Synthetic contract fixture; no native compilation is claimed.\n')
         log_fields={'log':log.relative_to(root).as_posix(),'log_sha256':digest(log)}
         checksum=c.graph(TID).fingerprint();children={}
+        toolchain={'status':'passed','version':'ESP-IDF v'+target['toolchain']['version']}
         for variant in ('gx','dx'):
             children[variant]={'variant':variant,'example':'display_color_bars','status':'passed','provenance':'passed','origin_source_digest':checksum,
-                'source_digest':'2'*64,'build_results':[{'name':TID+'/display_color_bars/'+variant,'status':'passed','variant':{'id':variant}}],**log_fields}
-        project={'status':'passed','provenance':'passed','origin_source_digest':checksum,'source_digest':'3'*64,
+                'toolchain':copy.deepcopy(toolchain),'source_digest':'2'*64,'build_results':[{'name':TID+'/display_color_bars/'+variant,'status':'passed','toolchain':copy.deepcopy(toolchain),'variant':{'id':variant}}],**log_fields}
+        project={'toolchain':copy.deepcopy(toolchain),'status':'passed','provenance':'passed','origin_source_digest':checksum,'source_digest':'3'*64,
                  'example':'display_color_bars','variant_projects':children,
                  'build_results':[row for child in children.values() for row in child['build_results']],**log_fields}
         record={'schema_version':2,'target':TID,'kind':'build','repository_commit':'1'*40,'repository_dirty':True,
-                'source_digest':checksum,'revision':'unknown','toolchain':{'fixture':True},'command':['offline-fixture'],
+                'source_digest':checksum,'revision':'unknown','toolchain':copy.deepcopy(toolchain),'command':['offline-fixture'],
                 'environment':{'fixture':True},'result':'passed','limitations':['synthetic fixture'],'operator':'offline regression',
                 'executed_at':datetime.now(timezone.utc).isoformat(),**log_fields,'generated_project':project,
-                'cases':[{'name':name,'status':'passed','toolchain':{'fixture':True}} for name in adapter.cases(root,target)]}
+                'cases':[{'name':name,'status':'passed','toolchain':copy.deepcopy(toolchain)} for name in adapter.cases(root,target)]}
         validate_evidence(c,record,current=True)
         broken=copy.deepcopy(record);del broken['generated_project']['variant_projects']['dx']
         rejected(lambda:validate_evidence(c,broken,current=True),'cover every variant')
@@ -202,12 +203,16 @@ def test_build_evidence_requires_clean_exports_for_every_declared_variant():
         broken=copy.deepcopy(record);broken['generated_project']['variant_projects']['dx']['example']='button_read'
         rejected(lambda:validate_evidence(c,broken,current=True),'variant example mismatch')
 
+        broken=copy.deepcopy(record)
+        broken['generated_project']['variant_projects']['dx']['toolchain']['status']='not_run'
+        rejected(lambda:validate_evidence(c,broken,current=True),'passed toolchain probe')
+
 
 def test_public_cli_exports_selected_variant_and_reports_unknown_selection():
     with tempfile.TemporaryDirectory(prefix='codecraft-variant-cli-') as folder:
         output=Path(folder)/'app'
-        result=subprocess.run([sys.executable,str(ROOT/'codecraft.py'),'new','--target',TID,'--example','display_color_bars','--variant','dx','--output',str(output)],capture_output=True,text=True)
+        result=subprocess.run([sys.executable,str(ROOT/'tools/codecraft/maintenance.py'),'new','--target',TID,'--example','display_color_bars','--variant','dx','--output',str(output)],capture_output=True,text=True)
         data=json.loads(result.stdout);assert result.returncode==0 and data['ok'] and data['data']['variant']=='dx',result.stdout
         assert read_json(output/'codecraft.lock')['variant']=='dx'
-        result=subprocess.run([sys.executable,str(ROOT/'codecraft.py'),'context','--target',TID,'--variant','unknown'],capture_output=True,text=True)
+        result=subprocess.run([sys.executable,str(ROOT/'tools/codecraft/maintenance.py'),'context','--target',TID,'--variant','unknown'],capture_output=True,text=True)
         data=json.loads(result.stdout);assert result.returncode==1 and not data['ok'] and 'unknown variant' in data['error']['message']

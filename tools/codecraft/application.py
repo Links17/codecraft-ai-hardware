@@ -66,7 +66,7 @@ def application_rules(data, existing=''):
     end = '<!-- CODECRAFT_APPLICATION_END -->'
     generated = (
         start + '\n'
-        'Generated from project.yaml. Edit its brief and run `python3 codecraft.py lock-project .` to refresh this view.\n\n'
+        'Generated from project.yaml. Edit its brief and run `python3 tools/codecraft/maintenance.py lock-project .` to refresh this view.\n\n'
         '## Project\n\n'
         f"Name: {literal(value['name'])}\n\nPurpose: {literal(value['purpose'] or 'unknown')}\n\n"
         f"Device: {literal(data['device'])}; Target: {literal(data['target'])}; example: {literal(data['example'])}.\n\n"

@@ -11,6 +11,22 @@ from io_utils import ContractError, digest, object_digest, require, result, safe
 from runtime import command, main, selected
 
 
+def validate_evidence_toolchain(target, actual, case=None):
+    tc = target['toolchain']
+    require(actual.get('cli') == tc['version'] and actual.get('fqbn') == tc['fqbn']
+            and isinstance(actual.get('core'), dict)
+            and actual['core'].get('version') == tc['core_version'],
+            'Evidence toolchain differs from declared Arduino CLI/core/board')
+    libraries = actual.get('libraries', {})
+    require(isinstance(libraries, dict) and all(
+        isinstance(libraries.get(name), dict) and libraries[name].get('version') == version
+        for name, version in tc['libraries'].items()),
+        'Evidence toolchain differs from declared Arduino libraries')
+    if case is not None:
+        require(case.get('toolchain') == actual,
+                'Build case toolchain differs from its recorded probe')
+
+
 def cases(root, target, example=None):
     return [target['id']+'/'+name for name in selected(target, example)]
 

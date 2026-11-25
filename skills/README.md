@@ -20,7 +20,7 @@ Skill directory to install it. Repository tooling lives in
 The required workflows are codecraft-development-develop, codecraft-development-setup, codecraft-development-build,
 codecraft-development-device-test and codecraft-development-debug. Use codecraft-development-ideate for application
 briefs, plus codecraft-development-discover and codecraft-development-validate as needed. Shared Device
-validation and orchestration live in tools/codecraft/. Native commands remain in each
+creator orchestration lives in tools/cli/; repository audits live in tools/codecraft/. Native commands remain in each
 Platform. The [portable workflow](../docs/development/application-workflow.md)
 and selected Platform/workflow guidance are exported and locked with applications.
 
@@ -151,9 +151,9 @@ Activate the [host test environment](../docs/development/testing.md) before the
 following repository-root checks; dependency installation makes no API calls.
 
 ```sh
-python3 codecraft.py check-cloud-skills
-python3 codecraft.py test --path tests/tools/skill_packages/test_protocol.py
-python3 codecraft.py validate --static
+codecraft maintenance check-cloud-skills
+codecraft maintenance test --path tests/tools/skill_packages/test_protocol.py
+codecraft validate --static
 ```
 
 check-cloud-skills verifies repository packages; --skills-root checks installed

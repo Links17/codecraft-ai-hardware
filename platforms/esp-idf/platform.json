@@ -1,5 +1,9 @@
 {
   "adapter": "platforms/esp-idf/adapter.py",
+  "application_inputs": [
+    "tools/application/resource.json",
+    "platforms/esp-idf/cmake/bsp.cmake"
+  ],
   "ci": {
     "runner": "ubuntu-latest"
   },

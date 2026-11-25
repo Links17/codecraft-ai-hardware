@@ -8,7 +8,7 @@ the three content owners. No firmware compilation is requested for this work.
 
 ## Boundary
 
-Keep `python3 codecraft.py` for local hardware development and repository
+Keep `codecraft` for local hardware development and repository
 maintenance. SenseCraft platform authentication, managed devices, telemetry, Hub,
 uploads and cloud deployment belong to the official external sensecraft-cli and
 its bundled Skill. Direct inference belongs to the four standalone CodeCraft
@@ -27,7 +27,7 @@ See [external setup and routing](sensecraft-cli.md).
 
 | Command | Responsibility |
 | --- | --- |
-| catalog | Hardware-only metadata; result schema 3, no cloud initialization |
+| catalog | Hardware-only metadata; result schema 4, no cloud initialization |
 | discover | Match native Targets/interfaces and preserve unknowns |
 | context | Selected task guidance plus its complete source graph; optional explicit --skills selections |
 | new | Native export, brief, optional explicit Skills and source lock |
@@ -43,10 +43,10 @@ See [external setup and routing](sensecraft-cli.md).
 | check-cloud-skills | Verify complete released package inventories and isolated entry contracts |
 | skill-release prepare / check / apply | Reproducible candidates, explicit version review, exact digest and transactional application |
 
-CLI contract 3 removes the generic service catalog/resolver/preparation commands
+CLI contract 4 retains the removal of the generic service catalog/resolver/preparation commands
 and the redundant public CI-matrix command. The CI matrix producer, generation
 and drift checks remain. JSON envelope schema 2 and native adapter protocols
-remain unchanged. Project profiles/locks use schema 3. Explicit --skills files
+remain unchanged. Creator project profiles/locks use schema 4. Explicit --skills files
 contain Skill IDs, configuration, declared environment references/decisions and
 limits; there are no forwarding aliases or mixed-schema readers. Existing private
 applications retain their own locked code until a deliberate reviewed update.
@@ -65,7 +65,8 @@ skills/
     scripts/                   # Package-local runtime imports only
 tools/
   AGENTS.md
-  codecraft/                   # CLI, source graphs, exports, locks and contract checks
+  cli/                         # Standalone creator CLI, source graphs, exports and locks
+  codecraft/                   # Repository conformance and maintenance checks
   skill_packages/
     packages/<skill-id>.json    # Distribution version, complete hashes and provenance
     import.json                # Immutable original import provenance
@@ -151,7 +152,7 @@ source snapshot is recorded separately in tools/skill_packages/upstream.json.
 Native firmware/configuration/build inputs, historical evidence and original
 import provenance are unchanged. No global installation or publication was performed.
 
-`python3 codecraft.py validate --static` passed all 269 reported checks for the
+`codecraft validate --static` passed all 269 reported checks for the
 synchronized 2.0.1 snapshot. The host environment uses Python 3.14.6, Pillow 13.0.0 and
 websockets 15.0.1. Generation drift and final diff checks also passed. Isolated export
 checks cover all 10 Targets / 11 Target-variant combinations with native-only and

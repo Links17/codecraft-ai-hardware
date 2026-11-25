@@ -12,6 +12,17 @@ from io_utils import digest, object_digest, read_json, require, result, safe_pat
 from runtime import command, main, selected
 
 
+def validate_evidence_toolchain(target, actual, case=None):
+    # Host checks do not establish the device's kernel or OS compatibility.
+    require(isinstance(actual.get('python'), str) and re.fullmatch(r'3\.\d+\.\d+[a-zA-Z0-9.+-]*', actual['python'])
+            and isinstance(actual.get('dtc'), str) and re.fullmatch(r'Version: DTC \d+\.\d+\.\d+.*', actual['dtc']),
+            'Evidence toolchain needs actual host Python and dtc versions')
+    if case is not None:
+        expected = actual['dtc'] if '/overlay/' in case['name'] else actual['python']
+        require(case.get('toolchain') == actual or case.get('toolchain') == expected,
+                'Build case toolchain differs from its recorded probe')
+
+
 def cases(root, target, example=None):
     return [target['id']+'/'+name for name in selected(target, example)] + [target['id']+'/overlay/'+p.stem for p in sorted((root/target['path']/'overlays').glob('*.dts'))]
 

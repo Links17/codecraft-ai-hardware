@@ -38,3 +38,5 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 - [Optimization plan and TODOs](development/optimization-plan.md) — remaining tooling, external acceptance and governance work.
 
 Start from the [device directory](../devices/AGENTS.md). The [Device document guide](development/device-documents.md) defines the single maintained source, Markdown fields, shared references and export checks. Native layout is described in [architecture](architecture/overview.md).
+
+- [Rust CLI installation, updates and Python boundaries](development/rust-cli.md)

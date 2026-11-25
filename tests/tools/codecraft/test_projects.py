@@ -138,7 +138,7 @@ def test_public_new_command_accepts_a_brief_and_ideate_context():
     with reference() as root:
         brief = root/'projects/demo.brief.json'
         write_json(brief, {'name': 'CLI demo', 'purpose': 'Exercise a local example'})
-        command = [sys.executable, str(root/'codecraft.py'), 'new', '--target', 'linux/reterminal',
+        command = [sys.executable, str(root/'tools/codecraft/maintenance.py'), 'new', '--target', 'linux/reterminal',
                    '--example', 'buttons_evdev', '--output', 'projects/demo', '--brief', str(brief)]
         run = subprocess.run(command, cwd=root, text=True, capture_output=True, timeout=30)
         assert run.returncode == 0, run.stdout+run.stderr

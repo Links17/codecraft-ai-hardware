@@ -60,7 +60,7 @@ a failing contract test.
 Save version overrides outside the repository and choose a new output directory:
 
 ```sh
-python3 codecraft.py skill-release prepare --versions /work/release-versions.json --output /work/skill-candidate
+codecraft maintenance skill-release prepare --versions /work/release-versions.json --output /work/skill-candidate
 ```
 
 For a reproducibility check with unchanged package inputs, omit --versions.
@@ -81,8 +81,8 @@ normal repository gate. A clean candidate does not by itself approve a release.
 ## Validate and apply
 
 ```sh
-python3 codecraft.py skill-release check --candidate /work/skill-candidate
-python3 codecraft.py skill-release apply --candidate /work/skill-candidate --review-sha256 <reviewed-64-character-digest>
+codecraft maintenance skill-release check --candidate /work/skill-candidate
+codecraft maintenance skill-release apply --candidate /work/skill-candidate --review-sha256 <reviewed-64-character-digest>
 ```
 
 check stages the candidate in a temporary repository with the exact declared
@@ -111,9 +111,9 @@ discard retained originals merely to clear an error.
 After applying, review the resulting diff and run:
 
 ```sh
-python3 codecraft.py generate
-python3 codecraft.py generate --check
-python3 codecraft.py validate --static
+codecraft maintenance generate
+codecraft maintenance generate --check
+codecraft validate --static
 ```
 
 Select any native/export builds using the
@@ -127,5 +127,5 @@ or a sibling Skill. Existing exported applications keep their locked versions
 until an explicitly reviewed application update or a new export.
 
 The full workflow is repository maintenance. Plain exported applications carry
-the public codecraft.py entry and native build support, but do not carry the
+portable workflow guidance and native build inputs, using the separately installed Rust CLI, but do not carry the
 release maintainer or its test suite; skill-release reports not_supported there.

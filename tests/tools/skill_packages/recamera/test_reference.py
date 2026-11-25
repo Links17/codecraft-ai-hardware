@@ -89,7 +89,7 @@ def test_reference_writes_reject_wrong_revision_dirty_checkout_and_implicit_pin(
 def test_public_reference_command_reports_drift_and_invalid_source_as_typed_results():
     with fixture() as (root, sdk, _, revision):
         reference.reference(root, sdk, write=True, revision=revision)
-        args = [sys.executable, '-B', str(ROOT / 'codecraft.py'), '--root', str(root),
+        args = [sys.executable, '-B', str(ROOT / 'tools/codecraft/maintenance.py'), '--root', str(root),
                 'skill-reference', '--skill', reference.SKILL_ID, '--sdk-root', str(sdk), '--check']
         good = subprocess.run(args, cwd=sdk, capture_output=True, text=True, timeout=30)
         assert good.returncode == 0 and json.loads(good.stdout)['ok'], good.stdout + good.stderr

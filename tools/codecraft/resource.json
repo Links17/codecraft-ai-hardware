@@ -4,7 +4,7 @@
     "NOTICE"
   ],
   "inputs": [
-    "codecraft.py",
+    "tools/codecraft/maintenance.py",
     "tools/AGENTS.md",
     "tools/codecraft/io_utils.py",
     "tools/codecraft/markdown_docs.py",

@@ -50,9 +50,9 @@ def inventory(root):
         put(root, base + '/examples/demo/main.c')
         put(root, base + '/README.md', '# Native fixture\n')
     write_json(root/'tools/codecraft/resource.json', {'schema_version': 1, 'kind': 'resource',
-        'inputs': ['codecraft.py', 'tools/codecraft/project.py', 'tools/codecraft/cli.py',
+        'inputs': ['tools/codecraft/maintenance.py', 'tools/codecraft/project.py', 'tools/codecraft/cli.py',
                    'tools/codecraft/io_utils.py'], 'dependencies': []})
-    put(root, 'codecraft.py', 'raise AssertionError("historical public entry executed")\n')
+    put(root, 'tools/codecraft/maintenance.py', 'raise AssertionError("historical public entry executed")\n')
     put(root, 'tools/codecraft/project.py', 'def build(): return "native"\n')
     for name in ('cli.py', 'io_utils.py'):
         put(root, 'tools/codecraft/' + name, (ROOT/'tools/codecraft'/name).read_text())
@@ -272,7 +272,7 @@ def needs_for(data):
     for pid, count in data['counts'].items():
         outputs[pid.replace('-', '_') + '_count'] = str(count)
         outputs[pid.replace('-', '_')] = json.dumps(data['matrices'][pid])
-    return {'contracts': {'result': 'success', 'outputs': outputs},
+    return {'cli': {'result': 'success'}, 'contracts': {'result': 'success', 'outputs': outputs},
             **{pid: {'result': 'success' if count else 'skipped'} for pid, count in data['counts'].items()}}
 
 
@@ -282,14 +282,14 @@ def test_aggregate_gate_requires_selected_jobs_and_reports_planned_skips():
         needs = needs_for(data)
         rows = ci.check(needs)
         assert {row['name']: row['status'] for row in rows} == {
-            'ci/contracts': 'passed', 'ci/arduino': 'skipped', 'ci/esp-idf': 'skipped', 'ci/linux': 'passed'}
+            'ci/cli': 'passed', 'ci/contracts': 'passed', 'ci/arduino': 'skipped', 'ci/esp-idf': 'skipped', 'ci/linux': 'passed'}
         for state in ('failure', 'cancelled', 'skipped', None):
             broken = copy.deepcopy(needs)
             broken['linux']['result'] = state
             assert any(row['status'] == 'failed' for row in ci.check(broken))
         broken = copy.deepcopy(needs)
         broken['contracts'] = {'result': 'failure'}
-        assert ci.check(broken)[0]['status'] == 'failed'
+        assert any(row['name'] == 'ci/contracts' and row['status'] == 'failed' for row in ci.check(broken))
         broken = copy.deepcopy(needs)
         del broken['linux']
         reject(lambda: ci.check(broken), 'Missing or unexpected')
@@ -312,7 +312,7 @@ def test_public_ci_commands_emit_json_github_outputs_and_summary():
         ci.git(root, 'init', '-q')
         base = commit(root)
         report, output, summary = [Path(folder)/name for name in ('plan.json', 'output.txt', 'summary.md')]
-        run = subprocess.run([sys.executable, str(ROOT/'codecraft.py'), '--root', str(root), 'ci', 'plan',
+        run = subprocess.run([sys.executable, str(ROOT/'tools/codecraft/maintenance.py'), '--root', str(root), 'ci', 'plan',
                               '--base', base, '--report', str(report), '--github-output', str(output),
                               '--summary', str(summary)], capture_output=True, text=True, timeout=30)
         assert run.returncode == 0, run.stdout + run.stderr
@@ -324,7 +324,7 @@ def test_public_ci_commands_emit_json_github_outputs_and_summary():
         assert 'skipped' in summary.read_text()
         needs = needs_for(payload['data'])
         env = {**os.environ, 'CODECRAFT_CI_TEST_NEEDS': json.dumps(needs)}
-        command = [sys.executable, str(ROOT/'codecraft.py'), '--root', str(root), 'ci', 'check', '--needs-env', 'CODECRAFT_CI_TEST_NEEDS']
+        command = [sys.executable, str(ROOT/'tools/codecraft/maintenance.py'), '--root', str(root), 'ci', 'check', '--needs-env', 'CODECRAFT_CI_TEST_NEEDS']
         run = subprocess.run(command, env=env, capture_output=True, text=True, timeout=30)
         assert run.returncode == 0 and json.loads(run.stdout)['ok']
         needs['contracts']['result'] = 'cancelled'
@@ -342,15 +342,15 @@ def test_real_target_dependency_projection_preserves_all_native_source_closure()
         assert files <= catalog.graph(tid).files
         assert target['path'] + '/target.json' in files
         assert catalog.platforms[target['platform']]['adapter'] in files
-        assert 'codecraft.py' in files
+        assert 'tools/codecraft/maintenance.py' in files
 
 
 def test_workflow_keeps_static_gate_native_commands_and_a_fixed_aggregate_job():
     source = (ROOT/'.github/workflows/hardware.yml').read_text()
-    assert 'fetch-depth: 0' in source and 'python3 codecraft.py validate --static' in source
+    assert 'fetch-depth: 0' in source and '.codecraft/bin/codecraft validate --static' in source
     assert '--event "$GITHUB_EVENT_PATH" --event-name "$GITHUB_EVENT_NAME"' in source
     assert 'paths-ignore:' not in source and 'continue-on-error:' not in source
-    assert 'if: always()' in source and 'needs: [contracts, esp-idf, linux, arduino]' in source
+    assert 'if: always()' in source and 'needs: [cli, contracts, esp-idf, linux, arduino]' in source
     assert "github.event_name == 'pull_request' && github.ref || github.run_id" in source
     assert "cancel-in-progress: ${{ github.event_name == 'pull_request' }}" in source
     assert 'CODECRAFT_CI_NEEDS: ${{ toJSON(needs) }}' in source
@@ -358,5 +358,18 @@ def test_workflow_keeps_static_gate_native_commands_and_a_fixed_aggregate_job():
         assert f"if: needs.contracts.outputs.{key}_count != '' && needs.contracts.outputs.{key}_count != '0'" in source
         assert f'matrix: ${{{{ fromJSON(needs.contracts.outputs.{key}) }}}}' in source
         assert f'{key}: ${{{{ steps.plan.outputs.{key} }}}}' in source
-    assert 'command: python3 codecraft.py validate --target ${{ matrix.id }} --projects' in source
-    assert source.count('run: python3 codecraft.py validate --target "$TARGET" --projects') == 2
+    assert 'command: .codecraft/bin/codecraft validate --target ${{ matrix.id }} --projects' in source
+    assert source.count('run: .codecraft/bin/codecraft validate --target "$TARGET" --projects') == 2
+
+
+def test_rust_native_owners_and_cli_failure_are_required():
+    with trees() as (before, after):
+        inventory = ci.Inputs(after)
+        assert inventory.owners('tools/cli/src/project.rs') == set(inventory.targets)
+        assert inventory.owners('platforms/esp-idf/native.rs') == {tid for tid, t in inventory.targets.items() if t['platform'] == 'esp-idf'}
+        assert not inventory.owners('docs/development/rust-cli.md')
+        data = ci.selection(ci.Inputs(before), inventory, [])
+        needs = needs_for(data)
+        for state in ('failure', 'cancelled', 'skipped'):
+            needs['cli']['result'] = state
+            assert any(row['name'] == 'ci/cli' and row['status'] == 'failed' for row in ci.check(needs))

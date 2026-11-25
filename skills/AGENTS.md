@@ -10,8 +10,9 @@ Keep each Skill directly under skills/ with its directory name matching the
 SKILL.md name and Agent invocation metadata. Development workflows use
 codecraft-development-*; cloud capabilities use codecraft-capabilities-*. These prefixes
 classify Skills without adding category directories to installation paths.
-Repository orchestration belongs in tools/codecraft/ and package maintenance in
-tools/skill_packages/; neither is an installable Skill or a client dependency.
+Creator orchestration belongs in tools/cli/, repository audits in tools/codecraft/,
+and package maintenance in tools/skill_packages/. None is an installable Skill or
+a client dependency.
 
 Each cloud client owns contract.json, SKILL.md, API references and package-local
 runtime code. Stable semantics, service policy and API versions remain distinct.

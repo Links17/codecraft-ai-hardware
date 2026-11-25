@@ -40,7 +40,7 @@ def load_adapter(root, platform):
     spec = importlib.util.spec_from_file_location('native_' + platform['id'].replace('-', '_'), path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    for name in ('build', 'cases', 'probe', 'validate_target'):
+    for name in ('build', 'cases', 'probe', 'validate_target', 'validate_evidence_toolchain'):
         require(callable(getattr(module, name, None)), f'{platform["id"]}: missing adapter function {name}')
     for operation, name in [('plan', 'firmware_layout'), ('merge', 'firmware_merge'), ('verify', 'firmware_verify')]:
         if platform['operations']['firmware-'+operation]['supported']:

@@ -16,9 +16,6 @@ from urllib.parse import unquote
 
 from io_utils import ContractError, OperationUnavailable, digest, read_json, require, source_files, object_digest, result
 from runtime import run_target, load_adapter, check_envelope, exit_code
-from model import Catalog
-from project import generate_project, package_project, verify_project, lock_project, build_project
-from render import generate
 from evidence import device_evidence_dir, validate_evidence
 from testing import inventory as test_inventory, run_tests
 from markdown_docs import document_links
@@ -51,8 +48,9 @@ def check_documentation(root):
 
 
 def static_checks(c):
+    from render import generate
     checks = []
-    ast.parse((c.root/'codecraft.py').read_text(),filename='codecraft.py')
+    ast.parse((c.root/'tools/codecraft/maintenance.py').read_text(),filename='tools/codecraft/maintenance.py')
     from skill_contracts import check_packages
     checks.extend(check_packages(c.root))
     checks.append(result('skills/contracts-and-release-records','passed'))
@@ -108,6 +106,8 @@ def target_receipt(c, tid):
 
 def validate_project(c, tid, example=None, variant=None):
     """Build the selected example in a clean external directory via its public entry."""
+    from model import Catalog
+    from project import generate_project, verify_project
     target=c.target(tid)
     example=example or target['examples'][0]
     require(example in target['examples'], 'unknown example')
@@ -133,7 +133,7 @@ def validate_project(c, tid, example=None, variant=None):
             generated=generate_project(c,tid,example,output,variant=variant)
             require(verify_project(output)['status']=='passed','fresh project lock mismatch')
             check_documentation(output)
-            run=subprocess.run([sys.executable,str(output/'codecraft.py'),'build-project','.'],cwd=output,capture_output=True,text=True,timeout=1900)
+            run=subprocess.run([sys.executable,str(output/'tools/codecraft/maintenance.py'),'build-project','.'],cwd=output,capture_output=True,text=True,timeout=1900)
             transcript=run.stdout+'\n'+run.stderr
             for child in sorted((output/'.codecraft/logs').glob('*.log')):
                 transcript+='\n'+child.name+'\n'+child.read_text(errors='replace')
@@ -155,7 +155,7 @@ def validate_project(c, tid, example=None, variant=None):
                     ['firmware','plan','--project','.', '--output',str(plan_path)],
                     ['firmware','merge','--plan',str(plan_path),'--output',str(release)],
                     ['firmware','verify',str(release)]]:
-                    run=subprocess.run([sys.executable,str(output/'codecraft.py'),*arguments],cwd=output,
+                    run=subprocess.run([sys.executable,str(output/'tools/codecraft/maintenance.py'),*arguments],cwd=output,
                                        capture_output=True,text=True,timeout=120)
                     with log.open('a') as stream:
                         stream.write('\nFirmware '+arguments[1]+':\n'+run.stdout+'\n'+run.stderr)
@@ -244,6 +244,7 @@ def main(argv=None):
             import ci as ci_flow
             return ci_flow.main(args.ci_args,root=args.root)
         if args.command=='firmware':
+            from model import Catalog
             import firmware as image_flow
             if args.image_command=='plan':
                 data=image_flow.plan(Catalog(args.project or args.root),args.target,args.example,args.variant,args.format,args.output)
@@ -299,6 +300,9 @@ def main(argv=None):
             return 0 if ok else 1
         if args.command=='generate' and (args.root/'project.yaml').is_file():
             raise OperationUnavailable('not_supported','Reference index generation requires the repository; use lock-project to update application guidance.')
+        from model import Catalog
+        from project import generate_project, package_project, verify_project, lock_project, build_project
+        from render import generate
         application_commands={'verify-project','lock-project','build-project','package'}
         c=None if args.command in application_commands else Catalog(args.root)
         data={};ok=True;code=0
@@ -322,7 +326,7 @@ def main(argv=None):
         elif args.command=='record-evidence':data=record_evidence(c,args.file)
         elif args.command=='validate':
             require(not (c.root/'project.yaml').exists() and not (c.root/'codecraft.lock').exists(),
-                    'Application builds require `python3 codecraft.py build-project .`; validate checks the reference repository.')
+                    'Application builds require `python3 tools/codecraft/maintenance.py build-project .`; validate checks the reference repository.')
             require(not(args.static and args.target),'choose --static or --target')
             require(not args.example or args.target,'--example requires --target')
             require(not args.variant or args.target,'--variant requires --target')

@@ -184,7 +184,7 @@ def test_lock_checks_actual_toolchain_before_any_build():
         output = Path(folder)/'app'
         generate_project(Catalog(ROOT),'linux/reterminal','buttons_evdev',output)
         edit(output,'codecraft.lock',lambda lock:lock.update(resolved_toolchain={'status':'passed','python':'different'}))
-        run = subprocess.run([sys.executable,str(output/'codecraft.py'),'build-project',str(output)],capture_output=True,text=True)
+        run = subprocess.run([sys.executable,str(output/'tools/codecraft/maintenance.py'),'build-project',str(output)],capture_output=True,text=True)
         payload = json.loads(run.stdout)['data']
         assert run.returncode == 2 and all(item['status']=='not_run' for item in payload['results'])
         assert not (output/'.codecraft/builds').exists()
@@ -196,14 +196,22 @@ def make_build_evidence(c, tid):
     (c.root/path).parent.mkdir(parents=True, exist_ok=True)
     (c.root/path).write_text('Synthetic unit-test observation; no real device or build claim.\n')
     adapter = load_adapter(c.root,c.platforms[target['platform']])
-    cases = [{'name':name,'status':'passed','toolchain':'synthetic fixture'} for name in adapter.cases(c.root,target)]
+    toolchain = {'status':'passed','python':'3.14.6','dtc':'Version: DTC 1.7.2'}
+    if target['platform'] == 'esp-idf':
+        toolchain = {'status':'passed','version':'ESP-IDF v'+target['toolchain']['version']}
+    if target['platform'] == 'arduino':
+        tc = target['toolchain']
+        toolchain = {'status':'passed','cli':tc['version'],'fqbn':tc['fqbn'],
+                     'core':{'version':tc['core_version']},
+                     'libraries':{name:{'version':version} for name, version in tc['libraries'].items()}}
+    cases = [{'name':name,'status':'passed','toolchain':copy.deepcopy(toolchain)} for name in adapter.cases(c.root,target)]
     exported_cases = set(adapter.cases(c.root,target,target['examples'][0]))
     source = c.graph(tid).fingerprint()
     return {'schema_version':2,'target':tid,'kind':'build','repository_commit':'0'*40,'repository_dirty':True,
-            'source_digest':source,'revision':'unknown','toolchain':'synthetic fixture','command':['test-fixture'],
+            'source_digest':source,'revision':'unknown','toolchain':toolchain,'command':['test-fixture'],
             'environment':'isolated test','result':'passed','limitations':['Synthetic unit test only'],
             'operator':'test','log':path,'log_sha256':digest(c.root/path),'executed_at':'2026-01-01T00:00:00+00:00','cases':cases,
-            'generated_project':{'status':'passed','provenance':'passed','example':target['examples'][0],
+            'generated_project':{'status':'passed','provenance':'passed','toolchain':copy.deepcopy(toolchain),'example':target['examples'][0],
                                  'origin_source_digest':source,'source_digest':'a'*64,'build_results':copy.deepcopy([case for case in cases if case['name'] in exported_cases]),'log':path,'log_sha256':digest(c.root/path)}}
 
 
@@ -374,7 +382,7 @@ def test_cloud_package_checks_need_no_hardware_catalog():
         for relative in contracts.package_graph(ROOT,'codecraft-capabilities-asr').files:
             destination=root/relative;destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/relative,destination)
         assert not (root/'devices').exists() and not (root/'platforms').exists()
-        run=subprocess.run([sys.executable,'-B',str(ROOT/'codecraft.py'),'--root',str(root),'check-cloud-skills'],
+        run=subprocess.run([sys.executable,'-B',str(ROOT/'tools/codecraft/maintenance.py'),'--root',str(root),'check-cloud-skills'],
                            cwd=folder,capture_output=True,text=True,timeout=30)
         assert run.returncode==0,run.stdout+run.stderr
         assert json.loads(run.stdout)['ok']
@@ -391,7 +399,7 @@ def test_malformed_cloud_selections_are_not_silently_dropped():
             assert not output.exists()
         selections = Path(folder)/'null-selection.json'
         write_json(selections, None)
-        run = subprocess.run([sys.executable, str(ROOT/'codecraft.py'), 'new',
+        run = subprocess.run([sys.executable, str(ROOT/'tools/codecraft/maintenance.py'), 'new',
                               '--target', 'linux/reterminal', '--example', 'buttons_evdev',
                               '--output', str(output), '--skills', str(selections)],
                              capture_output=True, text=True, timeout=30)
@@ -437,3 +445,47 @@ def test_contract_rejects_ambiguous_or_malformed_cli_mappings():
     contract=copy.deepcopy(original)
     contract['client']['operations']['complete']['options']['max_tokens']='--prompt-file'
     rejected(lambda:contracts.validate_contract(contract,record['files']),'duplicate CLI flags')
+
+
+def test_build_evidence_checks_probe_and_each_native_and_exported_case_offline():
+    with fixture() as root:
+        c = Catalog(root)
+        original = make_build_evidence(c, 'esp-idf/reterminal-e1001')
+        validate_evidence(c, original, current=True)
+        for section in ('record', 'case', 'project', 'project-case'):
+            for bad in ('unstructured', 'passed', {'status':'not_run','version':'ESP-IDF v6.0.2'},
+                        {'status':'passed','version':'ESP-IDF v5.0.0'}):
+                record = copy.deepcopy(original)
+                destination = {'record':record, 'case':record['cases'][0],
+                               'project':record['generated_project'],
+                               'project-case':record['generated_project']['build_results'][0]}[section]
+                destination['toolchain'] = bad
+                rejected(lambda: validate_evidence(c, record, current=True), 'toolchain')
+                records = root/'tests/devices/reterminal-e1001/records'
+                records.mkdir(parents=True, exist_ok=True)
+                write_json(records/'invalid-fixture.json', record)
+                rejected(lambda: c.support(original['target']), 'toolchain')
+                (records/'invalid-fixture.json').unlink()
+                # Historical observations remain readable, but cannot promote support.
+                record['source_digest'] = 'b'*64
+                record['generated_project']['origin_source_digest'] = 'b'*64
+                validate_evidence(c, record)
+        record = copy.deepcopy(original)
+        record['toolchain'] = {'status':'not_run','reason':'SDK unavailable'}
+        record['result'] = 'not_run'
+        for case in record['cases']:
+            case.update(status='not_run', reason='SDK unavailable')
+        record.pop('generated_project')
+        validate_evidence(c, record, current=True)
+
+
+def test_arduino_evidence_checks_cli_core_board_and_library_versions():
+    with fixture() as root:
+        c = Catalog(root)
+        tid = next(tid for tid, target in c.targets.items() if target['platform'] == 'arduino' and target['toolchain']['libraries'])
+        original = make_build_evidence(c, tid)
+        validate_evidence(c, original, current=True)
+        for key in ('cli', 'fqbn', 'core', 'libraries'):
+            record = copy.deepcopy(original)
+            record['toolchain'][key] = {} if key in ('core', 'libraries') else 'wrong'
+            rejected(lambda: validate_evidence(c, record, current=True), 'toolchain')

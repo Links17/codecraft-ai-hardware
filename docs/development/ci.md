@@ -1,6 +1,6 @@
 # CI selection by native impact
 
-GitHub Actions always runs `python3 codecraft.py validate --static`. The public
+GitHub Actions always runs `codecraft validate --static`. The public
 CI planner then selects native Target jobs from the actual committed changes.
 Each selected Target retains its existing native command, all examples/variants,
 and `--projects` checks. An unselected Target is reported as `skipped`, never as
@@ -63,14 +63,14 @@ follow-up work; this workflow does not introduce a schedule.
 Inspect committed revisions locally without installing native toolchains:
 
 ```sh
-python3 codecraft.py ci plan --base upstream/main --head HEAD --report /tmp/codecraft-ci-plan.json
-python3 codecraft.py ci plan --full
+codecraft maintenance ci plan --base upstream/main --head HEAD --report /tmp/codecraft-ci-plan.json
+codecraft maintenance ci plan --full
 ```
 
 These commands inspect committed snapshots, not unstaged or staged working-tree
 changes. Continue to inspect the actual local diff and select contributor checks
 using the [root policy](../../AGENTS.md#required-validation-and-delivery).
-No-option `python3 codecraft.py validate` still runs the full software gate;
+No-option `codecraft validate` still runs the full software gate;
 it has no automatic Git filtering.
 
 In Actions, the planner reads the event file, writes matrices/counts together to
@@ -79,8 +79,8 @@ summary. It also writes a local JSON report. Event and job-result data reaches t
 planner and aggregate gate through files and environment variables.
 
 ```sh
-python3 codecraft.py ci plan --event "$GITHUB_EVENT_PATH" --event-name "$GITHUB_EVENT_NAME" --github-output "$GITHUB_OUTPUT" --summary "$GITHUB_STEP_SUMMARY" --report "$RUNNER_TEMP/codecraft-ci-plan.json"
-python3 codecraft.py ci check --needs-env CODECRAFT_CI_NEEDS --summary "$GITHUB_STEP_SUMMARY"
+codecraft maintenance ci plan --event "$GITHUB_EVENT_PATH" --event-name "$GITHUB_EVENT_NAME" --github-output "$GITHUB_OUTPUT" --summary "$GITHUB_STEP_SUMMARY" --report "$RUNNER_TEMP/codecraft-ci-plan.json"
+codecraft maintenance ci check --needs-env CODECRAFT_CI_NEEDS --summary "$GITHUB_STEP_SUMMARY"
 ```
 
 Both commands use the public schema-2 JSON envelope; the inner plan has schema 1.
@@ -110,3 +110,20 @@ Future refinements can narrow selected Targets to examples/variants after their
 dependency boundaries are proven. Reuse of previous native artifacts requires
 separate validation of actual native inputs and toolchain identity; this planner
 does not relabel historical evidence or implement artifact caching.
+
+## Compiled CLI cache
+
+The `cli` job calls `.github/workflows/cli.yml`. It pins Rust 1.89.0 and builds
+Linux x86_64 musl, macOS arm64 and Windows x86_64 executables. Cache identity
+contains compiler/target, Rust implementation and test sources, Cargo inputs and
+the binary workflow. It excludes Device data, application sources, documentation
+and Git commit IDs. Cache hits skip Cargo compilation and run the existing test
+executables against the current checkout. Artifacts are workflow downloads; no
+release is published automatically. Native jobs use the Linux static executable,
+including inside the ESP-IDF container.
+
+Rust CLI source/dependency changes conservatively select all native Targets.
+Platform Rust changes select that stack. Documentation changes remain host-only.
+The final result job requires the CLI job as well as every selected native job.
+It invokes the internal Python aggregator directly so it can report a failed CLI
+build; this bootstrap exception is not an application entry point.

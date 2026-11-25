@@ -16,6 +16,21 @@ import variants
 from esp_firmware import layout as firmware_layout, merge as firmware_merge, verify as firmware_verify
 
 
+def matches_version(actual, required):
+    """Accept the declared release and tracked local edits, never prefix matches."""
+    return isinstance(actual, str) and re.fullmatch(
+        r'ESP-IDF v' + re.escape(required) + r'(?:-dirty)?', actual.strip()) is not None
+
+
+def validate_evidence_toolchain(target, actual, case=None):
+    require(matches_version(actual.get('version'), target['toolchain']['version']),
+            'Evidence toolchain differs from the declared ESP-IDF release')
+    if case is not None:
+        expected = actual['version']
+        require(case.get('toolchain') == actual or case.get('toolchain') == expected,
+                'Build case toolchain differs from its recorded probe')
+
+
 def cases(root, target, example=None):
     return [variants.case_name(target,name,variant) for name in selected(target, example) for variant in variants.choices(target)]
 
@@ -29,7 +44,7 @@ def build(root, target, example=None):
     version = subprocess.run(['idf.py', '--version'], capture_output=True, text=True)
     actual = version.stdout.strip()
     required = target['toolchain']['version']
-    if version.returncode or not re.search(r'\bv' + re.escape(required) + r'(?:\b|-)', actual):
+    if version.returncode or not matches_version(actual, required):
         return [result(name, 'not_run', f'Expected ESP-IDF {required}; got {actual!r}') for name in cases(root, target, example)]
     for ex in examples:
         for variant in variants.choices(target):
@@ -57,7 +72,7 @@ def probe(root, target):
         return {'status': 'not_run', 'reason': 'ESP-IDF is not activated.'}
     run = subprocess.run(['idf.py', '--version'], capture_output=True, text=True)
     actual = run.stdout.strip()
-    if run.returncode or not re.search(r'\bv' + re.escape(target['toolchain']['version']) + r'(?:\b|-)', actual):
+    if run.returncode or not matches_version(actual, target['toolchain']['version']):
         return {'status': 'not_run', 'reason': f'Expected ESP-IDF {target["toolchain"]["version"]}; got {actual}'}
     sdk = os.environ.get('IDF_PATH')
     if not sdk:

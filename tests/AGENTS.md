@@ -7,8 +7,10 @@ Keep their ownership aligned with the source tree:
 - `platforms/<stack>/`: adapters, shared helpers and SDK doubles;
   `components/<component>/` contains shared component cases and fixtures.
 - `skills/<skill-id>/`: direct standalone-client and Skill conformance.
-- `tools/codecraft/`: repository orchestration, contracts, exports, locks,
-  public CLI, test discovery and documentation rules.
+- `tools/cli/`: Rust creator CLI integration and native orchestration tests,
+  registered explicitly in tools/cli/Cargo.toml.
+- `tools/codecraft/`: Python repository conformance fixtures, contracts,
+  test discovery and documentation rules.
 - `tools/skill_packages/`: protocol/install/release tests and shared client fixtures.
 
 Read [test ownership and execution](../docs/development/testing.md) before
@@ -24,7 +26,7 @@ relative to this directory:
 
 - `observations.md`: dated, attributed physical observations when available.
 - `records/`: structured build, simulator or physical evidence registered by
-  `python3 codecraft.py record-evidence --file <record>`.
+  `codecraft maintenance record-evidence --file <record>`.
 - `logs/`: sanitized original logs referenced by those records and their hashes.
 - `targets/`: executable board-specific host tests, native fixtures and
   test doubles for devices/<device>/targets/.
@@ -42,3 +44,7 @@ new observation. Never refresh a source digest to make old evidence current.
 The public host runner discovers only targets/ within each Device's
 test directory. Observations, records and logs are evidence, not runnable tests.
 Device writes need the authorization specified in the root repository contract.
+
+Rust tests run once through `cargo test --locked --package codecraft`; the recursive
+Python runner discovers Python host suites only. CI runs cached Rust test executables
+against current repository data before the static/host and native jobs.

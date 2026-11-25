@@ -147,7 +147,7 @@ def test_failed_apply_restores_release_record_and_preserves_the_worktree():
 
 
 def test_public_sdk_release_command_does_not_construct_a_hardware_catalog():
-    spec = importlib.util.spec_from_file_location('sdk_public_entry', ROOT / 'codecraft.py')
+    spec = importlib.util.spec_from_file_location('sdk_public_entry', ROOT / 'tools/codecraft/maintenance.py')
     public = importlib.util.module_from_spec(spec); spec.loader.exec_module(public)
     with workspace() as (root, base):
         output = io.StringIO()

@@ -1,21 +1,30 @@
 # Repository tooling
 
 This directory owns executable repository maintenance and portable application
-orchestration. The public entry remains `python3 codecraft.py`; read the root
+orchestration. The public entry remains `codecraft`; read the root
 contract before changing tools. Keep installable Skills under skills/ and native
 build implementations under platforms/<stack>/.
 
-## CodeCraft tools
+## Creator CLI
 
-codecraft/ owns the public CLI implementation, Device document parsing, source
-graphs, project exports and locks, evidence, generated indexes and host-test
-discovery. Its resource.json declares the portable tool and workflow closure.
+cli/ owns the standalone Rust executable. Native implementations are compiled from
+platforms/<stack>/native.rs. Runtime data is read from disk, never embedded.
+application/resource.json owns portable creator guidance. Creator exports carry
+neither Python orchestration nor Rust sources; CLI identity is a separate lock
+field. Follow docs/development/rust-cli.md. Keep Cargo tests under tests/tools/cli/.
+
+## Repository conformance tools
+
+codecraft/ owns the Python repository conformance backend: authored source checks,
+historical evidence, generated indexes, host-test discovery and clean reference
+fixtures. Invoke it through codecraft maintenance. Its resource.json declares the
+conformance fixture closure, not the creator application runtime.
 Context, export and evidence must use the same graph, including these tools.
 Native-only projects must not load cloud contracts or package maintenance.
 
 CI impact planning and aggregation live in codecraft/ci.py and ci_policy.py.
 They reuse the declared native roots and source graph, read both committed trees,
-and run through `python3 codecraft.py ci plan` / `ci check`. Keep them outside the
+and run through `codecraft maintenance ci plan` / `ci check`. Keep them outside the
 portable resource.json closure; exported applications report CI as not_supported.
 The full Catalog graph continues to own context/export/evidence identity. Read
 docs/development/ci.md in the reference repository before changing selection or
@@ -42,8 +51,8 @@ upstream checkout. Release records use the current package identity and point
 to the relocated provenance; they must retain original source facts. File
 hashes and distribution versions change only through reviewed candidates.
 
-Tool tests, fixtures and mocks belong under tests/tools/codecraft/ and
-tests/tools/skill_packages/. Per-Skill conformance remains under tests/skills/.
+Tool tests, fixtures and mocks belong under tests/tools/cli/, tests/tools/codecraft/
+and tests/tools/skill_packages/. Per-Skill conformance remains under tests/skills/.
 Use the public host runner and the root validation policy. Package maintenance
 checks run isolated clients with synthetic credentials and loopback services;
 they do not authorize API requests, installation or publication.

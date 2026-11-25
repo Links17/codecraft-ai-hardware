@@ -158,7 +158,7 @@ def validate(root, candidate, reviewed=None):
         environment = dict(os.environ, PYTHONDONTWRITEBYTECODE='1')
         for name in ('PYTHONPATH', 'RECAMERA_SDK_ROOT', 'RECAMERA_EXT_API_ROOT'):
             environment.pop(name, None)
-        run = subprocess.run([sys.executable, '-I', '-B', str(staged / 'codecraft.py'),
+        run = subprocess.run([sys.executable, '-I', '-B', str(staged / 'tools/codecraft/maintenance.py'),
                               'test', '--path', CONFORMANCE], cwd=staged, env=environment,
                              capture_output=True, text=True, timeout=180)
         require(run.returncode == 0, 'SDK candidate offline checks failed: ' + run.stdout + run.stderr)

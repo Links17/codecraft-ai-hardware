@@ -137,7 +137,7 @@ def test_focused_public_cli_preserves_json_and_failure_or_skip_exit_codes():
         write(root,'tests/tools/skill_packages/test_failure.py','def test_fail(): raise AssertionError("fixture")\n')
         write(root,'tests/tools/skill_packages/test_skip.py','import unittest\ndef test_skip(): raise unittest.SkipTest("fixture")\n')
         def call(*args):
-            run=subprocess.run([sys.executable,str(ROOT/'codecraft.py'),'--root',str(root),'test',*args],
+            run=subprocess.run([sys.executable,str(ROOT/'tools/codecraft/maintenance.py'),'--root',str(root),'test',*args],
                                capture_output=True,text=True,timeout=20,cwd=folder)
             return run.returncode,json.loads(run.stdout)
         code,data=call('--list');assert code==0 and len(data['data']['tests'])==3

@@ -8,7 +8,6 @@ import zipfile
 
 from io_utils import digest, object_digest, read_json, require, result, safe_path, source_files, write_json
 from application import application_rules, brief as validate_brief, destination as project_destination
-from model import Catalog
 from runtime import envelope, load_adapter, run_target
 
 def inventory(path, explicit=()):
@@ -61,7 +60,7 @@ def generate_project(catalog, tid, example, output, skills=None, variant=None, b
         write_json(output/'project.yaml', data)
         (output/'AGENTS.md').write_text(application_rules(data), encoding='utf-8')
         from render import paired
-        for relative, text in paired('README.md', f'# {selected["device"]}: {example}\n\nActivate the declared toolchain, run `python3 codecraft.py lock-project .` to record the actual environment, then `python3 codecraft.py build-project .`. `python3 codecraft.py verify-project .` checks source integrity. Builds never flash. After deliberate application edits, review the changes and run `python3 codecraft.py lock-project .` again. `codecraft.lock` retains the original import provenance and a separate current application snapshot.\n\nproject.yaml uses JSON-compatible YAML 1.2. The native application lives under `{selected["path"]}`. Edit native configuration there; unknown hardware facts remain unknown. A successful build does not verify hardware.\n', f'# {selected["device"]}: {example}\n\n激活声明的工具链，运行 `python3 codecraft.py lock-project .` 记录实际环境，再运行 `python3 codecraft.py build-project .`。`python3 codecraft.py verify-project .` 检查源码完整性。构建不会烧录。修改应用后，审查变更并重新运行 `python3 codecraft.py lock-project .`。`codecraft.lock` 分别保留最初导入来源和当前应用快照。\n\nproject.yaml 使用兼容 JSON 的 YAML 1.2。原生应用位于 `{selected["path"]}`，配置直接在原生文件中修改，未知硬件事实保持 unknown。构建成功不代表硬件验证。\n').items():
+        for relative, text in paired('README.md', f'# {selected["device"]}: {example}\n\nActivate the declared toolchain, run `python3 tools/codecraft/maintenance.py lock-project .` to record the actual environment, then `python3 tools/codecraft/maintenance.py build-project .`. `python3 tools/codecraft/maintenance.py verify-project .` checks source integrity. Builds never flash. After deliberate application edits, review the changes and run `python3 tools/codecraft/maintenance.py lock-project .` again. `codecraft.lock` retains the original import provenance and a separate current application snapshot.\n\nproject.yaml uses JSON-compatible YAML 1.2. The native application lives under `{selected["path"]}`. Edit native configuration there; unknown hardware facts remain unknown. A successful build does not verify hardware.\n', f'# {selected["device"]}: {example}\n\n激活声明的工具链，运行 `python3 tools/codecraft/maintenance.py lock-project .` 记录实际环境，再运行 `python3 tools/codecraft/maintenance.py build-project .`。`python3 tools/codecraft/maintenance.py verify-project .` 检查源码完整性。构建不会烧录。修改应用后，审查变更并重新运行 `python3 tools/codecraft/maintenance.py lock-project .`。`codecraft.lock` 分别保留最初导入来源和当前应用快照。\n\nproject.yaml 使用兼容 JSON 的 YAML 1.2。原生应用位于 `{selected["path"]}`，配置直接在原生文件中修改，未知硬件事实保持 unknown。构建成功不代表硬件验证。\n').items():
             (output/relative).write_text(text)
         if 'variant' in data:
             name=data['variant']
@@ -85,6 +84,7 @@ def generate_project(catalog, tid, example, output, skills=None, variant=None, b
 
 
 def lock_project(path, origin=None):
+    from model import Catalog
     path = Path(path).resolve()
     data = profile(path)
     if origin is None:
@@ -115,6 +115,7 @@ def lock_project(path, origin=None):
 
 
 def verify_project(path):
+    from model import Catalog
     path = Path(path).resolve()
     lock = read_json(path/'codecraft.lock')
     require(lock.get('schema_version') == 3 and isinstance(lock.get('files'), dict) and lock['files'], 'invalid project lock')
@@ -139,7 +140,7 @@ def verify_project_build(catalog, target, example=None, variant=None):
     """Check application selection, source and actual tools at every build entry."""
     path = catalog.root
     outcome = verify_project(path)
-    require(outcome['status'] == 'passed', 'Source changed: review application changes and run `python3 codecraft.py lock-project .`.')
+    require(outcome['status'] == 'passed', 'Source changed: review application changes and run `python3 tools/codecraft/maintenance.py lock-project .`.')
     data = profile(path)
     require(target['id'] == data['target'] and example in (None, data['example']), 'Build selection differs from project.yaml')
     require(variant in (None, data.get('variant')), 'Build variant differs from project.yaml')
@@ -153,6 +154,7 @@ def verify_project_build(catalog, target, example=None, variant=None):
 
 
 def build_project(path):
+    from model import Catalog
     path = Path(path).resolve()
     data = profile(path)
     c = Catalog(path)

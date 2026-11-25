@@ -13,7 +13,7 @@ The governing requirements are [codecraft-hardware-distilled.md](../development/
 | Device / Target | Per-device knowledge, authored specifications, assets, target.json, native BSP/configuration/examples | Device index, native interface bindings, scoped source closure and support state |
 | Platform | adapter, platform.json, shared build helpers and reusable components | Native build cases, stack validation and CI matrix |
 | Skill | workflows, contract.json, service policy and standalone clients | Installable development workflows and cloud capability packages |
-| Repository tools | Shared orchestration in tools/codecraft/; helper sources, provenance and release records in tools/skill_packages/ | Task context, project lock, build receipt, generated indexes and reviewed release candidate |
+| Repository tools | Creator orchestration in tools/cli/; repository audits in tools/codecraft/; helper sources, provenance and release records in tools/skill_packages/ | Task context, project lock, build receipt, generated indexes and reviewed release candidate |
 
 Each Device registers its native Target at targets/target.json. That manifest
 selects one software stack; peripheral interfaces belong to the Target. Cloud contracts belong to their consuming Skills and do not represent GPIO, display or individual device peripherals.
@@ -77,7 +77,8 @@ tests/
   platforms/<stack>/         # Adapter tests and shared test support
     components/<component>/  # Shared component tests and fixtures
   skills/<skill-id>/          # Workflow and standalone-client tests
-  tools/codecraft/            # Core orchestration, exports and contract tests
+  tools/cli/                 # Standalone Rust creator CLI
+  tools/codecraft/            # Repository audit backend and reference fixtures
   tools/skill_packages/       # Installation, protocol and release tests
 ```
 
@@ -87,14 +88,14 @@ one owner: Targets reference shared Platform resources through their declared
 dependency closure. Platform directories do not contain board copies or forwarding
 paths. The same layout is preserved in generated projects and their locks.
 
-Source graphs and application locks use schema 3 and hash complete files. Project profiles also use schema 3. Exports copy the
+Creator source graphs, profiles and locks use schema 4 and hash complete files. Repository conformance fixtures retain schema 3. Exports copy the
 authored Device entry unchanged; derived indexes and evidence summaries live
 outside it. Editing hardware guidance or acceptance changes source identity.
 
 ## Dependency and invocation boundaries
 
-The public command is `python3 codecraft.py`. The root bootstrap loads
-`tools/codecraft/cli.py`; platform adapters own native build behavior. Repository
+The public command is `codecraft`. Its implementation lives in
+`tools/cli`; platform-owned Rust adapters implement native build behavior. Repository maintenance uses a separate Python backend via `codecraft maintenance`. Repository
 and exported application commands share one result contract. The application
 workflow is `new`, `verify-project`, `lock-project`, `build-project`, then
 `package` when a source archive is needed. Build and package never write a device.
@@ -106,10 +107,14 @@ that package. Authorized execution calls the standalone entry directly. See
 [Skill contracts and release ownership](skill-contracts.md).
 
 Context, export, locks and evidence use the same transitive source graph. Missing
-inputs fail. Exports contain native sources, the selected adapter and the actual
-orchestration implementation; an explicit Skill selection adds its complete pinned
+inputs fail. Creator exports contain native sources and portable guidance. The separately
+installed CLI binds the compiled adapters and orchestration by binary identity;
+an explicit Skill selection adds its complete pinned
 package and release identity. The immutable import origin and the reviewed application snapshot
-are recorded separately. A changed source or toolchain invalidates verification.
+are recorded separately. Source changes invalidate current support evidence. Toolchain observations apply
+to the recorded environment, not to whichever SDK is installed on the reviewer's
+machine. Application builds separately compare the active environment with the
+reviewed lock.
 
 ## Private projects and V0.2 alignment
 
@@ -148,6 +153,18 @@ selected check's result.
 Support is derived from source-bound evidence, not README assertions. A native
 build and a clean locked export are required for build-verified status; physical
 support requires actual revision-specific observations.
+For a current passing build record, the record and each generated project need a
+successful structured toolchain probe; every passing native case must identify
+the same probe or its command version. Platform adapters own offline checks of
+that identity against Target requirements via `validate_evidence_toolchain`.
+No toolchain installation, live probing or device access is needed to review
+recorded evidence. Failed/unrun observations remain recordable; stale records and
+original logs remain unchanged and cannot promote current support. ESP-IDF local
+`-dirty` edits are permitted and tracked by the existing application lock.
+
+The public `check-cloud-skills` command loads its own package validation without
+importing the hardware Catalog. Hardware and application implementation imports
+are deferred until their command or operation needs them.
 
 README files are bilingual. Engineering guidance is English and describes the
 current contract. Generated views are updated from their owning inputs. Source

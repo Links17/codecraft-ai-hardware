@@ -26,6 +26,28 @@ def validate_project_cases(catalog, target, project, example):
             'Generated project must cover every selected native case, including overlays and variants')
 
 
+def validate_build_toolchains(catalog, target, record):
+    """Validate recorded identities offline; never probe the reviewer's environment."""
+    adapter = load_adapter(catalog.root, catalog.platforms[target['platform']])
+
+    def group(receipt, checks):
+        actual = receipt.get('toolchain')
+        require(isinstance(actual, dict) and actual.get('status') == 'passed',
+                'Build evidence needs a passed toolchain probe')
+        adapter.validate_evidence_toolchain(target, actual)
+        for case in checks:
+            if case['status'] != 'passed':
+                continue
+            adapter.validate_evidence_toolchain(target, actual, case)
+
+    group(record, record['cases'])
+    project = record.get('generated_project', {})
+    if project.get('status') == 'passed':
+        group(project, project['build_results'])
+        for child in project.get('variant_projects', {}).values():
+            group(child, child['build_results'])
+
+
 def validate_evidence(catalog, record, current=False):
     required = {'schema_version','target','kind','repository_commit','repository_dirty','source_digest','revision','toolchain','command','environment','result','limitations','operator','log','log_sha256','executed_at','cases'}
     require(isinstance(record, dict) and required <= record.keys(), 'Incomplete evidence record')
@@ -72,6 +94,8 @@ def validate_evidence(catalog, record, current=False):
                     validate_project_cases(catalog, catalog.selected_target(target['id'], variant=variant), child, project['example'])
                     validate_log(catalog, target, child['log'], child['log_sha256'])
             validate_log(catalog, target, project['log'], project['log_sha256'])
+            if current or record['source_digest'] == catalog.graph(target['id']).fingerprint():
+                validate_build_toolchains(catalog, target, record)
     elif record['kind'] == 'device':
         require(record['revision'] not in ('', None, 'unknown'), 'Device evidence requires observed revision')
         acceptance = catalog.devices[target['device']]['acceptance']

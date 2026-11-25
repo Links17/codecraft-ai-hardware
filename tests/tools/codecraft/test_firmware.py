@@ -139,7 +139,7 @@ def test_export_carries_firmware_pipeline_and_failed_preflight_invalidates_recei
             assert path in lock['files'] and path in lock['dependency_graph']['files']
         case='esp-idf/sensecap-watcher/battery_status'
         p=firmware.receipt_path(output,case);write_json(p,{'status':'passed'})
-        (output/'codecraft.py').write_text((output/'codecraft.py').read_text()+'\n# deliberate drift\n')
+        (output/'tools/codecraft/maintenance.py').write_text((output/'tools/codecraft/maintenance.py').read_text()+'\n# deliberate drift\n')
         rejected(lambda:build_project(output),'Source changed')
         assert read_json(p)['status']=='not_run'
 

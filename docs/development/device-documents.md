@@ -118,7 +118,7 @@ provenance, checksum, revision and image-dimension validation.
 
 ## Generation, export and evidence
 
-`python3 codecraft.py generate` updates the device directory, source navigation,
+`codecraft maintenance generate` updates the device directory, source navigation,
 the [native interface inventory](../inventory.md) and its
 [JSON bindings](../interface-matrix.json), the Capability matrix, and the CI
 matrix. The native interface views are derived from Target declarations and

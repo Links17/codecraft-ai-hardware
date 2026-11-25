@@ -160,8 +160,8 @@ def test_project_is_portable_reproducible_and_refuses_overwrite():
         assert (a/'project.yaml').is_file() and (a/'codecraft.lock').is_file()
         assert (a/'README.zh_CN.md').is_file() and (a/'AGENTS.md').is_file()
         assert not [p for p in a.rglob('*.zh_CN.md') if p.name!='README.zh_CN.md']
-        (a/'codecraft.py').write_text('# deliberately modified\n')
-        assert verify_project(a)['drift']==['codecraft.py']
+        (a/'tools/codecraft/maintenance.py').write_text('# deliberately modified\n')
+        assert verify_project(a)['drift']==['tools/codecraft/maintenance.py']
         rejected(lambda:package_project(a,Path(folder)/'bad.zip'),'differs from its current lock')
 
 
@@ -184,7 +184,7 @@ def test_exported_guidance_and_device_validation_are_self_contained():
             for files in (lock['files'],lock['dependency_graph']['files'],lock['origin']['import_graph']['files']):
                 assert files[validator]==digest(ROOT/validator)
             assert (output/validator).read_bytes()==(ROOT/validator).read_bytes()
-            command=[sys.executable,'-I','-B',str(output/'codecraft.py'),'discover']
+            command=[sys.executable,'-I','-B',str(output/'tools/codecraft/maintenance.py'),'discover']
             run=subprocess.run(command,cwd=folder,capture_output=True,text=True,timeout=30)
             assert run.returncode==0, run.stdout+run.stderr
             data=json.loads(run.stdout)

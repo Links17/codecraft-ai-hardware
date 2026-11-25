@@ -100,6 +100,13 @@ class Inputs:
         self.rows = {row['id']: row for row in matrix(self)['include']}
 
     def owners(self, path):
+        # The compiled CLI owns export/native dispatch. Runtime Device data does
+        # not enter the binary cache; changes to these code inputs affect builds.
+        if path in {'Cargo.toml', 'Cargo.lock'} or path.startswith(('tools/cli/src/', '.cargo/')) or path == 'tools/cli/Cargo.toml':
+            return set(self.targets)
+        if path.startswith('platforms/') and path.endswith('.rs'):
+            stack = path.split('/')[1]
+            return {tid for tid, target in self.targets.items() if target['platform'] == stack}
         return {tid for tid, graph in self.graphs.items()
                 if path in self.files[tid] or any(path.startswith(name + '/') for name in self.directories[tid])}
 
@@ -240,7 +247,10 @@ def github_output(path, data):
 def check(needs, *, expected_head=None):
     """A skipped/cancelled required matrix must never produce a passing gate."""
     require(isinstance(needs, dict) and isinstance(needs.get('contracts'), dict), 'Missing contracts job result')
-    checks = []
+    require(isinstance(needs.get('cli'), dict), 'Missing CLI job result')
+    cli_state = needs['cli'].get('result')
+    checks = [result('ci/cli', 'passed' if cli_state == 'success' else 'failed',
+                     '' if cli_state == 'success' else 'CLI build/test job: ' + str(cli_state))]
     state = needs['contracts'].get('result')
     checks.append(result('ci/contracts', 'passed' if state == 'success' else 'failed',
                          '' if state == 'success' else 'Contracts/planning job: ' + str(state)))
@@ -255,7 +265,7 @@ def check(needs, *, expected_head=None):
     require(isinstance(data.get('head'), str) and re.fullmatch(r'[0-9a-f]{40,64}', data['head']), 'Invalid CI head revision')
     require(expected_head is None or data['head'] == expected_head, 'CI plan does not match the checked-out revision')
     require(set(data['counts']) == set(data['matrices']), 'CI matrix/count mismatch')
-    require(set(needs) == {'contracts', *data['counts']}, 'Missing or unexpected CI platform job')
+    require(set(needs) == {'cli', 'contracts', *data['counts']}, 'Missing or unexpected CI platform job')
     identities = set()
     for pid, count in data['counts'].items():
         require(isinstance(pid, str) and isinstance(data['matrices'][pid], dict), 'Invalid CI platform matrix')
