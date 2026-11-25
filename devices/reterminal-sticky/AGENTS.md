@@ -77,7 +77,7 @@ Card-style body with a light silver-grey front bezel and glass touch cover. The 
 #### Display
 
 - 3.97-inch E-Ink, 4-level grayscale
-- Panel controller: SSD1677 or SSD2677. Both are shipped without declaration.
+- Panel controllers supported by the official demo: SSD1677 or SSD2677. The [pinned official panel implementation][vendor-panel] detects the controller; the mapping from hardware revisions to panel controllers remains unknown.
 - Native resolution: 800 × 480 px (horizontal)
 - Pixel density: 235 ppi
 
@@ -146,7 +146,7 @@ Required at boot: drive GPIO45 (HOLD) and GPIO46 (LOCK) HIGH to keep the power r
 
 | Fact | Type | Value | Unit | Status | Source | Assertion / reason |
 | --- | --- | --- | --- | --- | --- | --- |
-| Display panel (`display`) | string | SSD1677 or SSD2677 | — | documented | [device-notes][device-notes] | Panel controller: {value}. |
+| Panel controllers supported by the official demo (`display`) | string | SSD1677 or SSD2677 | — | documented | [device-notes][device-notes] | Panel controllers supported by the official demo: {value}. |
 | Display size (`display_size`) | number | 3.97 | inch | documented | [device-notes][device-notes] | - {value}-inch E-Ink, 4-level grayscale |
 | Native panel width (`display_width`) | integer | 800 | px | documented | [device-notes][device-notes] | Native resolution: {value} × 480 px (horizontal) |
 | Native panel height (`display_height`) | integer | 480 | px | documented | [device-notes][device-notes] | Native resolution: 800 × {value} px (horizontal) |
@@ -187,7 +187,7 @@ Locate references and targets based on intent. Target is the BSP in [`targets/`]
 ## Limitations
 
 - Physical board revision and fresh on-device verification are not recorded.
-- The panel controller varies by unit (SSD1677 or SSD2677); the registered Target BSP supports SSD1677 only. Identify the panel before relying on display behavior; see the panel-detection sources in Intent routing.
+- The official demo supports SSD1677 and SSD2677; hardware-revision mappings remain unknown. The registered Target BSP supports SSD1677 only. Identify the panel before relying on display behavior; see the panel-detection sources in Intent routing.
 - Charger enable (GPIO39) active level is unconfirmed against the factory firmware; treat it as unverified until measured.
 - The native configuration uses a 16 MB flash address range while the vendor specification states 32 MB physical flash; the installed capacity is not measured.
 
@@ -256,6 +256,7 @@ Expected: temperature/humidity log once a second.
 - [Sticky hardware overview][vendor]
 - [Sticky playground registry][playground]
 - [Sticky ESP-IDF dashboard demo][dashboard]
+- [Official panel implementation at 1a28b2a][vendor-panel]
 - [Target README][readme]
 - [Target manifest][target]
 - [Native pin definitions][bsp-pins]
@@ -291,3 +292,5 @@ Expected: temperature/humidity log once a second.
 [guide-microphone-capture]: reference/microphone-capture.md
 [guide-microsd-text-page]: reference/microsd-text-page.md
 [guide-image-generation]: reference/image-generation.md
+
+[vendor-panel]: https://github.com/Seeed-Projects/sticky-esp-idf-dashboard/blob/1a28b2a11da2df3819c3a6f34561793f562d53c8/components/seeed_epaper/epaper_panel.c
