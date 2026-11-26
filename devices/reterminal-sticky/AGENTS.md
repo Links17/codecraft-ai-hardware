@@ -18,7 +18,7 @@ Best for low-frequency, always-visible notes, weather, schedules and status dash
 
 ## Usage
 
-Use the listed standalone Target examples (`epd_hello`, `button_hello`, `sht4x`) as the supported development entry points. The guides under `reference/` and the Intent routing table below map common tasks (display refresh, RTC clock, battery, navigation, sleep, microphone, microSD, IMU) to implementation patterns. Export private applications into a project workspace through the development workflow instead of editing the reference examples.
+Start from the Intent routing table below. The registered Target provides the standalone display, button and SHT40 examples (`epd_hello`, `button_hello`, `sht4x`). The guides under `reference/` explain display refresh, RTC, battery, navigation, sleep, microphone, microSD and IMU implementation patterns; a guide alone does not establish a supported native interface or verified hardware behavior. Export private applications into a project workspace through the development workflow instead of editing the reference examples.
 
 ## Physical layout
 
