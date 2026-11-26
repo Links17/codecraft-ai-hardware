@@ -173,8 +173,12 @@ pub fn validate(root: &Path, t: &J) -> Result<()> {
         let manifest = folder.join("main/idf_component.yml");
         ensure!(
             manifest.is_file()
-                && strings(&t["example_dependencies"][&ex])?
-                    .contains(&manifest.strip_prefix(root)?.to_string_lossy().to_string()),
+                && strings(&t["example_dependencies"][&ex])?.contains(
+                    &manifest
+                        .strip_prefix(root)?
+                        .to_string_lossy()
+                        .replace('\\', "/")
+                ),
             "Example manifest dependency missing"
         );
     }
