@@ -8,7 +8,10 @@ compiled into the executable.
 
 ## Install and update
 
-Download the appropriate executable from a completed **CodeCraft CLI binaries**
+Download the appropriate executable from the repository's GitHub Release
+(starting with `v0.5.0`), verify it against the attached `SHA256SUMS`, and rename
+it to `codecraft` (`codecraft.exe` on Windows). On Unix, run `chmod +x codecraft`
+and place it on your PATH. Alternatively, use a completed **CodeCraft CLI binaries**
 workflow artifact, or build locally once:
 
 ```sh
@@ -21,7 +24,9 @@ codecraft --root /path/to/codecraft-ai-hardware discover
 Windows source installations use `tools/cli/install.ps1`; the default destination
 is `%LOCALAPPDATA%/CodeCraft/bin`. A downloaded executable needs neither Rust nor
 Python. Source installations require Cargo and a native linker. No binary release
-is published automatically by this repository.
+is published automatically by this repository. Releases use the matching Cargo
+version and `v<version>` Git tag on a validated main commit; maintainers attach
+the three platform binaries from that commit's successful CI run and checksums.
 
 Run the installer again after changing Rust implementation/dependencies. It uses
 Cargo's incremental release build; normal `codecraft` invocations never run Cargo.
