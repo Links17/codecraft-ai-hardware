@@ -51,7 +51,7 @@ fn check_installer(_shell: &str) {
 while [ $# -gt 0 ]; do case "$1" in https://*) url=$1 ;; -o) shift; output=$1 ;; esac; shift; done
 printf '%s\n' "$url" >> "$CODECRAFT_INSTALL_FIXTURES/requests"
 case "$url" in
-    */releases/latest) printf 'https://github.com/Links17/codecraft-ai-hardware/releases/tag/%s' "$(/bin/cat "$CODECRAFT_INSTALL_FIXTURES/latest-tag")" ;;
+    */releases/latest) printf 'https://github.com/Seeed-Solution/codecraft-ai-hardware/releases/tag/%s' "$(/bin/cat "$CODECRAFT_INSTALL_FIXTURES/latest-tag")" ;;
     *) /bin/cp "$CODECRAFT_INSTALL_FIXTURES/${url##*/}" "$output" ;;
 esac
 "#).unwrap();
@@ -140,6 +140,9 @@ if ($Version) { & $Installer -Version $Version } else { & $Installer }
     let requests = fs::read_to_string(fixtures.join("requests")).unwrap();
     let urls: Vec<_> = requests.lines().collect();
     assert_eq!(urls.len(), 3, "{requests}");
+    assert!(urls
+        .iter()
+        .all(|url| url.contains("/Seeed-Solution/codecraft-ai-hardware/")));
     assert!(urls[0].ends_with("/releases/latest"));
     assert!(urls[1..]
         .iter()
