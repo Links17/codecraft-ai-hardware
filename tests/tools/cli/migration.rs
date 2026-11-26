@@ -277,6 +277,26 @@ fn every_bsp_manifest_and_example_preserves_native_composition_and_license() {
     }
 }
 #[test]
+fn l2_scan_retains_its_native_source_and_wireless_interface() {
+    let c = Catalog::load(&root()).unwrap();
+    let t = c
+        .selected("esp-idf/wio-tracker-l2", Some("wifi_scan"), None)
+        .unwrap();
+    let selected =
+        codecraft::platform::esp_idf::composition::describe(&c.root, &t, "wifi_scan").unwrap();
+    assert_eq!(selected.sources.len(), 1);
+    assert!(selected
+        .sources
+        .iter()
+        .next()
+        .unwrap()
+        .ends_with("bsp/src/bsp_wifi.c"));
+    let interfaces = arr(&t["interfaces"]).unwrap();
+    assert_eq!(interfaces.len(), 1);
+    assert_eq!(interfaces[0]["id"], "wireless");
+}
+
+#[test]
 fn compiler_metadata_rejects_unselected_sources_and_wrong_variant_definitions() {
     let c = Catalog::load(&root()).unwrap();
     let t = c.target("esp-idf/sensecap-indicator").unwrap();
