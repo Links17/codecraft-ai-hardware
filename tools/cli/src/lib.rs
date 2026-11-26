@@ -1,5 +1,6 @@
 pub mod catalog;
 pub mod device;
+pub mod environment;
 pub mod platform;
 pub mod project;
 pub mod util;

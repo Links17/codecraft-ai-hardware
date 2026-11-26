@@ -6,6 +6,7 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 
 ## Current rules and implementation
 
+- [Shared coding-agent setup](development/agent-client-setup.md) — one entry for Codex, Claude Code, Cursor, ZCode, WorkBuddy, Muse and other agents.
 - [Repository and contribution contract](../AGENTS.md)
 - [Architecture](architecture/overview.md)
 - [CodeCraft hardware application platform architecture](architecture/codecraft-hardware-app-platform.md)
@@ -31,6 +32,7 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 
 ## Planning and open work
 
+- [Agent client compatibility design](development/agent-client-compatibility-design.md) — proposed minimal Skill/document access improvements; no architecture or schema changes.
 - [Local hardware architecture plan (adapted from Feishu)](architecture/hardware-architecture-plan.md)
 - [Repository tools migration TODO](development/tools-rust-migration-todo.md)
 - [Architecture alignment TODO](development/architecture-alignment-todo.md)

@@ -369,3 +369,68 @@ fn firmware_without_build_is_not_run_and_creates_no_plan() {
     assert_eq!(value["data"]["status"], "not_run");
     assert!(!plan.exists());
 }
+
+#[test]
+fn doctor_reports_missing_tools_for_each_stack_without_building() {
+    for target in [
+        "esp-idf/reterminal-e1001",
+        "arduino/wio-terminal",
+        "linux/reterminal",
+    ] {
+        let (exit, report) = run(&["doctor", "--target", target]);
+        assert_eq!(exit, 2, "{report}");
+        assert_eq!(report["data"]["status"], "not_run");
+        assert_eq!(report["data"]["actual"]["status"], "not_run");
+        assert!(report["data"]["expected"].is_object());
+        assert_eq!(report["data"]["next_steps"][0]["retry"][1], "doctor");
+    }
+    let (exit, report) = run(&["doctor", "--target", "linux/unknown"]);
+    assert_eq!(exit, 1, "{report}");
+}
+
+#[test]
+fn doctor_in_export_preserves_project_and_lock() {
+    let temp = tempfile::tempdir().unwrap();
+    let app = temp.path().join("app");
+    let (exit, report) = run(&[
+        "new",
+        "--target",
+        "esp-idf/reterminal-e1001",
+        "--example",
+        "epd_hello",
+        "--output",
+        app.to_str().unwrap(),
+    ]);
+    assert_eq!(exit, 0, "{report}");
+    let snapshot = || {
+        walkdir::WalkDir::new(&app)
+            .into_iter()
+            .map(|entry| {
+                let entry = entry.unwrap();
+                (
+                    entry.path().strip_prefix(&app).unwrap().to_owned(),
+                    if entry.file_type().is_file() {
+                        std::fs::read(entry.path()).unwrap()
+                    } else {
+                        vec![]
+                    },
+                )
+            })
+            .collect::<std::collections::BTreeMap<_, _>>()
+    };
+    let before = snapshot();
+    let output = Command::new(env!("CARGO_BIN_EXE_codecraft"))
+        .arg("--root")
+        .arg(&app)
+        .args(["doctor", "--target", "esp-idf/reterminal-e1001"])
+        .env("PATH", "")
+        .output()
+        .unwrap();
+    assert_eq!(
+        output.status.code(),
+        Some(2),
+        "{}",
+        String::from_utf8_lossy(&output.stdout)
+    );
+    assert_eq!(snapshot(), before);
+}

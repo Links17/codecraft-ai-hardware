@@ -17,6 +17,11 @@ struct Args {
 #[derive(Subcommand)]
 enum Commands {
     Catalog,
+    /// Inspect the selected native environment without building or changing locks.
+    Doctor {
+        #[arg(long)]
+        target: String,
+    },
     Firmware {
         #[command(subcommand)]
         command: ImageCommand,
@@ -123,6 +128,11 @@ fn run(mut a: Args) -> Result<(J, i32)> {
         .canonicalize()
         .context("Repository/project root is unavailable")?;
     Ok(match a.command {
+        Commands::Doctor { target } => {
+            let data = codecraft::environment::inspect(&a.root, &target)?;
+            let exit = if data["status"] == "passed" { 0 } else { 2 };
+            (data, exit)
+        }
         Commands::Firmware { command } => {
             let value = match command {
                 ImageCommand::Plan {

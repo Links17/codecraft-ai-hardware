@@ -6,6 +6,7 @@
 
 ## 当前规则与实现
 
+- [通用编程 Agent 接入](development/agent-client-setup.md) — Codex、Claude Code、Cursor、ZCode、WorkBuddy、Muse 等工具共用的入口。
 - [仓库与贡献约束](../AGENTS.md)
 - [架构](architecture/overview.md)
 - [CodeCraft 硬件应用平台架构](architecture/codecraft-hardware-app-platform.md)
@@ -31,6 +32,7 @@
 
 ## 规划与待办
 
+- [Agent 客户端兼容设计](development/agent-client-compatibility-design.md) — 提议以最小 Skill/文档入口改进兼容性，不改变架构或 schema。
 - [本地硬件架构规划（由飞书文档转换并对齐）](architecture/hardware-architecture-plan.md)
 - [仓库工具迁移 TODO](development/tools-rust-migration-todo.md)
 - [架构对齐 TODO](development/architecture-alignment-todo.md)

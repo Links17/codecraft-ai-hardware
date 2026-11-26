@@ -114,6 +114,13 @@ and cited Device observations, not test code, fixtures, records or logs.
 
 ## Rust CLI checks
 
+Onboarding tests in tests/tools/cli/onboarding.rs exercise the release installer
+with offline downloads, latest-release resolution, pinned-version overrides,
+checksum/version rejection and existing-file preservation.
+They use the shell installer on Unix and PowerShell on Windows. Doctor coverage
+uses missing/fake host tools and verifies exported project bytes remain unchanged;
+these fixtures do not establish native SDK or device readiness.
+
 Run `cargo fmt --all -- --check`, `cargo clippy --locked --package codecraft --all-targets -- -D warnings` and `cargo test --locked --package codecraft` after Rust changes.
 The Python recursive runner does not discover Rust tests. CI compiles their explicit
 Cargo targets only on cache misses and runs the cached executables against current

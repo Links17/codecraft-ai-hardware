@@ -5,6 +5,13 @@ description: Clarify a hardware application brief and select sourced Device and 
 
 # Ideate
 
+Start from the user's repository or application workspace, not this Skill's
+installation directory. Read that workspace's AGENTS.md and
+`docs/development/application-workflow.md` for workspace and task routing.
+When installed elsewhere, resolve links below from the matching Skill path in
+that workspace. If the workspace is unavailable, ask for its location and
+continue independent work that does not depend on it.
+
 For a new application, read the root contract and [project workspace guide](../../docs/development/application-workflow.md). Establish the purpose, target users, concrete scenarios, BOM, intended output path and software stack. Clarify budget, power, connectivity and privacy constraints when they affect selection. Record missing information as unknown; do not invent quantities, physical revisions, compatible accessories or source claims.
 
 Run `codecraft discover` for actual candidates, then `codecraft context --target <platform>/<device> --task ideate` for each selected candidate. Read the returned device facts, references and native bindings before relying on them. A brief records user intent; build or physical support comes only from current source-bound evidence. Use an actual registered standalone Skill contract for cloud requirements; no credential or real API operation is implied by ideation.

@@ -55,3 +55,7 @@ path = "../../tests/tools/cli/skill_maintenance.rs"
 [[test]]
 name = "skill_reference"
 path = "../../tests/tools/cli/skill_reference.rs"
+
+[[test]]
+name = "onboarding"
+path = "../../tests/tools/cli/onboarding.rs"
