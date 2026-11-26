@@ -9,7 +9,8 @@ compiled into the executable.
 ## Install and update
 
 Download the appropriate executable from the repository's GitHub Release
-(starting with `v0.5.0`), verify it against the attached `SHA256SUMS`, and rename
+(upstream releases start with `v0.5.1`; `v0.5.0` was published in the fork),
+verify it against the attached `SHA256SUMS`, and rename
 it to `codecraft` (`codecraft.exe` on Windows). On Unix, run `chmod +x codecraft`
 and place it on your PATH. Alternatively, use a completed **CodeCraft CLI binaries**
 workflow artifact, or use the checksum-verifying installer:
@@ -71,10 +72,10 @@ Git commit IDs, device files or documentation in the binary cache key.
 
 ## Read-only environment preflight
 
-The working-tree CLI provides `codecraft doctor --target <stack>/<device>`,
-using `--root` for a repository or exported application. This is not yet in the
-published v0.5.0 binary; use a source build for this new command. Skills check
-command availability before using it and retain native setup guidance for v0.5.0.
+CodeCraft v0.5.1 provides `codecraft doctor --target <stack>/<device>`, using
+`--root` for a repository or exported application. The historical fork's v0.5.0
+binary does not include this command. Skills check command availability before
+using it and retain native setup guidance for v0.5.0.
 
 Doctor reuses the platform build probe and reports expected Target requirements,
 actual activated-toolchain identity, and setup guidance when unavailable. Exit 0

@@ -108,12 +108,12 @@ if ($Version) { & $Installer -Version $Version } else { & $Installer }
         format!("{}  {asset}\n", "0".repeat(64)),
     )
     .unwrap();
-    assert!(!run("0.5.0").status.success());
+    assert!(!run(codecraft::VERSION).status.success());
     assert_eq!(fs::read(&installed).unwrap(), b"existing installation");
     fs::write(fixtures.join("SHA256SUMS"), &hashes).unwrap();
-    assert!(!run("0.5.1").status.success());
+    assert!(!run("99.0.0").status.success());
     assert_eq!(fs::read(&installed).unwrap(), b"existing installation");
-    fs::write(fixtures.join("latest-tag"), "v0.5.1").unwrap();
+    fs::write(fixtures.join("latest-tag"), "v99.0.0").unwrap();
     assert!(!run("").status.success());
     assert_eq!(fs::read(&installed).unwrap(), b"existing installation");
     fs::write(fixtures.join("latest-tag"), "v0.5.0-rc1").unwrap();
