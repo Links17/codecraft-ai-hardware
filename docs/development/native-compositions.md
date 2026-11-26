@@ -6,7 +6,7 @@ hardware revisions retain their separate ownership.
 
 ```text
 platforms/esp-idf/
-  composition.py                 # metadata/build-output checks
+  composition.rs                 # metadata/build-output checks
   cmake/bsp.cmake                 # load the example's native composition
   components/                    # native components shared across boards
 devices/<board>/
@@ -73,7 +73,7 @@ Shared module tests and SDK doubles remain with their Platform or component;
 board-specific host tests live in tests/devices/<board>/targets/.
 Neither is implicitly shipped as runtime application inputs.
 
-`composition.py` checks profile syntax, local header/implementation closure,
+`composition.rs` checks profile syntax, local header/implementation closure,
 Target declarations and native component-directory selection. After a successful
 compiler command, the adapter checks `project_description.json` for the actual
 BSP sources and requirements. A compiler exit of zero with the wrong composition
@@ -96,7 +96,7 @@ For changes to native composition, run the composition tests and affected native
 and exported project builds:
 
 ```sh
-codecraft maintenance test --path tests/platforms/esp-idf/test_composition.py
+cargo test --locked --package codecraft --test migration
 codecraft validate --target esp-idf/<board> --projects
 ```
 

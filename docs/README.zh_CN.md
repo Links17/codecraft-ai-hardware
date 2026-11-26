@@ -32,6 +32,7 @@
 ## 规划与待办
 
 - [本地硬件架构规划（由飞书文档转换并对齐）](architecture/hardware-architecture-plan.md)
+- [仓库工具迁移 TODO](development/tools-rust-migration-todo.md)
 - [架构对齐 TODO](development/architecture-alignment-todo.md)
 
 - [V0.2 实施 TODO](development/v0.2-todo.md) — 设计对齐、已完成工作与待验收事项。

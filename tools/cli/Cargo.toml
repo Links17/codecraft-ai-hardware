@@ -9,6 +9,10 @@ build = false
 
 [dependencies]
 anyhow = "=1.0.102"
+tempfile = "=3.27.0"
+quick-xml = "=0.37.5"
+rustpython-parser = "=0.4.0"
+rustpython-ast = { version = "=0.4.0", features = ["unparse", "visitor"] }
 clap = { version = "=4.6.0", features = ["derive"] }
 serde = { version = "=1.0.228", features = ["derive"] }
 serde_json = "=1.0.149"
@@ -23,8 +27,31 @@ zip = { version = "=2.4.2", default-features = false, features = ["deflate"] }
 libc = "=0.2.190"
 
 [dev-dependencies]
-tempfile = "=3.27.0"
 
 [[test]]
 name = "authoring"
 path = "../../tests/tools/cli/authoring.rs"
+
+[[test]]
+name = "migration"
+path = "../../tests/tools/cli/migration.rs"
+
+[[test]]
+name = "maintenance_evidence"
+path = "../../tests/tools/cli/maintenance_evidence.rs"
+
+[[test]]
+name = "maintenance_ci"
+path = "../../tests/tools/cli/maintenance_ci.rs"
+
+[[test]]
+name = "maintenance_checks"
+path = "../../tests/tools/cli/maintenance_checks.rs"
+
+[[test]]
+name = "skill_maintenance"
+path = "../../tests/tools/cli/skill_maintenance.rs"
+
+[[test]]
+name = "skill_reference"
+path = "../../tests/tools/cli/skill_reference.rs"

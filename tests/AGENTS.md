@@ -9,8 +9,8 @@ Keep their ownership aligned with the source tree:
 - `skills/<skill-id>/`: direct standalone-client and Skill conformance.
 - `tools/cli/`: Rust creator CLI integration and native orchestration tests,
   registered explicitly in tools/cli/Cargo.toml.
-- `tools/codecraft/`: Python repository conformance fixtures, contracts,
-  test discovery and documentation rules.
+- `tools/cli/maintenance_*.rs`: repository contracts, source-bound evidence,
+  CI selection, host discovery and documentation checks.
 - `tools/skill_packages/`: protocol/install/release tests and shared client fixtures.
 
 Read [test ownership and execution](../docs/development/testing.md) before
@@ -45,6 +45,5 @@ The public host runner discovers only targets/ within each Device's
 test directory. Observations, records and logs are evidence, not runnable tests.
 Device writes need the authorization specified in the root repository contract.
 
-Rust tests run once through `cargo test --locked --package codecraft`; the recursive
-Python runner discovers Python host suites only. CI runs cached Rust test executables
+Rust tests run once through `cargo test --locked --package codecraft`; the Rust dispatcher invokes the external pytest runtime for Python host suites only. CI runs cached Rust test executables
 against current repository data before the static/host and native jobs.

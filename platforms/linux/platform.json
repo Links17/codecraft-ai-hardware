@@ -1,5 +1,5 @@
 {
-  "adapter": "platforms/linux/adapter.py",
+  "adapter": "platforms/linux/native.rs",
   "application_inputs": [
     "tools/application/resource.json"
   ],
@@ -61,8 +61,5 @@
       "supported": false
     }
   },
-  "runtime": [
-    "tools/codecraft/resource.json"
-  ],
-  "schema_version": 2
+  "schema_version": 3
 }

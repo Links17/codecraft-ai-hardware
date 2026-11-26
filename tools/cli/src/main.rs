@@ -2,7 +2,7 @@ use anyhow::{ensure, Context, Result};
 use clap::{Parser, Subcommand};
 use codecraft::{catalog::Catalog, project, util::*};
 use serde_json::json;
-use std::{path::PathBuf, process::Command};
+use std::path::PathBuf;
 #[derive(Parser)]
 #[command(
     version,
@@ -85,7 +85,7 @@ enum Commands {
         #[arg(long)]
         report: Option<PathBuf>,
     },
-    /// Repository maintenance only; may require Python and host test dependencies.
+    /// Repository checks and package maintenance; client tests use their own runtimes.
     Maintenance {
         #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
         args: Vec<String>,
@@ -117,7 +117,11 @@ enum ImageCommand {
         bundle: PathBuf,
     },
 }
-fn run(a: Args) -> Result<(J, i32)> {
+fn run(mut a: Args) -> Result<(J, i32)> {
+    a.root = a
+        .root
+        .canonicalize()
+        .context("Repository/project root is unavailable")?;
     Ok(match a.command {
         Commands::Firmware { command } => {
             let value = match command {
@@ -239,30 +243,8 @@ fn run(a: Args) -> Result<(J, i32)> {
             ensure!(!a.root.join("project.yaml").exists(), "Application builds require codecraft build-project; reference validation cannot bypass its lock");
             let mut rows = vec![];
             if target.is_none() {
-                let output = Command::new("python3")
-                    .arg(
-                        a.root
-                            .join("tools/codecraft/maintenance.py")
-                            .canonicalize()?,
-                    )
-                    .arg("--root")
-                    .arg(a.root.canonicalize()?)
-                    .args(["validate", "--static"])
-                    .env("CODECRAFT_TEST_CLI", std::env::current_exe()?)
-                    .output()
-                    .context("Repository validation requires Python; authoring commands do not")?;
-                let envelope = parse(&String::from_utf8(output.stdout)?)?;
-                let checks = envelope["data"]["results"].as_array().with_context(|| {
-                    format!(
-                        "Static validation failed: {envelope}; {}",
-                        String::from_utf8_lossy(&output.stderr)
-                    )
-                })?;
-                rows.extend(checks.iter().cloned());
-                ensure!(
-                    output.status.success() == (code(&json!(checks))? == 0),
-                    "Static result and exit status disagree"
-                );
+                let checks = codecraft::maintenance_checks::static_checks(&a.root)?;
+                rows.extend(arr(&checks["results"])?.iter().cloned());
             }
             if !r#static && rows.iter().all(|r| r["status"] == "passed") {
                 let c = Catalog::load(&a.root)?;
@@ -338,42 +320,53 @@ fn code(rows: &J) -> Result<i32> {
     })
 }
 fn maintenance(root: &std::path::Path, args: &[String]) -> Result<(J, i32)> {
-    let allowed = [
-        "generate",
-        "test",
-        "validate",
-        "check-cloud-skills",
-        "record-evidence",
-        "skill-release",
-        "skill-reference",
-        "ci",
-    ];
-    ensure!(
-        args.first().is_some_and(|x| allowed.contains(&x.as_str())),
-        "Choose a repository maintenance command"
-    );
-    if args[0] == "validate" {
-        ensure!(
-            args.iter().any(|x| x == "--static"),
-            "Native builds use the Rust validate command"
-        );
-    }
-    let script = root.join("tools/codecraft/maintenance.py");
-    if !script.is_file() {
-        return Ok((
-            json!({"status":"not_supported","reason":"Repository maintenance tools are not included in applications."}),
-            2,
+    if root.join("project.yaml").exists() || !root.join("tools/cli/Cargo.toml").is_file() {
+        return Err(unsupported(
+            "Repository maintenance is unavailable in application exports",
         ));
     }
-    let status = Command::new("python3")
-        .arg(script.canonicalize()?)
-        .arg("--root")
-        .arg(root.canonicalize()?)
-        .args(args)
-        .env("CODECRAFT_TEST_CLI", std::env::current_exe()?)
-        .status()
-        .context("Repository maintenance requires Python; authoring commands do not")?;
-    std::process::exit(status.code().unwrap_or(1));
+    let (name, tail) = args
+        .split_first()
+        .context("Choose a repository maintenance command")?;
+    let data = match name.as_str() {
+        "generate" => codecraft::maintenance_generate::command(root, tail)?,
+        "test" => codecraft::maintenance_checks::command(root, tail)?,
+        "validate" => {
+            ensure!(
+                tail == ["--static"],
+                "Use validate --static for repository checks"
+            );
+            codecraft::maintenance_checks::static_checks(root)?
+        }
+        "skill-reference" => codecraft::maintenance_reference::command(root, tail)?,
+        "record-evidence" => codecraft::maintenance_evidence::command(root, tail)?,
+        "ci" => codecraft::maintenance_ci::command(root, tail)?,
+        "skill-release" | "check-cloud-skills" | "skill-contract" => {
+            codecraft::maintenance_skills::command(root, args)?
+        }
+        _ => anyhow::bail!("Unknown repository maintenance command: {name}"),
+    };
+    let status = if name == "ci" && tail.first().is_some_and(|v| v == "check") {
+        // Unselected native jobs are intentionally skipped; the CI gate validates
+        // that distinction instead of treating every skip as an incomplete check.
+        if data["ok"] == true {
+            0
+        } else {
+            1
+        }
+    } else if data.get("results").is_some() {
+        code(&data["results"])?
+    } else if (data["check"] == true && data["changed"].as_array().is_some_and(|v| !v.is_empty()))
+        || data["ok"] == false
+        || data["status"] == "failed"
+    {
+        1
+    } else if data.get("status").is_some_and(|v| v != "passed") {
+        2
+    } else {
+        0
+    };
+    Ok((data, status))
 }
 fn main() {
     let a = Args::parse();

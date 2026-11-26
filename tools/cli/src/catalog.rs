@@ -32,7 +32,7 @@ impl Catalog {
             {
                 let v = read(&p.join("platform.json"))?;
                 let id = s(&v["id"])?.to_owned();
-                ensure!(v["schema_version"] == 2, "Unsupported platform schema");
+                ensure!(v["schema_version"] == 3, "Platform schema 3 required; recreate exports made with the removed adapter/runtime contract");
                 ensure!(c.platforms.insert(id, v).is_none(), "Duplicate platform");
             }
         }
@@ -73,6 +73,39 @@ impl Catalog {
             ensure!(c.targets.insert(tid, t).is_none(), "Duplicate Target");
         }
         ensure!(!c.targets.is_empty(), "Empty catalog");
+        let application = c.root.join("project.yaml").is_file();
+        for (id, p) in &c.platforms {
+            ensure!(
+                c.root
+                    .join(format!("platforms/{id}/platform.json"))
+                    .is_file(),
+                "Platform identity mismatch"
+            );
+            ensure!(
+                !c.root.join(format!("platforms/{id}/targets")).exists(),
+                "Targets belong under devices"
+            );
+            crate::platform_schema::platform(&c.root, p, application)?;
+        }
+        for t in c.targets.values() {
+            let base = c.root.join(s(&t["path"])?);
+            ensure!(
+                !base.join("tests").exists()
+                    && !c
+                        .root
+                        .join("devices")
+                        .join(s(&t["device"])?)
+                        .join("tests")
+                        .exists(),
+                "Tests belong under root tests"
+            );
+            ensure!(
+                c.platforms.keys().all(|stack| !base.join(stack).exists()),
+                "Target may not contain stack subdirectories"
+            );
+            crate::platform_schema::target(&c, t)?;
+            c.graph(t)?;
+        }
         Ok(c)
     }
     pub fn target(&self, id: &str) -> Result<&J> {
@@ -228,7 +261,7 @@ impl Catalog {
             "Missing portable guidance"
         );
         Ok(
-            json!({"schema_version":4,"device":d,"target":t,"task":task,"guidance":guidance,"files":g.files.keys().collect::<Vec<_>>(),"dependencies":g.edges,"source_digest":g.fingerprint(),"unknowns":d["unknowns"],"support":{"level":"unknown","device":"not_run","reason":"No current Rust CLI source-bound build and physical evidence is registered."}}),
+            json!({"schema_version":4,"device":d,"target":t,"task":task,"guidance":guidance,"files":g.files.keys().collect::<Vec<_>>(),"dependencies":g.edges,"source_digest":g.fingerprint(),"unknowns":d["unknowns"],"support":crate::maintenance_evidence::support(self,id)?}),
         )
     }
     pub fn discover(

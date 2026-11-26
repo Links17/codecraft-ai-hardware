@@ -20,7 +20,7 @@ Skill directory to install it. Repository tooling lives in
 The required workflows are codecraft-development-develop, codecraft-development-setup, codecraft-development-build,
 codecraft-development-device-test and codecraft-development-debug. Use codecraft-development-ideate for application
 briefs, plus codecraft-development-discover and codecraft-development-validate as needed. Shared Device
-creator orchestration lives in tools/cli/; repository audits live in tools/codecraft/. Native commands remain in each
+creator orchestration lives in tools/cli/; repository audits live in tools/cli/. Native commands remain in each
 Platform. The [portable workflow](../docs/development/application-workflow.md)
 and selected Platform/workflow guidance are exported and locked with applications.
 
@@ -159,6 +159,6 @@ codecraft validate --static
 check-cloud-skills verifies repository packages; --skills-root checks installed
 copies. Missing, extra and symlink files fail. Caches are excluded; CLI checks use
 fresh pinned bytes without inherited PYTHONPATH. Per-Skill tests live under
-tests/skills/<skill-id>/; shared contracts live under tests/tools/codecraft/ and
+tests/skills/<skill-id>/; shared contracts live under tests/tools/cli/ and
 installation/protocol/releases under tests/tools/skill_packages/. Tests use loopback fixtures and
 synthetic credentials only. Real API acceptance remains [open](../docs/development/optimization-plan.md).

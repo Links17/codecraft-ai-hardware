@@ -66,18 +66,16 @@ skills/
 tools/
   AGENTS.md
   cli/                         # Standalone creator CLI, source graphs, exports and locks
-  codecraft/                   # Repository conformance and maintenance checks
   skill_packages/
     packages/<skill-id>.json    # Distribution version, complete hashes and provenance
     import.json                # Immutable original import provenance
     upstream.json              # Reviewed upstream snapshot
-    device_api.py              # Shared-helper maintenance source
     release.py
     check_candidate.py
     release-checks.json
 tests/
   skills/<skill-id>/            # Direct-client and workflow conformance
-  tools/codecraft/             # Contracts, selection and native export/lock boundaries
+  tools/cli/                   # Shared contracts, project workflows and maintenance
   tools/skill_packages/         # Protocol/install/release checks and loopback fixtures
 docs/
   skill-inventory.json          # Generated ID/operation/version navigation
@@ -163,3 +161,8 @@ firmware compilation and the complete build gate are skipped by the user's
 instruction and unchanged firmware/native build inputs. Host fixtures and Linux
 overlay checks in the static suite remain distinct. On-device and live cloud API
 acceptance are not run, and historical evidence is not promoted by these changes.
+
+The repository tooling migration consolidates maintenance in tools/cli/. The
+shared client helper is owned by the standalone LLM package; reviewed releases
+distribute its bytes without cross-package runtime imports. Historical execution
+records above retain the environment and results that actually ran.

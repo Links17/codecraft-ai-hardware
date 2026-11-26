@@ -15,7 +15,7 @@ tools/skill_packages/upstream.json; copying new source must not rewrite the orig
 
 ## Maintained inputs and versions
 
-Edit common client behavior in tools/skill_packages/device_api.py. Other package files
+Edit common client behavior in skills/codecraft-capabilities-llm/scripts/device_api.py. Other package files
 remain maintained under their own skills/codecraft-capabilities-* directories. The candidate
 builder copies the common helper into every distribution; it does not rewrite
 working package copies or their release records while preparing a candidate.
@@ -51,7 +51,7 @@ documentation-only ASR edit from package 2.0.1:
 
 Optional fields are api_version, contract_version and policy_version. These must
 match the separately reviewed values in package contract.json; omitted versions
-remain unchanged. Release record schema is 1; candidate manifest and Skill contract container schemas are 2. A shared-helper edit needs a reviewed version change
+remain unchanged. Release record schema is 1; candidate manifest schema is 3 and Skill contract container schema is 2. Candidates bind the compiled maintenance CLI and validation sources; older candidates must be re-prepared and reviewed. A shared-helper edit needs a reviewed version change
 for every affected package. Do not change versions or hashes merely to suppress
 a failing contract test.
 

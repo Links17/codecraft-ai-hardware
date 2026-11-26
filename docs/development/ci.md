@@ -6,11 +6,10 @@ Each selected Target retains its existing native command, all examples/variants,
 and `--projects` checks. An unselected Target is reported as `skipped`, never as
 a successful new firmware build. Physical verification is separate.
 
-This selection lives in `tools/codecraft/ci.py` and `ci_policy.py`, with host tests
-in `tests/tools/codecraft/test_ci.py`. Native roots are shared with Catalog in
-`tools/codecraft/model.py`; context/export/evidence still retain their complete
-knowledge, workflow and provenance closure. The generated complete Target matrix
-remains an inventory; the workflow consumes a filtered matrix from the planner.
+Selection lives in `tools/cli/src/maintenance_ci.rs`, with integration tests in
+`tests/tools/cli/maintenance_ci.rs`. It reads committed manifests and dependency
+closures as data; historical code is never executed. The generated complete
+Target matrix is inventory; CI consumes the filtered plan.
 
 ## Selection rules
 
@@ -31,19 +30,20 @@ including repository-internal configuration symlinks. Missing inputs, dependency
 cycles, malformed metadata and external/broken links fail planning. Git renames
 are expanded into deleted and added paths so neither side loses ownership.
 Historical trees are read as data; their Python schema/adapter code is not run.
+The CI snapshot inventory accepts historical Platform schema 2 and current schema 3
+so a migration can be compared across its boundary. This is not a creator
+compatibility reader: current Catalog and application operations require schema 3.
 
 Context hashes include guidance, evidence and pipeline code, so a changed context
 hash is not itself a native-build trigger. The native projection excludes reviewed
 host metadata/validation modules and documentation. Other declared assets remain
 native inputs, including a Markdown asset inside an application's source tree.
 
-The CLI exception is deliberately narrow: literal host-command parser entries and
-dispatch branches, plus known host-only functions, may change without scheduling
-native builds when the remaining Python AST is identical. Package inventory
-maintenance has an equivalent exception in `io_utils.py`. Native argument changes,
-unrecognised statements, escaped parser bindings, conditions/arguments with runtime side effects, missing files
-and executable-mode changes retain native impact. This is a reviewed ownership
-policy, not a general semantic proof of Python equivalence.
+Changes to reviewed maintenance-only modules do not change native compiler
+commands. Shared creator/native Rust code, dependency or compiler configuration
+changes conservatively select all affected Targets. Platform-owned Rust changes
+select that stack; unknown infrastructure remains conservative. This is an
+ownership policy, not a proof of semantic equivalence.
 
 ## Events and public commands
 
@@ -125,5 +125,6 @@ including inside the ESP-IDF container.
 Rust CLI source/dependency changes conservatively select all native Targets.
 Platform Rust changes select that stack. Documentation changes remain host-only.
 The final result job requires the CLI job as well as every selected native job.
-It invokes the internal Python aggregator directly so it can report a failed CLI
-build; this bootstrap exception is not an application entry point.
+It downloads the compiled tool for aggregation. If the CLI job or artifact is
+unavailable, the fixed result job fails explicitly instead of needing another
+implementation of aggregation.

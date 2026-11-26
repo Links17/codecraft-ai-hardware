@@ -85,11 +85,15 @@ pub fn payload(spec: &J, value: &J) -> Result<()> {
     }
     Ok(())
 }
-fn policy(base: &J, limits: &J) -> Result<J> {
+pub(crate) fn policy(base: &J, limits: &J) -> Result<J> {
     let mut out = base.clone();
     for (k, v) in obj(limits)? {
         match k.as_str() {
             "properties" => {
+                ensure!(
+                    base["type"] == "object",
+                    "Properties require an object schema"
+                );
                 for (name, child) in obj(v)? {
                     out["properties"][name] = policy(
                         base["properties"]
@@ -99,7 +103,10 @@ fn policy(base: &J, limits: &J) -> Result<J> {
                     )?;
                 }
             }
-            "items" => out[k] = policy(&base[k], v)?,
+            "items" => {
+                ensure!(base["type"] == "array", "Items require an array schema");
+                out[k] = policy(&base[k], v)?;
+            }
             "required" => {
                 let mut keys: BTreeSet<_> = strings(&base[k])?.into_iter().collect();
                 for name in strings(v)? {
@@ -112,6 +119,10 @@ fn policy(base: &J, limits: &J) -> Result<J> {
                 out[k] = json!(keys);
             }
             "additionalProperties" => {
+                ensure!(
+                    base["type"] == "object",
+                    "Properties policy requires object"
+                );
                 ensure!(*v == false, "Policy may only prohibit extra fields");
                 out[k] = v.clone();
             }
@@ -123,6 +134,17 @@ fn policy(base: &J, limits: &J) -> Result<J> {
                 out[k] = v.clone();
             }
             "minimum" | "maximum" | "minLength" | "maxLength" => {
+                if k.ends_with("Length") {
+                    ensure!(
+                        base["type"] == "string" && v.is_u64(),
+                        "Length bound requires string and nonnegative integer"
+                    );
+                } else {
+                    ensure!(
+                        (base["type"] == "number" || base["type"] == "integer") && v.is_number(),
+                        "Numeric bound requires numeric schema"
+                    );
+                }
                 if let Some(old) = base.get(k) {
                     let new = v.as_f64().context("Invalid policy bound")?;
                     let old = old.as_f64().context("Invalid contract bound")?;
@@ -138,6 +160,7 @@ fn policy(base: &J, limits: &J) -> Result<J> {
                 out[k] = v.clone();
             }
             "pattern" => {
+                ensure!(base["type"] == "string", "Pattern requires string");
                 ensure!(
                     base.get(k).is_none() || base[k] == *v,
                     "Policy replaces contract pattern"
@@ -146,6 +169,12 @@ fn policy(base: &J, limits: &J) -> Result<J> {
                 out[k] = v.clone();
             }
             _ => anyhow::bail!("Unknown policy constraint {k}"),
+        }
+    }
+    crate::maintenance_contracts::schema(&out)?;
+    if let Some(values) = out.get("enum") {
+        for value in arr(values)? {
+            payload(&out, value)?;
         }
     }
     Ok(out)
@@ -201,6 +230,7 @@ pub fn package(root: &Path, id: &str) -> Result<(J, J)> {
             && c["policy"]["version"] == record["policy_version"],
         "Independent Skill versions differ"
     );
+    crate::maintenance_contracts::validate(&c, &record["files"])?;
     safe(root, s(&record["source"]["import_manifest"])?)?;
     Ok((record, c))
 }

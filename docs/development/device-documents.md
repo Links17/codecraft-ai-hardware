@@ -6,8 +6,8 @@ reader produces a schema-5 Device model from explicit sections and tables;
 it does not interpret arbitrary prose or ask an Agent to infer machine fields.
 There is no embedded JSON, generated region or separate Device/acceptance file.
 
-The host tools in [device_entry.py](../../tools/codecraft/device_entry.py) parse
-this document; [device_validation.py](../../tools/codecraft/device_validation.py)
+The host tools in [device.rs](../../tools/cli/src/device.rs) parse
+this document; [maintenance_device.rs](../../tools/cli/src/maintenance_device.rs)
 validates the resulting Device data, cited assertions, acceptance cases and
 assets. Catalog loads this validator directly. Both modules belong to the
 shared CLI implementation and are declared in its resource manifest so context,
@@ -126,14 +126,14 @@ source-bound evidence; they are not runtime inputs or application export
 dependencies. Native discovery reads the owning Target manifests.
 Generation never edits authored
 Device documents or the root rules. Their links route to those derived indexes.
-The repository audit backend computes verification state from its reference
+The shared evidence reader computes verification state from current source-bound
 records for the native interface matrix; it is not copied into Device documents.
-Rust `codecraft context` currently reports hardware verification as `unknown`.
-Schema 4 receipt registration/promotion is pending; see
+`codecraft context` derives support from current source/CLI-bound evidence.
+Historical graph records remain archived without promotion; see
 [evidence compatibility](rust-cli.md#evidence-compatibility).
 
-Creator source graphs and locks use schema 4; repository audit fixtures retain
-schema 3. Both hash complete source files, including each authored AGENTS.md.
+Creator source graphs and locks use schema 4 and hash complete source files,
+including each authored AGENTS.md. Historical records retain their original identity.
 Creator export copies the Device document byte for byte, follows its declared
 source closure and locks the complete files. No document-content projection or
 export-time rewrite is used. A changed procedure or hardware note changes source

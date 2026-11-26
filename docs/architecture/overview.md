@@ -13,7 +13,7 @@ The governing requirements are [codecraft-hardware-distilled.md](../development/
 | Device / Target | Per-device knowledge, authored specifications, assets, target.json, native BSP/configuration/examples | Device index, native interface bindings, scoped source closure and support state |
 | Platform | adapter, platform.json, shared build helpers and reusable components | Native build cases, stack validation and CI matrix |
 | Skill | workflows, contract.json, service policy and standalone clients | Installable development workflows and cloud capability packages |
-| Repository tools | Creator orchestration in tools/cli/; repository audits in tools/codecraft/; helper sources, provenance and release records in tools/skill_packages/ | Task context, project lock, build receipt, generated indexes and reviewed release candidate |
+| Repository tools | Creator orchestration in tools/cli/; repository checks in tools/cli/; helper sources, provenance and release records in tools/skill_packages/ | Task context, project lock, build receipt, generated indexes and reviewed release candidate |
 
 Each Device registers its native Target at targets/target.json. That manifest
 selects one software stack; peripheral interfaces belong to the Target. Cloud contracts belong to their consuming Skills and do not represent GPIO, display or individual device peripherals.
@@ -59,7 +59,6 @@ devices/
 platforms/<stack>/
   platform.json              # Stack/runtime adaptation contract
   native.rs                  # Rust creator native operations
-  adapter.py                 # Repository audit/conformance adapter
   components/                # Reusable native components, where needed
   cmake/                     # Shared native build helpers, where needed
 skills/
@@ -67,7 +66,6 @@ skills/
   codecraft-capabilities-*/ # Independently installable cloud capability Skills
 tools/
   cli/                       # Rust creator CLI and orchestration
-  codecraft/                 # Python audits and schema 3 reference conformance
   skill_packages/            # Client maintenance, provenance and release tooling
 tests/
   AGENTS.md                  # Test directory index and evidence rules
@@ -80,7 +78,6 @@ tests/
     components/<component>/  # Shared component tests and fixtures
   skills/<skill-id>/          # Workflow and standalone-client tests
   tools/cli/                 # Standalone Rust creator CLI
-  tools/codecraft/            # Repository audit backend and reference fixtures
   tools/skill_packages/       # Installation, protocol and release tests
 ```
 
@@ -90,14 +87,14 @@ one owner: Targets reference shared Platform resources through their declared
 dependency closure. Platform directories do not contain board copies or forwarding
 paths. The same layout is preserved in generated projects and their locks.
 
-Creator source graphs, profiles and locks use schema 4 and hash complete files. Repository conformance fixtures retain schema 3. Exports copy the
+Creator source graphs, profiles and locks use schema 4 and hash complete files. Historical evidence retains its original schema without a second runtime. Exports copy the
 authored Device entry unchanged; derived indexes and evidence summaries live
 outside it. Editing hardware guidance or acceptance changes source identity.
 
 ## Dependency and invocation boundaries
 
 The public command is `codecraft`. Its implementation lives in
-`tools/cli`; platform-owned Rust adapters implement native build behavior. Repository maintenance uses a separate Python backend via `codecraft maintenance`. Repository
+`tools/cli`; platform-owned Rust adapters implement native build behavior. Repository maintenance uses the same executable via `codecraft maintenance`. Repository
 and exported application commands share one result contract. The application
 workflow is `new`, `verify-project`, `lock-project`, `build-project`, then
 `package` when a source archive is needed. Build and package never write a device.
@@ -154,9 +151,9 @@ recursively through one runner. Device physical acceptance is separate. Use `cod
 No-option `validate` runs the complete gate and does not filter by changed files.
 Unchanged firmware/native inputs do not require compilation; inspect every
 selected check's result.
-The repository audit backend derives support from source-bound evidence, not README assertions.
-Rust Context currently returns hardware verification as `unknown`; schema 4
-receipt registration and promotion are pending. See [evidence compatibility](../development/rust-cli.md#evidence-compatibility). A native
+The repository derives support from source-bound evidence, not README assertions.
+Context derives support from current graph and CLI-bound evidence; historical
+record schema 2 remains archival and cannot promote schema 4 sources. See [evidence compatibility](../development/rust-cli.md#evidence-compatibility). A native
 build and a clean locked export are required for build-verified status; physical
 support requires actual revision-specific observations.
 For a current passing build record, the record and each generated project need a

@@ -58,17 +58,14 @@ jobs:
         run: |
           cargo +1.89.0 build --locked --release --package codecraft --target '${{ matrix.target }}'
           cargo +1.89.0 test --locked --release --package codecraft --target '${{ matrix.target }}' --no-run --message-format=json > .codecraft/test-artifacts.jsonl
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          binaries = [v['executable'] for line in Path('.codecraft/test-artifacts.jsonl').read_text().splitlines()
-                      if (v := json.loads(line)).get('reason') == 'compiler-artifact'
-                      and v.get('profile', {}).get('test') and v.get('executable')]
-          assert binaries
-          Path('.codecraft/rust-test-binaries.txt').write_text('\n'.join(binaries) + '\n')
-          PY
+          .codecraft/cargo/${{ matrix.target }}/release/codecraft${{ matrix.suffix }} maintenance ci test-binaries \
+            --input .codecraft/test-artifacts.jsonl --output .codecraft/rust-test-binaries.txt
+      - name: Install Python test runtime for independent host fixtures
+        run: python -m pip install pytest==8.3.5
       - name: Run cached tests against current repository data
         shell: bash
+        env:
+          CODECRAFT_TEST_PYTHON: python
         run: |
           while IFS= read -r executable; do "$executable"; done < .codecraft/rust-test-binaries.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

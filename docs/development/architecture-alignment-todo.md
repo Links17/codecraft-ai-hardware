@@ -21,12 +21,12 @@ retains historical results. No past result or evidence is rewritten.
 
 ## Next implementation: evidence continuity
 
-- [ ] A07: Define schema 4 evidence ownership and immutable receipt/CLI identity
+- [x] A07: Define schema 4 evidence ownership and immutable receipt/CLI identity
   binding, including source digest, Target, variant, toolchain and expected cases.
-- [ ] A08: Implement project evidence registration/read/promotion and Context status.
+- [x] A08: Implement project evidence registration/read/promotion and Context status.
   Reject stale source/CLI/toolchain identity, wrong variants, incomplete cases,
   tampered logs and failed/unrun observations; preserve historical records.
-- [ ] A09: Add positive/negative host tests for all three stacks and export paths.
+- [x] A09: Add positive/negative host tests for all three stacks and export paths.
   Missing evidence must remain unknown; build evidence must never imply physical
   verification. Native builds are required only if native behavior changes.
 
@@ -34,7 +34,7 @@ retains historical results. No past result or evidence is rewritten.
 
 - [ ] A10: Review fixed Device sections against actual parser consumers. Permit
   omission only where absence has an explicit meaning, distinguishing not
-  applicable from unknown. Update both Rust and audit parsers, guides and tests
+  applicable from unknown. Update the shared parser, guides and tests
   together; do not weaken sourced-fact or acceptance requirements by prose alone.
 - [ ] A11: Resolve asset ownership: keep one authoritative declaration, reference
   actual media guidance and avoid mandatory empty Assets sections/directories.
@@ -50,7 +50,7 @@ retains historical results. No past result or evidence is rewritten.
 - [ ] A14: Complete revision-specific physical acceptance and authorized external
   platform E2E separately. Assign actual owners and record observed results.
 
-A07-A14 are pending, not acceptance claims or placeholders to implement merely
+Open tasks are not acceptance claims or placeholders to implement merely
 for diagram completeness. No firmware, device write or cloud service call is
 needed for the first documentation batch. Feishu synchronization is a separate
 future publication action; maintain the local Markdown first.
@@ -68,7 +68,7 @@ was not run. `git diff --check` passed.
 No board/native input, compiler command or toolchain declaration changed. Native
 builds and the complete gate were skipped for documentation-only scope. No
 physical verification, cloud API execution or Feishu write was performed.
-A07-A14 remain open.
+At the time of that first batch, A07-A14 remained open.
 
 ## Presentation alignment, 2026-11-26
 
@@ -82,3 +82,11 @@ Validation for this presentation update: all 309 static/host checks passed;
 generation reported no drift, local links resolved and diff whitespace checks
 passed. No native builds, complete gate, device operations or diagram rendering
 were run for this documentation-only change.
+
+## Tooling migration update, 2026-11-26
+
+A07-A09 are implemented by the shared maintenance evidence module and its
+regressions; integrated validation is tracked in the
+[tools migration TODO](tools-rust-migration-todo.md). Earlier dated reports above
+describe their original state. A10-A14 remain independent follow-up work. There
+is one Device parser and one project/catalog implementation after migration.

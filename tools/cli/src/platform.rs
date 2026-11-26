@@ -128,3 +128,36 @@ pub fn command_timeout(
         json!({"name":name,"status":status,"reason":reason,"exit_code":code,"command":argv,"toolchain":toolchain,"log":log.strip_prefix(root)?.to_string_lossy(),"log_sha256":digest(&log)?}),
     )
 }
+
+#[path = "../../../platforms/arduino/evidence.rs"]
+mod arduino_evidence;
+#[path = "../../../platforms/esp-idf/evidence.rs"]
+mod esp_idf_evidence;
+#[path = "../../../platforms/linux/evidence.rs"]
+mod linux_evidence;
+
+pub fn evidence_cases(root: &Path, target: &J) -> Result<Vec<String>> {
+    match s(&target["platform"])? {
+        "esp-idf" => esp_idf_evidence::cases(root, target),
+        "arduino" => arduino_evidence::cases(root, target),
+        "linux" => linux_evidence::cases(root, target),
+        stack => bail!("Unknown evidence adapter: {stack}"),
+    }
+}
+pub fn evidence_toolchain(target: &J, actual: &J) -> Result<()> {
+    match s(&target["platform"])? {
+        "esp-idf" => esp_idf_evidence::toolchain(target, actual),
+        "arduino" => arduino_evidence::toolchain(target, actual),
+        "linux" => linux_evidence::toolchain(target, actual),
+        stack => bail!("Unknown evidence adapter: {stack}"),
+    }
+}
+
+pub fn validate_target(root: &Path, target: &J) -> Result<()> {
+    match s(&target["platform"])? {
+        "esp-idf" => esp_idf::composition::validate(root, target),
+        "arduino" => arduino_evidence::validate_target(root, target),
+        "linux" => linux_evidence::validate_target(root, target),
+        stack => bail!("Unknown native adapter: {stack}"),
+    }
+}

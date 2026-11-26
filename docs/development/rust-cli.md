@@ -25,7 +25,7 @@ is published automatically by this repository.
 
 Run the installer again after changing Rust implementation/dependencies. It uses
 Cargo's incremental release build; normal `codecraft` invocations never run Cargo.
-Device data, application code, Markdown and maintenance Python updates do not
+Device data, application code, Markdown updates do not
 rebuild the CLI. Rust sources, Cargo manifests/lock, compiler/configuration or a
 new operating-system/architecture target may require a build. CI caches binaries
 using those inputs, separately from hardware/data changes. It does not include
@@ -63,7 +63,7 @@ hashes. Target schema 3 and authored Device schema 5 are unchanged.
 
 Native C/C++ exports contain no CodeCraft Python runtime, Cargo project or Rust
 source. Platform `application_inputs` declares portable guidance and native
-helpers; maintenance `runtime` describes repository verification dependencies.
+helpers; repository maintenance is compiled into the installed tool and is not an export dependency.
 Missing declared inputs fail export rather than being filtered out by suffix.
 
 Python remains legitimate in the following explicitly selected scopes:
@@ -72,21 +72,37 @@ Python remains legitimate in the following explicitly selected scopes:
 - Linux applications whose native example itself is written in Python.
 - Explicitly selected standalone cloud Skills whose client is Python. Selection
   verifies and copies their complete released package without executing it.
-- Repository maintenance: `codecraft maintenance <command>`, including generation,
-  host tests, release tooling and historical/reference conformance fixtures.
-  These tools are not exported into creator applications.
+- Independent Python client and native-host test fixtures under tests/, dispatched
+  by the repository tool through an explicitly configured Python/pytest runtime.
 
-The Python conformance backend maintains its own schema 3 reference fixtures;
-those are internal audit inputs, not creator exports. `codecraft validate --static`
-runs the repository static/host checks. Rust integration tests run through
-`cargo test --locked --package codecraft`; their source lives in tests/tools/cli/.
+Repository maintenance commands (generation, static checks, evidence, CI and
+package releases) are implemented in Rust. There is no tools/ Python backend or
+second project/catalog implementation. `codecraft validate --static` runs source
+checks and independent host suites; Cargo integration tests remain a separate
+required gate. Missing host-test dependencies are reported, not skipped as passed.
 
 ## Evidence compatibility
 
-Rust context currently reports hardware verification as `unknown`; it does not
-promote build or physical evidence from the Python reference registry. That
-repository-only registry still validates its own schema 3 source graph. Rust
-schema 4 application receipts must not be submitted as if they were reference
-registry records. Migrating evidence registration/promotion requires an explicit
-compiled-CLI identity binding; it is not implemented by this creator migration.
-Historical observations and source digests remain unchanged.
+New evidence uses record schema 3 and creator graph schema 4, with compiled CLI
+identity, source digest, complete cases and actual toolchain/log bindings. Context
+and generated inventories read this evidence. Physical promotion additionally
+requires revision-specific named observations and compatible variant bindings.
+
+Historical record schema 2 remains immutable archival evidence and cannot promote
+the current graph. Its original logs, timestamps and source digests are preserved.
+No schema 3 Python project runtime remains; recreate old application exports from
+reviewed source using the current schema rather than reinterpret their locks.
+
+## Maintenance candidate compatibility
+
+Release candidates now use schema 3 and bind the maintenance executable plus
+validation-source identity. Re-prepare older candidates and review the new digest.
+Existing package bytes, release inventories and immutable import records are not
+changed merely by this implementation migration. See the
+[migration TODO](tools-rust-migration-todo.md) for scope and validation.
+
+Platform metadata now uses schema 3: adapter identifies the platform-owned
+compiled implementation and the old Python runtime closure is removed. Existing
+exports with platform schema 2 require a fresh export and reviewed application
+changes; their original locks remain historical. Creator profile/lock schema 4
+and Target schema 3 are unchanged. No mixed platform-schema reader is retained.

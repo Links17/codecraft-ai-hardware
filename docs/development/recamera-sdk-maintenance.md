@@ -7,7 +7,7 @@ See the [ownership and TODO ledger](recamera-sdk-todo.md).
 
 ## Sources and independent identities
 
-- `tools/skill_packages/recamera/api_reference.py`, `api-notes.json` and
+- `tools/cli/src/maintenance_reference.rs`, `tools/skill_packages/recamera/api-notes.json` and
   `api-http-notes.json` own reference generation and imported editorial notes.
 - The package's `scripts/api-reference-lock.json` identifies the API source
   revision, source inventory and generated pages. Original upstream descriptions

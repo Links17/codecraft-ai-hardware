@@ -11,7 +11,7 @@ BSP public contracts stay in include/; implementation/private headers belong in 
 Declared hardware variants use native CMake profiles and distinct build cases/output directories. Verify actual cache selection and BSP compile definitions. Follow [hardware variant rules](../../docs/development/application-workflow.md#hardware-variants-and-evidence); keep physical revision compatibility separate from a build profile.
 
 Factory image delivery uses the public firmware plan/merge/verify commands and
-esp_firmware.py. Use only successful build receipts and native flasher metadata;
+image.rs. Use only successful build receipts and native flasher metadata;
 never hardcode a board's offsets in the Platform. Current support is unsigned,
 unencrypted factory BIN. See [firmware image delivery](../../docs/development/application-workflow.md#firmware-images-and-device-operations).
 

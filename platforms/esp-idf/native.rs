@@ -1,5 +1,6 @@
+pub mod composition;
 #[path = "image.rs"]
-mod image;
+pub mod image;
 // ESP-IDF command selection and identity. No SDK is needed until probe/build.
 use crate::{
     platform::{command, Adapter},
@@ -127,7 +128,7 @@ fn settings(text: &str, key: &str) -> Result<Vec<String>> {
         .context("Missing native composition setting")?;
     shlex::split(&body[1]).context("Invalid native setting")
 }
-fn verify_composition(
+pub fn verify_composition(
     root: &Path,
     t: &J,
     ex: &str,
@@ -140,6 +141,11 @@ fn verify_composition(
     let requirements = settings(&text, "CODECRAFT_BSP_REQUIRES")?;
     let data = read(&build.join("project_description.json"))?;
     let bsp = &data["build_component_info"]["bsp"];
+    let components = strings(&data["build_components"])?;
+    ensure!(
+        components.contains(&"main".into()) && components.contains(&"bsp".into()),
+        "Missing native application/BSP component"
+    );
     let expected: std::collections::BTreeSet<_> = sources
         .iter()
         .map(|p| base.join("bsp").join(p).canonicalize())

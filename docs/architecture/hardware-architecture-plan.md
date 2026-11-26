@@ -47,6 +47,7 @@ flowchart TB
     J --> W["Private workspace: brief, sources and reproducibility lock"]
     W --> V["Local validation: host checks and native builds"]
     V --> O["Source packages, firmware and build receipts"]
+    E --> Q["Source-bound evidence and support status"]
     E["tests/: test cases and retained hardware observations"] --> V
     S --> API["Optional external inference services"]
     O --> H["Authorized handoff: sensecraft-cli and official Skill"]
@@ -54,7 +55,6 @@ flowchart TB
     subgraph Planned["Planned; not implemented"]
         SIM["User-project simulation scenarios"]
         EDGE["MQTT and local / edge capabilities"]
-        EV["Project evidence integration and support-state promotion"]
     end
 ```
 
@@ -76,8 +76,7 @@ building for the selected platform; ordinary authoring does not require SDK setu
 | devices/<device>/targets/ | Target manifest, native BSP, examples and board configuration |
 | platforms/<stack>/ | Shared stack adapters, components and build helpers |
 | skills/ | Flat development workflows and standalone cloud clients |
-| tools/cli/ | Project creation and local workflow orchestration |
-| tools/codecraft/ | Repository maintenance and conformance checks |
+| tools/cli/ | Project workflows, repository checks and package maintenance |
 | tools/skill_packages/ | Package maintenance, provenance and release records |
 | tests/ | All maintained tests, fixtures, mocks and retained hardware evidence |
 | projects/<name>/ | Ignored private applications; external output directories also work |
@@ -95,8 +94,8 @@ Context and exports follow explicit dependency closures; missing declared files
 are errors, while unknown hardware facts remain unknown.
 
 Creator profiles, locks and source graphs use schema 4. Target manifests remain
-schema 3 and parsed Device documents schema 5. Repository audit fixtures retain
-schema 3. These version numbers describe different contracts, not one global version.
+schema 3, Platform metadata schema 3 and parsed Device documents schema 5. Historical evidence keeps its original record schema. These version numbers describe
+different contracts, not one global version.
 
 ## 3. Directory requirements
 
@@ -125,7 +124,7 @@ Asset sources and rights must be attributable; absent material remains unknown.
 
 ESP-IDF, Arduino and Linux supply their own native conventions and toolchains.
 Board implementations stay in devices/<device>/targets/. Platform-owned native.rs
-implements creator operations; adapter.py remains part of repository conformance.
+implements native operations; static and evidence checks reuse platform-owned contracts.
 Shared tooling must not reimplement native operations by branching on stack IDs.
 
 ### Simulators: planned
@@ -198,11 +197,12 @@ Records preserve source identity, expected cases, environment/toolchain, logs,
 limitations and attribution. Hardware observations apply only to their declared
 revision and tested behavior. Historical records must not be rewritten as fresh.
 
-Current project context reports hardware verification as unknown. Application
-build receipts do not yet integrate with the reference evidence registry.
-Evidence registration and support-state promotion remain open implementation
-tasks; the end-to-end evidence flow is not complete. See
-[evidence compatibility](../development/rust-cli.md#evidence-compatibility) for technical details.
+Project context reads source-bound evidence using the current source graph and
+compiled tool identity. Historical record schema 2 is archived without promotion.
+New record schema 3 binds graph schema 4, toolchain, complete cases and hashed logs.
+Physical promotion additionally keeps variant and observed revision distinct;
+observations from different revisions cannot be combined into a passing device.
+See [evidence compatibility](../development/rust-cli.md#evidence-compatibility).
 
 | Original milestone | Current assessment |
 | --- | --- |
@@ -212,7 +212,7 @@ tasks; the end-to-end evidence flow is not complete. See
 | MQTT and ASR pilot, then local/edge | ASR exists; MQTT and local/edge remain pending |
 | Simulator verification loop | Pending first registered simulator |
 | Creation and publishing loop | Local artifacts and external routing exist; no claim of live platform E2E acceptance |
-| Source-bound support status | Reference evidence registry exists; project evidence integration remains pending |
+| Source-bound support status | Current graph/CLI-bound evidence is integrated; historical records stay archival |
 
 The [alignment TODO](../development/architecture-alignment-todo.md) defines the
 next work. Neither this document nor a successful software check promotes physical
