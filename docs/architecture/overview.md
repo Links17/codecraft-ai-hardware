@@ -58,14 +58,16 @@ devices/
                              # Linux retains its native overlays/ and demos/
 platforms/<stack>/
   platform.json              # Stack/runtime adaptation contract
-  adapter.py
+  native.rs                  # Rust creator native operations
+  adapter.py                 # Repository audit/conformance adapter
   components/                # Reusable native components, where needed
   cmake/                     # Shared native build helpers, where needed
 skills/
   codecraft-development-*/               # Installable development workflow Skills
   codecraft-capabilities-*/ # Independently installable cloud capability Skills
 tools/
-  codecraft/                 # CLI, source graphs, exports, locks and validation
+  cli/                       # Rust creator CLI and orchestration
+  codecraft/                 # Python audits and schema 3 reference conformance
   skill_packages/            # Client maintenance, provenance and release tooling
 tests/
   AGENTS.md                  # Test directory index and evidence rules
@@ -120,6 +122,8 @@ reviewed lock.
 
 User applications may be generated under ignored projects/<name> or explicit external paths. project.yaml owns a validated brief; creation and relocking render its marked application AGENTS region without replacing custom rules. Reference graphs reject private-project inputs, while application locks still cover their complete source inventory. Ideation context adds the ideate and discover Skills. See [project workspaces](../development/project-workspaces.md).
 
+The [local architecture plan](hardware-architecture-plan.md) adapts the Feishu design,
+and the [alignment TODO](../development/architecture-alignment-todo.md) tracks current gaps.
 The [V0.2 ledger](../development/v0.2-todo.md) tracks the design target separately from current implementation. SenseCraft platform operations use the official external sensecraft-cli and bundled Skill, with [setup/routing guidance](../development/sensecraft-cli.md) in this repository. Authentication, platform HTTP calls and command implementation stay upstream. Existing CodeCraft inference clients remain in their Skill packages; the verified platform command set does not replace them. MQTT/local/edge Providers and a registered simulator are pending. The existing simulation decision is a current limitation, not completion of V0.2 simulator acceptance.
 
 ## Native implementation
@@ -144,13 +148,15 @@ evidence. A build default does not identify a physical assembly. See
 ## Validation and maintained content
 
 Host tests live under tests/, grouped by behavior owner, and are collected
-recursively through one runner. Device physical acceptance is separate. Use `test --list`,
-`test --path <owner>` and `validate --static`; select native builds using the
+recursively through one runner. Device physical acceptance is separate. Use `codecraft maintenance test --list`,
+`codecraft maintenance test --path <owner>` and `codecraft validate --static`; select native builds using the
 [root validation policy](../../AGENTS.md#required-validation-and-delivery).
 No-option `validate` runs the complete gate and does not filter by changed files.
 Unchanged firmware/native inputs do not require compilation; inspect every
 selected check's result.
-Support is derived from source-bound evidence, not README assertions. A native
+The repository audit backend derives support from source-bound evidence, not README assertions.
+Rust Context currently returns hardware verification as `unknown`; schema 4
+receipt registration and promotion are pending. See [evidence compatibility](../development/rust-cli.md#evidence-compatibility). A native
 build and a clean locked export are required for build-verified status; physical
 support requires actual revision-specific observations.
 For a current passing build record, the record and each generated project need a
@@ -162,7 +168,7 @@ recorded evidence. Failed/unrun observations remain recordable; stale records an
 original logs remain unchanged and cannot promote current support. ESP-IDF local
 `-dirty` edits are permitted and tracked by the existing application lock.
 
-The public `check-cloud-skills` command loads its own package validation without
+The `codecraft maintenance check-cloud-skills` command loads its own package validation without
 importing the hardware Catalog. Hardware and application implementation imports
 are deferred until their command or operation needs them.
 

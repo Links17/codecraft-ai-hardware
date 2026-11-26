@@ -31,6 +31,9 @@
 
 ## 规划与待办
 
+- [本地硬件架构规划（由飞书文档转换并对齐）](architecture/hardware-architecture-plan.md)
+- [架构对齐 TODO](development/architecture-alignment-todo.md)
+
 - [V0.2 实施 TODO](development/v0.2-todo.md) — 设计对齐、已完成工作与待验收事项。
 - [reCamera SDK 优化 TODO](development/recamera-sdk-todo.md) — Skill/工具职责、已完成检查与后续 Device/Target 接入；参考文档和候选包命令见 [SDK 维护流程](development/recamera-sdk-maintenance.md)。
 

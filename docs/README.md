@@ -31,6 +31,9 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 
 ## Planning and open work
 
+- [Local hardware architecture plan (adapted from Feishu)](architecture/hardware-architecture-plan.md)
+- [Architecture alignment TODO](development/architecture-alignment-todo.md)
+
 - [V0.2 implementation TODOs](development/v0.2-todo.md) — design alignment, completed work and pending acceptance.
 - [reCamera SDK optimization TODOs](development/recamera-sdk-todo.md) — Skill/tool ownership, completed checks and future Device/Target integration; see [SDK maintenance](development/recamera-sdk-maintenance.md) for reference and candidate commands.
 

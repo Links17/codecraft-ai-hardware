@@ -126,11 +126,15 @@ source-bound evidence; they are not runtime inputs or application export
 dependencies. Native discovery reads the owning Target manifests.
 Generation never edits authored
 Device documents or the root rules. Their links route to those derived indexes.
-Verification state is computed from records by `context` and shown in the native
-interface matrix; it is not copied back into a Device document.
+The repository audit backend computes verification state from its reference
+records for the native interface matrix; it is not copied into Device documents.
+Rust `codecraft context` currently reports hardware verification as `unknown`.
+Schema 4 receipt registration/promotion is pending; see
+[evidence compatibility](rust-cli.md#evidence-compatibility).
 
-Source graph schema 3 hashes complete source files, including each authored
-AGENTS.md. Export copies the Device document byte for byte, follows its declared
+Creator source graphs and locks use schema 4; repository audit fixtures retain
+schema 3. Both hash complete source files, including each authored AGENTS.md.
+Creator export copies the Device document byte for byte, follows its declared
 source closure and locks the complete files. No document-content projection or
 export-time rewrite is used. A changed procedure or hardware note changes source
 identity; old observations and logs retain their original source digest.
