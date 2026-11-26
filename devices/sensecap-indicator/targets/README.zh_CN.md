@@ -4,7 +4,7 @@
 
 设备知识：[AGENTS.md](../AGENTS.md)。硬件事实在该入口及其来源中维护。
 
-在仓库根目录构建/检查：`python3 codecraft.py validate --target esp-idf/sensecap-indicator`。
+在仓库根目录构建/检查：`codecraft validate --target esp-idf/sensecap-indicator`。
 
 示例、原生接口引用和工具链选择见 `target.json`。构建结果与设备观测分别记录。
 
@@ -20,4 +20,4 @@ GX 与 DX 屏幕组件已有带来源的原生配置。context、new 和定向 T
 
 `target.json` 要求 ESP-IDF 6.0.2、esp32s3；构建前激活该版本 SDK。
 
-导出应用使用 `python3 codecraft.py build-project .`；仓库级验证命令不能替代应用锁文件检查。
+导出应用使用 `codecraft build-project .`；仓库级验证命令不能替代应用锁文件检查。

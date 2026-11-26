@@ -16,9 +16,9 @@ request or native changes affecting every Target. A missing required prerequisit
 is not_run, never passed. No build command flashes or publishes. Diagnose failures
 before retrying.
 
-All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.
+All commands above use `codecraft <command>` from the repository root. Read the root AGENTS.md before acting.
 
-In a generated application, use `python3 codecraft.py build-project .`; explicitly accept reviewed application/toolchain changes with `python3 codecraft.py lock-project .`. Do not use reference-Target validation to bypass an application's lock.
+In a generated application, use `codecraft build-project .`; explicitly accept reviewed application/toolchain changes with `codecraft lock-project .`. Do not use reference-Target validation to bypass an application's lock.
 
 For requested factory image delivery, keep the native toolchain activated and
 use `firmware plan --project <application> --output <new-plan.json>`,

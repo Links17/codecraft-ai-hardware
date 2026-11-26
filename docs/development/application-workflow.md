@@ -7,7 +7,7 @@ they are not application build prerequisites.
 
 ## Selection and context
 
-Run `python3 codecraft.py discover`, then `context --target <stack>/<device>`.
+Run `codecraft discover`, then `context --target <stack>/<device>`.
 Use `--task ideate`, develop, setup, build, debug, device-test, discover or validate
 to choose guidance. Every returned source is in the same dependency graph used
 by exports, locks and evidence. Read the selected Device AGENTS, Target manifest,
@@ -23,7 +23,7 @@ item, quantity and source; unknown quantity/source use null. project.yaml owns
 the brief; relocking refreshes the generated AGENTS region and preserves custom
 rules outside it. Keep application work outside the reference implementations.
 
-Project profiles and locks use schema 3. Select optional cloud clients with
+Creator project profiles and locks use schema 4. Use the standalone Rust CLI; Python and Cargo are not required for discovery, creation or source verification. Select optional cloud clients with
 `--skills <selection.json>`, containing explicit Skill IDs, configuration,
 environment decisions/reference names and resource limits. No credential values
 belong in metadata. Read each selected package's SKILL.md and contract.json;
@@ -35,10 +35,15 @@ registry or client. Original import provenance remains immutable.
 
 ## Build and validation scope
 
-Activate only the exact toolchain declared by the Target. An ESP32 Arduino
+Activate the toolchain declared by the Target. ESP-IDF accepts the declared
+release with optional `-dirty` local edits; the lock still fingerprints those
+edits. Prereleases and post-release commits are different SDK versions, not
+equivalent release matches. For a deliberate experiment with another release,
+change the private application's Target requirement and review/relock its
+environment; this does not establish support for the reference Target. An ESP32 Arduino
 project uses its Arduino core/FQBN/library pins, not ESP-IDF commands. Use
 `verify-project .` to inspect source integrity. After reviewed application or
-environment changes, use `lock-project .`, then `build-project .` for an
+environment changes, use `lock-project . --toolchain`, then `build-project .` for an
 authorized build. Never refresh locks or rebuild implicitly to hide drift.
 
 Unchanged firmware and native build inputs/behavior need static/host checks,

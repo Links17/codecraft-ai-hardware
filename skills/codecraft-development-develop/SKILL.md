@@ -20,11 +20,11 @@ custom rules outside its marked region. See [project workspaces](../../docs/deve
 Preserve application/BSP boundaries and user changes; finish with the required
 validation report.
 
-All commands above use `python3 codecraft.py <command>` from the repository root. Read the root AGENTS.md before acting.
+All commands above use `codecraft <command>` from the repository root. Read the root AGENTS.md before acting.
 
 For SenseCraft platform management or CodeCraft Hub tasks, use the official external sensecraft-cli Skill; see [external platform routing](../../docs/development/application-workflow.md#external-platform-operations). Install/select the required external tool version when needed and follow its task-specific reference.
 
-For CodeCraft inference functionality, read the selected standalone Skill and contract.json. Use new --skills with explicit reviewed selections; exports carry the selected package and its release identity. Run python3 codecraft.py lock-project . after reviewed application/environment updates; initial import provenance remains intact.
+For CodeCraft inference functionality, read the selected standalone Skill and contract.json. Use new --skills with explicit reviewed selections; exports carry the selected package and its release identity. Run codecraft lock-project . after reviewed application/environment updates; initial import provenance remains intact.
 
 Maintain README.md and README.zh_CN.md together. All other engineering documents, including AGENTS.md, SKILL.md, API references, plans and reports, use one English source. Update generators and local references with documentation changes; never generate translated Agent rules or duplicate hardware facts.
 

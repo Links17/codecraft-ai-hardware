@@ -31,6 +31,10 @@
 
 ## 规划与待办
 
+- [本地硬件架构规划（由飞书文档转换并对齐）](architecture/hardware-architecture-plan.md)
+- [仓库工具迁移 TODO](development/tools-rust-migration-todo.md)
+- [架构对齐 TODO](development/architecture-alignment-todo.md)
+
 - [V0.2 实施 TODO](development/v0.2-todo.md) — 设计对齐、已完成工作与待验收事项。
 - [reCamera SDK 优化 TODO](development/recamera-sdk-todo.md) — Skill/工具职责、已完成检查与后续 Device/Target 接入；参考文档和候选包命令见 [SDK 维护流程](development/recamera-sdk-maintenance.md)。
 
@@ -38,3 +42,5 @@
 - [优化方案与 TODO](development/optimization-plan.md) — 尚未完成的工具、外部验收与治理事项。
 
 从[设备目录](../devices/AGENTS.md)进入各设备。[设备文档指南](development/device-documents.md)统一定义唯一维护来源、Markdown 字段、公共引用与导出检查；原生目录布局见[架构](architecture/overview.md)。
+
+- [Rust CLI 安装、更新与 Python 边界](development/rust-cli.md)

@@ -31,6 +31,10 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 
 ## Planning and open work
 
+- [Local hardware architecture plan (adapted from Feishu)](architecture/hardware-architecture-plan.md)
+- [Repository tools migration TODO](development/tools-rust-migration-todo.md)
+- [Architecture alignment TODO](development/architecture-alignment-todo.md)
+
 - [V0.2 implementation TODOs](development/v0.2-todo.md) — design alignment, completed work and pending acceptance.
 - [reCamera SDK optimization TODOs](development/recamera-sdk-todo.md) — Skill/tool ownership, completed checks and future Device/Target integration; see [SDK maintenance](development/recamera-sdk-maintenance.md) for reference and candidate commands.
 
@@ -38,3 +42,5 @@ Only README files have Chinese counterparts. Engineering guidance, rules, Skills
 - [Optimization plan and TODOs](development/optimization-plan.md) — remaining tooling, external acceptance and governance work.
 
 Start from the [device directory](../devices/AGENTS.md). The [Device document guide](development/device-documents.md) defines the single maintained source, Markdown fields, shared references and export checks. Native layout is described in [architecture](architecture/overview.md).
+
+- [Rust CLI installation, updates and Python boundaries](development/rust-cli.md)
