@@ -17,6 +17,13 @@ Skill directory to install it. Repository tooling lives in
 
 ## Hardware development
 
+Use codecraft-development-develop as the general application entry. Follow the
+[shared agent setup guide](../docs/development/agent-client-setup.md) for native
+Skill discovery, a project-rule pointer or explicit document reading. Development
+Skills need the selected repository or exported application for hardware and
+workflow references; their installation directory is not that workspace. Other
+independent cloud and reCamera packages retain their own package-local guidance.
+
 The required workflows are codecraft-development-develop, codecraft-development-setup, codecraft-development-build,
 codecraft-development-device-test and codecraft-development-debug. Use codecraft-development-ideate for application
 briefs, plus codecraft-development-discover and codecraft-development-validate as needed. Shared Device

@@ -12,7 +12,7 @@ Download the appropriate executable from the repository's GitHub Release
 (starting with `v0.5.0`), verify it against the attached `SHA256SUMS`, and rename
 it to `codecraft` (`codecraft.exe` on Windows). On Unix, run `chmod +x codecraft`
 and place it on your PATH. Alternatively, use a completed **CodeCraft CLI binaries**
-workflow artifact, or build locally once:
+workflow artifact, or use the checksum-verifying installer:
 
 ```sh
 sh tools/cli/install.sh
@@ -21,20 +21,45 @@ codecraft --version
 codecraft --root /path/to/codecraft-ai-hardware discover
 ```
 
-Windows source installations use `tools/cli/install.ps1`; the default destination
+The installer defaults to GitHub's latest stable Release in
+`Links17/codecraft-ai-hardware` (drafts and prereleases are excluded). It resolves
+the concrete `vX.Y.Z` tag once and downloads both binary and checksums from that
+version, so a concurrent new release cannot mix assets. Resolution failure stops
+installation without replacing an existing executable. Select a published version with `--version X.Y.Z`
+or `-Version X.Y.Z`; select a release repository explicitly with `--repo OWNER/REPO`
+or `-Repository OWNER/REPO`. Unsupported hosts fail with a source-build hint.
+Checksum/download/version failures leave an existing installation intact.
+No SDK, shell profile or PATH configuration is changed automatically.
+
+For source builds, use `sh tools/cli/install.sh --from-source` or
+`tools/cli/install.ps1 -FromSource`. Windows installations use `tools/cli/install.ps1`; the default destination
 is `%LOCALAPPDATA%/CodeCraft/bin`. A downloaded executable needs neither Rust nor
 Python. Source installations require Cargo and a native linker. No binary release
 is published automatically by this repository. Releases use the matching Cargo
 version and `v<version>` Git tag on a validated main commit; maintainers attach
 the three platform binaries from that commit's successful CI run and checksums.
 
-Run the installer again after changing Rust implementation/dependencies. It uses
+Run the installer with the source option after changing Rust implementation/dependencies. It uses
 Cargo's incremental release build; normal `codecraft` invocations never run Cargo.
 Device data, application code, Markdown updates do not
 rebuild the CLI. Rust sources, Cargo manifests/lock, compiler/configuration or a
 new operating-system/architecture target may require a build. CI caches binaries
 using those inputs, separately from hardware/data changes. It does not include
 Git commit IDs, device files or documentation in the binary cache key.
+
+## Read-only environment preflight
+
+The working-tree CLI provides `codecraft doctor --target <stack>/<device>`,
+using `--root` for a repository or exported application. This is not yet in the
+published v0.5.0 binary; use a source build for this new command. Skills check
+command availability before using it and retain native setup guidance for v0.5.0.
+
+Doctor reuses the platform build probe and reports expected Target requirements,
+actual activated-toolchain identity, and setup guidance when unavailable. Exit 0
+means the probe passed; exit 2 means the environment is not ready or could not be
+inspected; invalid Target/input is exit 1. It does not install, activate, compile,
+update locks or access a device. It does not search arbitrary SDK directories.
+A passed probe is not a build, source-lock check or device-runtime certification.
 
 ## Project lifecycle
 

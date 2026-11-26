@@ -1,7 +1,11 @@
 # Validation workflow
 
+This document describes reference repository validation. Generated applications
+use their own AGENTS.md, `verify-project` and scoped `build-project`; ordinary
+application development does not require this repository-wide gate.
+
 Choose checks using the [root validation policy](../AGENTS.md#required-validation-and-delivery).
-Run `generate --check`, focused checks and `validate --static`. Unchanged firmware
+Run `maintenance generate --check`, focused checks and `validate --static`. Unchanged firmware
 and native build inputs/behavior require no native compilation or toolchain
 setup. Native changes require affected Target/example/variant builds, plus native
 project builds when export contents or build behavior changes. The no-option

@@ -13,6 +13,12 @@ Skills 负责硬件开发工作流和独立云端客户端。设备事实与原�
 
 ## 硬件开发
 
+以 codecraft-development-develop 作为通用应用开发入口。
+按[通用 Agent 接入指南](../docs/development/agent-client-setup.md)选择原生 Skill
+发现、项目规则引用或显式阅读文档。开发 Skill 需要从所选仓库或导出应用读取
+硬件资料与工作流；Skill 安装目录不是该工作区。独立的云能力和 reCamera 包
+继续使用各自包内的使用说明。
+
 必需工作流为 codecraft-development-develop、codecraft-development-setup、codecraft-development-build、codecraft-development-device-test 和 codecraft-development-debug。使用 codecraft-development-ideate 整理应用需求，按需使用 codecraft-development-discover 和 codecraft-development-validate。创作流程编排位于 tools/cli/，仓库审计位于 tools/cli/，原生命令仍由对应 Platform 实现。[可移植工作流](../docs/development/application-workflow.md)及所选 Platform、工作流指南随应用导出并纳入锁文件。
 
 ## reCamera Pro SDK 应用

@@ -29,9 +29,14 @@ CodeCraft AI Hardware 汇集设备知识、原生板级支持包（BSP）、示�
 
 ## 快速开始
 
+使用 Codex、Claude Code、Cursor、ZCode、WorkBuddy、Muse 或其他编程 Agent？
+从[通用 Agent 接入指南](docs/development/agent-client-setup.md)开始。
+指南提供适用于新应用和已有项目的统一请求模板，也可通过客户端的原生 Skill
+或项目规则进入同一工作流。客户端体验测试留给用户。
+
 ### 1. 获取仓库并选择板卡
 
-准备 Git 和独立的 CodeCraft CLI。下载工作流二进制，或克隆后用 `sh tools/cli/install.sh` 构建安装一次（Windows：`tools/cli/install.ps1`）。下载的二进制无需 Python 或 Rust。参见[安装与更新策略](docs/development/rust-cli.md)。
+准备 Git 和独立的 CodeCraft CLI。克隆后用 `sh tools/cli/install.sh` 安装最新正式版 Release 二进制（Windows：`tools/cli/install.ps1`）。仅在本地开发 CLI 时使用 `--from-source`（Windows：`-FromSource`）。下载的二进制无需 Python 或 Rust。参见[安装与更新策略](docs/development/rust-cli.md)。
 
 ```sh
 git clone https://github.com/Seeed-Solution/codecraft-ai-hardware.git

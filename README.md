@@ -29,9 +29,14 @@ Find more boards and examples in the [device directory](devices/AGENTS.md). The 
 
 ## Quick start
 
+Using Codex, Claude Code, Cursor, ZCode, WorkBuddy, Muse or another coding agent?
+Start with the [shared agent setup guide](docs/development/agent-client-setup.md).
+It provides one reusable request for new and existing applications, with optional
+native Skill or project-rule entry. Client experience testing is left to users.
+
 ### 1. Get the repository and select your board
 
-Have Git and the standalone CodeCraft CLI available. Download a workflow binary, or build/install once after cloning with `sh tools/cli/install.sh` (Windows: `tools/cli/install.ps1`). Downloaded binaries require neither Python nor Rust. See [installation and updates](docs/development/rust-cli.md).
+Have Git and the standalone CodeCraft CLI available. Install the latest stable Release binary after cloning with `sh tools/cli/install.sh` (Windows: `tools/cli/install.ps1`). Use `--from-source` (`-FromSource` on Windows) only for local CLI development. Downloaded binaries require neither Python nor Rust. See [installation and updates](docs/development/rust-cli.md).
 
 ```sh
 git clone https://github.com/Seeed-Solution/codecraft-ai-hardware.git
