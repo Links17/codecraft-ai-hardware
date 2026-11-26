@@ -50,7 +50,9 @@ try {
     $stage = Join-Path $destination ('.codecraft-' + [Guid]::NewGuid().ToString() + '.exe')
     Copy-Item $binary $stage
     $installed = Join-Path $destination 'codecraft.exe'
-    if (Test-Path $installed) { [IO.File]::Replace($stage, $installed, $null) }
+    # Windows PowerShell converts $null to an empty string for this .NET
+    # string parameter. NullString passes an actual null backup path.
+    if (Test-Path $installed) { [IO.File]::Replace($stage, $installed, [NullString]::Value) }
     else { [IO.File]::Move($stage, $installed) }
     $stage = $null
     Write-Output "Installed $installed. Add this directory to PATH."

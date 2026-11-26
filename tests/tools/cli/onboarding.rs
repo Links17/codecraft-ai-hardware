@@ -8,6 +8,16 @@ fn root() -> PathBuf {
 
 #[test]
 fn release_installer_checks_hash_and_version_before_replacing_binary() {
+    check_installer("powershell.exe");
+}
+
+#[cfg(windows)]
+#[test]
+fn powershell7_installer_checks_hash_and_version_before_replacing_binary() {
+    check_installer("pwsh.exe");
+}
+
+fn check_installer(_shell: &str) {
     let temp = tempfile::tempdir().unwrap();
     let fixtures = temp.path().join("fixtures");
     let bin = temp.path().join("bin");
@@ -73,7 +83,7 @@ if ($Version) { & $Installer -Version $Version } else { & $Installer }
         };
         #[cfg(windows)]
         let mut cmd = {
-            let mut c = Command::new("powershell.exe");
+            let mut c = Command::new(_shell);
             c.args(["-NoProfile", "-ExecutionPolicy", "Bypass", "-File"])
                 .arg(bin.join("run.ps1"))
                 .arg(root().join("tools/cli/install.ps1"));
